@@ -28,11 +28,6 @@
       "type": "build"
     },
     {
-      "name": "aws-cdk-lib",
-      "version": "2.1.0",
-      "type": "build"
-    },
-    {
       "name": "constructs",
       "version": "10.0.5",
       "type": "build"
@@ -116,6 +111,10 @@
       "type": "build"
     },
     {
+      "name": "@aws-cdk/aws-lambda-python-alpha",
+      "type": "bundled"
+    },
+    {
       "name": "@types/aws-lambda",
       "type": "bundled"
     },
@@ -134,7 +133,15 @@
       "type": "peer"
     },
     {
+      "name": "@aws-cdk/aws-lambda-python-alpha",
+      "type": "runtime"
+    },
+    {
       "name": "@types/aws-lambda",
+      "type": "runtime"
+    },
+    {
+      "name": "aws-cdk-lib",
       "type": "runtime"
     },
     {

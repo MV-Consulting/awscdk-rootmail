@@ -2,6 +2,7 @@ import { awscdk } from 'projen';
 import { NpmAccess } from 'projen/lib/javascript';
 
 const dependencies = [
+  '@aws-cdk/aws-lambda-python-alpha',
   '@types/aws-lambda',
   'aws-sdk',
 ];
@@ -23,7 +24,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
 
   bundledDeps: dependencies,
-  deps: dependencies,
+  deps: dependencies.concat('aws-cdk-lib'),
   description: 'An opinionated way to secure root email addresses for AWS accounts.',
   devDeps: [
     '@commitlint/cli',

@@ -1,4 +1,6 @@
 import * as path from 'path';
+import * as pythonLambda from '@aws-cdk/aws-lambda-python-alpha';
+import { aws_lambda as lambda } from 'aws-cdk-lib';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
 import { Construct } from 'constructs';
 
@@ -13,7 +15,7 @@ export interface RootmailProps {
    *
    * @default 'aws'
    */
-  readonly subdomain: string;
+  readonly subdomain?: string;
 }
 
 export class Rootmail extends Construct {
@@ -22,6 +24,15 @@ export class Rootmail extends Construct {
 
     const domain = props.domain;
     const subdomain = props.subdomain || 'aws';
+
+    new pythonLambda.PythonFunction(this, 'DummyFunction', {
+      entry: path.join(__dirname, 'functions', 'dummy_python_func'),
+      handler: 'handler',
+      runtime: lambda.Runtime.PYTHON_3_9,
+      environment: {
+        FOO: 'bar',
+      },
+    });
 
     new CfnInclude(this, 'RootmailTemplate', {
       templateFile: path.join(__dirname, 'templates', 'rootmail.yaml'),
