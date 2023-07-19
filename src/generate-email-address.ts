@@ -6,7 +6,7 @@ import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct, Node } from 'constructs';
 import { ATTR_EMAIL, PROP_DOMAIN, PROP_NAME } from './functions/generate-mail-address';
 
-interface GenerateEmailAddressProps {
+export interface GenerateEmailAddressProps {
   /**
    * The domain for the email to be generated, ....@<domain>
    */
