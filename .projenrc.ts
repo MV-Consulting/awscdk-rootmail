@@ -1,4 +1,11 @@
 import { awscdk } from 'projen';
+import { NpmAccess } from 'projen/lib/javascript';
+
+const dependencies = [
+  '@types/aws-lambda',
+  'aws-sdk',
+];
+
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Manuel Vogel',
   authorAddress: 'mavogel@posteo.de',
@@ -8,10 +15,22 @@ const project = new awscdk.AwsCdkConstructLibrary({
   name: 'awscdk-rootmail',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/mavogel/awscdk-rootmail.git',
+  npmAccess: NpmAccess.PUBLIC, /* The npm access level to use when releasing this module. */
+  tsconfig: {
+    compilerOptions: {
+      esModuleInterop: true,
+    },
+  },
 
-  // deps: [],                /* Runtime dependencies of this module. */
-  // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],             /* Build dependencies for this module. */
-  // packageName: undefined,  /* The "name" in package.json. */
+  bundledDeps: dependencies,
+  deps: dependencies,
+  description: 'An opinionated way to secure root email addresses for AWS accounts.',
+  devDeps: [
+    '@commitlint/cli',
+    '@commitlint/config-conventional',
+    'husky',
+  ],
 });
+
+project.package.setScript('prepare', 'husky install');
 project.synth();
