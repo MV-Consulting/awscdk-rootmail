@@ -33,4 +33,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
 });
 
 project.package.setScript('prepare', 'husky install');
+project.package.setScript('pretest', 'make test');
+project.gitignore.exclude('__pycache__');
+project.gitignore.exclude('.pytest_cache');
 project.synth();
