@@ -1023,7 +1023,7 @@ def handler(event, context):
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "ac317e05dcbc2c19d5a20828b4e2ff8678e252731d6a7b51356d3abfd5da31e8.zip",
+          "S3Key": "5ee9cb46234e67f8a2da69dccc130357fcf446bad39663558b1195b75967b67a.zip",
         },
         "Environment": {
           "Variables": {

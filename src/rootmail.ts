@@ -32,6 +32,13 @@ export class Rootmail extends Construct {
       environment: {
         FOO: 'bar',
       },
+      bundling: {
+        assetExcludes: [
+          '__pycache__',
+          '.pytest_cache',
+          'venv',
+        ],
+      },
     });
 
     new CfnInclude(this, 'RootmailTemplate', {
