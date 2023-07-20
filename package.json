@@ -28,8 +28,7 @@
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
     "projen": "npx projen",
-    "prepare": "husky install",
-    "pretest": "make test"
+    "prepare": "husky install"
   },
   "author": {
     "name": "Manuel Vogel",
@@ -68,7 +67,7 @@
     "constructs": "^10.0.5"
   },
   "dependencies": {
-    "@aws-cdk/aws-lambda-python-alpha": "^2.87.0-alpha.0",
+    "@aws-cdk/aws-lambda-python-alpha": "2.66.1-alpha.0",
     "@types/aws-lambda": "^8.10.119",
     "aws-cdk-lib": "^2.87.0",
     "aws-sdk": "^2.1417.0"

@@ -1,0 +1,1105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rootmail create 1`] = `
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Sets up root mail. (qs-1s3rsr7mr)",
+  "Metadata": {
+    "SuperwerkerVersion": "0.0.0-DEVELOPMENT",
+    "cfn-lint": {
+      "config": {
+        "ignore_checks": [
+          "E9007",
+          "EIAMPolicyWildcardResource",
+        ],
+      },
+    },
+  },
+  "Outputs": {
+    "DelegationTarget": {
+      "Description": "Nameservers for the hosted zone delegation",
+      "Value": {
+        "Fn::Join": [
+          ",",
+          {
+            "Fn::GetAtt": "HostedZone.NameServers",
+          },
+        ],
+      },
+    },
+    "EmailGeneratorFunction": {
+      "Description": "Lambda function to verify email delegation and generate new email aliases",
+      "Value": {
+        "Ref": "EmailGeneratorFunction",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "EmailBucket": {
+      "Properties": {
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+    },
+    "EmailBucketPolicy": {
+      "Properties": {
+        "Bucket": {
+          "Ref": "EmailBucket",
+        },
+        "PolicyDocument": {
+          "Fn::Sub": "{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "s3:PutObject",
+      "Condition": {
+        "StringEquals": {
+          "aws:Referer": "\${AWS::AccountId}"
+        }
+      },
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ses.amazonaws.com"
+      },
+      "Resource": [
+        "arn:\${AWS::Partition}:s3:::\${EmailBucket}/RootMail/*"
+      ],
+      "Sid": "EnableSESReceive"
+    }
+  ]
+}
+",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "EmailGeneratorFunction": {
+      "Properties": {
+        "Handler": "index.handler",
+        "InlineCode": {
+          "Fn::Sub": "import json
+import uuid
+
+domain = "aws.example.com"
+
+def handler(event, context):
+
+  max = 64 - len(domain) - 1 - 5
+
+  alias = str(uuid.uuid4())
+  alias = alias[:max]
+
+  if len(alias) < 36:
+
+    log({
+      'domain': domain,
+      'msg': 'UUID local part was reduced in length because your domain is too long for Control Tower (64 characters in total) - this increases the chance of collisions',
+      'level': 'warn',
+      'length': len(alias),
+      'max': 36,
+    })
+
+  email = 'root+{alias}@{domain}'.format(alias = alias, domain = domain)
+
+  return {
+    'email': email,
+  }
+
+def log(msg):
+  print(json.dumps(msg), flush=True)
+",
+        },
+        "Runtime": "python3.7",
+        "Timeout": 260,
+      },
+      "Type": "AWS::Serverless::Function",
+    },
+    "HostedZone": {
+      "Properties": {
+        "HostedZoneConfig": {
+          "Comment": "Created by superwerker",
+        },
+        "Name": {
+          "Fn::Sub": "aws.example.com",
+        },
+      },
+      "Type": "AWS::Route53::HostedZone",
+    },
+    "HostedZoneDKIMAndVerificationRecords": {
+      "Properties": {
+        "Domain": {
+          "Fn::Sub": "aws.example.com",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": "HostedZoneDKIMAndVerificationRecordsCustomResource.Arn",
+        },
+      },
+      "Type": "AWS::CloudFormation::CustomResource",
+    },
+    "HostedZoneDKIMAndVerificationRecordsCustomResource": {
+      "Properties": {
+        "Handler": "index.handler",
+        "InlineCode": "import boto3
+import cfnresponse
+
+ses = boto3.client("ses", region_name="eu-west-1") # this is fixed to eu-west-1 until SES supports receive more globally (see #23)
+
+CREATE = 'Create'
+DELETE = 'Delete'
+UPDATE = 'Update'
+
+def exception_handling(function):
+    def catch(event, context):
+        try:
+            function(event, context)
+        except Exception as e:
+            print(e)
+            print(event)
+            cfnresponse.send(event, context, cfnresponse.FAILED, {})
+
+    return catch
+
+@exception_handling
+def handler(event, context):
+    RequestType = event["RequestType"]
+    Properties = event["ResourceProperties"]
+    LogicalResourceId = event["LogicalResourceId"]
+    PhysicalResourceId = event.get("PhysicalResourceId")
+    Domain = Properties["Domain"]
+
+    print('RequestType: {}'.format(RequestType))
+    print('PhysicalResourceId: {}'.format(PhysicalResourceId))
+    print('LogicalResourceId: {}'.format(LogicalResourceId))
+
+    id = PhysicalResourceId
+
+    data = {}
+
+    if RequestType == CREATE:
+
+        print('Creating Domain verification and DKIM records: {}'.format(LogicalResourceId))
+
+        response = ses.verify_domain_identity(
+          Domain=Domain,
+        )
+
+        data["VerificationToken"] = response["VerificationToken"]
+
+        response = ses.verify_domain_dkim(
+          Domain=Domain,
+        )
+
+        data["DkimTokens"] = response["DkimTokens"]
+
+    cfnresponse.send(event, context, cfnresponse.SUCCESS, data, id)
+",
+        "Policies": [
+          {
+            "Statement": [
+              {
+                "Action": [
+                  "ses:VerifyDomainDkim",
+                  "ses:VerifyDomainIdentity",
+                ],
+                "Effect": "Allow",
+                "Resource": "*",
+              },
+            ],
+            "Version": "2012-10-17",
+          },
+        ],
+        "Runtime": "python3.7",
+        "Timeout": 200,
+      },
+      "Type": "AWS::Serverless::Function",
+    },
+    "HostedZoneDKIMTokenRecord0": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone",
+        },
+        "Name": {
+          "Fn::Sub": [
+            "\${Token}._domainkey.aws.example.com",
+            {
+              "Token": {
+                "Fn::Select": [
+                  0,
+                  {
+                    "Fn::GetAtt": "HostedZoneDKIMAndVerificationRecords.DkimTokens",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+        "ResourceRecords": [
+          {
+            "Fn::Sub": [
+              "\${Token}.dkim.amazonses.com",
+              {
+                "Token": {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::GetAtt": "HostedZoneDKIMAndVerificationRecords.DkimTokens",
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+        "TTL": "60",
+        "Type": "CNAME",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "HostedZoneDKIMTokenRecord1": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone",
+        },
+        "Name": {
+          "Fn::Sub": [
+            "\${Token}._domainkey.aws.example.com",
+            {
+              "Token": {
+                "Fn::Select": [
+                  1,
+                  {
+                    "Fn::GetAtt": "HostedZoneDKIMAndVerificationRecords.DkimTokens",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+        "ResourceRecords": [
+          {
+            "Fn::Sub": [
+              "\${Token}.dkim.amazonses.com",
+              {
+                "Token": {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::GetAtt": "HostedZoneDKIMAndVerificationRecords.DkimTokens",
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+        "TTL": "60",
+        "Type": "CNAME",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "HostedZoneDKIMTokenRecord2": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone",
+        },
+        "Name": {
+          "Fn::Sub": [
+            "\${Token}._domainkey.aws.example.com",
+            {
+              "Token": {
+                "Fn::Select": [
+                  2,
+                  {
+                    "Fn::GetAtt": "HostedZoneDKIMAndVerificationRecords.DkimTokens",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+        "ResourceRecords": [
+          {
+            "Fn::Sub": [
+              "\${Token}.dkim.amazonses.com",
+              {
+                "Token": {
+                  "Fn::Select": [
+                    2,
+                    {
+                      "Fn::GetAtt": "HostedZoneDKIMAndVerificationRecords.DkimTokens",
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+        "TTL": "60",
+        "Type": "CNAME",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "HostedZoneMXRecord": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone",
+        },
+        "Name": {
+          "Fn::Sub": "aws.example.com.",
+        },
+        "ResourceRecords": [
+          "10 inbound-smtp.eu-west-1.amazonaws.com",
+        ],
+        "TTL": "60",
+        "Type": "MX",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "HostedZoneSSMParameter": {
+      "Properties": {
+        "Name": "/superwerker/domain_name_servers",
+        "Type": "StringList",
+        "Value": {
+          "Fn::Join": [
+            ",",
+            {
+              "Fn::GetAtt": "HostedZone.NameServers",
+            },
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "HostedZoneVerificationTokenRecord": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone",
+        },
+        "Name": {
+          "Fn::Sub": "_amazonses.aws.example.com.",
+        },
+        "ResourceRecords": [
+          {
+            "Fn::Sub": ""\${HostedZoneDKIMAndVerificationRecords.VerificationToken}"",
+          },
+        ],
+        "TTL": "60",
+        "Type": "TXT",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "RootMailReady": {
+      "Properties": {
+        "Events": {
+          "Schedule": {
+            "Properties": {
+              "Schedule": "rate(5 minutes)",
+            },
+            "Type": "Schedule",
+          },
+        },
+        "Handler": "index.handler",
+        "InlineCode": {
+          "Fn::Sub": "import boto3
+import itertools
+import json
+import time
+
+domain = "aws.example.com"
+ses = boto3.client("ses", region_name="eu-west-1") # this is fixed to eu-west-1 until SES supports receive more globally (see #23)
+
+def backoff(msg, res, n):
+
+  wait = pow(2, n)
+
+  log({
+    'level': 'info',
+    'msg': msg,
+    'res': res,
+    'round': n,
+    'waiting_in_seconds': wait,
+  })
+
+  time.sleep(n)
+
+def handler(event, context):
+
+  log({
+    'event': event,
+    'level': 'debug',
+  })
+
+  for n in itertools.count(start=1):
+
+    res = ses.get_account_sending_enabled()
+
+    if res.get('Enabled'):
+      break
+    else:
+      backoff('sending not yet enabled', res, n)
+
+  for n in itertools.count(start=1):
+
+    res = ses.get_identity_verification_attributes(
+      Identities=[
+        domain,
+      ],
+    )
+
+    if res.get('VerificationAttributes', {}).get(domain, {}).get('VerificationStatus') == 'Success':
+      break
+    else:
+      backoff('verification not yet successful', res, n)
+
+  for n in itertools.count(start=1):
+
+    res = ses.get_identity_dkim_attributes(
+      Identities=[
+        domain,
+      ],
+    )
+
+    if res.get('DkimAttributes', {}).get(domain, {}).get('DkimVerificationStatus') == 'Success':
+      break
+    else:
+      backoff('DKIM verification not yet successful', res, n)
+
+  for n in itertools.count(start=1):
+
+    res = ses.get_identity_notification_attributes(
+      Identities=[
+        domain,
+      ],
+    )
+
+    if res.get('NotificationAttributes', {}).get(domain, {}).get('ForwardingEnabled') == True:
+      break
+    else:
+      backoff('forwarding not yet enabled', res, n)
+
+def log(msg):
+  print(json.dumps(msg), flush=True)
+",
+        },
+        "Policies": [
+          {
+            "Statement": [
+              {
+                "Action": [
+                  "ses:GetIdentityVerificationAttributes",
+                  "ses:GetAccountSendingEnabled",
+                  "ses:GetIdentityDkimAttributes",
+                  "ses:GetIdentityNotificationAttributes",
+                ],
+                "Effect": "Allow",
+                "Resource": "*",
+              },
+            ],
+            "Version": "2012-10-17",
+          },
+        ],
+        "Runtime": "python3.7",
+        "Timeout": 260,
+      },
+      "Type": "AWS::Serverless::Function",
+    },
+    "RootMailReadyAlert": {
+      "Properties": {
+        "AlarmName": "superwerker-RootMailReady",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Ref": "RootMailReady",
+            },
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "Errors",
+        "Namespace": "AWS/Lambda",
+        "Period": 180,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "RootMailReadyHandle": {
+      "Type": "AWS::CloudFormation::WaitConditionHandle",
+    },
+    "RootMailReadyHandleWaitCondition": {
+      "Properties": {
+        "Handle": {
+          "Ref": "RootMailReadyHandle",
+        },
+        "Timeout": "28800",
+      },
+      "Type": "AWS::CloudFormation::WaitCondition",
+    },
+    "RootMailReadyTrigger": {
+      "Properties": {
+        "Environment": {
+          "Variables": {
+            "SIGNAL_URL": {
+              "Ref": "RootMailReadyHandle",
+            },
+          },
+        },
+        "Events": {
+          "EmailHealth": {
+            "Properties": {
+              "Pattern": {
+                "detail": {
+                  "alarmName": [
+                    {
+                      "Ref": "RootMailReadyAlert",
+                    },
+                  ],
+                  "state": {
+                    "value": [
+                      "OK",
+                    ],
+                  },
+                },
+                "detail-type": [
+                  "CloudWatch Alarm State Change",
+                ],
+                "source": [
+                  "aws.cloudwatch",
+                ],
+              },
+            },
+            "Type": "CloudWatchEvent",
+          },
+        },
+        "Handler": "index.handler",
+        "InlineCode": "import json
+import os
+import urllib3
+import uuid
+
+def handler(event, context):
+
+  encoded_body = json.dumps({
+      "Status": "SUCCESS",
+      "Reason": "RootMail Setup completed",
+      "UniqueId": str(uuid.uuid4()),
+      "Data": "RootMail Setup completed"
+  })
+
+  http = urllib3.PoolManager()
+  http.request('PUT', os.environ['SIGNAL_URL'], body=encoded_body)",
+        "Runtime": "python3.7",
+        "Timeout": 10,
+      },
+      "Type": "AWS::Serverless::Function",
+    },
+    "SESReceiveStack": {
+      "Properties": {
+        "AdministrationRoleARN": {
+          "Fn::GetAtt": "StackSetAdministrationRole.Arn",
+        },
+        "Capabilities": [
+          "CAPABILITY_IAM",
+        ],
+        "ExecutionRoleName": {
+          "Ref": "StackSetExecutionRole",
+        },
+        "PermissionModel": "SELF_MANAGED",
+        "StackInstancesGroup": [
+          {
+            "DeploymentTargets": {
+              "Accounts": [
+                {
+                  "Fn::Sub": "\${AWS::AccountId}",
+                },
+              ],
+            },
+            "Regions": [
+              "eu-west-1",
+            ],
+          },
+        ],
+        "StackSetName": {
+          "Fn::Sub": "\${AWS::StackName}-ReceiveStack",
+        },
+        "TemplateBody": {
+          "Fn::Sub": "Resources:
+  SESReceiptRuleSetActivation:
+    Type: AWS::CloudFormation::CustomResource
+    Properties:
+      ServiceToken: !GetAtt SESReceiptRuleSetActivationCustomResource.Arn
+
+  SESReceiptRuleSetActivationCustomResourceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:\${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: AllowSesAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: # TODO: least privilege
+                  - ses:*
+                Resource: "*"
+
+  SESReceiptRuleSetActivationCustomResource:
+    Type: AWS::Lambda::Function
+    Properties:
+      Timeout: 200
+      Handler: index.handler
+      Runtime: python3.7
+      Role: !GetAtt SESReceiptRuleSetActivationCustomResourceRole.Arn
+      Code:
+        ZipFile: !Sub | # TODO: adopt function to new ADR for inline python lambdas
+          import boto3
+          import cfnresponse
+
+          ses = boto3.client("ses")
+
+          CREATE = 'Create'
+          DELETE = 'Delete'
+          UPDATE = 'Update'
+
+          def exception_handling(function):
+              def catch(event, context):
+                  try:
+                      function(event, context)
+                  except Exception as e:
+                      print(e)
+                      print(event)
+                      cfnresponse.send(event, context, cfnresponse.FAILED, {})
+
+              return catch
+
+          @exception_handling
+          def handler(event, context):
+              RequestType = event["RequestType"]
+              Properties = event["ResourceProperties"]
+              LogicalResourceId = event["LogicalResourceId"]
+              PhysicalResourceId = event.get("PhysicalResourceId")
+
+              print('RequestType: {}'.format(RequestType))
+              print('PhysicalResourceId: {}'.format(PhysicalResourceId))
+              print('LogicalResourceId: {}'.format(LogicalResourceId))
+
+              id = PhysicalResourceId
+              rule_set_name = 'RootMail'
+              rule_name = 'Receive'
+
+              if RequestType == CREATE or RequestType == UPDATE:
+                  ses.create_receipt_rule_set(
+                    RuleSetName=rule_set_name
+                  )
+
+                  ses.create_receipt_rule(
+                    RuleSetName=rule_set_name,
+                    Rule          = {
+                      'Name'      : rule_name,
+                      'Enabled'   : True,
+                      'TlsPolicy' : 'Require',
+                      'ScanEnabled': True,
+                      'Recipients': [
+                        'root@aws.example.com',
+                      ],
+                      'Actions': [
+                        {
+                          'S3Action'         : {
+                            'BucketName'     : '\${EmailBucket}',
+                            'ObjectKeyPrefix': 'RootMail'
+                          },
+                        },
+                        {
+                          'LambdaAction': {
+                            'FunctionArn': '\${!OpsSantaFunction.Arn}'
+                          }
+                        }
+                      ],
+                    }
+                  )
+
+                  print('Activating SES ReceiptRuleSet: {}'.format(LogicalResourceId))
+
+                  ses.set_active_receipt_rule_set(
+                    RuleSetName=rule_set_name,
+                  )
+              elif RequestType == DELETE:
+                  print('Deactivating SES ReceiptRuleSet: {}'.format(LogicalResourceId))
+
+                  ses.set_active_receipt_rule_set()
+
+                  ses.delete_receipt_rule(
+                    RuleName=rule_name,
+                    RuleSetName=rule_set_name,
+                  )
+
+                  ses.delete_receipt_rule_set(
+                    RuleSetName=rule_set_name
+                  )
+
+
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, {}, id)
+
+  OpsSantaFunctionSESPermissions:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref OpsSantaFunction
+      Principal: ses.amazonaws.com
+      SourceAccount: "\${AWS::AccountId}"
+
+  OpsSantaFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:\${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: OpsSantaFunctionRolePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action:
+                - s3:GetObject
+              Resource: \${EmailBucket.Arn}/RootMail/*
+            - Effect: Allow
+              Action:
+                - ssm:CreateOpsItem
+              Resource: "*"
+            - Action: ssm:PutParameter
+              Effect: Allow
+              Resource: arn:\${AWS::Partition}:ssm:\${AWS::Region}:\${AWS::AccountId}:parameter/superwerker/*
+
+  OpsSantaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Timeout: 60
+      Handler: index.handler
+      Runtime: python3.7
+      Role: !GetAtt OpsSantaFunctionRole.Arn
+      Code:
+        ZipFile: !Sub |
+          import boto3
+          import email
+          from email import policy
+          import hashlib
+          import json
+          import re
+          import datetime
+
+          s3 = boto3.client('s3')
+          ssm = boto3.client('ssm', region_name='\${AWS::Region}')
+
+          filtered_email_subjects = [
+            'Your AWS Account is Ready - Get Started Now',
+            'Welcome to Amazon Web Services',
+          ]
+
+          def handler(event, context):
+
+              log({
+                'event': event,
+                'level': 'debug',
+              })
+
+              for record in event['Records']:
+
+                id = record['ses']['mail']['messageId']
+                key = 'RootMail/{key}'.format(key=id)
+                receipt = record['ses']['receipt']
+
+                log({
+                  'id': id,
+                  'level': 'debug',
+                  'key': key,
+                  'msg': 'processing mail',
+                })
+
+                verdicts = {
+                  'dkim': receipt['dkimVerdict']['status'],
+                  'spam': receipt['spamVerdict']['status'],
+                  'spf': receipt['spfVerdict']['status'],
+                  'virus': receipt['virusVerdict']['status'],
+                }
+
+                for k, v in verdicts.items():
+
+                  if not v == 'PASS':
+
+                    log({
+                      'class': k,
+                      'id': id,
+                      'key': key,
+                      'level': 'warn',
+                      'msg': 'verdict failed - ops santa item skipped',
+                    })
+
+                    return
+
+                response = s3.get_object(
+                  Bucket="\${EmailBucket}",
+                  Key=key,
+                )
+
+                msg = email.message_from_bytes(response["Body"].read(), policy=policy.default)
+
+                title=msg["subject"]
+
+                source=recipient=event["Records"][0]["ses"]["mail"]["destination"][0]
+
+                if title == 'Amazon Web Services Password Assistance':
+                  description=msg.get_body('html').get_content()
+                  pw_reset_link = re.search(r'(https://signin.aws.amazon.com/resetpassword(.*?))(?=<br>)', description).group()
+                  rootmail_identifier = '/superwerker/rootmail/pw_reset_link/{}'.format(source.split('@')[0].split('root+')[1])
+                  ssm.put_parameter(
+                      Name=rootmail_identifier,
+                      Value=pw_reset_link,
+                      Overwrite=True,
+                      Type='String',
+                      Tier='Advanced',
+                      Policies=json.dumps([
+                        {
+                          "Type":"Expiration",
+                          "Version":"1.0",
+                          "Attributes":{
+                            "Timestamp": (datetime.datetime.now() + datetime.timedelta(minutes = 10)).strftime('%Y-%m-%dT%H:%M:%SZ') # expire in 10 minutes
+                          }
+                        }
+                      ])
+                  )
+                  return # no ops item for now
+
+                if title in filtered_email_subjects:
+                  log({
+                    'level': 'info',
+                    'msg': 'filtered email',
+                    'title': title,
+                  })
+                  return
+
+                description=msg.get_body(preferencelist=('plain', 'html')).get_content()
+
+                title=title[:1020] + " ..." * (len(title) > 1020)
+
+                description=description[:1020] + " ..." * (len(description) > 1020)
+
+                source=source[:60] + ' ...' * (len(source) > 60)
+
+                operational_data={
+                  "/aws/dedup":{
+                    "Value":json.dumps(
+                      {
+                        "dedupString":id,
+                      }
+                    ),
+                    "Type":"SearchableString",
+                  },
+                  "/aws/resources":{
+                    "Value":json.dumps([
+                      {
+                        "arn":"\${EmailBucket.Arn}/{key}".format(key=key),
+                      }
+                    ]),
+                    "Type":"SearchableString",
+                  },
+                }
+
+                ssm.create_ops_item(
+                  Description=description,
+                  OperationalData=operational_data,
+                  Source=source,
+                  Title=title,
+                )
+
+          def log(msg):
+            print(json.dumps(msg), flush=True)
+",
+        },
+      },
+      "Type": "AWS::CloudFormation::StackSet",
+    },
+    "StackSetAdministrationRole": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "sts:AssumeRole",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudformation.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Path": "/",
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": [
+                    "sts:AssumeRole",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": [
+                    {
+                      "Fn::GetAtt": "StackSetExecutionRole.Arn",
+                    },
+                  ],
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "AssumeRole-AWSCloudFormationStackSetExecutionRole",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "StackSetExecutionRole": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "sts:AssumeRole",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": [
+                  {
+                    "Fn::Sub": "\${AWS::AccountId}",
+                  },
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:\${AWS::Partition}:iam::aws:policy/AdministratorAccess",
+          },
+        ],
+        "Path": "/",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testRootmailDummyFunction308B5240": {
+      "DependsOn": [
+        "testRootmailDummyFunctionServiceRole7D707797",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "ac317e05dcbc2c19d5a20828b4e2ff8678e252731d6a7b51356d3abfd5da31e8.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "FOO": "bar",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "testRootmailDummyFunctionServiceRole7D707797",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.10",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "testRootmailDummyFunctionServiceRole7D707797": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+  "Transform": "AWS::Serverless-2016-10-31",
+}
+`;

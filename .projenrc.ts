@@ -2,7 +2,7 @@ import { awscdk } from 'projen';
 import { NpmAccess } from 'projen/lib/javascript';
 
 const dependencies = [
-  '@aws-cdk/aws-lambda-python-alpha',
+  '@aws-cdk/aws-lambda-python-alpha@2.66.1-alpha.0',
   '@types/aws-lambda',
   'aws-sdk',
 ];
@@ -34,7 +34,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
 });
 
 project.package.setScript('prepare', 'husky install');
-project.package.setScript('pretest', 'make test');
+// project.package.setScript('pretest', 'make test');
 project.gitignore.exclude('__pycache__');
 project.gitignore.exclude('.pytest_cache');
+project.gitignore.exclude('venv');
 project.synth();

@@ -53,3 +53,4 @@ tsconfig.json
 !/API.md
 __pycache__
 .pytest_cache
+venv
