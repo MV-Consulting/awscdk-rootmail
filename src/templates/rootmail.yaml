@@ -55,7 +55,7 @@ Resources:
           ]
         }
 
-  EmailGeneratorFunction:
+  EmailGeneratorFunction: # NOTE: already transformed
     Type: AWS::Serverless::Function
     Properties: # TODO: use environment variables instead of variables in !Sub
       Handler: index.handler
@@ -93,7 +93,7 @@ Resources:
 
       Runtime: python3.7
       Timeout: 260 # the timeout effectivly limits retries to 2^(n+1) - 1 = 9 attempts with backup
-
+  
   HostedZone:
     Type: AWS::Route53::HostedZone
     Properties:
