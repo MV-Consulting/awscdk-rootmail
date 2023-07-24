@@ -14,6 +14,8 @@ import {
   aws_route53 as r53,
   aws_s3 as s3,
   aws_ssm as ssm,
+  Fn,
+  PhysicalName,
 } from 'aws-cdk-lib';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
@@ -60,6 +62,9 @@ export class Rootmail extends Construct {
     });
 
     const emailBucket = new s3.Bucket(this, 'EmailBucket', {
+      // due to: Cannot use resource 'testStack/testRootmail/EmailBucket' in a cross-environment fashion,
+      // the resource's physical name must be explicit set or use `PhysicalName.GENERATE_IF_NEEDED`
+      bucketName: PhysicalName.GENERATE_IF_NEEDED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
     });
 
@@ -106,11 +111,13 @@ export class Rootmail extends Construct {
 
     const hostedZoneDKIMTokens = hostedZoneDKIMAndVerificationRecords.dkimTokens;
 
+    Fn.select(0, hostedZoneDKIMTokens);
+
     new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord0', {
       deleteExisting: false,
       zone: hostedZone,
-      target: r53.RecordTarget.fromValues(`${hostedZoneDKIMTokens[0]}.dkim.amazonses.com`),
-      recordName: `${hostedZoneDKIMTokens[0]}_domainkey.${subdomain}.${domain}`,
+      target: r53.RecordTarget.fromValues(`${Fn.select(0, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
+      recordName: `${Fn.select(0, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}`,
       ttl: Duration.seconds(60),
       recordType: r53.RecordType.CNAME,
     });
@@ -118,8 +125,8 @@ export class Rootmail extends Construct {
     new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord1', {
       deleteExisting: false,
       zone: hostedZone,
-      target: r53.RecordTarget.fromValues(`${hostedZoneDKIMTokens[1]}.dkim.amazonses.com`),
-      recordName: `${hostedZoneDKIMTokens[1]}_domainkey.${subdomain}.${domain}`,
+      target: r53.RecordTarget.fromValues(`${Fn.select(1, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
+      recordName: `${Fn.select(1, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}`,
       ttl: Duration.seconds(60),
       recordType: r53.RecordType.CNAME,
     });
@@ -127,8 +134,8 @@ export class Rootmail extends Construct {
     new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord2', {
       deleteExisting: false,
       zone: hostedZone,
-      target: r53.RecordTarget.fromValues(`${hostedZoneDKIMTokens[2]}.dkim.amazonses.com`),
-      recordName: `${hostedZoneDKIMTokens[2]}_domainkey.${subdomain}.${domain}`,
+      target: r53.RecordTarget.fromValues(`${Fn.select(2, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
+      recordName: `${Fn.select(2, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}`,
       ttl: Duration.seconds(60),
       recordType: r53.RecordType.CNAME,
     });
@@ -241,7 +248,7 @@ export class Rootmail extends Construct {
       },
     });
 
-    const rootMailReadyTriggerEventPattern = new events.Rule(this, 'RootMailReadyEventRule', {
+    const rootMailReadyTriggerEventPattern = new events.Rule(this, 'RootMailReadyTriggerEventPattern', {
       eventPattern: {
         detailType: ['CloudWatch Alarm State Change'],
         source: ['aws.cloudwatch'],
@@ -302,7 +309,7 @@ export class Rootmail extends Construct {
     const sesReceiveStack = new SESReceiveStack(this, 'SESReceiveStack', {
       domain: domain,
       subdomain: subdomain,
-      emailbucket: emailBucket,
+      emailbucketName: emailBucket.bucketName,
     });
 
     new StackSet(this, 'SESReceiveStackSet', {

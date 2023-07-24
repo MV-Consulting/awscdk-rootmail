@@ -1016,32 +1016,29 @@ def handler(event, context):
       },
       "Type": "AWS::IAM::Role",
     },
-    "testRootmailDummyFunction308B5240": {
+    "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResource92FBDCD5": {
       "DependsOn": [
-        "testRootmailDummyFunctionServiceRole7D707797",
+        "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRoleDefaultPolicyF70F343D",
+        "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRole8591CE3F",
       ],
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "5ee9cb46234e67f8a2da69dccc130357fcf446bad39663558b1195b75967b67a.zip",
-        },
-        "Environment": {
-          "Variables": {
-            "FOO": "bar",
-          },
+          "S3Key": "8a9615770412818263c93023c41b0e802fc0ef7aa065f840f201007a0eef0347.zip",
         },
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
-            "testRootmailDummyFunctionServiceRole7D707797",
+            "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRole8591CE3F",
             "Arn",
           ],
         },
         "Runtime": "python3.10",
+        "Timeout": 200,
       },
       "Type": "AWS::Lambda::Function",
     },
-    "testRootmailDummyFunctionServiceRole7D707797": {
+    "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRole8591CE3F": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -1065,6 +1062,831 @@ def handler(event, context):
                   "Ref": "AWS::Partition",
                 },
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRoleDefaultPolicyF70F343D": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ses:VerifyDomainDkim",
+                "ses:VerifyDomainIdentity",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRoleDefaultPolicyF70F343D",
+        "Roles": [
+          {
+            "Ref": "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRole8591CE3F",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528": {
+      "DependsOn": [
+        "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF",
+        "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onEvent (testStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResource92FBDCD5",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResource92FBDCD5",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResource92FBDCD5",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF",
+        "Roles": [
+          {
+            "Ref": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "testRootmailEmailBucket2A470446": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "BucketName": "teststacktmailemailbuckete12ab3f3d5ea6a1fea86",
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "testRootmailEmailBucketPolicy5DA39984": {
+      "Properties": {
+        "Bucket": {
+          "Ref": "testRootmailEmailBucket2A470446",
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:PutObject",
+              "Condition": {
+                "StringEquals": {
+                  "aws:Referer": "1234",
+                },
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ses.amazonaws.com",
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":s3:::",
+                    {
+                      "Ref": "testRootmailEmailBucket2A470446",
+                    },
+                    "/RootMail/*",
+                  ],
+                ],
+              },
+              "Sid": "EnableSESReceive",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "testRootmailErrors174176D2": {
+      "Properties": {
+        "AlarmName": "superwerker-RootMailReady",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Ref": "testRootmailRootMailReady825120E7",
+            },
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "Errors",
+        "Namespace": "AWS/Lambda",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "testRootmailHostedZone6DFD3C9C": {
+      "Properties": {
+        "Name": "aws.example.com.",
+      },
+      "Type": "AWS::Route53::HostedZone",
+    },
+    "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Domain": "example.com",
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::HostedZoneDKIMAndVerificationRecords",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testRootmailHostedZoneDKIMTokenRecord0E194A84E": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "testRootmailHostedZone6DFD3C9C",
+        },
+        "Name": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Fn::Select": [
+                  0,
+                  {
+                    "Fn::GetAtt": [
+                      "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                      "DkimTokens",
+                    ],
+                  },
+                ],
+              },
+              "_domainkey.aws.example.com.",
+            ],
+          ],
+        },
+        "ResourceRecords": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::GetAtt": [
+                        "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                        "DkimTokens",
+                      ],
+                    },
+                  ],
+                },
+                ".dkim.amazonses.com",
+              ],
+            ],
+          },
+        ],
+        "TTL": "60",
+        "Type": "CNAME",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "testRootmailHostedZoneDKIMTokenRecord1F2425011": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "testRootmailHostedZone6DFD3C9C",
+        },
+        "Name": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Fn::Select": [
+                  1,
+                  {
+                    "Fn::GetAtt": [
+                      "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                      "DkimTokens",
+                    ],
+                  },
+                ],
+              },
+              "_domainkey.aws.example.com.",
+            ],
+          ],
+        },
+        "ResourceRecords": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::GetAtt": [
+                        "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                        "DkimTokens",
+                      ],
+                    },
+                  ],
+                },
+                ".dkim.amazonses.com",
+              ],
+            ],
+          },
+        ],
+        "TTL": "60",
+        "Type": "CNAME",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "testRootmailHostedZoneDKIMTokenRecord2F143C5BA": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "testRootmailHostedZone6DFD3C9C",
+        },
+        "Name": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Fn::Select": [
+                  2,
+                  {
+                    "Fn::GetAtt": [
+                      "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                      "DkimTokens",
+                    ],
+                  },
+                ],
+              },
+              "_domainkey.aws.example.com.",
+            ],
+          ],
+        },
+        "ResourceRecords": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    2,
+                    {
+                      "Fn::GetAtt": [
+                        "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                        "DkimTokens",
+                      ],
+                    },
+                  ],
+                },
+                ".dkim.amazonses.com",
+              ],
+            ],
+          },
+        ],
+        "TTL": "60",
+        "Type": "CNAME",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "testRootmailHostedZoneMXRecordA975A9BB": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "testRootmailHostedZone6DFD3C9C",
+        },
+        "Name": "aws.example.com.",
+        "ResourceRecords": [
+          "10 inbound-smtp.eu-west-1.amazonaws.com",
+        ],
+        "TTL": "60",
+        "Type": "MX",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "testRootmailHostedZoneSSMParameter574DA41C": {
+      "Properties": {
+        "Name": "/superwerker/domain_name_servers",
+        "Type": "StringList",
+        "Value": {
+          "Fn::Join": [
+            ",",
+            {
+              "Fn::GetAtt": [
+                "testRootmailHostedZone6DFD3C9C",
+                "NameServers",
+              ],
+            },
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "testRootmailHostedZoneVerificationTokenRecordB9EB1498": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "testRootmailHostedZone6DFD3C9C",
+        },
+        "Name": "_amazonses.aws.example.com.",
+        "ResourceRecords": [
+          {
+            "Fn::GetAtt": [
+              "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+              "VerificationToken",
+            ],
+          },
+        ],
+        "TTL": "60",
+        "Type": "TXT",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "testRootmailRootMailReady825120E7": {
+      "DependsOn": [
+        "testRootmailRootMailReadyServiceRoleDefaultPolicy9A1F5C41",
+        "testRootmailRootMailReadyServiceRole28CD8F41",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "049f286b03681752026a8fbf118f26e2e6f320238c8b22a90ea674f494cb2338.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "DOMAIN": "example.com",
+            "SUB_DOMAIN": "aws",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "testRootmailRootMailReadyServiceRole28CD8F41",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.10",
+        "Timeout": 260,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "testRootmailRootMailReadyEventRule77EE7FF3": {
+      "Properties": {
+        "ScheduleExpression": "cron(5 * * * ? *)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "testRootmailRootMailReady825120E7",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "testRootmailRootMailReadyEventRuleAllowEventRuletestStacktestRootmailRootMailReady5BA57D95B365F7DA": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "testRootmailRootMailReady825120E7",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "testRootmailRootMailReadyEventRule77EE7FF3",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "testRootmailRootMailReadyHandleC6B1EB65": {
+      "Type": "AWS::CloudFormation::WaitConditionHandle",
+    },
+    "testRootmailRootMailReadyHandleWaitConditionAE1C01F5": {
+      "Properties": {
+        "Handle": {
+          "Ref": "testRootmailRootMailReadyHandleC6B1EB65",
+        },
+        "Timeout": "28800",
+      },
+      "Type": "AWS::CloudFormation::WaitCondition",
+    },
+    "testRootmailRootMailReadyServiceRole28CD8F41": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testRootmailRootMailReadyServiceRoleDefaultPolicy9A1F5C41": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ses:GetIdentityVerificationAttributes",
+                "ses:GetAccountSendingEnabled",
+                "ses:GetIdentityDkimAttributes",
+                "ses:GetIdentityNotificationAttributes",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "testRootmailRootMailReadyServiceRoleDefaultPolicy9A1F5C41",
+        "Roles": [
+          {
+            "Ref": "testRootmailRootMailReadyServiceRole28CD8F41",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "testRootmailRootMailReadyTriggerE528F2B1": {
+      "DependsOn": [
+        "testRootmailRootMailReadyTriggerServiceRoleE74AC2A4",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "d45f7b0ff5f27b1ea54d6128280750c09f18a3cba213ad52e4ccb85d66dc998a.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "SIGNAL_URL": {
+              "Ref": "testRootmailRootMailReadyHandleC6B1EB65",
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "testRootmailRootMailReadyTriggerServiceRoleE74AC2A4",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.10",
+        "Timeout": 10,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "testRootmailRootMailReadyTriggerEventPattern0C7DAE47": {
+      "Properties": {
+        "EventPattern": {
+          "detail": {
+            "alarmName": [
+              {
+                "Ref": "testRootmailErrors174176D2",
+              },
+            ],
+            "state": {
+              "value": [
+                "OK",
+              ],
+            },
+          },
+          "detail-type": [
+            "CloudWatch Alarm State Change",
+          ],
+          "source": [
+            "aws.cloudwatch",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "testRootmailRootMailReadyTriggerE528F2B1",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "testRootmailRootMailReadyTriggerEventPatternAllowEventRuletestStacktestRootmailRootMailReadyTriggerC42CFCEB14537371": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "testRootmailRootMailReadyTriggerE528F2B1",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "testRootmailRootMailReadyTriggerEventPattern0C7DAE47",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "testRootmailRootMailReadyTriggerServiceRoleE74AC2A4": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testRootmailSESReceiveStackSet016FC115": {
+      "Properties": {
+        "AdministrationRoleARN": {
+          "Fn::GetAtt": [
+            "testRootmailStackSetAdministrationRole5F9804CC",
+            "Arn",
+          ],
+        },
+        "Capabilities": [
+          "CAPABILITY_IAM",
+        ],
+        "ExecutionRoleName": {
+          "Ref": "testRootmailStackSetExecutionRole38D8D54C",
+        },
+        "ManagedExecution": {
+          "Active": true,
+        },
+        "PermissionModel": "SELF_MANAGED",
+        "StackInstancesGroup": [
+          {
+            "DeploymentTargets": {
+              "Accounts": [
+                "1234",
+              ],
+            },
+            "Regions": [
+              "eu-west-1",
+            ],
+          },
+        ],
+        "StackSetName": "testStacktestRootmailSESReceiveStackSetA7CB9267",
+        "TemplateURL": {
+          "Fn::Sub": "https://s3.\${AWS::Region}.\${AWS::URLSuffix}/cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a.json",
+        },
+      },
+      "Type": "AWS::CloudFormation::StackSet",
+    },
+    "testRootmailStackSetAdministrationRole5F9804CC": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudformation.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Path": "/",
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": "sts:AssumeRole",
+                  "Effect": "Allow",
+                  "Resource": {
+                    "Fn::GetAtt": [
+                      "testRootmailStackSetExecutionRole38D8D54C",
+                      "Arn",
+                    ],
+                  },
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "AssumeRole-AWSCloudFormationStackSetExecutionRole",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testRootmailStackSetAdministrationRoleDefaultPolicyEC53988D": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:iam::*:role/",
+                    {
+                      "Ref": "testRootmailStackSetExecutionRole38D8D54C",
+                    },
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "testRootmailStackSetAdministrationRoleDefaultPolicyEC53988D",
+        "Roles": [
+          {
+            "Ref": "testRootmailStackSetAdministrationRole5F9804CC",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "testRootmailStackSetExecutionRole38D8D54C": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::1234:root",
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AdministratorAccess",
               ],
             ],
           },
