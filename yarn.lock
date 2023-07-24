@@ -1843,6 +1843,11 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
+cdk-stacksets@^0.0.148:
+  version "0.0.148"
+  resolved "https://registry.yarnpkg.com/cdk-stacksets/-/cdk-stacksets-0.0.148.tgz#6c48ff0600da4854bf0425de3f8bdb0088820a9f"
+  integrity sha512-vYy5V2Z5GMyDlPKlv+FnKIqDaxzrw2zSqGlDYu4rree7FBixSoBmDaIQsnwrl+A3ifdTts4mUXlCKhE4u+vEqQ==
+
 chalk@^2.0.0, chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"

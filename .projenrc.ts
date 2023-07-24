@@ -5,6 +5,7 @@ const dependencies = [
   '@aws-cdk/aws-lambda-python-alpha@2.66.1-alpha.0',
   '@types/aws-lambda',
   'aws-sdk',
+  'cdk-stacksets',
 ];
 
 const project = new awscdk.AwsCdkConstructLibrary({

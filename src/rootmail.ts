@@ -1,16 +1,25 @@
 import * as path from 'path';
 import { PythonFunction } from '@aws-cdk/aws-lambda-python-alpha';
-import { Arn, ArnFormat, CfnWaitCondition, CfnWaitConditionHandle, Duration, Stack, aws_lambda as lambda } from 'aws-cdk-lib';
+import { Arn, ArnFormat, CfnWaitCondition, CfnWaitConditionHandle, Duration, Stack, aws_lambda as lambda, aws_iam as iam } from 'aws-cdk-lib';
 import { Effect, PolicyStatement, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { HostedZone, RecordSet, RecordTarget, RecordType } from 'aws-cdk-lib/aws-route53';
 import { Bucket, BlockPublicAccess } from 'aws-cdk-lib/aws-s3';
 import { StringListParameter } from 'aws-cdk-lib/aws-ssm';
-import { CfnCustomResource } from 'aws-cdk-lib/aws-cloudformation';
+import { CfnCustomResource, CfnStackSet } from 'aws-cdk-lib/aws-cloudformation';
 import { Rule, Schedule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { Alarm, ComparisonOperator, Metric } from 'aws-cdk-lib/aws-cloudwatch';
 import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
+import {
+  DeploymentType,
+  StackSet,
+  StackSetStack,
+  StackSetTarget,
+  StackSetTemplate,
+  Capability,
+} from 'cdk-stacksets';
 import { Construct } from 'constructs';
+import { SESReceiveStack } from './sesReceiveStack';
 
 export interface RootmailProps {
   /**
@@ -33,6 +42,7 @@ export class Rootmail extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain || 'aws';
 
+    // TODO remove then and add test like in sw
     new CfnInclude(this, 'RootmailTemplate', {
       templateFile: path.join(__dirname, 'templates', 'rootmail.yaml'),
       parameters: {
@@ -77,7 +87,7 @@ export class Rootmail extends Construct {
       zoneName: `${subdomain}.${domain}`,
     });
 
-    const hostedZoneSSMParameter = new StringListParameter(this, 'mySsmParameter', {
+    const hostedZoneSSMParameter = new StringListParameter(this, 'HostedZoneSSMParameter', {
       parameterName: '/superwerker/domain_name_servers',
       stringListValue: hostedZone.hostedZoneNameServers || [], // TODO can we error here or wait until present?
     });
@@ -245,6 +255,68 @@ export class Rootmail extends Construct {
 
     rootMailReadyTriggerEventPattern.addTarget(new LambdaFunction(rootMailReadyTrigger));
 
-    // TOOD SESReceiveStack: why a stackset?
+    const stackSetExecutionRole = new iam.Role(this, 'StackSetExecutionRole', {
+      assumedBy: new iam.AccountPrincipal(Stack.of(this).account),
+      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess')],
+    });
+
+    const stackSetAdministrationRole = new iam.Role(this, 'StackSetAdministrationRole', {
+      assumedBy: new iam.ServicePrincipal('cloudformation.amazonaws.com'),
+      path: '/',
+      inlinePolicies: {
+        'AssumeRole-AWSCloudFormationStackSetExecutionRole': new iam.PolicyDocument({
+          statements: [
+            new iam.PolicyStatement({
+              actions: [
+                'sts:AssumeRole',
+              ],
+              resources: [
+                stackSetExecutionRole.roleArn,
+              ],
+            }),
+
+          ],
+        }),
+      },
+    });
+
+    // TODO SESReceiveStack: why a stackset? -> Because we need to deploy it in eu-west-1
+    // const sesReceiveStack = new CfnStackSet(this, 'SESReceiveStack', {
+    //   administrationRoleArn: stackSetAdministrationRole.roleArn,
+    //   executionRoleName: stackSetExecutionRole.roleArn,
+    //   permissionModel: 'SELF_MANAGED',
+    //   stackSetName: 'stackSetName',
+    //   capabilities: ['CAPABILITY_IAM'],
+
+    //   stackInstancesGroup: [{
+    //     deploymentTargets: {
+    //       accounts: [Stack.of(this).account],
+    //     },
+    //     regions: ['eu-west-1'], // this is fixed to eu-west-1 until SES supports receive more globally (see #23)
+    //   }],
+    //   templateBody: 'templateBody-TBD',
+    // });
+
+    // v2 https://github.com/cdklabs/cdk-stacksets/
+    const sesReceiveStack = new SESReceiveStack(this, 'SESReceiveStack', {
+      domain: domain,
+      subdomain: subdomain,
+      emailbucket: emailBucket,
+    });
+
+    new StackSet(this, 'SESReceiveStackSet', {
+      deploymentType: DeploymentType.selfManaged({
+        adminRole: stackSetAdministrationRole,
+        executionRoleName: stackSetExecutionRole.roleName,
+      }),
+      capabilities: [Capability.IAM],
+      target: StackSetTarget.fromAccounts({
+        // this is fixed to eu-west-1 until SES supports receive more globally (see #23)
+        regions: ['eu-west-1'],
+        accounts: [Stack.of(this).account],
+      }),
+      template: StackSetTemplate.fromStackSetStack(new StackSetStack(sesReceiveStack, 'SESReceiveStackSetTemplate')),
+    });
+
   }
 }

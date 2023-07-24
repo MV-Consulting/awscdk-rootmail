@@ -71,12 +71,14 @@
     "@aws-cdk/aws-lambda-python-alpha": "2.66.1-alpha.0",
     "@types/aws-lambda": "^8.10.119",
     "aws-cdk-lib": "^2.87.0",
-    "aws-sdk": "^2.1417.0"
+    "aws-sdk": "^2.1417.0",
+    "cdk-stacksets": "^0.0.148"
   },
   "bundledDependencies": [
     "@aws-cdk/aws-lambda-python-alpha",
     "@types/aws-lambda",
-    "aws-sdk"
+    "aws-sdk",
+    "cdk-stacksets"
   ],
   "keywords": [
     "cdk"
