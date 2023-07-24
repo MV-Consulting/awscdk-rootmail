@@ -8,6 +8,7 @@ import {
   StackProps,
   aws_iam as iam,
   aws_lambda as lambda,
+  aws_s3 as s3,
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { SESReceiptRuleSetActivation } from './ses-receipt-ruleset-activation';
@@ -15,7 +16,7 @@ import { SESReceiptRuleSetActivation } from './ses-receipt-ruleset-activation';
 export interface SESReceiveStackProps extends StackProps {
   domain: string;
   subdomain: string;
-  emailbucketName: string;
+  emailbucket: s3.Bucket;
 }
 
 export class SESReceiveStack extends Stack {
@@ -42,7 +43,7 @@ export class SESReceiveStack extends Stack {
     new SESReceiptRuleSetActivation(this, 'SESReceiptRuleSetActivation', {
       domain: props.domain,
       subdomain: props.subdomain,
-      emailbucketName: props.emailbucketName,
+      emailbucketName: props.emailbucket.bucketName,
       sesReceiptRuleSetActivationCustomResourceRole: sesReceiptRuleSetActivationCustomResourceRole,
     });
 
@@ -60,19 +61,19 @@ export class SESReceiveStack extends Stack {
                 's3:GetObject',
               ],
               resources: [
-                // props.emailbucket.arnForObjects('RootMail/*'),
+                props.emailbucket.arnForObjects('RootMail/*'),
                 // ${EmailBucket.Arn}/RootMail/*
                 // arn:PARTITION:s3:::NAME-OF-YOUR-BUCKET
                 // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
-                Arn.format({
-                  partition: Stack.of(this).partition,
-                  service: 's3',
-                  region: Stack.of(this).region,
-                  account: Stack.of(this).account,
-                  resource: props.emailbucketName,
-                  arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-                  resourceName: 'RootMail/*',
-                }, Stack.of(this)),
+                // Arn.format({
+                //   partition: Stack.of(this).partition,
+                //   service: 's3',
+                //   region: Stack.of(this).region,
+                //   account: Stack.of(this).account,
+                //   resource: props.emailbucketName,
+                //   arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+                //   resourceName: 'RootMail/*',
+                // }, Stack.of(this)),
               ],
             }),
             new iam.PolicyStatement({

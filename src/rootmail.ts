@@ -309,7 +309,7 @@ export class Rootmail extends Construct {
     const sesReceiveStack = new SESReceiveStack(this, 'SESReceiveStack', {
       domain: domain,
       subdomain: subdomain,
-      emailbucketName: emailBucket.bucketName,
+      emailbucket: emailBucket,
     });
 
     new StackSet(this, 'SESReceiveStackSet', {
