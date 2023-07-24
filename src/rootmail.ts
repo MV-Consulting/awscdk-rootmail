@@ -18,7 +18,6 @@ import {
   PhysicalName,
 } from 'aws-cdk-lib';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
-import { CfnInclude } from 'aws-cdk-lib/cloudformation-include';
 import {
   DeploymentType,
   StackSet,
@@ -53,13 +52,13 @@ export class Rootmail extends Construct {
     const subdomain = props.subdomain || 'aws';
 
     // TODO remove then and add test like in sw
-    new CfnInclude(this, 'RootmailTemplate', {
-      templateFile: path.join(__dirname, 'templates', 'rootmail.yaml'),
-      parameters: {
-        Domain: domain,
-        Subdomain: subdomain,
-      },
-    });
+    // new CfnInclude(this, 'RootmailTemplate', {
+    //   templateFile: path.join(__dirname, 'templates', 'rootmail.yaml'),
+    //   parameters: {
+    //     Domain: domain,
+    //     Subdomain: subdomain,
+    //   },
+    // });
 
     const emailBucket = new s3.Bucket(this, 'EmailBucket', {
       // due to: Cannot use resource 'testStack/testRootmail/EmailBucket' in a cross-environment fashion,
