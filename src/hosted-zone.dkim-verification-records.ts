@@ -15,7 +15,7 @@ export const ATTR_VERIFICATION_TOKEN = 'VerificationToken';
 export const ATTR_DKIM_TOKENS = 'DkimTokens';
 
 export interface HostedZoneDKIMAndVerificationRecordsProps {
-  domain: string;
+  readonly domain: string;
 }
 
 export class HostedZoneDKIMAndVerificationRecords extends Construct {

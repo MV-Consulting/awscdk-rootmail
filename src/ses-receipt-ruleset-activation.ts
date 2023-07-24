@@ -16,10 +16,10 @@ export const PROP_EMAILBUCKET = 'EmailBucket';
 export const PROP_OPS_SANTA_FUNCTION_ARN = 'OpsSantaFunctionArn';
 
 export interface SESReceiptRuleSetActivationProps {
-  domain: string;
-  subdomain: string;
-  emailbucketName: string;
-  sesReceiptRuleSetActivationCustomResourceRole: iam.IRole;
+  readonly domain: string;
+  readonly subdomain: string;
+  readonly emailbucketName: string;
+  readonly sesReceiptRuleSetActivationCustomResourceRole: iam.IRole;
 }
 
 export class SESReceiptRuleSetActivation extends Construct {

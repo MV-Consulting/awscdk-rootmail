@@ -14,9 +14,9 @@ import { Construct } from 'constructs';
 import { SESReceiptRuleSetActivation } from './ses-receipt-ruleset-activation';
 
 export interface SESReceiveStackProps extends StackProps {
-  domain: string;
-  subdomain: string;
-  emailbucket: s3.Bucket;
+  readonly domain: string;
+  readonly subdomain: string;
+  readonly emailbucket: s3.Bucket;
 }
 
 export class SESReceiveStack extends Stack {
