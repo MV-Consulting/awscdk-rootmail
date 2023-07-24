@@ -10,8 +10,8 @@ def test_notification_dummy(mocker):
     # title: str = 'test_message_title'
     # description: str = 'test_message_description'
 
-    ses_client_mock = MagicMock()
-    mocker.patch('boto3.client', return_value=ses_client_mock)
+    http_mock = MagicMock()
+    mocker.patch('urllib3.PoolManager', return_value=http_mock)
 
     # from index import handler
 

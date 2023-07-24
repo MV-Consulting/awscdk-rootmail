@@ -228,7 +228,6 @@ export class Rootmail extends Construct {
       entry: path.join(__dirname, 'functions', 'root_mail_ready_trigger'),
       handler: 'handler',
       runtime: lambda.Runtime.PYTHON_3_10,
-      // # the timeout effectivly limits retries to 2^(n+1) - 1 = 9 attempts with backup
       timeout: Duration.seconds(10),
       environment: {
         SIGNAL_URL: rootMailReadyHandle.ref,
