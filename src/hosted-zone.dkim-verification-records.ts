@@ -56,32 +56,43 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const hostedZoneDKIMAndVerificationRecordsCustomResource = new PythonFunction(this, 'HostedZoneDKIMAndVerificationRecordsCustomResource', {
-      entry: path.join(__dirname, 'functions', 'hosted_zone_dkim_verification_records_cr'),
-      handler: 'handler',
-      runtime: lambda.Runtime.PYTHON_3_10,
-      timeout: Duration.seconds(200),
-      environment: {},
-      bundling: {
-        assetExcludes: [
-          '__pycache__',
-          '.pytest_cache',
-          'venv',
-        ],
-      },
-    });
+    // TODO remove
+    // const hostedZoneDKIMAndVerificationRecordsCustomResource = ;
 
-    hostedZoneDKIMAndVerificationRecordsCustomResource.addToRolePolicy(new iam.PolicyStatement({
-      actions: [
-        'ses:VerifyDomainDkim',
-        'ses:VerifyDomainIdentity',
-      ],
-      effect: iam.Effect.ALLOW,
-      resources: ['*'],
-    }));
+    // hostedZoneDKIMAndVerificationRecordsCustomResource.addToRolePolicy(new iam.PolicyStatement({
+    //   actions: [
+    //     'ses:VerifyDomainDkim',
+    //     'ses:VerifyDomainIdentity',
+    //   ],
+    //   effect: iam.Effect.ALLOW,
+    //   resources: ['*'],
+    // }));
 
     this.provider = new cr.Provider(this, 'ses-receipt-ruleset-activation-provider', {
-      onEventHandler: hostedZoneDKIMAndVerificationRecordsCustomResource,
+      onEventHandler: new PythonFunction(this, 'HostedZoneDKIMAndVerificationRecordsCustomResource', {
+        entry: path.join(__dirname, 'functions', 'hosted_zone_dkim_verification_records_cr'),
+        handler: 'handler',
+        runtime: lambda.Runtime.PYTHON_3_10,
+        timeout: Duration.seconds(200),
+        environment: {},
+        initialPolicy: [
+          new iam.PolicyStatement({
+            actions: [
+              'ses:VerifyDomainDkim',
+              'ses:VerifyDomainIdentity',
+            ],
+            effect: iam.Effect.ALLOW,
+            resources: ['*'],
+          }),
+        ],
+        bundling: {
+          assetExcludes: [
+            '__pycache__',
+            '.pytest_cache',
+            'venv',
+          ],
+        },
+      }),
     });
   };
 }
