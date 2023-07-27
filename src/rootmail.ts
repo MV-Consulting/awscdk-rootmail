@@ -60,6 +60,9 @@ export class Rootmail extends Construct {
     //   },
     // });
 
+    /**
+     * EMAIL Bucket
+     */
     const emailBucket = new s3.Bucket(this, 'EmailBucket', {
       // due to: Cannot use resource 'testStack/testRootmail/EmailBucket' in a cross-environment fashion,
       // the resource's physical name must be explicit set or use `PhysicalName.GENERATE_IF_NEEDED`
@@ -95,6 +98,9 @@ export class Rootmail extends Construct {
 
     emailBucket.addToResourcePolicy(emailBucketPolicyStatement);
 
+    /**
+     * HOSTED ZONE
+     */
     const hostedZone = new r53.HostedZone(this, 'HostedZone', {
       zoneName: `${subdomain}.${domain}`,
     });
@@ -109,8 +115,6 @@ export class Rootmail extends Construct {
     });
 
     const hostedZoneDKIMTokens = hostedZoneDKIMAndVerificationRecords.dkimTokens;
-
-    Fn.select(0, hostedZoneDKIMTokens);
 
     new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord0', {
       deleteExisting: false,
@@ -159,11 +163,15 @@ export class Rootmail extends Construct {
       ttl: Duration.seconds(60),
     });
 
+    /**
+     * CR: wait until R53 records are set and the rootmail is ready
+     */
     const rootMailReady = new PythonFunction(this, 'RootMailReady', {
       entry: path.join(__dirname, 'functions', 'root_mail_ready'),
       handler: 'handler',
       runtime: lambda.Runtime.PYTHON_3_10,
       // # the timeout effectivly limits retries to 2^(n+1) - 1 = 9 attempts with backup
+      //  as the function is called every 5 minutes from the event rule
       timeout: Duration.seconds(260),
       environment: {
         DOMAIN: domain,
@@ -196,8 +204,7 @@ export class Rootmail extends Construct {
     rootMailReadyEventRule.addTarget(new LambdaFunction(rootMailReady));
 
     // TODO check and see https://bobbyhadz.com/blog/cloudwatch-alarm-aws-cdk
-    // const rootMailReadyAlertMetric =
-    new cw.Metric({
+    const rootMailReadyAlertMetric = new cw.Metric({
       namespace: 'AWS/Lambda',
       metricName: 'Errors',
       period: Duration.seconds(180),
@@ -210,7 +217,7 @@ export class Rootmail extends Construct {
     const rootMailReadyAlert = new cw.Alarm(this, 'Errors', {
       alarmName: 'superwerker-RootMailReady',
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
-      metric: rootMailReady.metricErrors(), // TODO check
+      metric: rootMailReadyAlertMetric, //rootMailReady.metricErrors({}), // TODO check
       // dimensions √
       evaluationPeriods: 1,
       // metricName √
@@ -223,13 +230,12 @@ export class Rootmail extends Construct {
     const rootMailReadyHandle = new CfnWaitConditionHandle(this, 'RootMailReadyHandle');
 
     // const rootMailReadyHandleWaitCondition =
-    new CfnWaitCondition(this, 'RootMailReadyHandleWaitCondition', /* all optional props */ {
+    new CfnWaitCondition(this, 'RootMailReadyHandleWaitCondition', {
       handle: rootMailReadyHandle.ref,
       // # 8 hours time to wire DNS
       timeout: Duration.hours(8).toSeconds().toString(),
     });
 
-    // TODO CloudWatchEvent
     const rootMailReadyTrigger = new PythonFunction(this, 'RootMailReadyTrigger', {
       entry: path.join(__dirname, 'functions', 'root_mail_ready_trigger'),
       handler: 'handler',
@@ -247,6 +253,8 @@ export class Rootmail extends Construct {
       },
     });
 
+    // when the RootMailReady CR / lamdbda passes successfully the RootMailReadyTrigger function is called
+    // by the alarm state change event. It signals the RootMailReadyHandle to continue the stack creation
     const rootMailReadyTriggerEventPattern = new events.Rule(this, 'RootMailReadyTriggerEventPattern', {
       eventPattern: {
         detailType: ['CloudWatch Alarm State Change'],
