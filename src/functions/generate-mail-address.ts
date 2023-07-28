@@ -1,7 +1,6 @@
 import { randomUUID } from 'crypto';
 // eslint-disable-next-line import/no-unresolved
 import * as AWSCDKAsyncCustomResource from 'aws-cdk-lib/custom-resources/lib/provider-framework/types';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as AWS from 'aws-sdk';
 export const PROP_DOMAIN = 'Domain';
 export const PROP_NAME = 'Name';
