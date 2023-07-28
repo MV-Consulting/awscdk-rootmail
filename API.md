@@ -271,6 +271,7 @@ new SESReceiveStack(scope: Construct, id: string, props: SESReceiveStackProps)
 | <code><a href="#awscdk-rootmail.SESReceiveStack.resolve">resolve</a></code> | Resolve a tokenized value in the context of the current stack. |
 | <code><a href="#awscdk-rootmail.SESReceiveStack.splitArn">splitArn</a></code> | Splits the provided ARN into its components. |
 | <code><a href="#awscdk-rootmail.SESReceiveStack.toJsonString">toJsonString</a></code> | Convert an object, potentially containing tokens, to a JSON string. |
+| <code><a href="#awscdk-rootmail.SESReceiveStack.toYamlString">toYamlString</a></code> | Convert an object, potentially containing tokens, to a YAML string. |
 
 ---
 
@@ -434,11 +435,11 @@ Instead, the process takes two deployments:
 ### Deployment 1: break the relationship
 
 - Make sure `consumerStack` no longer references `bucket.bucketName` (maybe the consumer
-   stack now uses its own bucket, or it writes to an AWS DynamoDB table, or maybe you just
-   remove the Lambda Function altogether).
+  stack now uses its own bucket, or it writes to an AWS DynamoDB table, or maybe you just
+  remove the Lambda Function altogether).
 - In the `ProducerStack` class, call `this.exportValue(this.bucket.bucketName)`. This
-   will make sure the CloudFormation Export continues to exist while the relationship
-   between the two stacks is being broken.
+  will make sure the CloudFormation Export continues to exist while the relationship
+  between the two stacks is being broken.
 - Deploy (this will effectively only change the `consumerStack`, but it's safe to deploy both).
 
 ### Deployment 2: remove the bucket resource
@@ -475,7 +476,7 @@ into the generated ARN at the location that component corresponds to.
 
 The ARN will be formatted as follows:
 
-   arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
+  arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
 
 The required ARN pieces that are omitted will be taken from the stack that
 the 'scope' is attached to. If all ARN pieces are supplied, the supplied scope
@@ -652,6 +653,20 @@ Convert an object, potentially containing tokens, to a JSON string.
 
 ---
 
+##### `toYamlString` <a name="toYamlString" id="awscdk-rootmail.SESReceiveStack.toYamlString"></a>
+
+```typescript
+public toYamlString(obj: any): string
+```
+
+Convert an object, potentially containing tokens, to a YAML string.
+
+###### `obj`<sup>Required</sup> <a name="obj" id="awscdk-rootmail.SESReceiveStack.toYamlString.parameter.obj"></a>
+
+- *Type:* any
+
+---
+
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
 | **Name** | **Description** |
@@ -771,10 +786,10 @@ The AWS account into which this stack will be deployed.
 This value is resolved according to the following rules:
 
 1. The value provided to `env.account` when the stack is defined. This can
-    either be a concrete account (e.g. `585695031111`) or the
-    `Aws.ACCOUNT_ID` token.
+   either be a concrete account (e.g. `585695031111`) or the
+   `Aws.ACCOUNT_ID` token.
 3. `Aws.ACCOUNT_ID`, which represents the CloudFormation intrinsic reference
-    `{ "Ref": "AWS::AccountId" }` encoded as a string token.
+   `{ "Ref": "AWS::AccountId" }` encoded as a string token.
 
 Preferably, you should use the return value as an opaque string and not
 attempt to parse it to implement your logic. If you do, you must first
@@ -919,10 +934,10 @@ The AWS region into which this stack will be deployed (e.g. `us-west-2`).
 This value is resolved according to the following rules:
 
 1. The value provided to `env.region` when the stack is defined. This can
-    either be a concrete region (e.g. `us-west-2`) or the `Aws.REGION`
-    token.
+   either be a concrete region (e.g. `us-west-2`) or the `Aws.REGION`
+   token.
 3. `Aws.REGION`, which is represents the CloudFormation intrinsic reference
-    `{ "Ref": "AWS::Region" }` encoded as a string token.
+   `{ "Ref": "AWS::Region" }` encoded as a string token.
 
 Preferably, you should use the return value as an opaque string and not
 attempt to parse it to implement your logic. If you do, you must first
@@ -1190,6 +1205,7 @@ const sESReceiveStackProps: SESReceiveStackProps = { ... }
 | <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.env">env</a></code> | <code>aws-cdk-lib.Environment</code> | The AWS environment (account/region) where this stack will be deployed. |
 | <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.permissionsBoundary">permissionsBoundary</a></code> | <code>aws-cdk-lib.PermissionsBoundary</code> | Options for applying a permissions boundary to all IAM Roles and Users created within this Stage. |
 | <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.stackName">stackName</a></code> | <code>string</code> | Name to deploy the stack with. |
+| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.suppressTemplateIndentation">suppressTemplateIndentation</a></code> | <code>boolean</code> | Enable this flag to suppress indentation in generated CloudFormation templates. |
 | <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.synthesizer">synthesizer</a></code> | <code>aws-cdk-lib.IStackSynthesizer</code> | Synthesis method to use while deploying this stack. |
 | <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.tags">tags</a></code> | <code>{[ key: string ]: string}</code> | Stack tags that will be applied to all the taggable resources and the stack itself. |
 | <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.terminationProtection">terminationProtection</a></code> | <code>boolean</code> | Whether to enable termination protection for this stack. |
@@ -1340,6 +1356,23 @@ public readonly stackName: string;
 - *Default:* Derived from construct path.
 
 Name to deploy the stack with.
+
+---
+
+##### `suppressTemplateIndentation`<sup>Optional</sup> <a name="suppressTemplateIndentation" id="awscdk-rootmail.SESReceiveStackProps.property.suppressTemplateIndentation"></a>
+
+```typescript
+public readonly suppressTemplateIndentation: boolean;
+```
+
+- *Type:* boolean
+- *Default:* the value of `@aws-cdk/core:suppressTemplateIndentation`, or `false` if that is not set.
+
+Enable this flag to suppress indentation in generated CloudFormation templates.
+
+If not specified, the value of the `@aws-cdk/core:suppressTemplateIndentation`
+context key will be used. If that is not specified, then the
+default value `false` will be used.
 
 ---
 
