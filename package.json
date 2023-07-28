@@ -28,7 +28,6 @@
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
     "projen": "npx projen",
-    "prepare": "husky install",
     "pretest": "make test"
   },
   "author": {
