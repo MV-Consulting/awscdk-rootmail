@@ -27,7 +27,7 @@ import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 //   Capability,
 // } from 'cdk-stacksets';
 import { Construct } from 'constructs';
-import { HostedZoneDKIMAndVerificationRecords } from './hosted-zone.dkim-verification-records';
+import { HostedZoneDKIMAndVerificationRecords } from './hosted-zone-dkim-verification-records';
 import { SESReceiveStack } from './sesReceiveStack';
 
 export interface RootmailProps {

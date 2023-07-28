@@ -10,29 +10,82 @@ exports[`rootmail create 1`] = `
     },
   },
   "Resources": {
-    "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResource92FBDCD5": {
+    "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEvent0173C90D": {
       "DependsOn": [
-        "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRoleDefaultPolicyF70F343D",
-        "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRole8591CE3F",
+        "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleDefaultPolicy4EBCA739",
+        "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleFE1295B9",
       ],
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "cd81f2d50f1da4b9d63b25818713b52d5e5dbd02fed58530c8f9cc5f0fe4e782.zip",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
         },
-        "Handler": "index.handler",
+        "Description": "AWS CDK resource provider framework - onEvent (testStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsonevent5D8C939A",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
         "Role": {
           "Fn::GetAtt": [
-            "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRole8591CE3F",
+            "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleFE1295B9",
             "Arn",
           ],
         },
-        "Runtime": "python3.9",
-        "Timeout": 200,
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
     },
-    "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRole8591CE3F": {
+    "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleDefaultPolicy4EBCA739": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsonevent5D8C939A",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsonevent5D8C939A",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleDefaultPolicy4EBCA739",
+        "Roles": [
+          {
+            "Ref": "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleFE1295B9",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleFE1295B9": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -63,7 +116,34 @@ exports[`rootmail create 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRoleDefaultPolicyF70F343D": {
+    "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsonevent5D8C939A": {
+      "DependsOn": [
+        "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleDefaultPolicyA2E96F86",
+        "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleE9B9349F",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "e8436f52df70c502857b6ab342eedcede241b255a290064de01c70dd49c663af.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleE9B9349F",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 200,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleDefaultPolicyA2E96F86": {
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -78,49 +158,16 @@ exports[`rootmail create 1`] = `
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRoleDefaultPolicyF70F343D",
+        "PolicyName": "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleDefaultPolicyA2E96F86",
         "Roles": [
           {
-            "Ref": "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResourceServiceRole8591CE3F",
+            "Ref": "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleE9B9349F",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528": {
-      "DependsOn": [
-        "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF",
-        "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
-      ],
-      "Properties": {
-        "Code": {
-          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
-        },
-        "Description": "AWS CDK resource provider framework - onEvent (testStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
-        "Environment": {
-          "Variables": {
-            "USER_ON_EVENT_FUNCTION_ARN": {
-              "Fn::GetAtt": [
-                "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResource92FBDCD5",
-                "Arn",
-              ],
-            },
-          },
-        },
-        "Handler": "framework.onEvent",
-        "Role": {
-          "Fn::GetAtt": [
-            "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs18.x",
-        "Timeout": 900,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79": {
+    "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleE9B9349F": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -150,48 +197,6 @@ exports[`rootmail create 1`] = `
         ],
       },
       "Type": "AWS::IAM::Role",
-    },
-    "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "lambda:InvokeFunction",
-              "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
-                    "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResource92FBDCD5",
-                    "Arn",
-                  ],
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      {
-                        "Fn::GetAtt": [
-                          "superwerkersesreceiptrulesetactivationproviderHostedZoneDKIMAndVerificationRecordsCustomResource92FBDCD5",
-                          "Arn",
-                        ],
-                      },
-                      ":*",
-                    ],
-                  ],
-                },
-              ],
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF",
-        "Roles": [
-          {
-            "Ref": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
     },
     "testRootmailEmailBucket2A470446": {
       "DeletionPolicy": "Retain",
@@ -282,7 +287,7 @@ exports[`rootmail create 1`] = `
         "Domain": "example.com",
         "ServiceToken": {
           "Fn::GetAtt": [
-            "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528",
+            "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEvent0173C90D",
             "Arn",
           ],
         },

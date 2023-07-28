@@ -1,18 +1,14 @@
 import * as path from 'path';
-import { PythonFunction } from '@aws-cdk/aws-lambda-python-alpha';
 import {
   CustomResource,
   Duration,
   Stack,
-  aws_lambda as lambda,
   aws_iam as iam,
 } from 'aws-cdk-lib';
+import * as lambda from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct, Node } from 'constructs';
-// NOTE: keep in sync with src/functions/hosted_zone_dkim_verification_records_cr.py
-export const PROP_DOMAIN = 'Domain';
-export const ATTR_VERIFICATION_TOKEN = 'VerificationToken';
-export const ATTR_DKIM_TOKENS = 'DkimTokens';
+import { ATTR_VERIFICATION_TOKEN, ATTR_DKIM_TOKENS, PROP_DOMAIN } from './functions/hosted-zone-dkim-verification-records';
 
 export interface HostedZoneDKIMAndVerificationRecordsProps {
   readonly domain: string;
@@ -45,7 +41,7 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
    */
   public static getOrCreate(scope: Construct) {
     const stack = Stack.of(scope);
-    const id = 'superwerker.ses-receipt-ruleset-activation-provider';
+    const id = 'superwerker.hosted-zone-dkim-verification-records-provider';
     const x = Node.of(stack).tryFindChild(id) as HostedZoneDKIMAndVerificationRecordsProvider
       || new HostedZoneDKIMAndVerificationRecordsProvider(stack, id);
     return x.provider.serviceToken;
@@ -56,42 +52,19 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    // TODO remove
-    // const hostedZoneDKIMAndVerificationRecordsCustomResource = ;
-
-    // hostedZoneDKIMAndVerificationRecordsCustomResource.addToRolePolicy(new iam.PolicyStatement({
-    //   actions: [
-    //     'ses:VerifyDomainDkim',
-    //     'ses:VerifyDomainIdentity',
-    //   ],
-    //   effect: iam.Effect.ALLOW,
-    //   resources: ['*'],
-    // }));
-
-    this.provider = new cr.Provider(this, 'ses-receipt-ruleset-activation-provider', {
-      onEventHandler: new PythonFunction(this, 'HostedZoneDKIMAndVerificationRecordsCustomResource', {
-        entry: path.join(__dirname, 'functions', 'hosted_zone_dkim_verification_records_cr'),
-        handler: 'handler',
-        runtime: lambda.Runtime.PYTHON_3_9,
+    this.provider = new cr.Provider(this, 'hosted-zone-dkim-verification-records-provider', {
+      onEventHandler: new lambda.NodejsFunction(this, 'hosted-zone-dkim-verification-records-on-event', {
+        entry: path.join(__dirname, 'functions', 'hosted-zone-dkim-verification-records.ts'),
         timeout: Duration.seconds(200),
-        environment: {},
         initialPolicy: [
           new iam.PolicyStatement({
+            resources: ['*'],
             actions: [
               'ses:VerifyDomainDkim',
               'ses:VerifyDomainIdentity',
             ],
-            effect: iam.Effect.ALLOW,
-            resources: ['*'],
           }),
         ],
-        bundling: {
-          assetExcludes: [
-            '__pycache__',
-            '.pytest_cache',
-            'venv',
-          ],
-        },
       }),
     });
   };
