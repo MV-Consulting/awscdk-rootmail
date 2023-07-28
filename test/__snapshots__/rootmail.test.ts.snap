@@ -264,7 +264,7 @@ exports[`rootmail create 1`] = `
         "EvaluationPeriods": 1,
         "MetricName": "Errors",
         "Namespace": "AWS/Lambda",
-        "Period": 300,
+        "Period": 180,
         "Statistic": "Sum",
         "Threshold": 1,
       },

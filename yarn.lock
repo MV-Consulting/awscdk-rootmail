@@ -1549,7 +1549,7 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz#92f95616501069d07d10edb2fc37d3e1c65123b7"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-aws-cdk-lib@^2.88.0:
+aws-cdk-lib@2.88.0:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.88.0.tgz#72d165cb7dc168c5fa3b22caaacd8d33364866fc"
   integrity sha512-bmhokh30HVeqlotWaoEmK7mKB9SJbJwpbsiVgmYe3JcMu8DposHQqaIPI7LnC+dg015tZaxUsExxOYBEw+vntQ==
@@ -1568,10 +1568,10 @@ aws-cdk-lib@^2.88.0:
     table "^6.8.1"
     yaml "1.10.2"
 
-aws-sdk@^2.1423.0:
-  version "2.1423.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1423.0.tgz#e6491f7dbb7dcb5c1ec92a4c536165b136c432cd"
-  integrity sha512-6Z6CMME7nVwHNxchxGpP3ZiUkuxU5hkqEQplV2sgfgOk6XKazu7zqKQ4Iy6+OaXPNWHZnIsvfxFvBNOWTy/cPA==
+aws-sdk@^2.1424.0:
+  version "2.1424.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1424.0.tgz#74dd3e865b30cc478df188a6520490171ae8bc56"
+  integrity sha512-F6+wIp/K4UCg4sWQmQuuFReRNA0eYaPTHjt2is5uHE+2Vk2ojBbwatahbUnEB335tRZhndKf4UwyoyuuAdakMw==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -1836,11 +1836,6 @@ case@1.6.3, case@^1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
-
-cdk-stacksets@^0.0.148:
-  version "0.0.148"
-  resolved "https://registry.yarnpkg.com/cdk-stacksets/-/cdk-stacksets-0.0.148.tgz#6c48ff0600da4854bf0425de3f8bdb0088820a9f"
-  integrity sha512-vYy5V2Z5GMyDlPKlv+FnKIqDaxzrw2zSqGlDYu4rree7FBixSoBmDaIQsnwrl+A3ifdTts4mUXlCKhE4u+vEqQ==
 
 chalk@^2.0.0, chalk@^2.4.2:
   version "2.4.2"

@@ -1,17 +1,10 @@
 import { awscdk } from 'projen';
 import { NpmAccess } from 'projen/lib/javascript';
 
-const dependencies = [
-  '@aws-cdk/aws-lambda-python-alpha@2.66.1-alpha.0',
-  '@types/aws-lambda',
-  'aws-sdk',
-  'cdk-stacksets',
-];
-
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Manuel Vogel',
   authorAddress: 'mavogel@posteo.de',
-  cdkVersion: '2.1.0',
+  cdkVersion: '2.88.0',
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.0.0',
   name: 'awscdk-rootmail',
@@ -24,10 +17,15 @@ const project = new awscdk.AwsCdkConstructLibrary({
     },
   },
 
-  bundledDeps: dependencies,
-  deps: dependencies.concat('aws-cdk-lib'),
+  bundledDeps: [
+    '@aws-cdk/aws-lambda-python-alpha@2.66.1-alpha.0',
+    'aws-sdk',
+  ],
+  deps: [
+  ],
   description: 'An opinionated way to secure root email addresses for AWS accounts.',
   devDeps: [
+    '@types/aws-lambda',
     '@commitlint/cli',
     '@commitlint/config-conventional',
     'husky',
