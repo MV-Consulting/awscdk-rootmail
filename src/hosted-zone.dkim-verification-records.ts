@@ -72,7 +72,7 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
       onEventHandler: new PythonFunction(this, 'HostedZoneDKIMAndVerificationRecordsCustomResource', {
         entry: path.join(__dirname, 'functions', 'hosted_zone_dkim_verification_records_cr'),
         handler: 'handler',
-        runtime: lambda.Runtime.PYTHON_3_10,
+        runtime: lambda.Runtime.PYTHON_3_9,
         timeout: Duration.seconds(200),
         environment: {},
         initialPolicy: [

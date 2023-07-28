@@ -71,7 +71,7 @@ class SESReceiptRuleSetActivationProvider extends Construct {
         handler: 'handler',
         // TODO maybe use 'addToRolePolicy' as well?
         role: props.sesReceiptRuleSetActivationCustomResourceRole,
-        runtime: lambda.Runtime.PYTHON_3_10,
+        runtime: lambda.Runtime.PYTHON_3_9,
         timeout: Duration.seconds(10),
         //  Note: we use the resource properties from above as it is a CustomResource
         environment: {},

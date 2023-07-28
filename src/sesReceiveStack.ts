@@ -114,7 +114,7 @@ export class SESReceiveStack extends Stack {
       entry: path.join(__dirname, 'functions', 'ops_santa_function'),
       handler: 'handler',
       role: opsSantaFunctionRole,
-      runtime: lambda.Runtime.PYTHON_3_10,
+      runtime: lambda.Runtime.PYTHON_3_9,
       timeout: Duration.seconds(60),
       environment: {
       },

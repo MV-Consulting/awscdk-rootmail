@@ -4,7 +4,7 @@ import { NpmAccess } from 'projen/lib/javascript';
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Manuel Vogel',
   authorAddress: 'mavogel@posteo.de',
-  cdkVersion: '2.88.0',
+  cdkVersion: '2.66.1', // due to aws-lambda-python-alpha
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.0.0',
   name: 'awscdk-rootmail',

@@ -169,7 +169,7 @@ export class Rootmail extends Construct {
     const rootMailReady = new PythonFunction(this, 'RootMailReady', {
       entry: path.join(__dirname, 'functions', 'root_mail_ready'),
       handler: 'handler',
-      runtime: lambda.Runtime.PYTHON_3_10,
+      runtime: lambda.Runtime.PYTHON_3_9,
       // # the timeout effectivly limits retries to 2^(n+1) - 1 = 9 attempts with backup
       //  as the function is called every 5 minutes from the event rule
       timeout: Duration.seconds(260),
@@ -239,7 +239,7 @@ export class Rootmail extends Construct {
     const rootMailReadyTrigger = new PythonFunction(this, 'RootMailReadyTrigger', {
       entry: path.join(__dirname, 'functions', 'root_mail_ready_trigger'),
       handler: 'handler',
-      runtime: lambda.Runtime.PYTHON_3_10,
+      runtime: lambda.Runtime.PYTHON_3_9,
       timeout: Duration.seconds(10),
       environment: {
         SIGNAL_URL: rootMailReadyHandle.ref,

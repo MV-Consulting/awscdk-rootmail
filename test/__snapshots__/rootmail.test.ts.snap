@@ -18,7 +18,7 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "8a9615770412818263c93023c41b0e802fc0ef7aa065f840f201007a0eef0347.zip",
+          "S3Key": "09d8437b6dbab4d40dcb1ceb593754aa90bb339bcce52eec56b207af0ca4766b.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -27,7 +27,7 @@ exports[`rootmail create 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "python3.10",
+        "Runtime": "python3.9",
         "Timeout": 200,
       },
       "Type": "AWS::Lambda::Function",
@@ -95,7 +95,7 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "53c95d71cfd280747d971a38505aea07f812fdba75874a090358a2fc4f58f79b.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (testStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
         "Environment": {
@@ -115,7 +115,7 @@ exports[`rootmail create 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs14.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -499,7 +499,7 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "049f286b03681752026a8fbf118f26e2e6f320238c8b22a90ea674f494cb2338.zip",
+          "S3Key": "ff5f7285388560a0853da50bd6d429d81a0786a11f1e1106ad1965c6775549b9.zip",
         },
         "Environment": {
           "Variables": {
@@ -514,7 +514,7 @@ exports[`rootmail create 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "python3.10",
+        "Runtime": "python3.9",
         "Timeout": 260,
       },
       "Type": "AWS::Lambda::Function",
@@ -632,7 +632,7 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "d45f7b0ff5f27b1ea54d6128280750c09f18a3cba213ad52e4ccb85d66dc998a.zip",
+          "S3Key": "486e87ac7fc517d4c40721f952dcf5779a364bca9f8a94483a7b3d3a95abbd77.zip",
         },
         "Environment": {
           "Variables": {
@@ -648,7 +648,7 @@ exports[`rootmail create 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "python3.10",
+        "Runtime": "python3.9",
         "Timeout": 10,
       },
       "Type": "AWS::Lambda::Function",
