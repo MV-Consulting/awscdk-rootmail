@@ -18,7 +18,7 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "09d8437b6dbab4d40dcb1ceb593754aa90bb339bcce52eec56b207af0ca4766b.zip",
+          "S3Key": "cd81f2d50f1da4b9d63b25818713b52d5e5dbd02fed58530c8f9cc5f0fe4e782.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -95,7 +95,7 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "53c95d71cfd280747d971a38505aea07f812fdba75874a090358a2fc4f58f79b.zip",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (testStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
         "Environment": {
@@ -115,7 +115,7 @@ exports[`rootmail create 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -499,7 +499,7 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "ff5f7285388560a0853da50bd6d429d81a0786a11f1e1106ad1965c6775549b9.zip",
+          "S3Key": "1e0595a2505f679e82e0e64868db3f4d6f83f1cbc38d3ef0e372560b88fa7489.zip",
         },
         "Environment": {
           "Variables": {
@@ -632,7 +632,7 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "486e87ac7fc517d4c40721f952dcf5779a364bca9f8a94483a7b3d3a95abbd77.zip",
+          "S3Key": "3d21154d1ea7016302d23f7fac3b4baf934e92a8ca73c70bb807a280b17e3ff4.zip",
         },
         "Environment": {
           "Variables": {

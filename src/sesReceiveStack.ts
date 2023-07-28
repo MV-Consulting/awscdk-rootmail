@@ -1,4 +1,5 @@
 import * as path from 'path';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { PythonFunction } from '@aws-cdk/aws-lambda-python-alpha';
 import {
   Arn,
