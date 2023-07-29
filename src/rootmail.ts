@@ -18,6 +18,7 @@ import {
   PhysicalName,
 } from 'aws-cdk-lib';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 // import {
 //   DeploymentType,
 //   StackSet,
@@ -166,23 +167,15 @@ export class Rootmail extends Construct {
     /**
      * CR: wait until R53 records are set and the rootmail is ready
      */
-    const rootMailReady = new PythonFunction(this, 'RootMailReady', {
-      entry: path.join(__dirname, 'functions', 'root_mail_ready'),
-      handler: 'handler',
-      runtime: lambda.Runtime.PYTHON_3_9,
+    const rootMailReady = new NodejsFunction(this, 'RootMailReady', {
+      entry: path.join(__dirname, 'functions', 'root-mail-ready.ts'),
+      runtime: lambda.Runtime.NODEJS_16_X,
       // # the timeout effectivly limits retries to 2^(n+1) - 1 = 9 attempts with backup
       //  as the function is called every 5 minutes from the event rule
       timeout: Duration.seconds(260),
       environment: {
         DOMAIN: domain,
         SUB_DOMAIN: subdomain,
-      },
-      bundling: {
-        assetExcludes: [
-          '__pycache__',
-          '.pytest_cache',
-          'venv',
-        ],
       },
     });
 
