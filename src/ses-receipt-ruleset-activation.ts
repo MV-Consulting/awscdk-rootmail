@@ -1,12 +1,11 @@
 import * as path from 'path';
-import { PythonFunction } from '@aws-cdk/aws-lambda-python-alpha';
 import {
   CustomResource,
   Duration,
   Stack,
-  aws_lambda as lambda,
   aws_iam as iam,
 } from 'aws-cdk-lib';
+import * as lambda from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct, Node } from 'constructs';
 // NOTE: keep in sync with src/functions/ses_receipt_rule_set_activation_cr.py
@@ -66,22 +65,14 @@ class SESReceiptRuleSetActivationProvider extends Construct {
     super(scope, id);
 
     this.provider = new cr.Provider(this, 'ses-receipt-ruleset-activation-provider', {
-      onEventHandler: new PythonFunction(this, 'SESReceiptRulesetActivationOnEvent', {
+      onEventHandler: new lambda.NodejsFunction(this, 'SESReceiptRulesetActivationOnEvent', {
         entry: path.join(__dirname, 'functions', 'ses_receipt_rule_set_activation_cr'),
         handler: 'handler',
         // TODO maybe use 'addToRolePolicy' as well?
         role: props.sesReceiptRuleSetActivationCustomResourceRole,
-        runtime: lambda.Runtime.PYTHON_3_9,
         timeout: Duration.seconds(10),
         //  Note: we use the resource properties from above as it is a CustomResource
         environment: {},
-        bundling: {
-          assetExcludes: [
-            '__pycache__',
-            '.pytest_cache',
-            'venv',
-          ],
-        },
       }),
     });
   }
