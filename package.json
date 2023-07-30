@@ -38,8 +38,10 @@
     "@commitlint/cli": "^17.6.7",
     "@commitlint/config-conventional": "^17.6.7",
     "@types/aws-lambda": "^8.10.119",
+    "@types/axios": "^0.14.0",
     "@types/jest": "^29.5.3",
     "@types/node": "^16",
+    "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
     "aws-cdk-lib": "2.88.0",
@@ -69,11 +71,15 @@
   },
   "dependencies": {
     "@aws-cdk/aws-lambda-python-alpha": "2.88.0-alpha.0",
-    "aws-sdk": "^2.1424.0"
+    "aws-sdk": "^2.1424.0",
+    "axios": "^1.4.0",
+    "uuid": "^9.0.0"
   },
   "bundledDependencies": [
     "@aws-cdk/aws-lambda-python-alpha",
-    "aws-sdk"
+    "aws-sdk",
+    "axios",
+    "uuid"
   ],
   "keywords": [
     "cdk"

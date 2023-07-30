@@ -1,5 +1,4 @@
 import * as path from 'path';
-import { PythonFunction } from '@aws-cdk/aws-lambda-python-alpha';
 import {
   Arn,
   ArnFormat,
@@ -229,20 +228,13 @@ export class Rootmail extends Construct {
       timeout: Duration.hours(8).toSeconds().toString(),
     });
 
-    const rootMailReadyTrigger = new PythonFunction(this, 'RootMailReadyTrigger', {
+    const rootMailReadyTrigger = new NodejsFunction(this, 'RootMailReadyTrigger', {
       entry: path.join(__dirname, 'functions', 'root_mail_ready_trigger'),
       handler: 'handler',
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.NODEJS_16_X,
       timeout: Duration.seconds(10),
       environment: {
         SIGNAL_URL: rootMailReadyHandle.ref,
-      },
-      bundling: {
-        assetExcludes: [
-          '__pycache__',
-          '.pytest_cache',
-          'venv',
-        ],
       },
     });
 

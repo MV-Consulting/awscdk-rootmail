@@ -13,12 +13,20 @@
       "type": "build"
     },
     {
+      "name": "@types/axios",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
       "type": "build"
     },
     {
       "name": "@types/node",
       "version": "^16",
+      "type": "build"
+    },
+    {
+      "name": "@types/uuid",
       "type": "build"
     },
     {
@@ -126,6 +134,14 @@
     },
     {
       "name": "aws-sdk",
+      "type": "bundled"
+    },
+    {
+      "name": "axios",
+      "type": "bundled"
+    },
+    {
+      "name": "uuid",
       "type": "bundled"
     },
     {

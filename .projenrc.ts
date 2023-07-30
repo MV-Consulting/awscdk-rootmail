@@ -20,10 +20,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
   bundledDeps: [
     '@aws-cdk/aws-lambda-python-alpha@2.88.0-alpha.0',
     'aws-sdk',
+    'axios',
+    'uuid',
   ],
   description: 'An opinionated way to secure root email addresses for AWS accounts.',
   devDeps: [
     '@types/aws-lambda',
+    '@types/axios',
+    '@types/uuid',
     '@commitlint/cli',
     '@commitlint/config-conventional',
     'husky',

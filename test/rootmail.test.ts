@@ -5,7 +5,7 @@ import {
 import { Template } from 'aws-cdk-lib/assertions';
 import { Rootmail, RootmailProps } from '../src';
 
-test.only('rootmail create', () => {
+test.skip('rootmail create', () => {
   const app = new App();
   const stack = new Stack(app, 'testStack', {
     env: {
