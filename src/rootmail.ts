@@ -18,14 +18,6 @@ import {
 } from 'aws-cdk-lib';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-// import {
-//   DeploymentType,
-//   StackSet,
-//   StackSetStack,
-//   StackSetTarget,
-//   StackSetTemplate,
-//   Capability,
-// } from 'cdk-stacksets';
 import { Construct } from 'constructs';
 import { HostedZoneDKIMAndVerificationRecords } from './hosted-zone-dkim-verification-records';
 import { SESReceiveStack } from './ses-receive-stack';
@@ -50,15 +42,6 @@ export class Rootmail extends Construct {
 
     const domain = props.domain;
     const subdomain = props.subdomain || 'aws';
-
-    // TODO remove then and add test like in sw
-    // new CfnInclude(this, 'RootmailTemplate', {
-    //   templateFile: path.join(__dirname, 'templates', 'rootmail.yaml'),
-    //   parameters: {
-    //     Domain: domain,
-    //     Subdomain: subdomain,
-    //   },
-    // });
 
     /**
      * EMAIL Bucket
@@ -255,73 +238,15 @@ export class Rootmail extends Construct {
 
     rootMailReadyTriggerEventPattern.addTarget(new LambdaFunction(rootMailReadyTrigger));
 
-    // const stackSetExecutionRole = new iam.Role(this, 'StackSetExecutionRole', {
-    //   assumedBy: new iam.AccountPrincipal(Stack.of(this).account),
-    //   managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess')],
-    // });
-
-    // const stackSetAdministrationRole = new iam.Role(this, 'StackSetAdministrationRole', {
-    //   assumedBy: new iam.ServicePrincipal('cloudformation.amazonaws.com'),
-    //   path: '/',
-    //   inlinePolicies: {
-    //     'AssumeRole-AWSCloudFormationStackSetExecutionRole': new iam.PolicyDocument({
-    //       statements: [
-    //         new iam.PolicyStatement({
-    //           actions: [
-    //             'sts:AssumeRole',
-    //           ],
-    //           resources: [
-    //             stackSetExecutionRole.roleArn,
-    //           ],
-    //         }),
-
-    //       ],
-    //     }),
-    //   },
-    // });
-
-    // TODO SESReceiveStack: why a stackset? -> Because we need to deploy it in eu-west-1
-    // const sesReceiveStack = new CfnStackSet(this, 'SESReceiveStack', {
-    //   administrationRoleArn: stackSetAdministrationRole.roleArn,
-    //   executionRoleName: stackSetExecutionRole.roleArn,
-    //   permissionModel: 'SELF_MANAGED',
-    //   stackSetName: 'stackSetName',
-    //   capabilities: ['CAPABILITY_IAM'],
-
-    //   stackInstancesGroup: [{
-    //     deploymentTargets: {
-    //       accounts: [Stack.of(this).account],
-    //     },
-    //     regions: ['eu-west-1'], // this is fixed to eu-west-1 until SES supports receive more globally (see #23)
-    //   }],
-    //   templateBody: 'templateBody-TBD',
-    // });
-
-    // v2 https://github.com/cdklabs/cdk-stacksets/
-    // const sesReceiveStack =
+    // as cdk is multi account and region unlike cloudformation we can deploy the stack directly
     new SESReceiveStack(this, 'SESReceiveStack', {
       domain: domain,
       subdomain: subdomain,
       emailbucket: emailBucket,
-      // TODO set env
+      // this is fixed to eu-west-1 until SES supports receive more globally (see #23)
       env: {
         region: 'eu-west-1',
       },
     });
-
-    // new StackSet(this, 'SESReceiveStackSet', {
-    //   deploymentType: DeploymentType.selfManaged({
-    //     adminRole: stackSetAdministrationRole,
-    //     executionRoleName: stackSetExecutionRole.roleName,
-    //   }),
-    //   capabilities: [Capability.IAM],
-    //   target: StackSetTarget.fromAccounts({
-    //     // this is fixed to eu-west-1 until SES supports receive more globally (see #23)
-    //     regions: ['eu-west-1'],
-    //     accounts: [Stack.of(this).account],
-    //   }),
-    //   template: StackSetTemplate.fromStackSetStack(new StackSetStack(sesReceiveStack, 'SESReceiveStackSetTemplate')),
-    // });
-
   }
 }
