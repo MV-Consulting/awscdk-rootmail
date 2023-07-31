@@ -40,6 +40,8 @@
     "@types/aws-lambda": "^8.10.119",
     "@types/axios": "^0.14.0",
     "@types/jest": "^29.5.3",
+    "@types/jsonfile": "^6.1.1",
+    "@types/mailparser": "^3.4.0",
     "@types/node": "^16",
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^5",
@@ -58,6 +60,7 @@
     "jsii-docgen": "^9.1.1",
     "jsii-pacmak": "^1.85.0",
     "jsii-rosetta": "~5.0.0",
+    "jsonfile": "^6.1.0",
     "npm-check-updates": "^16",
     "projen": "^0.71.154",
     "standard-version": "^9",
@@ -73,12 +76,14 @@
     "@aws-cdk/aws-lambda-python-alpha": "2.88.0-alpha.0",
     "aws-sdk": "^2.1424.0",
     "axios": "^1.4.0",
+    "mailparser": "^3.6.5",
     "uuid": "^9.0.0"
   },
   "bundledDependencies": [
     "@aws-cdk/aws-lambda-python-alpha",
     "aws-sdk",
     "axios",
+    "mailparser",
     "uuid"
   ],
   "keywords": [

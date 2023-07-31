@@ -1,3 +1,3 @@
 export * from './generate-email-address';
-export * from './sesReceiveStack';
+export * from './ses-receive-stack';
 export * from './rootmail';

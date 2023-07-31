@@ -21,6 +21,14 @@
       "type": "build"
     },
     {
+      "name": "@types/jsonfile",
+      "type": "build"
+    },
+    {
+      "name": "@types/mailparser",
+      "type": "build"
+    },
+    {
       "name": "@types/node",
       "version": "^16",
       "type": "build"
@@ -102,6 +110,10 @@
       "type": "build"
     },
     {
+      "name": "jsonfile",
+      "type": "build"
+    },
+    {
       "name": "npm-check-updates",
       "version": "^16",
       "type": "build"
@@ -138,6 +150,10 @@
     },
     {
       "name": "axios",
+      "type": "bundled"
+    },
+    {
+      "name": "mailparser",
       "type": "bundled"
     },
     {

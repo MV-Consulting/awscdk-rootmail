@@ -1,5 +1,4 @@
 import * as path from 'path';
-import { PythonFunction } from '@aws-cdk/aws-lambda-python-alpha';
 import {
   Arn,
   ArnFormat,
@@ -10,6 +9,7 @@ import {
   aws_lambda as lambda,
   aws_s3 as s3,
 } from 'aws-cdk-lib';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 import { SESReceiptRuleSetActivation } from './ses-receipt-ruleset-activation';
 
@@ -110,20 +110,16 @@ export class SESReceiveStack extends Stack {
       },
     });
 
-    const opsSantaFunction = new PythonFunction(this, 'OpsSantaFunction', {
-      entry: path.join(__dirname, 'functions', 'ops_santa_function'),
+    const opsSantaFunction = new NodejsFunction(this, 'OpsSantaFunction', {
+      entry: path.join(__dirname, 'functions', 'ops-santa'),
       handler: 'handler',
       role: opsSantaFunctionRole,
-      runtime: lambda.Runtime.PYTHON_3_9,
+      runtime: lambda.Runtime.NODEJS_16_X,
       timeout: Duration.seconds(60),
       environment: {
-      },
-      bundling: {
-        assetExcludes: [
-          '__pycache__',
-          '.pytest_cache',
-          'venv',
-        ],
+        AWS_REGION: Stack.of(this).region,
+        EMAIL_BUCKET: props.emailbucket.bucketName,
+        EMAIL_BUCKET_ARN: props.emailbucket.bucketArn,
       },
     });
 

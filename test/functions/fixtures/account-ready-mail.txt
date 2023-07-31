@@ -1,0 +1,27 @@
+From: Amazon Web Services <no-reply-aws@amazon.com>
+To: user@example.com
+Subject: Your AWS Account is Ready - Get Started Now
+Date: Mon, 30 Aug 2021 14:54:12 +0200
+Message-ID: <CAD8GCsC2M3=_aRKX4E2hO6pKb1Mxyo1n=J7H9q1UZjzOvGCHnA@mail.gmail.com>
+Content-Type: text/html; charset=utf-8
+
+<html>
+<body>
+    <p>Hello,</p>
+
+    <p>Thank you for signing up with Amazon Web Services. Your AWS account is now active, and you have full access to all AWS services.</p>
+
+    <p>To get started, we recommend the following resources:</p>
+
+    <p>1. <a href="https://aws.amazon.com/getting-started/">Getting Started Resource Center</a>: This page provides a variety of resources to help you learn about AWS services.</p>
+    <p>2. <a href="https://aws.amazon.com/training/">AWS Training and Certification</a>: This site provides access to free online courses, learning paths, and AWS Certification information.</p>
+    <p>3. <a href="https://aws.amazon.com/products/">AWS Product Directory</a>: Here you can find information about and get started with individual AWS services.</p>
+
+    <p>If you have any questions or need further assistance, please contact us at <a href="https://aws.amazon.com/contact-us/">aws.amazon.com/contact-us</a>.</p>
+
+    <p>We hope you enjoy building with AWS!</p>
+
+    <p>Sincerely,</p>
+    <p>Your AWS Team</p>
+</body>
+</html>

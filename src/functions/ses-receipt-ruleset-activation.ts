@@ -42,8 +42,7 @@ export async function handler(
             },
           ],
         },
-      })
-        .promise();
+      }).promise();
 
       console.log('Activating SES ReceiptRuleSet:', LogicalResourceId);
 

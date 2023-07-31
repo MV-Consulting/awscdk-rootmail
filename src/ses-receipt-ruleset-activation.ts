@@ -66,7 +66,7 @@ class SESReceiptRuleSetActivationProvider extends Construct {
 
     this.provider = new cr.Provider(this, 'ses-receipt-ruleset-activation-provider', {
       onEventHandler: new lambda.NodejsFunction(this, 'SESReceiptRulesetActivationOnEvent', {
-        entry: path.join(__dirname, 'functions', 'ses_receipt_rule_set_activation_cr'),
+        entry: path.join(__dirname, 'functions', 'ses-receipt-rule-set-activation.ts'),
         handler: 'handler',
         // TODO maybe use 'addToRolePolicy' as well?
         role: props.sesReceiptRuleSetActivationCustomResourceRole,

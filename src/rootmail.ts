@@ -28,7 +28,7 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 // } from 'cdk-stacksets';
 import { Construct } from 'constructs';
 import { HostedZoneDKIMAndVerificationRecords } from './hosted-zone-dkim-verification-records';
-import { SESReceiveStack } from './sesReceiveStack';
+import { SESReceiveStack } from './ses-receive-stack';
 
 export interface RootmailProps {
   /**
