@@ -140,11 +140,6 @@
       "type": "build"
     },
     {
-      "name": "@aws-cdk/aws-lambda-python-alpha",
-      "version": "2.88.0-alpha.0",
-      "type": "bundled"
-    },
-    {
       "name": "aws-sdk",
       "type": "bundled"
     },

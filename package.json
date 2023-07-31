@@ -73,14 +73,12 @@
     "constructs": "^10.0.5"
   },
   "dependencies": {
-    "@aws-cdk/aws-lambda-python-alpha": "2.88.0-alpha.0",
     "aws-sdk": "^2.1424.0",
     "axios": "^1.4.0",
     "mailparser": "^3.6.5",
     "uuid": "^9.0.0"
   },
   "bundledDependencies": [
-    "@aws-cdk/aws-lambda-python-alpha",
     "aws-sdk",
     "axios",
     "mailparser",
