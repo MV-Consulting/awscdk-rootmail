@@ -101,8 +101,8 @@ export class Rootmail extends Construct {
     new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord0', {
       deleteExisting: false,
       zone: hostedZone,
-      target: r53.RecordTarget.fromValues(`${Fn.select(0, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
-      recordName: `${Fn.select(0, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}`,
+      target: r53.RecordTarget.fromValues(`"${Fn.select(0, hostedZoneDKIMTokens)}.dkim.amazonses.com"`),
+      recordName: `"${Fn.select(0, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}"`,
       ttl: Duration.seconds(60),
       recordType: r53.RecordType.CNAME,
     });
@@ -110,8 +110,8 @@ export class Rootmail extends Construct {
     new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord1', {
       deleteExisting: false,
       zone: hostedZone,
-      target: r53.RecordTarget.fromValues(`${Fn.select(1, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
-      recordName: `${Fn.select(1, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}`,
+      target: r53.RecordTarget.fromValues(`"${Fn.select(1, hostedZoneDKIMTokens)}.dkim.amazonses.com"`),
+      recordName: `"${Fn.select(1, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}"`,
       ttl: Duration.seconds(60),
       recordType: r53.RecordType.CNAME,
     });
@@ -119,8 +119,8 @@ export class Rootmail extends Construct {
     new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord2', {
       deleteExisting: false,
       zone: hostedZone,
-      target: r53.RecordTarget.fromValues(`${Fn.select(2, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
-      recordName: `${Fn.select(2, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}`,
+      target: r53.RecordTarget.fromValues(`"${Fn.select(2, hostedZoneDKIMTokens)}.dkim.amazonses.com"`),
+      recordName: `"${Fn.select(2, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}"`,
       ttl: Duration.seconds(60),
       recordType: r53.RecordType.CNAME,
     });
@@ -128,9 +128,9 @@ export class Rootmail extends Construct {
     new r53.RecordSet(this, 'HostedZoneMXRecord', {
       recordType: r53.RecordType.MX,
       zone: hostedZone,
-      recordName: `${subdomain}.${domain}`,
       // # this is fixed to eu-west-1 until SES supports receive more globally (see #23)
       target: r53.RecordTarget.fromValues('10 inbound-smtp.eu-west-1.amazonaws.com'),
+      recordName: `${subdomain}.${domain}`,
       deleteExisting: false,
       ttl: Duration.seconds(60),
     });
@@ -140,7 +140,7 @@ export class Rootmail extends Construct {
       zone: hostedZone,
       recordName: `_amazonses.${subdomain}.${domain}`,
       // # this is fixed to eu-west-1 until SES supports receive more globally (see #23)
-      target: r53.RecordTarget.fromValues(hostedZoneDKIMAndVerificationRecords.verificationToken),
+      target: r53.RecordTarget.fromValues(`"${hostedZoneDKIMAndVerificationRecords.verificationToken}"`), // need to wrap in quotes
       deleteExisting: false,
       ttl: Duration.seconds(60),
     });

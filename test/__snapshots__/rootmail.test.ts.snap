@@ -304,6 +304,7 @@ exports[`rootmail create 1`] = `
           "Fn::Join": [
             "",
             [
+              """,
               {
                 "Fn::Select": [
                   0,
@@ -315,7 +316,7 @@ exports[`rootmail create 1`] = `
                   },
                 ],
               },
-              "_domainkey.aws.example.com.",
+              "_domainkey.aws.example.com".aws.example.com.",
             ],
           ],
         },
@@ -324,6 +325,7 @@ exports[`rootmail create 1`] = `
             "Fn::Join": [
               "",
               [
+                """,
                 {
                   "Fn::Select": [
                     0,
@@ -335,7 +337,7 @@ exports[`rootmail create 1`] = `
                     },
                   ],
                 },
-                ".dkim.amazonses.com",
+                ".dkim.amazonses.com"",
               ],
             ],
           },
@@ -354,6 +356,7 @@ exports[`rootmail create 1`] = `
           "Fn::Join": [
             "",
             [
+              """,
               {
                 "Fn::Select": [
                   1,
@@ -365,7 +368,7 @@ exports[`rootmail create 1`] = `
                   },
                 ],
               },
-              "_domainkey.aws.example.com.",
+              "_domainkey.aws.example.com".aws.example.com.",
             ],
           ],
         },
@@ -374,6 +377,7 @@ exports[`rootmail create 1`] = `
             "Fn::Join": [
               "",
               [
+                """,
                 {
                   "Fn::Select": [
                     1,
@@ -385,7 +389,7 @@ exports[`rootmail create 1`] = `
                     },
                   ],
                 },
-                ".dkim.amazonses.com",
+                ".dkim.amazonses.com"",
               ],
             ],
           },
@@ -404,6 +408,7 @@ exports[`rootmail create 1`] = `
           "Fn::Join": [
             "",
             [
+              """,
               {
                 "Fn::Select": [
                   2,
@@ -415,7 +420,7 @@ exports[`rootmail create 1`] = `
                   },
                 ],
               },
-              "_domainkey.aws.example.com.",
+              "_domainkey.aws.example.com".aws.example.com.",
             ],
           ],
         },
@@ -424,6 +429,7 @@ exports[`rootmail create 1`] = `
             "Fn::Join": [
               "",
               [
+                """,
                 {
                   "Fn::Select": [
                     2,
@@ -435,7 +441,7 @@ exports[`rootmail create 1`] = `
                     },
                   ],
                 },
-                ".dkim.amazonses.com",
+                ".dkim.amazonses.com"",
               ],
             ],
           },
@@ -485,9 +491,18 @@ exports[`rootmail create 1`] = `
         "Name": "_amazonses.aws.example.com.",
         "ResourceRecords": [
           {
-            "Fn::GetAtt": [
-              "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
-              "VerificationToken",
+            "Fn::Join": [
+              "",
+              [
+                """,
+                {
+                  "Fn::GetAtt": [
+                    "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                    "VerificationToken",
+                  ],
+                },
+                """,
+              ],
             ],
           },
         ],
