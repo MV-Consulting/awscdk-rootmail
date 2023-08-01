@@ -101,8 +101,8 @@ export class Rootmail extends Construct {
     new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord0', {
       deleteExisting: false,
       zone: hostedZone,
-      target: r53.RecordTarget.fromValues(`"${Fn.select(0, hostedZoneDKIMTokens)}.dkim.amazonses.com"`),
-      recordName: `"${Fn.select(0, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}"`,
+      target: r53.RecordTarget.fromValues(`${Fn.select(0, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
+      recordName: `${Fn.select(0, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}`,
       ttl: Duration.seconds(60),
       recordType: r53.RecordType.CNAME,
     });
@@ -110,8 +110,8 @@ export class Rootmail extends Construct {
     new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord1', {
       deleteExisting: false,
       zone: hostedZone,
-      target: r53.RecordTarget.fromValues(`"${Fn.select(1, hostedZoneDKIMTokens)}.dkim.amazonses.com"`),
-      recordName: `"${Fn.select(1, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}"`,
+      target: r53.RecordTarget.fromValues(`${Fn.select(1, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
+      recordName: `${Fn.select(1, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}`,
       ttl: Duration.seconds(60),
       recordType: r53.RecordType.CNAME,
     });
@@ -119,8 +119,8 @@ export class Rootmail extends Construct {
     new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord2', {
       deleteExisting: false,
       zone: hostedZone,
-      target: r53.RecordTarget.fromValues(`"${Fn.select(2, hostedZoneDKIMTokens)}.dkim.amazonses.com"`),
-      recordName: `"${Fn.select(2, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}"`,
+      target: r53.RecordTarget.fromValues(`${Fn.select(2, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
+      recordName: `${Fn.select(2, hostedZoneDKIMTokens)}_domainkey.${subdomain}.${domain}`,
       ttl: Duration.seconds(60),
       recordType: r53.RecordType.CNAME,
     });
