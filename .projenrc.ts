@@ -16,6 +16,13 @@ const project = new awscdk.AwsCdkConstructLibrary({
       esModuleInterop: true,
     },
   },
+  tsconfigDev: {
+    compilerOptions: {
+    },
+    include: [
+      'integ-tests/**/*.ts',
+    ],
+  },
 
   bundledDeps: [
     'aws-sdk',
@@ -30,12 +37,16 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@types/jsonfile',
     '@types/mailparser',
     '@types/uuid',
+    '@aws-cdk/integ-runner@^2.88.0-alpha.0',
+    '@aws-cdk/integ-tests-alpha@^2.88.0-alpha.0',
     '@commitlint/cli',
     '@commitlint/config-conventional',
+    'cdk-nag',
     'husky',
     'jsonfile',
   ],
 });
 
 // project.package.setScript('prepare', 'husky install');
+project.package.setScript('integ-test', 'integ-runner --directory ./integ-tests --parallel-regions us-east-1 --update-on-failed');
 project.synth();

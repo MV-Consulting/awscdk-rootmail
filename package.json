@@ -27,7 +27,8 @@
     "unbump": "npx projen unbump",
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
-    "projen": "npx projen"
+    "projen": "npx projen",
+    "integ-test": "integ-runner --directory ./integ-tests --parallel-regions us-east-1 --update-on-failed"
   },
   "author": {
     "name": "Manuel Vogel",
@@ -35,6 +36,8 @@
     "organization": false
   },
   "devDependencies": {
+    "@aws-cdk/integ-runner": "^2.88.0-alpha.0",
+    "@aws-cdk/integ-tests-alpha": "^2.88.0-alpha.0",
     "@commitlint/cli": "^17.6.7",
     "@commitlint/config-conventional": "^17.6.7",
     "@types/aws-lambda": "^8.10.119",
@@ -47,6 +50,7 @@
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
     "aws-cdk-lib": "2.88.0",
+    "cdk-nag": "^2.27.87",
     "constructs": "10.0.5",
     "eslint": "^8",
     "eslint-import-resolver-node": "^0.3.7",

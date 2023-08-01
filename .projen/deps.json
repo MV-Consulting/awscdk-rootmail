@@ -1,6 +1,16 @@
 {
   "dependencies": [
     {
+      "name": "@aws-cdk/integ-runner",
+      "version": "^2.88.0-alpha.0",
+      "type": "build"
+    },
+    {
+      "name": "@aws-cdk/integ-tests-alpha",
+      "version": "^2.88.0-alpha.0",
+      "type": "build"
+    },
+    {
       "name": "@commitlint/cli",
       "type": "build"
     },
@@ -50,6 +60,10 @@
     {
       "name": "aws-cdk-lib",
       "version": "2.88.0",
+      "type": "build"
+    },
+    {
+      "name": "cdk-nag",
       "type": "build"
     },
     {
