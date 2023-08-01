@@ -68,9 +68,9 @@ export async function handler(event: any, _context: any) {
     const res = await SES.getIdentityNotificationAttributes({ Identities: [domain] }).promise();
     if (res.NotificationAttributes[domain].ForwardingEnabled) {
       break;
-    } else {
-      await backoff('forwarding not yet enabled', res, n);
-      n++;
     }
+
+    await backoff('forwarding not yet enabled', res, n);
+    n++;
   }
 }

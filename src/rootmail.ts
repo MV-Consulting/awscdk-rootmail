@@ -207,7 +207,7 @@ export class Rootmail extends Construct {
     // const rootMailReadyHandleWaitCondition =
     new CfnWaitCondition(this, 'RootMailReadyHandleWaitCondition', {
       handle: rootMailReadyHandle.ref,
-      // # 8 hours time to wire DNS
+      // 8 hours time to wire DNS
       timeout: Duration.hours(8).toSeconds().toString(),
     });
 
