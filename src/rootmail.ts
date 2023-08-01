@@ -50,6 +50,8 @@ export class Rootmail extends Construct {
       // the resource's physical name must be explicit set or use `PhysicalName.GENERATE_IF_NEEDED`
       bucketName: PhysicalName.GENERATE_IF_NEEDED,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      // TODO later
+      // removalPolicy: RemovalPolicy.DESTROY,
     });
 
     const emailBucketPolicyStatement = new iam.PolicyStatement({

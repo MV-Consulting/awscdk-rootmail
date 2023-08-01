@@ -9,9 +9,9 @@ export const ATTR_DKIM_TOKENS = 'DkimTokens';
 const SES = new AWS.SES({ region: 'eu-west-1' });
 
 export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): Promise<AWSCDKAsyncCustomResource.OnEventResponse> {
+  const domain = event.ResourceProperties[PROP_DOMAIN];
   switch (event.RequestType) {
     case 'Create':
-      const domain = event.ResourceProperties[PROP_DOMAIN];
       console.log(`Do Domain verification and DKIM records for ${event.LogicalResourceId} and domain '${domain}'`);
       const verifyDomainResponse = await SES.verifyDomainIdentity({ Domain: domain }).promise();
       const verificationToken = verifyDomainResponse.VerificationToken;
@@ -27,8 +27,12 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
         },
       };
     case 'Update':
+      console.log('Updating DKIM verification, doing nothing');
+      return {};
     case 'Delete':
-      console.log('Updating/Deleting DKIM verification, doing nothing');
+      console.log('Deleting DKIM verification, doing nothing');
+      // TODO later
+      // await SES.deleteIdentity({ Identity: domain }).promise();
       return {};
   }
 }
