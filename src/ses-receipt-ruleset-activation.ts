@@ -1,4 +1,3 @@
-import * as path from 'path';
 import {
   CustomResource,
   Duration,
@@ -8,7 +7,7 @@ import {
 import * as lambda from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct, Node } from 'constructs';
-// NOTE: keep in sync with src/functions/ses_receipt_rule_set_activation_cr.py
+// TODO from func
 export const PROP_DOMAIN = 'Domain';
 export const PROP_SUBDOMAIN = 'Subdomain';
 export const PROP_EMAILBUCKET = 'EmailBucket';
@@ -55,8 +54,7 @@ class SESReceiptRuleSetActivationProvider extends Construct {
     super(scope, id);
 
     this.provider = new cr.Provider(this, 'ses-receipt-ruleset-activation-provider', {
-      onEventHandler: new lambda.NodejsFunction(this, 'SESReceiptRulesetActivationOnEvent', {
-        entry: path.join(__dirname, 'functions', 'ses-receipt-ruleset-activation.ts'),
+      onEventHandler: new lambda.NodejsFunction(this, 'on-event-handler', {
         handler: 'handler',
         role: new iam.Role(this, 'SesReceiptRuleSetActivationCustomResourceRole', {
           assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),

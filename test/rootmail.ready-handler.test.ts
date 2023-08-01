@@ -14,7 +14,7 @@ jest.mock('aws-sdk', () => ({
 }));
 
 // eslint-disable-next-line import/no-unresolved
-import { handler } from '../../src/functions/root-mail-ready';
+import { handler } from '../src/rootmail.ready-handler';
 
 describe('root-mail-ready', () => {
   const originalEnvironment = process.env;

@@ -5,7 +5,7 @@ jest.mock('axios', () => ({
 }));
 
 // eslint-disable-next-line import/no-unresolved
-import { handler } from '../../src/functions/root-mail-ready-trigger';
+import { handler } from '../src/rootmail.ready-trigger-handler';
 
 describe('root-mail-ready-trigger', () => {
   const originalEnvironment = process.env;

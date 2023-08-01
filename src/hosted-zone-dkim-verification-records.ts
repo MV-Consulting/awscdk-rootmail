@@ -1,4 +1,3 @@
-import * as path from 'path';
 import {
   CustomResource,
   Duration,
@@ -8,7 +7,7 @@ import {
 import * as lambda from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct, Node } from 'constructs';
-import { ATTR_VERIFICATION_TOKEN, ATTR_DKIM_TOKENS, PROP_DOMAIN } from './functions/hosted-zone-dkim-verification-records';
+import { ATTR_VERIFICATION_TOKEN, ATTR_DKIM_TOKENS, PROP_DOMAIN } from './hosted-zone-dkim-verification-records.on-event-handler';
 
 export interface HostedZoneDKIMAndVerificationRecordsProps {
   readonly domain: string;
@@ -53,8 +52,7 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
     super(scope, id);
 
     this.provider = new cr.Provider(this, 'hosted-zone-dkim-verification-records-provider', {
-      onEventHandler: new lambda.NodejsFunction(this, 'hosted-zone-dkim-verification-records-on-event', {
-        entry: path.join(__dirname, 'functions', 'hosted-zone-dkim-verification-records.ts'),
+      onEventHandler: new lambda.NodejsFunction(this, 'on-event-handler', {
         timeout: Duration.seconds(200),
         initialPolicy: [
           new iam.PolicyStatement({

@@ -1,4 +1,3 @@
-import * as path from 'path';
 import {
   Arn,
   ArnFormat,
@@ -93,8 +92,7 @@ export class SESReceiveStack extends Stack {
       },
     });
 
-    const opsSantaFunction = new NodejsFunction(this, 'OpsSantaFunction', {
-      entry: path.join(__dirname, 'functions', 'ops-santa.ts'),
+    const opsSantaFunction = new NodejsFunction(this, 'ops-santa-handler', {
       handler: 'handler',
       role: opsSantaFunctionRole,
       runtime: lambda.Runtime.NODEJS_16_X,

@@ -25,7 +25,7 @@ exports[`rootmail create 1`] = `
           "Variables": {
             "USER_ON_EVENT_FUNCTION_ARN": {
               "Fn::GetAtt": [
-                "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsonevent5D8C939A",
+                "superwerkerhostedzonedkimverificationrecordsprovideroneventhandler73A574D3",
                 "Arn",
               ],
             },
@@ -53,7 +53,7 @@ exports[`rootmail create 1`] = `
               "Resource": [
                 {
                   "Fn::GetAtt": [
-                    "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsonevent5D8C939A",
+                    "superwerkerhostedzonedkimverificationrecordsprovideroneventhandler73A574D3",
                     "Arn",
                   ],
                 },
@@ -63,7 +63,7 @@ exports[`rootmail create 1`] = `
                     [
                       {
                         "Fn::GetAtt": [
-                          "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsonevent5D8C939A",
+                          "superwerkerhostedzonedkimverificationrecordsprovideroneventhandler73A574D3",
                           "Arn",
                         ],
                       },
@@ -116,15 +116,15 @@ exports[`rootmail create 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsonevent5D8C939A": {
+    "superwerkerhostedzonedkimverificationrecordsprovideroneventhandler73A574D3": {
       "DependsOn": [
-        "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleDefaultPolicyA2E96F86",
-        "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleE9B9349F",
+        "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRoleDefaultPolicy73A44F10",
+        "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRole4677E5E3",
       ],
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "e8436f52df70c502857b6ab342eedcede241b255a290064de01c70dd49c663af.zip",
+          "S3Key": "8419e424863444d83f948bde33c53dac14e256f89bd92aeaa8cfbbdbb598ca6b.zip",
         },
         "Environment": {
           "Variables": {
@@ -134,7 +134,7 @@ exports[`rootmail create 1`] = `
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
-            "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleE9B9349F",
+            "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRole4677E5E3",
             "Arn",
           ],
         },
@@ -143,31 +143,7 @@ exports[`rootmail create 1`] = `
       },
       "Type": "AWS::Lambda::Function",
     },
-    "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleDefaultPolicyA2E96F86": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
-                "ses:VerifyDomainDkim",
-                "ses:VerifyDomainIdentity",
-              ],
-              "Effect": "Allow",
-              "Resource": "*",
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleDefaultPolicyA2E96F86",
-        "Roles": [
-          {
-            "Ref": "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleE9B9349F",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "superwerkerhostedzonedkimverificationrecordsproviderhostedzonedkimverificationrecordsoneventServiceRoleE9B9349F": {
+    "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRole4677E5E3": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -197,6 +173,30 @@ exports[`rootmail create 1`] = `
         ],
       },
       "Type": "AWS::IAM::Role",
+    },
+    "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRoleDefaultPolicy73A44F10": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ses:VerifyDomainDkim",
+                "ses:VerifyDomainIdentity",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRoleDefaultPolicy73A44F10",
+        "Roles": [
+          {
+            "Ref": "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRole4677E5E3",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "testRootmailEmailBucket2A470446": {
       "DeletionPolicy": "Retain",
@@ -262,7 +262,7 @@ exports[`rootmail create 1`] = `
           {
             "Name": "FunctionName",
             "Value": {
-              "Ref": "testRootmailRootMailReady825120E7",
+              "Ref": "testRootmailreadyhandlerCCD267B6",
             },
           },
         ],
@@ -496,35 +496,6 @@ exports[`rootmail create 1`] = `
       },
       "Type": "AWS::Route53::RecordSet",
     },
-    "testRootmailRootMailReady825120E7": {
-      "DependsOn": [
-        "testRootmailRootMailReadyServiceRoleDefaultPolicy9A1F5C41",
-        "testRootmailRootMailReadyServiceRole28CD8F41",
-      ],
-      "Properties": {
-        "Code": {
-          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "03b2fde1c070feaee93db3a08626ebc9c62fea61d3135464702da81544c43833.zip",
-        },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-            "DOMAIN": "example.com",
-            "SUB_DOMAIN": "aws",
-          },
-        },
-        "Handler": "index.handler",
-        "Role": {
-          "Fn::GetAtt": [
-            "testRootmailRootMailReadyServiceRole28CD8F41",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs16.x",
-        "Timeout": 260,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
     "testRootmailRootMailReadyEventRule77EE7FF3": {
       "Properties": {
         "ScheduleExpression": "cron(5 * * * ? *)",
@@ -533,7 +504,7 @@ exports[`rootmail create 1`] = `
           {
             "Arn": {
               "Fn::GetAtt": [
-                "testRootmailRootMailReady825120E7",
+                "testRootmailreadyhandlerCCD267B6",
                 "Arn",
               ],
             },
@@ -543,12 +514,12 @@ exports[`rootmail create 1`] = `
       },
       "Type": "AWS::Events::Rule",
     },
-    "testRootmailRootMailReadyEventRuleAllowEventRuletestStacktestRootmailRootMailReady5BA57D95B365F7DA": {
+    "testRootmailRootMailReadyEventRuleAllowEventRuletestStacktestRootmailreadyhandler864FD8DB9F4E8782": {
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
           "Fn::GetAtt": [
-            "testRootmailRootMailReady825120E7",
+            "testRootmailreadyhandlerCCD267B6",
             "Arn",
           ],
         },
@@ -574,7 +545,92 @@ exports[`rootmail create 1`] = `
       },
       "Type": "AWS::CloudFormation::WaitCondition",
     },
-    "testRootmailRootMailReadyServiceRole28CD8F41": {
+    "testRootmailRootMailReadyTriggerEventPattern0C7DAE47": {
+      "Properties": {
+        "EventPattern": {
+          "detail": {
+            "alarmName": [
+              {
+                "Ref": "testRootmailErrors174176D2",
+              },
+            ],
+            "state": {
+              "value": [
+                "OK",
+              ],
+            },
+          },
+          "detail-type": [
+            "CloudWatch Alarm State Change",
+          ],
+          "source": [
+            "aws.cloudwatch",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "testRootmailreadytriggerhandlerEF7DC4EF",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "testRootmailRootMailReadyTriggerEventPatternAllowEventRuletestStacktestRootmailreadytriggerhandlerE6ABBB4B264292C3": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "testRootmailreadytriggerhandlerEF7DC4EF",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "testRootmailRootMailReadyTriggerEventPattern0C7DAE47",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "testRootmailreadyhandlerCCD267B6": {
+      "DependsOn": [
+        "testRootmailreadyhandlerServiceRoleDefaultPolicy7BEBBD32",
+        "testRootmailreadyhandlerServiceRole249853CC",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "4f232774404a0c818e06d9a91eaa398263f1d61c6824bb32d450b1080d8560b9.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "DOMAIN": "example.com",
+            "SUB_DOMAIN": "aws",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "testRootmailreadyhandlerServiceRole249853CC",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs16.x",
+        "Timeout": 260,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "testRootmailreadyhandlerServiceRole249853CC": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -605,7 +661,7 @@ exports[`rootmail create 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "testRootmailRootMailReadyServiceRoleDefaultPolicy9A1F5C41": {
+    "testRootmailreadyhandlerServiceRoleDefaultPolicy7BEBBD32": {
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -622,23 +678,23 @@ exports[`rootmail create 1`] = `
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "testRootmailRootMailReadyServiceRoleDefaultPolicy9A1F5C41",
+        "PolicyName": "testRootmailreadyhandlerServiceRoleDefaultPolicy7BEBBD32",
         "Roles": [
           {
-            "Ref": "testRootmailRootMailReadyServiceRole28CD8F41",
+            "Ref": "testRootmailreadyhandlerServiceRole249853CC",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "testRootmailRootMailReadyTriggerE528F2B1": {
+    "testRootmailreadytriggerhandlerEF7DC4EF": {
       "DependsOn": [
-        "testRootmailRootMailReadyTriggerServiceRoleE74AC2A4",
+        "testRootmailreadytriggerhandlerServiceRoleE902110E",
       ],
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "6906ba547cc9f1370dc50d2a6f49ea4bf8dffaeaa2470e031ddbe0624a021796.zip",
+          "S3Key": "04425b5415c97232bccb104a58de1fd2e1f45f8582bec3cf9c8bbbe61d3b41df.zip",
         },
         "Environment": {
           "Variables": {
@@ -651,7 +707,7 @@ exports[`rootmail create 1`] = `
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
-            "testRootmailRootMailReadyTriggerServiceRoleE74AC2A4",
+            "testRootmailreadytriggerhandlerServiceRoleE902110E",
             "Arn",
           ],
         },
@@ -660,63 +716,7 @@ exports[`rootmail create 1`] = `
       },
       "Type": "AWS::Lambda::Function",
     },
-    "testRootmailRootMailReadyTriggerEventPattern0C7DAE47": {
-      "Properties": {
-        "EventPattern": {
-          "detail": {
-            "alarmName": [
-              {
-                "Ref": "testRootmailErrors174176D2",
-              },
-            ],
-            "state": {
-              "value": [
-                "OK",
-              ],
-            },
-          },
-          "detail-type": [
-            "CloudWatch Alarm State Change",
-          ],
-          "source": [
-            "aws.cloudwatch",
-          ],
-        },
-        "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
-              "Fn::GetAtt": [
-                "testRootmailRootMailReadyTriggerE528F2B1",
-                "Arn",
-              ],
-            },
-            "Id": "Target0",
-          },
-        ],
-      },
-      "Type": "AWS::Events::Rule",
-    },
-    "testRootmailRootMailReadyTriggerEventPatternAllowEventRuletestStacktestRootmailRootMailReadyTriggerC42CFCEB14537371": {
-      "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "testRootmailRootMailReadyTriggerE528F2B1",
-            "Arn",
-          ],
-        },
-        "Principal": "events.amazonaws.com",
-        "SourceArn": {
-          "Fn::GetAtt": [
-            "testRootmailRootMailReadyTriggerEventPattern0C7DAE47",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "AWS::Lambda::Permission",
-    },
-    "testRootmailRootMailReadyTriggerServiceRoleE74AC2A4": {
+    "testRootmailreadytriggerhandlerServiceRoleE902110E": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
