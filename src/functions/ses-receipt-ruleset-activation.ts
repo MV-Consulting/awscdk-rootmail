@@ -17,7 +17,8 @@ export async function handler(
   const ruleName = 'Receive';
 
   switch (event.RequestType) {
-    case 'Create' || 'Update':
+    case 'Create':
+    case 'Update':
       await ses.createReceiptRuleSet({ RuleSetName: ruleSetName }).promise();
 
       await ses.createReceiptRule({

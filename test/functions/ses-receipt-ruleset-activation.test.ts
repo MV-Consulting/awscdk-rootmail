@@ -60,6 +60,42 @@ describe('ses receipt ruleset activation', () => {
     expect(spySetActiveReceiptRuleSet).toHaveBeenCalledTimes(1);
   });
 
+  it('update: ses receipt ruleset activation', async () => {
+    spyCreateReceiptRuleSet.mockImplementation(() => ({
+      promise() {
+        return Promise.resolve();
+      },
+    }));
+
+    spyCreateReceiptRule.mockImplementation(() => ({
+      promise() {
+        return Promise.resolve();
+      },
+    }));
+
+    spySetActiveReceiptRuleSet.mockImplementation(() => ({
+      promise() {
+        return Promise.resolve();
+      },
+    }));
+
+    await handler(
+      {
+        RequestType: 'Update',
+        ResourceProperties: {
+          Domain: 'superluminar.io',
+          Subdomain: 'aws',
+          EmailBucket: 'email-bucket',
+          OpsSantaFunctionArn: 'func-arn',
+        },
+      } as unknown as OnEventRequest,
+    );
+
+    expect(spyCreateReceiptRuleSet).toHaveBeenCalledTimes(1);
+    expect(spyCreateReceiptRule).toHaveBeenCalledTimes(1);
+    expect(spySetActiveReceiptRuleSet).toHaveBeenCalledTimes(1);
+  });
+
   it('delete: ses receipt ruleset activation', async () => {
     spyDeleteReceiptRuleSet.mockImplementation(() => ({
       promise() {
