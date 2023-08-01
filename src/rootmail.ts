@@ -171,7 +171,7 @@ export class Rootmail extends Construct {
     }));
 
     const rootMailReadyEventRule = new events.Rule(this, 'RootMailReadyEventRule', {
-      schedule: events.Schedule.cron({ minute: '5' }),
+      schedule: events.Schedule.rate(Duration.minutes(5)),
     });
 
     rootMailReadyEventRule.addTarget(new LambdaFunction(rootMailReady));

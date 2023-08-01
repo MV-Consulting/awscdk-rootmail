@@ -513,7 +513,7 @@ exports[`rootmail create 1`] = `
     },
     "testRootmailRootMailReadyEventRule77EE7FF3": {
       "Properties": {
-        "ScheduleExpression": "cron(5 * * * ? *)",
+        "ScheduleExpression": "rate(5 minutes)",
         "State": "ENABLED",
         "Targets": [
           {
