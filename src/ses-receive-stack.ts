@@ -94,13 +94,12 @@ export class SESReceiveStack extends Stack {
     });
 
     const opsSantaFunction = new NodejsFunction(this, 'OpsSantaFunction', {
-      entry: path.join(__dirname, 'functions', 'ops-santa'),
+      entry: path.join(__dirname, 'functions', 'ops-santa.ts'),
       handler: 'handler',
       role: opsSantaFunctionRole,
       runtime: lambda.Runtime.NODEJS_16_X,
       timeout: Duration.seconds(60),
       environment: {
-        AWS_REGION: Stack.of(this).region,
         EMAIL_BUCKET: props.emailbucket.bucketName,
         EMAIL_BUCKET_ARN: props.emailbucket.bucketArn,
       },

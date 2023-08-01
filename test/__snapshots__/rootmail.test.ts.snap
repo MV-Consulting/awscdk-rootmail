@@ -504,10 +504,11 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "1e0595a2505f679e82e0e64868db3f4d6f83f1cbc38d3ef0e372560b88fa7489.zip",
+          "S3Key": "03b2fde1c070feaee93db3a08626ebc9c62fea61d3135464702da81544c43833.zip",
         },
         "Environment": {
           "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
             "DOMAIN": "example.com",
             "SUB_DOMAIN": "aws",
           },
@@ -519,7 +520,7 @@ exports[`rootmail create 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "python3.9",
+        "Runtime": "nodejs16.x",
         "Timeout": 260,
       },
       "Type": "AWS::Lambda::Function",
@@ -637,10 +638,11 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "3d21154d1ea7016302d23f7fac3b4baf934e92a8ca73c70bb807a280b17e3ff4.zip",
+          "S3Key": "6906ba547cc9f1370dc50d2a6f49ea4bf8dffaeaa2470e031ddbe0624a021796.zip",
         },
         "Environment": {
           "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
             "SIGNAL_URL": {
               "Ref": "testRootmailRootMailReadyHandleC6B1EB65",
             },
@@ -653,7 +655,7 @@ exports[`rootmail create 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "python3.9",
+        "Runtime": "nodejs16.x",
         "Timeout": 10,
       },
       "Type": "AWS::Lambda::Function",

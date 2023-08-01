@@ -4,8 +4,7 @@ import * as AWS from 'aws-sdk';
 
 const ses = new AWS.SES();
 
-export async function handler(
-  event: AWSCDKAsyncCustomResource.OnEventRequest): Promise<void> {
+export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): Promise<void> {
   const Properties = event.ResourceProperties;
   const LogicalResourceId = event.LogicalResourceId;
   const Domain = Properties.Domain;

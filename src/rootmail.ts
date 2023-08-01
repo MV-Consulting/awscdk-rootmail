@@ -208,7 +208,7 @@ export class Rootmail extends Construct {
     });
 
     const rootMailReadyTrigger = new NodejsFunction(this, 'RootMailReadyTrigger', {
-      entry: path.join(__dirname, 'functions', 'root_mail_ready_trigger'),
+      entry: path.join(__dirname, 'functions', 'root-mail-ready-trigger.ts'),
       handler: 'handler',
       runtime: lambda.Runtime.NODEJS_16_X,
       timeout: Duration.seconds(10),

@@ -56,7 +56,7 @@ class SESReceiptRuleSetActivationProvider extends Construct {
 
     this.provider = new cr.Provider(this, 'ses-receipt-ruleset-activation-provider', {
       onEventHandler: new lambda.NodejsFunction(this, 'SESReceiptRulesetActivationOnEvent', {
-        entry: path.join(__dirname, 'functions', 'ses-receipt-rule-set-activation.ts'),
+        entry: path.join(__dirname, 'functions', 'ses-receipt-ruleset-activation.ts'),
         handler: 'handler',
         role: new iam.Role(this, 'SesReceiptRuleSetActivationCustomResourceRole', {
           assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
