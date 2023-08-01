@@ -93,7 +93,7 @@ export class Rootmail extends Construct {
     });
 
     const hostedZoneDKIMAndVerificationRecords = new HostedZoneDKIMAndVerificationRecords(this, 'HostedZoneDKIMAndVerificationRecords', {
-      domain: domain,
+      domain: `${subdomain}.${domain}`,
     });
 
     const hostedZoneDKIMTokens = hostedZoneDKIMAndVerificationRecords.dkimTokens;
