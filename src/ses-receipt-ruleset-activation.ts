@@ -18,18 +18,14 @@ export interface SESReceiptRuleSetActivationProps {
   readonly domain: string;
   readonly subdomain: string;
   readonly emailbucketName: string;
-  readonly sesReceiptRuleSetActivationCustomResourceRole: iam.IRole;
 }
 
 export class SESReceiptRuleSetActivation extends Construct {
-  // public readonly email: string;
   constructor(scope: Construct, id: string, props: SESReceiptRuleSetActivationProps) {
     super(scope, id);
 
     new CustomResource(this, 'Resource', {
-      serviceToken: SESReceiptRuleSetActivationProvider.getOrCreate(this, {
-        sesReceiptRuleSetActivationCustomResourceRole: props.sesReceiptRuleSetActivationCustomResourceRole,
-      }),
+      serviceToken: SESReceiptRuleSetActivationProvider.getOrCreate(this),
       resourceType: 'Custom::SESReceiptRuleSetActivation',
       properties: {
         [PROP_DOMAIN]: props.domain,
@@ -37,14 +33,7 @@ export class SESReceiptRuleSetActivation extends Construct {
         [PROP_EMAILBUCKET]: props.emailbucketName,
       },
     });
-
-    // Note: We do not have any return values
-    // this.email = resource.getAttString(ATTR_EMAIL);
   }
-}
-
-interface SESReceiptRuleSetActivationProviderProps {
-  sesReceiptRuleSetActivationCustomResourceRole: iam.IRole;
 }
 
 class SESReceiptRuleSetActivationProvider extends Construct {
@@ -52,24 +41,38 @@ class SESReceiptRuleSetActivationProvider extends Construct {
   /**
    * Returns the singleton provider.
    */
-  public static getOrCreate(scope: Construct, props: SESReceiptRuleSetActivationProviderProps) {
+  public static getOrCreate(scope: Construct) {
     const stack = Stack.of(scope);
     const id = 'superwerker.ses-receipt-ruleset-activation-provider';
-    const x = Node.of(stack).tryFindChild(id) as SESReceiptRuleSetActivationProvider || new SESReceiptRuleSetActivationProvider(stack, id, props);
+    const x = Node.of(stack).tryFindChild(id) as SESReceiptRuleSetActivationProvider
+      || new SESReceiptRuleSetActivationProvider(stack, id);
     return x.provider.serviceToken;
   }
 
   private readonly provider: cr.Provider;
 
-  constructor(scope: Construct, id: string, props: SESReceiptRuleSetActivationProviderProps) {
+  constructor(scope: Construct, id: string) {
     super(scope, id);
 
     this.provider = new cr.Provider(this, 'ses-receipt-ruleset-activation-provider', {
       onEventHandler: new lambda.NodejsFunction(this, 'SESReceiptRulesetActivationOnEvent', {
         entry: path.join(__dirname, 'functions', 'ses-receipt-rule-set-activation.ts'),
         handler: 'handler',
-        // TODO maybe use 'addToRolePolicy' as well?
-        role: props.sesReceiptRuleSetActivationCustomResourceRole,
+        role: new iam.Role(this, 'SesReceiptRuleSetActivationCustomResourceRole', {
+          assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+          managedPolicies: [iam.ManagedPolicy.fromManagedPolicyName(this, 'SesReceiptAWSLambdaBasicExecutionRole', 'AWSLambdaBasicExecutionRole')],
+          inlinePolicies: {
+            AllowSesAccess: new iam.PolicyDocument({
+              statements: [
+                new iam.PolicyStatement({
+                  actions: ['ses:*'], // TODO: least privilege
+                  resources: ['*'],
+                }),
+
+              ],
+            }),
+          },
+        }),
         timeout: Duration.seconds(10),
         //  Note: we use the resource properties from above as it is a CustomResource
         environment: {},

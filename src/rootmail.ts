@@ -178,21 +178,18 @@ export class Rootmail extends Construct {
 
     rootMailReadyEventRule.addTarget(new LambdaFunction(rootMailReady));
 
-    // TODO check and see https://bobbyhadz.com/blog/cloudwatch-alarm-aws-cdk
-    const rootMailReadyAlertMetric = new cw.Metric({
-      namespace: 'AWS/Lambda',
-      metricName: 'Errors',
-      period: Duration.seconds(180),
-      statistic: 'Sum',
-      dimensionsMap: {
-        FunctionName: rootMailReady.functionName,
-      },
-    });
-
     const rootMailReadyAlert = new cw.Alarm(this, 'Errors', {
       alarmName: 'superwerker-RootMailReady',
       comparisonOperator: cw.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
-      metric: rootMailReadyAlertMetric, //rootMailReady.metricErrors({}), // TODO check
+      metric: new cw.Metric({
+        namespace: 'AWS/Lambda',
+        metricName: 'Errors',
+        period: Duration.seconds(180),
+        statistic: 'Sum',
+        dimensionsMap: {
+          FunctionName: rootMailReady.functionName,
+        },
+      }),
       // dimensions √
       evaluationPeriods: 1,
       // metricName √
@@ -204,7 +201,6 @@ export class Rootmail extends Construct {
 
     const rootMailReadyHandle = new CfnWaitConditionHandle(this, 'RootMailReadyHandle');
 
-    // const rootMailReadyHandleWaitCondition =
     new CfnWaitCondition(this, 'RootMailReadyHandleWaitCondition', {
       handle: rootMailReadyHandle.ref,
       // 8 hours time to wire DNS
