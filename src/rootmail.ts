@@ -149,7 +149,7 @@ export class Rootmail extends Construct {
      * CR: wait until R53 records are set and the rootmail is ready
      */
     const rootMailReady = new NodejsFunction(this, 'ready-handler', {
-      runtime: lambda.Runtime.NODEJS_16_X,
+      runtime: lambda.Runtime.NODEJS_18_X,
       // # the timeout effectivly limits retries to 2^(n+1) - 1 = 9 attempts with backup
       //  as the function is called every 5 minutes from the event rule
       timeout: Duration.seconds(260),
@@ -207,7 +207,7 @@ export class Rootmail extends Construct {
 
     const rootMailReadyTrigger = new NodejsFunction(this, 'ready-trigger-handler', {
       handler: 'handler',
-      runtime: lambda.Runtime.NODEJS_16_X,
+      runtime: lambda.Runtime.NODEJS_18_X,
       timeout: Duration.seconds(10),
       environment: {
         SIGNAL_URL: rootMailReadyHandle.ref,

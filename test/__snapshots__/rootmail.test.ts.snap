@@ -124,7 +124,7 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "8419e424863444d83f948bde33c53dac14e256f89bd92aeaa8cfbbdbb598ca6b.zip",
+          "S3Key": "6227eeadaede8fcdc70ef4543d5ae0bffcea2f8862528a4328afd6c99b433f51.zip",
         },
         "Environment": {
           "Variables": {
@@ -609,7 +609,7 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "4f232774404a0c818e06d9a91eaa398263f1d61c6824bb32d450b1080d8560b9.zip",
+          "S3Key": "c15bd6766daf26c0c1c0b279c11577c09f7c8e0b20cbbafc2e496b3b9ce6c4aa.zip",
         },
         "Environment": {
           "Variables": {
@@ -625,7 +625,7 @@ exports[`rootmail create 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 260,
       },
       "Type": "AWS::Lambda::Function",
@@ -711,7 +711,7 @@ exports[`rootmail create 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Timeout": 10,
       },
       "Type": "AWS::Lambda::Function",

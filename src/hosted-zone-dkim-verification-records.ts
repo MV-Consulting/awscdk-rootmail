@@ -3,8 +3,9 @@ import {
   Duration,
   Stack,
   aws_iam as iam,
+  aws_lambda as lambda,
 } from 'aws-cdk-lib';
-import * as lambda from 'aws-cdk-lib/aws-lambda-nodejs';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct, Node } from 'constructs';
 import { ATTR_VERIFICATION_TOKEN, ATTR_DKIM_TOKENS, PROP_DOMAIN } from './hosted-zone-dkim-verification-records.on-event-handler';
@@ -52,7 +53,8 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
     super(scope, id);
 
     this.provider = new cr.Provider(this, 'hosted-zone-dkim-verification-records-provider', {
-      onEventHandler: new lambda.NodejsFunction(this, 'on-event-handler', {
+      onEventHandler: new NodejsFunction(this, 'on-event-handler', {
+        runtime: lambda.Runtime.NODEJS_18_X,
         timeout: Duration.seconds(200),
         initialPolicy: [
           new iam.PolicyStatement({

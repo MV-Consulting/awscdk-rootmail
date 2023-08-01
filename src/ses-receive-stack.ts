@@ -95,7 +95,7 @@ export class SESReceiveStack extends Stack {
     const opsSantaFunction = new NodejsFunction(this, 'ops-santa-handler', {
       handler: 'handler',
       role: opsSantaFunctionRole,
-      runtime: lambda.Runtime.NODEJS_16_X,
+      runtime: lambda.Runtime.NODEJS_18_X,
       timeout: Duration.seconds(60),
       environment: {
         EMAIL_BUCKET: props.emailbucket.bucketName,

@@ -3,8 +3,9 @@ import {
   Duration,
   Stack,
   aws_iam as iam,
+  aws_lambda as lambda,
 } from 'aws-cdk-lib';
-import * as lambda from 'aws-cdk-lib/aws-lambda-nodejs';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct, Node } from 'constructs';
 // TODO from func
@@ -54,8 +55,9 @@ class SESReceiptRuleSetActivationProvider extends Construct {
     super(scope, id);
 
     this.provider = new cr.Provider(this, 'ses-receipt-ruleset-activation-provider', {
-      onEventHandler: new lambda.NodejsFunction(this, 'on-event-handler', {
+      onEventHandler: new NodejsFunction(this, 'on-event-handler', {
         handler: 'handler',
+        runtime: lambda.Runtime.NODEJS_18_X,
         role: new iam.Role(this, 'SesReceiptRuleSetActivationCustomResourceRole', {
           assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
           managedPolicies: [iam.ManagedPolicy.fromManagedPolicyName(this, 'SesReceiptAWSLambdaBasicExecutionRole', 'AWSLambdaBasicExecutionRole')],
