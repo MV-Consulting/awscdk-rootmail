@@ -33,7 +33,7 @@ export class SESReceiveStack extends Stack {
 
     const opsSantaFunctionRole = new iam.Role(this, 'OpsSantaFunctionRole', {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
-      managedPolicies: [iam.ManagedPolicy.fromManagedPolicyName(this, 'OpsSantaAWSLambdaBasicExecutionRole', 'AWSLambdaBasicExecutionRole')],
+      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AWSLambdaBasicExecutionRole')],
       inlinePolicies: {
         OpsSantaFunctionRolePolicy: new iam.PolicyDocument({
           statements: [
