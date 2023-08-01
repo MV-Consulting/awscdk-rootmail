@@ -60,7 +60,7 @@ class SESReceiptRuleSetActivationProvider extends Construct {
         runtime: lambda.Runtime.NODEJS_18_X,
         role: new iam.Role(this, 'SesReceiptRuleSetActivationCustomResourceRole', {
           assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
-          managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AWSLambdaBasicExecutionRole')],
+          managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')],
           inlinePolicies: {
             AllowSesAccess: new iam.PolicyDocument({
               statements: [
