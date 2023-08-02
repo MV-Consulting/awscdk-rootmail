@@ -39,6 +39,13 @@ export interface RootmailProps {
    * @default '<accountId>-rootmail-bucket'
    */
   readonly emailBucketName?: string;
+
+  /**
+   * Whether to autowire the DNS records for the root mail feature.
+   *
+   * @default false
+   */
+  readonly autowireDNS?: boolean;
 }
 
 export class Rootmail extends Construct {
@@ -48,6 +55,7 @@ export class Rootmail extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain || 'aws';
     const emailBucketName = props.emailBucketName || `${Stack.of(this).account}-rootmail-bucket`;
+    const autowireDNS = props.autowireDNS || false;
 
     /**
      * EMAIL Bucket
@@ -151,6 +159,31 @@ export class Rootmail extends Construct {
       deleteExisting: false,
       ttl: Duration.seconds(60),
     });
+
+    if (autowireDNS) {
+      // TODO add a schedule (idempotent calls) or make it a CR
+      const autowireDNSHandler = new NodejsFunction(this, 'wire-rootmail-dns-handler', {
+        runtime: lambda.Runtime.NODEJS_18_X,
+        // # the timeout effectivly limits retries to 2^(n+1) - 1 = 9 attempts with backup
+        //  as the function is called every 5 minutes from the event rule
+        timeout: Duration.seconds(260),
+        environment: { // TODO
+          // DOMAIN: domain,
+          // SUB_DOMAIN: subdomain,
+        },
+      });
+
+      autowireDNSHandler.addToRolePolicy(new iam.PolicyStatement({
+        actions: [
+          'ses:GetIdentityVerificationAttributes', // TODO
+          'ses:GetAccountSendingEnabled',
+          'ses:GetIdentityDkimAttributes',
+          'ses:GetIdentityNotificationAttributes',
+        ],
+        effect: iam.Effect.ALLOW,
+        resources: ['*'],
+      }));
+    }
 
     /**
      * CR: wait until R53 records are set and the rootmail is ready

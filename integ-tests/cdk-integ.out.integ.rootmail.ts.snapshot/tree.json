@@ -1,0 +1,2756 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "IntegrationTestStack": {
+        "id": "IntegrationTestStack",
+        "path": "IntegrationTestStack",
+        "children": {
+          "testRootmail": {
+            "id": "testRootmail",
+            "path": "IntegrationTestStack/testRootmail",
+            "children": {
+              "EmailBucket": {
+                "id": "EmailBucket",
+                "path": "IntegrationTestStack/testRootmail/EmailBucket",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/EmailBucket/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                      "aws:cdk:cloudformation:props": {
+                        "bucketName": "acd2d6439c39-rootmail-bucket-integtest",
+                        "publicAccessBlockConfiguration": {
+                          "blockPublicAcls": true,
+                          "blockPublicPolicy": true,
+                          "ignorePublicAcls": true,
+                          "restrictPublicBuckets": true
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "Policy": {
+                    "id": "Policy",
+                    "path": "IntegrationTestStack/testRootmail/EmailBucket/Policy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "IntegrationTestStack/testRootmail/EmailBucket/Policy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                          "aws:cdk:cloudformation:props": {
+                            "bucket": {
+                              "Ref": "testRootmailEmailBucket2A470446"
+                            },
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "s3:PutObject",
+                                  "Condition": {
+                                    "StringEquals": {
+                                      "aws:Referer": {
+                                        "Ref": "AWS::AccountId"
+                                      }
+                                    }
+                                  },
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "ses.amazonaws.com"
+                                  },
+                                  "Resource": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":s3:::",
+                                        {
+                                          "Ref": "testRootmailEmailBucket2A470446"
+                                        },
+                                        "/RootMail/*"
+                                      ]
+                                    ]
+                                  },
+                                  "Sid": "EnableSESReceive"
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.Bucket",
+                  "version": "2.88.0"
+                }
+              },
+              "HostedZone": {
+                "id": "HostedZone",
+                "path": "IntegrationTestStack/testRootmail/HostedZone",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/HostedZone/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Route53::HostedZone",
+                      "aws:cdk:cloudformation:props": {
+                        "name": "aws-test.mavogel.xyz."
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_route53.CfnHostedZone",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_route53.HostedZone",
+                  "version": "2.88.0"
+                }
+              },
+              "HostedZoneSSMParameter": {
+                "id": "HostedZoneSSMParameter",
+                "path": "IntegrationTestStack/testRootmail/HostedZoneSSMParameter",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/HostedZoneSSMParameter/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
+                      "aws:cdk:cloudformation:props": {
+                        "name": "/superwerker/domain_name_servers",
+                        "type": "StringList",
+                        "value": {
+                          "Fn::Join": [
+                            ",",
+                            {
+                              "Fn::GetAtt": [
+                                "testRootmailHostedZone6DFD3C9C",
+                                "NameServers"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ssm.CfnParameter",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ssm.StringListParameter",
+                  "version": "2.88.0"
+                }
+              },
+              "HostedZoneDKIMAndVerificationRecords": {
+                "id": "HostedZoneDKIMAndVerificationRecords",
+                "path": "IntegrationTestStack/testRootmail/HostedZoneDKIMAndVerificationRecords",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/HostedZoneDKIMAndVerificationRecords/Resource",
+                    "children": {
+                      "Default": {
+                        "id": "Default",
+                        "path": "IntegrationTestStack/testRootmail/HostedZoneDKIMAndVerificationRecords/Resource/Default",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CustomResource",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.0.5"
+                }
+              },
+              "HostedZoneDKIMTokenRecord0": {
+                "id": "HostedZoneDKIMTokenRecord0",
+                "path": "IntegrationTestStack/testRootmail/HostedZoneDKIMTokenRecord0",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/HostedZoneDKIMTokenRecord0/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Route53::RecordSet",
+                      "aws:cdk:cloudformation:props": {
+                        "hostedZoneId": {
+                          "Ref": "testRootmailHostedZone6DFD3C9C"
+                        },
+                        "name": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              {
+                                "Fn::Select": [
+                                  0,
+                                  {
+                                    "Fn::GetAtt": [
+                                      "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                                      "DkimTokens"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "._domainkey.aws-test.mavogel.xyz."
+                            ]
+                          ]
+                        },
+                        "resourceRecords": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                {
+                                  "Fn::Select": [
+                                    0,
+                                    {
+                                      "Fn::GetAtt": [
+                                        "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                                        "DkimTokens"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                ".dkim.amazonses.com"
+                              ]
+                            ]
+                          }
+                        ],
+                        "ttl": "60",
+                        "type": "CNAME"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_route53.CfnRecordSet",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_route53.RecordSet",
+                  "version": "2.88.0"
+                }
+              },
+              "HostedZoneDKIMTokenRecord1": {
+                "id": "HostedZoneDKIMTokenRecord1",
+                "path": "IntegrationTestStack/testRootmail/HostedZoneDKIMTokenRecord1",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/HostedZoneDKIMTokenRecord1/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Route53::RecordSet",
+                      "aws:cdk:cloudformation:props": {
+                        "hostedZoneId": {
+                          "Ref": "testRootmailHostedZone6DFD3C9C"
+                        },
+                        "name": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              {
+                                "Fn::Select": [
+                                  1,
+                                  {
+                                    "Fn::GetAtt": [
+                                      "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                                      "DkimTokens"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "._domainkey.aws-test.mavogel.xyz."
+                            ]
+                          ]
+                        },
+                        "resourceRecords": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                {
+                                  "Fn::Select": [
+                                    1,
+                                    {
+                                      "Fn::GetAtt": [
+                                        "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                                        "DkimTokens"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                ".dkim.amazonses.com"
+                              ]
+                            ]
+                          }
+                        ],
+                        "ttl": "60",
+                        "type": "CNAME"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_route53.CfnRecordSet",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_route53.RecordSet",
+                  "version": "2.88.0"
+                }
+              },
+              "HostedZoneDKIMTokenRecord2": {
+                "id": "HostedZoneDKIMTokenRecord2",
+                "path": "IntegrationTestStack/testRootmail/HostedZoneDKIMTokenRecord2",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/HostedZoneDKIMTokenRecord2/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Route53::RecordSet",
+                      "aws:cdk:cloudformation:props": {
+                        "hostedZoneId": {
+                          "Ref": "testRootmailHostedZone6DFD3C9C"
+                        },
+                        "name": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              {
+                                "Fn::Select": [
+                                  2,
+                                  {
+                                    "Fn::GetAtt": [
+                                      "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                                      "DkimTokens"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "._domainkey.aws-test.mavogel.xyz."
+                            ]
+                          ]
+                        },
+                        "resourceRecords": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                {
+                                  "Fn::Select": [
+                                    2,
+                                    {
+                                      "Fn::GetAtt": [
+                                        "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                                        "DkimTokens"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                ".dkim.amazonses.com"
+                              ]
+                            ]
+                          }
+                        ],
+                        "ttl": "60",
+                        "type": "CNAME"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_route53.CfnRecordSet",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_route53.RecordSet",
+                  "version": "2.88.0"
+                }
+              },
+              "HostedZoneMXRecord": {
+                "id": "HostedZoneMXRecord",
+                "path": "IntegrationTestStack/testRootmail/HostedZoneMXRecord",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/HostedZoneMXRecord/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Route53::RecordSet",
+                      "aws:cdk:cloudformation:props": {
+                        "hostedZoneId": {
+                          "Ref": "testRootmailHostedZone6DFD3C9C"
+                        },
+                        "name": "aws-test.mavogel.xyz.",
+                        "resourceRecords": [
+                          "10 inbound-smtp.eu-west-1.amazonaws.com"
+                        ],
+                        "ttl": "60",
+                        "type": "MX"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_route53.CfnRecordSet",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_route53.RecordSet",
+                  "version": "2.88.0"
+                }
+              },
+              "HostedZoneVerificationTokenRecord": {
+                "id": "HostedZoneVerificationTokenRecord",
+                "path": "IntegrationTestStack/testRootmail/HostedZoneVerificationTokenRecord",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/HostedZoneVerificationTokenRecord/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Route53::RecordSet",
+                      "aws:cdk:cloudformation:props": {
+                        "hostedZoneId": {
+                          "Ref": "testRootmailHostedZone6DFD3C9C"
+                        },
+                        "name": "_amazonses.aws-test.mavogel.xyz.",
+                        "resourceRecords": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "\"",
+                                {
+                                  "Fn::GetAtt": [
+                                    "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4",
+                                    "VerificationToken"
+                                  ]
+                                },
+                                "\""
+                              ]
+                            ]
+                          }
+                        ],
+                        "ttl": "60",
+                        "type": "TXT"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_route53.CfnRecordSet",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_route53.RecordSet",
+                  "version": "2.88.0"
+                }
+              },
+              "ready-handler": {
+                "id": "ready-handler",
+                "path": "IntegrationTestStack/testRootmail/ready-handler",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "IntegrationTestStack/testRootmail/ready-handler/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "IntegrationTestStack/testRootmail/ready-handler/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "IntegrationTestStack/testRootmail/ready-handler/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "IntegrationTestStack/testRootmail/ready-handler/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "IntegrationTestStack/testRootmail/ready-handler/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "ses:GetAccountSendingEnabled",
+                                        "ses:GetIdentityDkimAttributes",
+                                        "ses:GetIdentityNotificationAttributes",
+                                        "ses:GetIdentityVerificationAttributes"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "testRootmailreadyhandlerServiceRoleDefaultPolicy7BEBBD32",
+                                "roles": [
+                                  {
+                                    "Ref": "testRootmailreadyhandlerServiceRole249853CC"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "IntegrationTestStack/testRootmail/ready-handler/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "IntegrationTestStack/testRootmail/ready-handler/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "IntegrationTestStack/testRootmail/ready-handler/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/ready-handler/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
+                          "s3Key": "0669eb748b229175fc83ac99435f92ab7e04b851c366dccd795b501a0b3a60bf.zip"
+                        },
+                        "environment": {
+                          "variables": {
+                            "DOMAIN": "mavogel.xyz",
+                            "SUB_DOMAIN": "aws-test",
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+                          }
+                        },
+                        "handler": "index.handler",
+                        "role": {
+                          "Fn::GetAtt": [
+                            "testRootmailreadyhandlerServiceRole249853CC",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "timeout": 260
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+                  "version": "2.88.0"
+                }
+              },
+              "RootMailReadyEventRule": {
+                "id": "RootMailReadyEventRule",
+                "path": "IntegrationTestStack/testRootmail/RootMailReadyEventRule",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/RootMailReadyEventRule/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Events::Rule",
+                      "aws:cdk:cloudformation:props": {
+                        "scheduleExpression": "rate(5 minutes)",
+                        "state": "ENABLED",
+                        "targets": [
+                          {
+                            "id": "Target0",
+                            "arn": {
+                              "Fn::GetAtt": [
+                                "testRootmailreadyhandlerCCD267B6",
+                                "Arn"
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_events.CfnRule",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "AllowEventRuleIntegrationTestStacktestRootmailreadyhandlerF12F8EEA": {
+                    "id": "AllowEventRuleIntegrationTestStacktestRootmailreadyhandlerF12F8EEA",
+                    "path": "IntegrationTestStack/testRootmail/RootMailReadyEventRule/AllowEventRuleIntegrationTestStacktestRootmailreadyhandlerF12F8EEA",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "testRootmailreadyhandlerCCD267B6",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "events.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::GetAtt": [
+                            "testRootmailRootMailReadyEventRule77EE7FF3",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.Rule",
+                  "version": "2.88.0"
+                }
+              },
+              "Errors": {
+                "id": "Errors",
+                "path": "IntegrationTestStack/testRootmail/Errors",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/Errors/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::CloudWatch::Alarm",
+                      "aws:cdk:cloudformation:props": {
+                        "alarmName": "superwerker-RootMailReady",
+                        "comparisonOperator": "GreaterThanOrEqualToThreshold",
+                        "dimensions": [
+                          {
+                            "name": "FunctionName",
+                            "value": {
+                              "Ref": "testRootmailreadyhandlerCCD267B6"
+                            }
+                          }
+                        ],
+                        "evaluationPeriods": 1,
+                        "metricName": "Errors",
+                        "namespace": "AWS/Lambda",
+                        "period": 180,
+                        "statistic": "Sum",
+                        "threshold": 1
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cloudwatch.Alarm",
+                  "version": "2.88.0"
+                }
+              },
+              "RootMailReadyHandle": {
+                "id": "RootMailReadyHandle",
+                "path": "IntegrationTestStack/testRootmail/RootMailReadyHandle",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CloudFormation::WaitConditionHandle",
+                  "aws:cdk:cloudformation:props": {}
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnWaitConditionHandle",
+                  "version": "2.88.0"
+                }
+              },
+              "RootMailReadyHandleWaitCondition": {
+                "id": "RootMailReadyHandleWaitCondition",
+                "path": "IntegrationTestStack/testRootmail/RootMailReadyHandleWaitCondition",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CloudFormation::WaitCondition",
+                  "aws:cdk:cloudformation:props": {
+                    "handle": {
+                      "Ref": "testRootmailRootMailReadyHandleC6B1EB65"
+                    },
+                    "timeout": "28800"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnWaitCondition",
+                  "version": "2.88.0"
+                }
+              },
+              "ready-trigger-handler": {
+                "id": "ready-trigger-handler",
+                "path": "IntegrationTestStack/testRootmail/ready-trigger-handler",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "IntegrationTestStack/testRootmail/ready-trigger-handler/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "IntegrationTestStack/testRootmail/ready-trigger-handler/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "IntegrationTestStack/testRootmail/ready-trigger-handler/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "IntegrationTestStack/testRootmail/ready-trigger-handler/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "IntegrationTestStack/testRootmail/ready-trigger-handler/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "IntegrationTestStack/testRootmail/ready-trigger-handler/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/ready-trigger-handler/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
+                          "s3Key": "04425b5415c97232bccb104a58de1fd2e1f45f8582bec3cf9c8bbbe61d3b41df.zip"
+                        },
+                        "environment": {
+                          "variables": {
+                            "SIGNAL_URL": {
+                              "Ref": "testRootmailRootMailReadyHandleC6B1EB65"
+                            },
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+                          }
+                        },
+                        "handler": "index.handler",
+                        "role": {
+                          "Fn::GetAtt": [
+                            "testRootmailreadytriggerhandlerServiceRoleE902110E",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "timeout": 10
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+                  "version": "2.88.0"
+                }
+              },
+              "RootMailReadyTriggerEventPattern": {
+                "id": "RootMailReadyTriggerEventPattern",
+                "path": "IntegrationTestStack/testRootmail/RootMailReadyTriggerEventPattern",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/testRootmail/RootMailReadyTriggerEventPattern/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Events::Rule",
+                      "aws:cdk:cloudformation:props": {
+                        "eventPattern": {
+                          "detail-type": [
+                            "CloudWatch Alarm State Change"
+                          ],
+                          "source": [
+                            "aws.cloudwatch"
+                          ],
+                          "detail": {
+                            "alarmName": [
+                              {
+                                "Ref": "testRootmailErrors174176D2"
+                              }
+                            ],
+                            "state": {
+                              "value": [
+                                "OK"
+                              ]
+                            }
+                          }
+                        },
+                        "state": "ENABLED",
+                        "targets": [
+                          {
+                            "id": "Target0",
+                            "arn": {
+                              "Fn::GetAtt": [
+                                "testRootmailreadytriggerhandlerEF7DC4EF",
+                                "Arn"
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_events.CfnRule",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "AllowEventRuleIntegrationTestStacktestRootmailreadytriggerhandler1A59D246": {
+                    "id": "AllowEventRuleIntegrationTestStacktestRootmailreadytriggerhandler1A59D246",
+                    "path": "IntegrationTestStack/testRootmail/RootMailReadyTriggerEventPattern/AllowEventRuleIntegrationTestStacktestRootmailreadytriggerhandler1A59D246",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "testRootmailreadytriggerhandlerEF7DC4EF",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "events.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::GetAtt": [
+                            "testRootmailRootMailReadyTriggerEventPattern0C7DAE47",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.Rule",
+                  "version": "2.88.0"
+                }
+              },
+              "SESReceiveStack": {
+                "id": "SESReceiveStack",
+                "path": "IntegrationTestStack/testRootmail/SESReceiveStack",
+                "children": {
+                  "OpsSantaFunctionRole": {
+                    "id": "OpsSantaFunctionRole",
+                    "path": "IntegrationTestStack/testRootmail/SESReceiveStack/OpsSantaFunctionRole",
+                    "children": {
+                      "ImportOpsSantaFunctionRole": {
+                        "id": "ImportOpsSantaFunctionRole",
+                        "path": "IntegrationTestStack/testRootmail/SESReceiveStack/OpsSantaFunctionRole/ImportOpsSantaFunctionRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "IntegrationTestStack/testRootmail/SESReceiveStack/OpsSantaFunctionRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "policies": [
+                              {
+                                "policyName": "OpsSantaFunctionRolePolicy",
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "s3:GetObject",
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":s3:::acd2d6439c39-rootmail-bucket-integtest/RootMail/*"
+                                          ]
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "Action": "ssm:CreateOpsItem",
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "ssm:PutParameter",
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            "arn:aws:ssm:eu-west-1:",
+                                            {
+                                              "Ref": "AWS::AccountId"
+                                            },
+                                            ":parameter/superwerker/*"
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "ops-santa-handler": {
+                    "id": "ops-santa-handler",
+                    "path": "IntegrationTestStack/testRootmail/SESReceiveStack/ops-santa-handler",
+                    "children": {
+                      "Code": {
+                        "id": "Code",
+                        "path": "IntegrationTestStack/testRootmail/SESReceiveStack/ops-santa-handler/Code",
+                        "children": {
+                          "Stage": {
+                            "id": "Stage",
+                            "path": "IntegrationTestStack/testRootmail/SESReceiveStack/ops-santa-handler/Code/Stage",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.AssetStaging",
+                              "version": "2.88.0"
+                            }
+                          },
+                          "AssetBucket": {
+                            "id": "AssetBucket",
+                            "path": "IntegrationTestStack/testRootmail/SESReceiveStack/ops-santa-handler/Code/AssetBucket",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "IntegrationTestStack/testRootmail/SESReceiveStack/ops-santa-handler/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                          "aws:cdk:cloudformation:props": {
+                            "code": {
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+                              },
+                              "s3Key": "824814583027e463ea24dd0599faee4d3e45ab389c935d4ca30f2c414fa61362.zip"
+                            },
+                            "environment": {
+                              "variables": {
+                                "EMAIL_BUCKET": "acd2d6439c39-rootmail-bucket-integtest",
+                                "EMAIL_BUCKET_ARN": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "arn:",
+                                      {
+                                        "Ref": "AWS::Partition"
+                                      },
+                                      ":s3:::acd2d6439c39-rootmail-bucket-integtest"
+                                    ]
+                                  ]
+                                },
+                                "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+                              }
+                            },
+                            "handler": "index.handler",
+                            "role": {
+                              "Fn::GetAtt": [
+                                "OpsSantaFunctionRole0876FEB1",
+                                "Arn"
+                              ]
+                            },
+                            "runtime": "nodejs18.x",
+                            "timeout": 60
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "OpsSantaFunctionSESPermissions": {
+                        "id": "OpsSantaFunctionSESPermissions",
+                        "path": "IntegrationTestStack/testRootmail/SESReceiveStack/ops-santa-handler/OpsSantaFunctionSESPermissions",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                          "aws:cdk:cloudformation:props": {
+                            "action": "lambda:InvokeFunction",
+                            "functionName": {
+                              "Fn::GetAtt": [
+                                "opssantahandler0CE197FE",
+                                "Arn"
+                              ]
+                            },
+                            "principal": "ses.amazonaws.com",
+                            "sourceAccount": {
+                              "Ref": "AWS::AccountId"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "SESReceiptRuleSetActivation": {
+                    "id": "SESReceiptRuleSetActivation",
+                    "path": "IntegrationTestStack/testRootmail/SESReceiveStack/SESReceiptRuleSetActivation",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "IntegrationTestStack/testRootmail/SESReceiveStack/SESReceiptRuleSetActivation/Resource",
+                        "children": {
+                          "Default": {
+                            "id": "Default",
+                            "path": "IntegrationTestStack/testRootmail/SESReceiveStack/SESReceiptRuleSetActivation/Resource/Default",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CustomResource",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.0.5"
+                    }
+                  },
+                  "superwerker.ses-receipt-ruleset-activation-provider": {
+                    "id": "superwerker.ses-receipt-ruleset-activation-provider",
+                    "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider",
+                    "children": {
+                      "SesReceiptRuleSetActivationCustomResourceRole": {
+                        "id": "SesReceiptRuleSetActivationCustomResourceRole",
+                        "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/SesReceiptRuleSetActivationCustomResourceRole",
+                        "children": {
+                          "ImportSesReceiptRuleSetActivationCustomResourceRole": {
+                            "id": "ImportSesReceiptRuleSetActivationCustomResourceRole",
+                            "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/SesReceiptRuleSetActivationCustomResourceRole/ImportSesReceiptRuleSetActivationCustomResourceRole",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.Resource",
+                              "version": "2.88.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/SesReceiptRuleSetActivationCustomResourceRole/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                              "aws:cdk:cloudformation:props": {
+                                "assumeRolePolicyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "sts:AssumeRole",
+                                      "Effect": "Allow",
+                                      "Principal": {
+                                        "Service": "lambda.amazonaws.com"
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "managedPolicyArns": [
+                                  {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                      ]
+                                    ]
+                                  }
+                                ],
+                                "policies": [
+                                  {
+                                    "policyName": "AllowSesAccess",
+                                    "policyDocument": {
+                                      "Statement": [
+                                        {
+                                          "Action": "ses:*",
+                                          "Effect": "Allow",
+                                          "Resource": "*"
+                                        }
+                                      ],
+                                      "Version": "2012-10-17"
+                                    }
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Role",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "on-event-handler": {
+                        "id": "on-event-handler",
+                        "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/on-event-handler",
+                        "children": {
+                          "Code": {
+                            "id": "Code",
+                            "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/on-event-handler/Code",
+                            "children": {
+                              "Stage": {
+                                "id": "Stage",
+                                "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/on-event-handler/Code/Stage",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.AssetStaging",
+                                  "version": "2.88.0"
+                                }
+                              },
+                              "AssetBucket": {
+                                "id": "AssetBucket",
+                                "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/on-event-handler/Code/AssetBucket",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                  "version": "2.88.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                              "version": "2.88.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/on-event-handler/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                              "aws:cdk:cloudformation:props": {
+                                "code": {
+                                  "s3Bucket": {
+                                    "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+                                  },
+                                  "s3Key": "a0ee0923b01a2f99db61a20ac1ddfd543f1aabe2f9406e619e5aa72c4d6ffd69.zip"
+                                },
+                                "environment": {
+                                  "variables": {
+                                    "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+                                  }
+                                },
+                                "handler": "index.handler",
+                                "role": {
+                                  "Fn::GetAtt": [
+                                    "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6",
+                                    "Arn"
+                                  ]
+                                },
+                                "runtime": "nodejs18.x",
+                                "timeout": 10
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "ses-receipt-ruleset-activation-provider": {
+                        "id": "ses-receipt-ruleset-activation-provider",
+                        "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider",
+                        "children": {
+                          "framework-onEvent": {
+                            "id": "framework-onEvent",
+                            "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent",
+                            "children": {
+                              "ServiceRole": {
+                                "id": "ServiceRole",
+                                "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/ServiceRole",
+                                "children": {
+                                  "ImportServiceRole": {
+                                    "id": "ImportServiceRole",
+                                    "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/ServiceRole/ImportServiceRole",
+                                    "constructInfo": {
+                                      "fqn": "aws-cdk-lib.Resource",
+                                      "version": "2.88.0"
+                                    }
+                                  },
+                                  "Resource": {
+                                    "id": "Resource",
+                                    "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/ServiceRole/Resource",
+                                    "attributes": {
+                                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                                      "aws:cdk:cloudformation:props": {
+                                        "assumeRolePolicyDocument": {
+                                          "Statement": [
+                                            {
+                                              "Action": "sts:AssumeRole",
+                                              "Effect": "Allow",
+                                              "Principal": {
+                                                "Service": "lambda.amazonaws.com"
+                                              }
+                                            }
+                                          ],
+                                          "Version": "2012-10-17"
+                                        },
+                                        "managedPolicyArns": [
+                                          {
+                                            "Fn::Join": [
+                                              "",
+                                              [
+                                                "arn:",
+                                                {
+                                                  "Ref": "AWS::Partition"
+                                                },
+                                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                              ]
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "constructInfo": {
+                                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                                      "version": "2.88.0"
+                                    }
+                                  },
+                                  "DefaultPolicy": {
+                                    "id": "DefaultPolicy",
+                                    "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/ServiceRole/DefaultPolicy",
+                                    "children": {
+                                      "Resource": {
+                                        "id": "Resource",
+                                        "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource",
+                                        "attributes": {
+                                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                                          "aws:cdk:cloudformation:props": {
+                                            "policyDocument": {
+                                              "Statement": [
+                                                {
+                                                  "Action": "lambda:InvokeFunction",
+                                                  "Effect": "Allow",
+                                                  "Resource": [
+                                                    {
+                                                      "Fn::GetAtt": [
+                                                        "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+                                                        "Arn"
+                                                      ]
+                                                    },
+                                                    {
+                                                      "Fn::Join": [
+                                                        "",
+                                                        [
+                                                          {
+                                                            "Fn::GetAtt": [
+                                                              "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+                                                              "Arn"
+                                                            ]
+                                                          },
+                                                          ":*"
+                                                        ]
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ],
+                                              "Version": "2012-10-17"
+                                            },
+                                            "policyName": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF",
+                                            "roles": [
+                                              {
+                                                "Ref": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79"
+                                              }
+                                            ]
+                                          }
+                                        },
+                                        "constructInfo": {
+                                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                                          "version": "2.88.0"
+                                        }
+                                      }
+                                    },
+                                    "constructInfo": {
+                                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                                      "version": "2.88.0"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                                  "version": "2.88.0"
+                                }
+                              },
+                              "Code": {
+                                "id": "Code",
+                                "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/Code",
+                                "children": {
+                                  "Stage": {
+                                    "id": "Stage",
+                                    "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/Code/Stage",
+                                    "constructInfo": {
+                                      "fqn": "aws-cdk-lib.AssetStaging",
+                                      "version": "2.88.0"
+                                    }
+                                  },
+                                  "AssetBucket": {
+                                    "id": "AssetBucket",
+                                    "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/Code/AssetBucket",
+                                    "constructInfo": {
+                                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                                      "version": "2.88.0"
+                                    }
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                                  "version": "2.88.0"
+                                }
+                              },
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                                  "aws:cdk:cloudformation:props": {
+                                    "code": {
+                                      "s3Bucket": {
+                                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+                                      },
+                                      "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                                    },
+                                    "description": "AWS CDK resource provider framework - onEvent (IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
+                                    "environment": {
+                                      "variables": {
+                                        "USER_ON_EVENT_FUNCTION_ARN": {
+                                          "Fn::GetAtt": [
+                                            "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+                                            "Arn"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    "handler": "framework.onEvent",
+                                    "role": {
+                                      "Fn::GetAtt": [
+                                        "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
+                                        "Arn"
+                                      ]
+                                    },
+                                    "runtime": "nodejs18.x",
+                                    "timeout": 900
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                                  "version": "2.88.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_lambda.Function",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.custom_resources.Provider",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.0.5"
+                    }
+                  },
+                  "BootstrapVersion": {
+                    "id": "BootstrapVersion",
+                    "path": "IntegrationTestStack/testRootmail/SESReceiveStack/BootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "CheckBootstrapVersion": {
+                    "id": "CheckBootstrapVersion",
+                    "path": "IntegrationTestStack/testRootmail/SESReceiveStack/CheckBootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnRule",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Stack",
+                  "version": "2.88.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.0.5"
+            }
+          },
+          "superwerker.hosted-zone-dkim-verification-records-provider": {
+            "id": "superwerker.hosted-zone-dkim-verification-records-provider",
+            "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider",
+            "children": {
+              "on-event-handler": {
+                "id": "on-event-handler",
+                "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "ses:VerifyDomainDkim",
+                                        "ses:VerifyDomainIdentity"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRoleDefaultPolicy73A44F10",
+                                "roles": [
+                                  {
+                                    "Ref": "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRole4677E5E3"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
+                          "s3Key": "e1023219fc4c08147508002cf5f134de6da9a0dc67db889ef5a79f701d52073d.zip"
+                        },
+                        "environment": {
+                          "variables": {
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+                          }
+                        },
+                        "handler": "index.handler",
+                        "role": {
+                          "Fn::GetAtt": [
+                            "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRole4677E5E3",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "timeout": 200
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+                  "version": "2.88.0"
+                }
+              },
+              "hosted-zone-dkim-verification-records-provider": {
+                "id": "hosted-zone-dkim-verification-records-provider",
+                "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider",
+                "children": {
+                  "framework-onEvent": {
+                    "id": "framework-onEvent",
+                    "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent",
+                    "children": {
+                      "ServiceRole": {
+                        "id": "ServiceRole",
+                        "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/ServiceRole",
+                        "children": {
+                          "ImportServiceRole": {
+                            "id": "ImportServiceRole",
+                            "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/ServiceRole/ImportServiceRole",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.Resource",
+                              "version": "2.88.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/ServiceRole/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                              "aws:cdk:cloudformation:props": {
+                                "assumeRolePolicyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "sts:AssumeRole",
+                                      "Effect": "Allow",
+                                      "Principal": {
+                                        "Service": "lambda.amazonaws.com"
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "managedPolicyArns": [
+                                  {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                              "version": "2.88.0"
+                            }
+                          },
+                          "DefaultPolicy": {
+                            "id": "DefaultPolicy",
+                            "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/ServiceRole/DefaultPolicy",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                                  "aws:cdk:cloudformation:props": {
+                                    "policyDocument": {
+                                      "Statement": [
+                                        {
+                                          "Action": "lambda:InvokeFunction",
+                                          "Effect": "Allow",
+                                          "Resource": [
+                                            {
+                                              "Fn::GetAtt": [
+                                                "superwerkerhostedzonedkimverificationrecordsprovideroneventhandler73A574D3",
+                                                "Arn"
+                                              ]
+                                            },
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  {
+                                                    "Fn::GetAtt": [
+                                                      "superwerkerhostedzonedkimverificationrecordsprovideroneventhandler73A574D3",
+                                                      "Arn"
+                                                    ]
+                                                  },
+                                                  ":*"
+                                                ]
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "Version": "2012-10-17"
+                                    },
+                                    "policyName": "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleDefaultPolicy4EBCA739",
+                                    "roles": [
+                                      {
+                                        "Ref": "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleFE1295B9"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                                  "version": "2.88.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.Policy",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Role",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Code": {
+                        "id": "Code",
+                        "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/Code",
+                        "children": {
+                          "Stage": {
+                            "id": "Stage",
+                            "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/Code/Stage",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.AssetStaging",
+                              "version": "2.88.0"
+                            }
+                          },
+                          "AssetBucket": {
+                            "id": "AssetBucket",
+                            "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/Code/AssetBucket",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                          "aws:cdk:cloudformation:props": {
+                            "code": {
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                              },
+                              "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                            },
+                            "description": "AWS CDK resource provider framework - onEvent (IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider)",
+                            "environment": {
+                              "variables": {
+                                "USER_ON_EVENT_FUNCTION_ARN": {
+                                  "Fn::GetAtt": [
+                                    "superwerkerhostedzonedkimverificationrecordsprovideroneventhandler73A574D3",
+                                    "Arn"
+                                  ]
+                                }
+                              }
+                            },
+                            "handler": "framework.onEvent",
+                            "role": {
+                              "Fn::GetAtt": [
+                                "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleFE1295B9",
+                                "Arn"
+                              ]
+                            },
+                            "runtime": "nodejs18.x",
+                            "timeout": 900
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.Function",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.custom_resources.Provider",
+                  "version": "2.88.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.0.5"
+            }
+          },
+          "wire-rootmail-dns-handler": {
+            "id": "wire-rootmail-dns-handler",
+            "path": "IntegrationTestStack/wire-rootmail-dns-handler",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "IntegrationTestStack/wire-rootmail-dns-handler/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "IntegrationTestStack/wire-rootmail-dns-handler/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegrationTestStack/wire-rootmail-dns-handler/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.88.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "IntegrationTestStack/wire-rootmail-dns-handler/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "IntegrationTestStack/wire-rootmail-dns-handler/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "IntegrationTestStack/wire-rootmail-dns-handler/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.88.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "IntegrationTestStack/wire-rootmail-dns-handler/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "375d009a903db2bd9b2215e13fb2caeb0c8b3e3bdb911855324f27351a7c3231.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+                      }
+                    },
+                    "handler": "index.handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "wirerootmaildnshandlerServiceRoleABBD62D2",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "nodejs18.x",
+                    "timeout": 300
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.88.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+              "version": "2.88.0"
+            }
+          },
+          "Exports": {
+            "id": "Exports",
+            "path": "IntegrationTestStack/Exports",
+            "children": {
+              "Output{\"Ref\":\"wirerootmaildnshandler3CA8CB36\"}": {
+                "id": "Output{\"Ref\":\"wirerootmaildnshandler3CA8CB36\"}",
+                "path": "IntegrationTestStack/Exports/Output{\"Ref\":\"wirerootmaildnshandler3CA8CB36\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.88.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.0.5"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "IntegrationTestStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.88.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "IntegrationTestStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.88.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.88.0"
+        }
+      },
+      "SetupTest": {
+        "id": "SetupTest",
+        "path": "SetupTest",
+        "children": {
+          "DefaultTest": {
+            "id": "DefaultTest",
+            "path": "SetupTest/DefaultTest",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "SetupTest/DefaultTest/Default",
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.0.5"
+                }
+              },
+              "DeployAssert": {
+                "id": "DeployAssert",
+                "path": "SetupTest/DefaultTest/DeployAssert",
+                "children": {
+                  "AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48": {
+                    "id": "AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48",
+                    "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48",
+                    "children": {
+                      "SdkProvider": {
+                        "id": "SdkProvider",
+                        "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/SdkProvider",
+                        "children": {
+                          "AssertionsProvider": {
+                            "id": "AssertionsProvider",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/SdkProvider/AssertionsProvider",
+                            "constructInfo": {
+                              "fqn": "constructs.Construct",
+                              "version": "10.0.5"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                          "version": "2.88.0-alpha.0"
+                        }
+                      },
+                      "Default": {
+                        "id": "Default",
+                        "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/Default",
+                        "children": {
+                          "Default": {
+                            "id": "Default",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/Default/Default",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CustomResource",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "WaitFor": {
+                        "id": "WaitFor",
+                        "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/WaitFor",
+                        "children": {
+                          "IsCompleteProvider": {
+                            "id": "IsCompleteProvider",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/WaitFor/IsCompleteProvider",
+                            "children": {
+                              "AssertionsProvider": {
+                                "id": "AssertionsProvider",
+                                "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/WaitFor/IsCompleteProvider/AssertionsProvider",
+                                "constructInfo": {
+                                  "fqn": "constructs.Construct",
+                                  "version": "10.0.5"
+                                }
+                              },
+                              "Invoke": {
+                                "id": "Invoke",
+                                "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/WaitFor/IsCompleteProvider/Invoke",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.CfnResource",
+                                  "version": "2.88.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                              "version": "2.88.0-alpha.0"
+                            }
+                          },
+                          "TimeoutProvider": {
+                            "id": "TimeoutProvider",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/WaitFor/TimeoutProvider",
+                            "children": {
+                              "AssertionsProvider": {
+                                "id": "AssertionsProvider",
+                                "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/WaitFor/TimeoutProvider/AssertionsProvider",
+                                "constructInfo": {
+                                  "fqn": "constructs.Construct",
+                                  "version": "10.0.5"
+                                }
+                              },
+                              "Invoke": {
+                                "id": "Invoke",
+                                "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/WaitFor/TimeoutProvider/Invoke",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.CfnResource",
+                                  "version": "2.88.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                              "version": "2.88.0-alpha.0"
+                            }
+                          },
+                          "Role": {
+                            "id": "Role",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/WaitFor/Role",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.88.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/WaitFor/Resource",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/integ-tests-alpha.WaiterStateMachine",
+                          "version": "2.88.0-alpha.0"
+                        }
+                      },
+                      "AssertionResults": {
+                        "id": "AssertionResults",
+                        "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/AssertionResults",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/integ-tests-alpha.AwsApiCall",
+                      "version": "2.88.0-alpha.0"
+                    }
+                  },
+                  "SingletonFunction1488541a7b23466481b69b4408076b81": {
+                    "id": "SingletonFunction1488541a7b23466481b69b4408076b81",
+                    "path": "SetupTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81",
+                    "children": {
+                      "Staging": {
+                        "id": "Staging",
+                        "path": "SetupTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Staging",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Role": {
+                        "id": "Role",
+                        "path": "SetupTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Handler": {
+                        "id": "Handler",
+                        "path": "SetupTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Handler",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.0.5"
+                    }
+                  },
+                  "SingletonFunction76b3e830a873425f8453eddd85c86925": {
+                    "id": "SingletonFunction76b3e830a873425f8453eddd85c86925",
+                    "path": "SetupTest/DefaultTest/DeployAssert/SingletonFunction76b3e830a873425f8453eddd85c86925",
+                    "children": {
+                      "Staging": {
+                        "id": "Staging",
+                        "path": "SetupTest/DefaultTest/DeployAssert/SingletonFunction76b3e830a873425f8453eddd85c86925/Staging",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Role": {
+                        "id": "Role",
+                        "path": "SetupTest/DefaultTest/DeployAssert/SingletonFunction76b3e830a873425f8453eddd85c86925/Role",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Handler": {
+                        "id": "Handler",
+                        "path": "SetupTest/DefaultTest/DeployAssert/SingletonFunction76b3e830a873425f8453eddd85c86925/Handler",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.0.5"
+                    }
+                  },
+                  "SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a": {
+                    "id": "SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a",
+                    "path": "SetupTest/DefaultTest/DeployAssert/SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a",
+                    "children": {
+                      "Staging": {
+                        "id": "Staging",
+                        "path": "SetupTest/DefaultTest/DeployAssert/SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a/Staging",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Role": {
+                        "id": "Role",
+                        "path": "SetupTest/DefaultTest/DeployAssert/SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a/Role",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Handler": {
+                        "id": "Handler",
+                        "path": "SetupTest/DefaultTest/DeployAssert/SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a/Handler",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.0.5"
+                    }
+                  },
+                  "LambdaInvokefebf566eaa89936f3735e0568828818a": {
+                    "id": "LambdaInvokefebf566eaa89936f3735e0568828818a",
+                    "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefebf566eaa89936f3735e0568828818a",
+                    "children": {
+                      "SdkProvider": {
+                        "id": "SdkProvider",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefebf566eaa89936f3735e0568828818a/SdkProvider",
+                        "children": {
+                          "AssertionsProvider": {
+                            "id": "AssertionsProvider",
+                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefebf566eaa89936f3735e0568828818a/SdkProvider/AssertionsProvider",
+                            "constructInfo": {
+                              "fqn": "constructs.Construct",
+                              "version": "10.0.5"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                          "version": "2.88.0-alpha.0"
+                        }
+                      },
+                      "Default": {
+                        "id": "Default",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefebf566eaa89936f3735e0568828818a/Default",
+                        "children": {
+                          "Default": {
+                            "id": "Default",
+                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefebf566eaa89936f3735e0568828818a/Default/Default",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CustomResource",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "Invoke": {
+                        "id": "Invoke",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefebf566eaa89936f3735e0568828818a/Invoke",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "AssertionResults": {
+                        "id": "AssertionResults",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefebf566eaa89936f3735e0568828818a/AssertionResults",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/integ-tests-alpha.LambdaInvokeFunction",
+                      "version": "2.88.0-alpha.0"
+                    }
+                  },
+                  "AwsApiCallSESsendEmailde1e86981cb19289c354a4b29948597d": {
+                    "id": "AwsApiCallSESsendEmailde1e86981cb19289c354a4b29948597d",
+                    "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSESsendEmailde1e86981cb19289c354a4b29948597d",
+                    "children": {
+                      "SdkProvider": {
+                        "id": "SdkProvider",
+                        "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSESsendEmailde1e86981cb19289c354a4b29948597d/SdkProvider",
+                        "children": {
+                          "AssertionsProvider": {
+                            "id": "AssertionsProvider",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSESsendEmailde1e86981cb19289c354a4b29948597d/SdkProvider/AssertionsProvider",
+                            "constructInfo": {
+                              "fqn": "constructs.Construct",
+                              "version": "10.0.5"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                          "version": "2.88.0-alpha.0"
+                        }
+                      },
+                      "Default": {
+                        "id": "Default",
+                        "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSESsendEmailde1e86981cb19289c354a4b29948597d/Default",
+                        "children": {
+                          "Default": {
+                            "id": "Default",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSESsendEmailde1e86981cb19289c354a4b29948597d/Default/Default",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CustomResource",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/integ-tests-alpha.AwsApiCall",
+                      "version": "2.88.0-alpha.0"
+                    }
+                  },
+                  "AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043": {
+                    "id": "AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043",
+                    "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043",
+                    "children": {
+                      "SdkProvider": {
+                        "id": "SdkProvider",
+                        "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/SdkProvider",
+                        "children": {
+                          "AssertionsProvider": {
+                            "id": "AssertionsProvider",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/SdkProvider/AssertionsProvider",
+                            "constructInfo": {
+                              "fqn": "constructs.Construct",
+                              "version": "10.0.5"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                          "version": "2.88.0-alpha.0"
+                        }
+                      },
+                      "Default": {
+                        "id": "Default",
+                        "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/Default",
+                        "children": {
+                          "Default": {
+                            "id": "Default",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/Default/Default",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CustomResource",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "WaitFor": {
+                        "id": "WaitFor",
+                        "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/WaitFor",
+                        "children": {
+                          "IsCompleteProvider": {
+                            "id": "IsCompleteProvider",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/WaitFor/IsCompleteProvider",
+                            "children": {
+                              "AssertionsProvider": {
+                                "id": "AssertionsProvider",
+                                "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/WaitFor/IsCompleteProvider/AssertionsProvider",
+                                "constructInfo": {
+                                  "fqn": "constructs.Construct",
+                                  "version": "10.0.5"
+                                }
+                              },
+                              "Invoke": {
+                                "id": "Invoke",
+                                "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/WaitFor/IsCompleteProvider/Invoke",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.CfnResource",
+                                  "version": "2.88.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                              "version": "2.88.0-alpha.0"
+                            }
+                          },
+                          "TimeoutProvider": {
+                            "id": "TimeoutProvider",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/WaitFor/TimeoutProvider",
+                            "children": {
+                              "AssertionsProvider": {
+                                "id": "AssertionsProvider",
+                                "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/WaitFor/TimeoutProvider/AssertionsProvider",
+                                "constructInfo": {
+                                  "fqn": "constructs.Construct",
+                                  "version": "10.0.5"
+                                }
+                              },
+                              "Invoke": {
+                                "id": "Invoke",
+                                "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/WaitFor/TimeoutProvider/Invoke",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.CfnResource",
+                                  "version": "2.88.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                              "version": "2.88.0-alpha.0"
+                            }
+                          },
+                          "Role": {
+                            "id": "Role",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/WaitFor/Role",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.88.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/WaitFor/Resource",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/integ-tests-alpha.WaiterStateMachine",
+                          "version": "2.88.0-alpha.0"
+                        }
+                      },
+                      "AssertionResults": {
+                        "id": "AssertionResults",
+                        "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetOpsSummary3c7fdf2ba06aadccbb9faec280629043/AssertionResults",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/integ-tests-alpha.AwsApiCall",
+                      "version": "2.88.0-alpha.0"
+                    }
+                  },
+                  "AwsApiCallSSMupdateOpsItemb4d0195f82ed7a2f0848bee5cb340c37": {
+                    "id": "AwsApiCallSSMupdateOpsItemb4d0195f82ed7a2f0848bee5cb340c37",
+                    "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMupdateOpsItemb4d0195f82ed7a2f0848bee5cb340c37",
+                    "children": {
+                      "SdkProvider": {
+                        "id": "SdkProvider",
+                        "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMupdateOpsItemb4d0195f82ed7a2f0848bee5cb340c37/SdkProvider",
+                        "children": {
+                          "AssertionsProvider": {
+                            "id": "AssertionsProvider",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMupdateOpsItemb4d0195f82ed7a2f0848bee5cb340c37/SdkProvider/AssertionsProvider",
+                            "constructInfo": {
+                              "fqn": "constructs.Construct",
+                              "version": "10.0.5"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                          "version": "2.88.0-alpha.0"
+                        }
+                      },
+                      "Default": {
+                        "id": "Default",
+                        "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMupdateOpsItemb4d0195f82ed7a2f0848bee5cb340c37/Default",
+                        "children": {
+                          "Default": {
+                            "id": "Default",
+                            "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMupdateOpsItemb4d0195f82ed7a2f0848bee5cb340c37/Default/Default",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.88.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CustomResource",
+                          "version": "2.88.0"
+                        }
+                      },
+                      "AssertionResults": {
+                        "id": "AssertionResults",
+                        "path": "SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMupdateOpsItemb4d0195f82ed7a2f0848bee5cb340c37/AssertionResults",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.88.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/integ-tests-alpha.AwsApiCall",
+                      "version": "2.88.0-alpha.0"
+                    }
+                  },
+                  "BootstrapVersion": {
+                    "id": "BootstrapVersion",
+                    "path": "SetupTest/DefaultTest/DeployAssert/BootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.88.0"
+                    }
+                  },
+                  "CheckBootstrapVersion": {
+                    "id": "CheckBootstrapVersion",
+                    "path": "SetupTest/DefaultTest/DeployAssert/CheckBootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnRule",
+                      "version": "2.88.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Stack",
+                  "version": "2.88.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/integ-tests-alpha.IntegTestCase",
+              "version": "2.88.0-alpha.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "@aws-cdk/integ-tests-alpha.IntegTest",
+          "version": "2.88.0-alpha.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.0.5"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.88.0"
+    }
+  }
+}
