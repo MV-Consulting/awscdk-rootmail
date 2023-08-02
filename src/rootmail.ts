@@ -72,7 +72,7 @@ export class Rootmail extends Construct {
           service: 's3',
           region: '',
           account: '',
-          resource: emailBucket.bucketName, // TODO check
+          resource: emailBucket.bucketName,
           arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
           resourceName: 'RootMail/*',
         }, Stack.of(this)),
@@ -91,7 +91,7 @@ export class Rootmail extends Construct {
 
     new ssm.StringListParameter(this, 'HostedZoneSSMParameter', {
       parameterName: '/superwerker/domain_name_servers',
-      stringListValue: hostedZone.hostedZoneNameServers || [], // TODO can we error here or wait until present?
+      stringListValue: hostedZone.hostedZoneNameServers || [],
     });
 
     const hostedZoneDKIMAndVerificationRecords = new HostedZoneDKIMAndVerificationRecords(this, 'HostedZoneDKIMAndVerificationRecords', {
