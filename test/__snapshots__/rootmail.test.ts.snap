@@ -201,7 +201,7 @@ exports[`rootmail create 1`] = `
     "testRootmailEmailBucket2A470446": {
       "DeletionPolicy": "Retain",
       "Properties": {
-        "BucketName": "teststacktmailemailbuckete12ab3f3d5ea6a1fea86",
+        "BucketName": "1234-rootmail-bucket",
         "PublicAccessBlockConfiguration": {
           "BlockPublicAcls": true,
           "BlockPublicPolicy": true,

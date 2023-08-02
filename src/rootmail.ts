@@ -13,7 +13,6 @@ import {
   aws_s3 as s3,
   aws_ssm as ssm,
   Fn,
-  PhysicalName,
 } from 'aws-cdk-lib';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
@@ -33,6 +32,13 @@ export interface RootmailProps {
    * @default 'aws'
    */
   readonly subdomain?: string;
+
+  /**
+   * The name of the S3 bucket that will be used to store the emails for 'root@<subdomain>.<domain>'
+   *
+   * @default '<accountId>-rootmail-bucket'
+   */
+  readonly emailBucketName?: string;
 }
 
 export class Rootmail extends Construct {
@@ -41,14 +47,13 @@ export class Rootmail extends Construct {
 
     const domain = props.domain;
     const subdomain = props.subdomain || 'aws';
+    const emailBucketName = props.emailBucketName || `${Stack.of(this).account}-rootmail-bucket`;
 
     /**
      * EMAIL Bucket
      */
     const emailBucket = new s3.Bucket(this, 'EmailBucket', {
-      // due to: Cannot use resource 'testStack/testRootmail/EmailBucket' in a cross-environment fashion,
-      // the resource's physical name must be explicit set or use `PhysicalName.GENERATE_IF_NEEDED`
-      bucketName: PhysicalName.GENERATE_IF_NEEDED,
+      bucketName: emailBucketName,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       // TODO later
       // removalPolicy: RemovalPolicy.DESTROY,

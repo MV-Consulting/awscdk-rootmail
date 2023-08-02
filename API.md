@@ -2,8 +2,37 @@
 
 See the ADR from superwerker about the rootmail feature [here](https://github.com/superwerker/superwerker/blob/main/docs/adrs/rootmail.md)
 
+## Setup
+```ts
+import { App, Stack, StackProps } from 'aws-cdk-lib';
+import { Rootmail } from 'awscdk-rootmail';
+import { Construct } from 'constructs';
+
+export class MyStack extends Stack {
+  constructor(scope: Construct, id: string, props: StackProps = {}) {
+    super(scope, id, props);
+
+    // define resources here...
+    new Rootmail(this, 'mavogelRootmail', {
+      subdomain: 'aws', // which is the default
+      domain: 'example.com',
+    });
+  }
+}
+```
+
+```sh
+# projen
+npm run deploy -- --all
+# plain cdk
+npx cdk deploy --all
+```
+
 ## Known issues
 - https://github.com/aws/jsii/issues/2071: so adding  `compilerOptions."esModuleInterop": true,` in `tsconfig.json` is not possble. See [aws-sdk](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/#Usage_with_TypeScript). So change from `import AWS from 'aws-sdk';` to `import * as AWS from 'aws-sdk';`
+
+## Docs
+- activate opscenter via [url](https://eu-central-1.console.aws.amazon.com/systems-manager/opsitems/?region=eu-central-1&onboarded=true#activeTab=OPS_ITEMS&list_ops_items_filters=Status:Equal:Open_InProgress)
 # API Reference <a name="API Reference" id="api-reference"></a>
 
 ## Constructs <a name="Constructs" id="Constructs"></a>
@@ -1152,6 +1181,7 @@ const rootmailProps: RootmailProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#awscdk-rootmail.RootmailProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
+| <code><a href="#awscdk-rootmail.RootmailProps.property.emailBucketName">emailBucketName</a></code> | <code>string</code> | The name of the S3 bucket that will be used to store the emails for 'root@<subdomain>.<domain>'. |
 | <code><a href="#awscdk-rootmail.RootmailProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 
 ---
@@ -1167,6 +1197,19 @@ public readonly domain: string;
 Domain used for root mail feature.
 
 Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+
+---
+
+##### `emailBucketName`<sup>Optional</sup> <a name="emailBucketName" id="awscdk-rootmail.RootmailProps.property.emailBucketName"></a>
+
+```typescript
+public readonly emailBucketName: string;
+```
+
+- *Type:* string
+- *Default:* '<accountId>-rootmail-bucket'
+
+The name of the S3 bucket that will be used to store the emails for 'root@<subdomain>.<domain>'.
 
 ---
 
