@@ -6,9 +6,9 @@ import {
   Stack,
   aws_lambda as lambda,
 } from 'aws-cdk-lib';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import { Rootmail } from '../src/rootmail';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 // CDK App for Integration Tests
 const app = new App();
 // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
@@ -27,6 +27,7 @@ const stackUnderTest = new Stack(app, 'IntegrationTestStack', {
 new Rootmail(stackUnderTest, 'testRootmail', {
   subdomain: 'aws-test',
   domain: 'mavogel.xyz',
+  emailBucketName: `${Stack.of(stackUnderTest).account}-rootmail-bucket-integtest`,
 });
 
 const fullDomain = 'aws-test.mavogel.xyz';
@@ -54,7 +55,7 @@ const message = 'This is a mail body';
 const hostedZoneParameterName = '/superwerker/domain_name_servers';
 const wireRootmailDnsInvoke = new NodejsFunction(stackUnderTest, 'wire-rootmail-dns', {
   runtime: lambda.Runtime.NODEJS_18_X,
-  timeout: Duration.minutes(3),
+  timeout: Duration.minutes(5),
 });
 
 integ.assertions
