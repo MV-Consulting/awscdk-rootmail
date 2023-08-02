@@ -1,0 +1,100 @@
+Return-Path: <info@manuel-vogel.de>
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by inbound-smtp.eu-west-1.amazonaws.com with SMTP id j164h5btoge0je2huf5nuabdrovolc7qaslbl101
+ for root+test@aws.mavogel.xyz;
+ Wed, 02 Aug 2023 09:08:46 +0000 (UTC)
+X-SES-Spam-Verdict: PASS
+X-SES-Virus-Verdict: PASS
+Received-SPF: none (spfCheck: 209.85.167.53 is neither permitted nor denied by domain of manuel-vogel.de) client-ip=209.85.167.53; envelope-from=info@manuel-vogel.de; helo=mail-lf1-f53.google.com;
+Authentication-Results: amazonses.com;
+ spf=none (spfCheck: 209.85.167.53 is neither permitted nor denied by domain of manuel-vogel.de) client-ip=209.85.167.53; envelope-from=info@manuel-vogel.de; helo=mail-lf1-f53.google.com;
+ dkim=pass header.i=@manuel-vogel-de.20221208.gappssmtp.com;
+ dmarc=none header.from=manuel-vogel.de;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFFYTBwdG9aWVI5T09Yc2tIRVd0Ti9KcTdmMWZFWjNJd2duOGVGY0p4TjFYVXcxaWVaZkpHZ2UwQzYyV2dkVHdwb25ESnUxS0FCMWcwc3BucWp6aE1GMlVSVjI4Y1QxVmxBaGVoTk9jTlhMK0J5MnpuLzZJVHBkTXBYMWVGbnhMZkcvNEFTQTJ3UFIzV2FuQVZWY1hKSGloUVM0Z2JrM1JoM25XeUlldUZBM29QWUZGZ2ZqRnZSeU5BZVBnWG8xOHFNNWlVSWluajh2RDJkaGtxeG5ETVVpREpNSm03ZjhRRlg1NlpwYS84bjVoYU91eUNYcWlvdmZxbFlPdEtLbUp5Z256U054WDlqU3pQaFhLLzRxeE5FM2xrd1l4QldVY0kxUTBXSzFkNVhlK3c9PQ==
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=xJozkRZasRtWB8N0w9//Zk715ySossMrKTvFuVkKVGvNVnsq/vrtBKjIQyW7bfonaS7umtMP0WWHMCgGVfX74bOUzVOFyBOV3htpJuAi+12K7AW+YnU9byZG4cVcjENah3o3xs/L9e3QuGjqkEowtGhEgZuKH6mPRqfHpj0Ac/c=; c=relaxed/simple; s=shh3fegwg5fppqsuzphvschd53n6ihuv; d=amazonses.com; t=1690967326; v=1; bh=URHAVncSZSistZhAUaq5SKYoxQaTx09cmAT7UYOeLbs=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-4fe2de785e7so5978454e87.1
+        for <root+test@aws.mavogel.xyz>; Wed, 02 Aug 2023 02:08:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=manuel-vogel-de.20221208.gappssmtp.com; s=20221208; t=1690967325; x=1691572125;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=URHAVncSZSistZhAUaq5SKYoxQaTx09cmAT7UYOeLbs=;
+        b=5q/g+gltflehMbwLZhpHGwC79m0nhSmNKcocmjlNTyrQvTzQG2PAFL1c1IvZqmGd4C
+         cR9IN5cYZcXkEi20PThA5kCn6KIz707fXQYk+BkyZBM69/fKgkGjG7fnq0I/M9vuIqPG
+         qU3Rm7qIE0cV/ZLKLXCiD2LIW4UvPCefkU77ZKubMuXLOMCrlPfSvk4/7s+6J9ZW492I
+         NeBWkLmI2WdAo5pRsYLmGN8sUJjJ7feHnVkP4aCbkXe8thbqUQgYzdKeVVME1CisVo3J
+         65n46Q5DYgByksOPINEFJsBYrsaxPNQKz1+C2OC4+eZ68MFIXrXvB/uPOChRmQvZAKjq
+         c1vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690967325; x=1691572125;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=URHAVncSZSistZhAUaq5SKYoxQaTx09cmAT7UYOeLbs=;
+        b=iVdczWjjd4P7HZ27p30KeEhfmNoMkbCoxJTNCEjuhaTeNzUwltMTmsvROp2HD0MAoV
+         8xnmJP4hWIRRpN9+BfBee3KkxhtZeX2VhxrUzcahFRELy5vv5Dt+oOVeVFebuIn2QMnI
+         KoEiBucsc1kSRZyty5+ra7kA3EPEUxT2A5mB4OQ5gaCoFWnoB/D/s0KKiCYoZevPmZqR
+         VXIb0uqeR2AW5aG/8X9R7ls3UJ+ll9vBIZVT14QTqwHlYcg9f1rh6EDuxIHQ5g/K/dVU
+         dVhquMHhBfVnTpdOSGXsHLFVctuvqG7twO8nvFYSBX0krUOAiT/dQfj9WX4aJo+Ks8Gi
+         I+rQ==
+X-Gm-Message-State: ABy/qLZILkWlwnXgKJVGRgyszBcGWNyVmt3Ru/BMF6+mSP+IjBJAUnNd
+	MKbgGZ+MOIKANId2+qc/sPEk8qu8QlU1Gg1AnM3jhBmlydZqnXXr
+X-Google-Smtp-Source: APBJJlGi62fn7ITwWEKWZN7DM43yJcehO9IGTyxhv14eOb5IlYiRfB9onL29m3GbUnBLUquyWkH65m3cc5goVik+/Lg=
+X-Received: by 2002:a05:6512:3694:b0:4fe:193a:e15c with SMTP id
+ d20-20020a056512369400b004fe193ae15cmr3529143lfs.40.1690967324705; Wed, 02
+ Aug 2023 02:08:44 -0700 (PDT)
+MIME-Version: 1.0
+From: Manuel Vogel <info@manuel-vogel.de>
+Date: Wed, 2 Aug 2023 11:08:33 +0200
+Message-ID: <CALALx7R1L=-+t=NO9-vzsswdaLm4HRitaqAdRO7K3+SFmRa=Ag@mail.gmail.com>
+Subject: This is Test 2
+To: root+test@aws.mavogel.xyz
+Content-Type: multipart/alternative; boundary="000000000000b760020601ed0239"
+
+--000000000000b760020601ed0239
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+with content
+
+--=20
+Manuel Vogel
+CEO | Senior Cloud Architect
+
+Website <https://manuel-vogel.de/> | LinkedIn
+<https://www.linkedin.com/in/manuel-vogel/> | GitHub
+<https://github.com/mavogel> | Mastodon <https://sself.co/@mavogel>
+
+MV Consulting GmbH, Board of Directors / Gescha=CC=88ftsfu=CC=88hrer: Manue=
+l Vogel
+Registration office: Amtsgericht Frankfurt am Main, Registration ID: HRB
+130991, USt-IdNr. =C2=A727a: DE361847760
+=C2=A9 2023 MV Consulting GmbH
+
+--000000000000b760020601ed0239
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">with content<br clear=3D"all"><div><br></div><span class=
+=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
+ignature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><font fa=
+ce=3D"trebuchet ms, sans-serif">Manuel Vogel</font><br></div><div><font fac=
+e=3D"trebuchet ms, sans-serif">CEO | Senior Cloud Architect</font></div><di=
+v><img src=3D"https://ci3.googleusercontent.com/mail-sig/AIorK4yQEz3BeoVaAV=
+EoBhX29gnfxG3Jqy8YMR1-qE7ARAak6mctBdIdxuDThyf1_X_1XN_rr7dO2dc" width=3D"200=
+" height=3D"81">=C2=A0<br></div><div><a href=3D"https://manuel-vogel.de/" t=
+arget=3D"_blank">Website</a>=C2=A0|=C2=A0<a href=3D"https://www.linkedin.co=
+m/in/manuel-vogel/" target=3D"_blank">LinkedIn</a>=C2=A0|=C2=A0<a href=3D"h=
+ttps://github.com/mavogel" target=3D"_blank">GitHub</a>=C2=A0|=C2=A0<a href=
+=3D"https://sself.co/@mavogel" target=3D"_blank">Mastodon</a></div><div><sp=
+an style=3D"color:rgb(128,128,128);font-family:Raleway;font-size:6pt"><br><=
+/span></div><div style=3D"text-align:center"><span style=3D"color:rgb(128,1=
+28,128);font-family:Raleway;font-size:6pt">MV Consulting GmbH, Board of Dir=
+ectors / Gescha=CC=88ftsfu=CC=88hrer: Manuel Vogel</span></div><div style=
+=3D"text-align:center"><span style=3D"color:rgb(128,128,128);font-family:Ra=
+leway;font-size:6pt">Registration office: Amtsgericht Frankfurt am Main, Re=
+gistration ID: HRB 130991, USt-IdNr. =C2=A727a: DE361847760</span></div><di=
+v style=3D"text-align:center"><span style=3D"color:rgb(128,128,128);font-fa=
+mily:Raleway;font-size:6pt">=C2=A9 2023 MV Consulting GmbH=C2=A0</span></di=
+v></div></div></div>
+
+--000000000000b760020601ed0239--

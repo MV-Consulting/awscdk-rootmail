@@ -1,0 +1,146 @@
+{
+    "event": {
+        "Records": [
+            {
+                "eventSource": "aws:ses",
+                "eventVersion": "1.0",
+                "ses": {
+                    "mail": {
+                        "timestamp": "2023-08-02T09:08:46.008Z",
+                        "source": "info@manuel-vogel.de",
+                        "messageId": "j164h5btoge0je2huf5nuabdrovolc7qaslbl101",
+                        "destination": [
+                            "root+test@aws.mavogel.xyz"
+                        ],
+                        "headersTruncated": false,
+                        "headers": [
+                            {
+                                "name": "Return-Path",
+                                "value": "<info@manuel-vogel.de>"
+                            },
+                            {
+                                "name": "Received",
+                                "value": "from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53]) by inbound-smtp.eu-west-1.amazonaws.com with SMTP id j164h5btoge0je2huf5nuabdrovolc7qaslbl101 for root+test@aws.mavogel.xyz; Wed, 02 Aug 2023 09:08:46 +0000 (UTC)"
+                            },
+                            {
+                                "name": "X-SES-Spam-Verdict",
+                                "value": "PASS"
+                            },
+                            {
+                                "name": "X-SES-Virus-Verdict",
+                                "value": "PASS"
+                            },
+                            {
+                                "name": "Received-SPF",
+                                "value": "none (spfCheck: 209.85.167.53 is neither permitted nor denied by domain of manuel-vogel.de) client-ip=209.85.167.53; envelope-from=info@manuel-vogel.de; helo=mail-lf1-f53.google.com;"
+                            },
+                            {
+                                "name": "Authentication-Results",
+                                "value": "amazonses.com; spf=none (spfCheck: 209.85.167.53 is neither permitted nor denied by domain of manuel-vogel.de) client-ip=209.85.167.53; envelope-from=info@manuel-vogel.de; helo=mail-lf1-f53.google.com; dkim=pass header.i=@manuel-vogel-de.20221208.gappssmtp.com; dmarc=none header.from=manuel-vogel.de;"
+                            },
+                            {
+                                "name": "X-SES-RECEIPT",
+                                "value": "AEFBQUFBQUFBQUFFYTBwdG9aWVI5T09Yc2tIRVd0Ti9KcTdmMWZFWjNJd2duOGVGY0p4TjFYVXcxaWVaZkpHZ2UwQzYyV2dkVHdwb25ESnUxS0FCMWcwc3BucWp6aE1GMlVSVjI4Y1QxVmxBaGVoTk9jTlhMK0J5MnpuLzZJVHBkTXBYMWVGbnhMZkcvNEFTQTJ3UFIzV2FuQVZWY1hKSGloUVM0Z2JrM1JoM25XeUlldUZBM29QWUZGZ2ZqRnZSeU5BZVBnWG8xOHFNNWlVSWluajh2RDJkaGtxeG5ETVVpREpNSm03ZjhRRlg1NlpwYS84bjVoYU91eUNYcWlvdmZxbFlPdEtLbUp5Z256U054WDlqU3pQaFhLLzRxeE5FM2xrd1l4QldVY0kxUTBXSzFkNVhlK3c9PQ=="
+                            },
+                            {
+                                "name": "X-SES-DKIM-SIGNATURE",
+                                "value": "a=rsa-sha256; q=dns/txt; b=xJozkRZasRtWB8N0w9//Zk715ySossMrKTvFuVkKVGvNVnsq/vrtBKjIQyW7bfonaS7umtMP0WWHMCgGVfX74bOUzVOFyBOV3htpJuAi+12K7AW+YnU9byZG4cVcjENah3o3xs/L9e3QuGjqkEowtGhEgZuKH6mPRqfHpj0Ac/c=; c=relaxed/simple; s=shh3fegwg5fppqsuzphvschd53n6ihuv; d=amazonses.com; t=1690967326; v=1; bh=URHAVncSZSistZhAUaq5SKYoxQaTx09cmAT7UYOeLbs=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;"
+                            },
+                            {
+                                "name": "Received",
+                                "value": "by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-4fe2de785e7so5978454e87.1 for <root+test@aws.mavogel.xyz>; Wed, 02 Aug 2023 02:08:45 -0700 (PDT)"
+                            },
+                            {
+                                "name": "DKIM-Signature",
+                                "value": "v=1; a=rsa-sha256; c=relaxed/relaxed; d=manuel-vogel-de.20221208.gappssmtp.com; s=20221208; t=1690967325; x=1691572125; h=to:subject:message-id:date:from:mime-version:from:to:cc:subject:date:message-id:reply-to; bh=URHAVncSZSistZhAUaq5SKYoxQaTx09cmAT7UYOeLbs=; b=5q/g+gltflehMbwLZhpHGwC79m0nhSmNKcocmjlNTyrQvTzQG2PAFL1c1IvZqmGd4CcR9IN5cYZcXkEi20PThA5kCn6KIz707fXQYk+BkyZBM69/fKgkGjG7fnq0I/M9vuIqPGqU3Rm7qIE0cV/ZLKLXCiD2LIW4UvPCefkU77ZKubMuXLOMCrlPfSvk4/7s+6J9ZW492INeBWkLmI2WdAo5pRsYLmGN8sUJjJ7feHnVkP4aCbkXe8thbqUQgYzdKeVVME1CisVo3J65n46Q5DYgByksOPINEFJsBYrsaxPNQKz1+C2OC4+eZ68MFIXrXvB/uPOChRmQvZAKjqc1vw=="
+                            },
+                            {
+                                "name": "X-Google-DKIM-Signature",
+                                "value": "v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net; s=20221208; t=1690967325; x=1691572125; h=to:subject:message-id:date:from:mime-version:x-gm-message-state :from:to:cc:subject:date:message-id:reply-to; bh=URHAVncSZSistZhAUaq5SKYoxQaTx09cmAT7UYOeLbs=; b=iVdczWjjd4P7HZ27p30KeEhfmNoMkbCoxJTNCEjuhaTeNzUwltMTmsvROp2HD0MAoV 8xnmJP4hWIRRpN9+BfBee3KkxhtZeX2VhxrUzcahFRELy5vv5Dt+oOVeVFebuIn2QMnI KoEiBucsc1kSRZyty5+ra7kA3EPEUxT2A5mB4OQ5gaCoFWnoB/D/s0KKiCYoZevPmZqR VXIb0uqeR2AW5aG/8X9R7ls3UJ+ll9vBIZVT14QTqwHlYcg9f1rh6EDuxIHQ5g/K/dVU dVhquMHhBfVnTpdOSGXsHLFVctuvqG7twO8nvFYSBX0krUOAiT/dQfj9WX4aJo+Ks8Gi I+rQ=="
+                            },
+                            {
+                                "name": "X-Gm-Message-State",
+                                "value": "ABy/qLZILkWlwnXgKJVGRgyszBcGWNyVmt3Ru/BMF6+mSP+IjBJAUnNd MKbgGZ+MOIKANId2+qc/sPEk8qu8QlU1Gg1AnM3jhBmlydZqnXXr"
+                            },
+                            {
+                                "name": "X-Google-Smtp-Source",
+                                "value": "APBJJlGi62fn7ITwWEKWZN7DM43yJcehO9IGTyxhv14eOb5IlYiRfB9onL29m3GbUnBLUquyWkH65m3cc5goVik+/Lg="
+                            },
+                            {
+                                "name": "X-Received",
+                                "value": "by 2002:a05:6512:3694:b0:4fe:193a:e15c with SMTP id d20-20020a056512369400b004fe193ae15cmr3529143lfs.40.1690967324705; Wed, 02 Aug 2023 02:08:44 -0700 (PDT)"
+                            },
+                            {
+                                "name": "MIME-Version",
+                                "value": "1.0"
+                            },
+                            {
+                                "name": "From",
+                                "value": "Manuel Vogel <info@manuel-vogel.de>"
+                            },
+                            {
+                                "name": "Date",
+                                "value": "Wed, 2 Aug 2023 11:08:33 +0200"
+                            },
+                            {
+                                "name": "Message-ID",
+                                "value": "<CALALx7R1L=-+t=NO9-vzsswdaLm4HRitaqAdRO7K3+SFmRa=Ag@mail.gmail.com>"
+                            },
+                            {
+                                "name": "Subject",
+                                "value": "This is Test 2"
+                            },
+                            {
+                                "name": "To",
+                                "value": "root+test@aws.mavogel.xyz"
+                            },
+                            {
+                                "name": "Content-Type",
+                                "value": "multipart/alternative; boundary=\"000000000000b760020601ed0239\""
+                            }
+                        ],
+                        "commonHeaders": {
+                            "returnPath": "info@manuel-vogel.de",
+                            "from": [
+                                "Manuel Vogel <info@manuel-vogel.de>"
+                            ],
+                            "date": "Wed, 2 Aug 2023 11:08:33 +0200",
+                            "to": [
+                                "root+test@aws.mavogel.xyz"
+                            ],
+                            "messageId": "<CALALx7R1L=-+t=NO9-vzsswdaLm4HRitaqAdRO7K3+SFmRa=Ag@mail.gmail.com>",
+                            "subject": "This is Test 2"
+                        }
+                    },
+                    "receipt": {
+                        "timestamp": "2023-08-02T09:08:46.008Z",
+                        "processingTimeMillis": 920,
+                        "recipients": [
+                            "root+test@aws.mavogel.xyz"
+                        ],
+                        "spamVerdict": {
+                            "status": "PASS"
+                        },
+                        "virusVerdict": {
+                            "status": "PASS"
+                        },
+                        "spfVerdict": {
+                            "status": "GRAY"
+                        },
+                        "dkimVerdict": {
+                            "status": "GRAY"
+                        },
+                        "dmarcVerdict": {
+                            "status": "GRAY"
+                        },
+                        "action": {
+                            "type": "Lambda",
+                            "functionArn": "arn:aws:lambda:eu-west-1:935897259846:function:awscdkrootmailtestdevtestR-opssantahandler0CE197FE-DULjO6HtzF3K"
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "level": "debug"
+}
