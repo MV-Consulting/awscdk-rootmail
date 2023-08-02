@@ -22,13 +22,6 @@ export class SESReceiveStack extends Stack {
   constructor(scope: Construct, id: string, props: SESReceiveStackProps) {
     super(scope, id, props);
 
-    // custom resource to activate SES receipt rule set
-    new SESReceiptRuleSetActivation(this, 'SESReceiptRuleSetActivation', {
-      domain: props.domain,
-      subdomain: props.subdomain,
-      emailbucketName: props.emailbucket.bucketName,
-    });
-
     const opsSantaFunctionSESPermissions = new iam.ServicePrincipal('ses.amazonaws.com');
 
     const opsSantaFunctionRole = new iam.Role(this, 'OpsSantaFunctionRole', {
@@ -107,6 +100,14 @@ export class SESReceiveStack extends Stack {
       principal: opsSantaFunctionSESPermissions,
       action: 'lambda:InvokeFunction',
       sourceAccount: Stack.of(this).account,
+    });
+
+    // custom resource to activate SES receipt rule set
+    new SESReceiptRuleSetActivation(this, 'SESReceiptRuleSetActivation', {
+      domain: props.domain,
+      subdomain: props.subdomain,
+      emailbucketName: props.emailbucket.bucketName,
+      opsSantaFunctionArn: opsSantaFunction.functionArn,
     });
   }
 }

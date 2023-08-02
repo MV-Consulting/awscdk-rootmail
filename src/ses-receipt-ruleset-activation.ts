@@ -8,16 +8,13 @@ import {
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct, Node } from 'constructs';
-// TODO from func
-export const PROP_DOMAIN = 'Domain';
-export const PROP_SUBDOMAIN = 'Subdomain';
-export const PROP_EMAILBUCKET = 'EmailBucket';
-export const PROP_OPS_SANTA_FUNCTION_ARN = 'OpsSantaFunctionArn';
+import { PROP_DOMAIN, PROP_SUBDOMAIN, PROP_EMAILBUCKET_NAME, PROP_OPS_SANTA_FUNCTION_ARN } from './ses-receipt-ruleset-activation.on-event-handler';
 
 export interface SESReceiptRuleSetActivationProps {
   readonly domain: string;
   readonly subdomain: string;
   readonly emailbucketName: string;
+  readonly opsSantaFunctionArn: string;
 }
 
 export class SESReceiptRuleSetActivation extends Construct {
@@ -30,7 +27,8 @@ export class SESReceiptRuleSetActivation extends Construct {
       properties: {
         [PROP_DOMAIN]: props.domain,
         [PROP_SUBDOMAIN]: props.subdomain,
-        [PROP_EMAILBUCKET]: props.emailbucketName,
+        [PROP_EMAILBUCKET_NAME]: props.emailbucketName,
+        [PROP_OPS_SANTA_FUNCTION_ARN]: props.opsSantaFunctionArn,
       },
     });
   }

@@ -124,7 +124,7 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "6227eeadaede8fcdc70ef4543d5ae0bffcea2f8862528a4328afd6c99b433f51.zip",
+          "S3Key": "e1023219fc4c08147508002cf5f134de6da9a0dc67db889ef5a79f701d52073d.zip",
         },
         "Environment": {
           "Variables": {
@@ -315,7 +315,7 @@ exports[`rootmail create 1`] = `
                   },
                 ],
               },
-              "_domainkey.aws.example.com.",
+              "._domainkey.aws.example.com.",
             ],
           ],
         },
@@ -365,7 +365,7 @@ exports[`rootmail create 1`] = `
                   },
                 ],
               },
-              "_domainkey.aws.example.com.",
+              "._domainkey.aws.example.com.",
             ],
           ],
         },
@@ -415,7 +415,7 @@ exports[`rootmail create 1`] = `
                   },
                 ],
               },
-              "_domainkey.aws.example.com.",
+              "._domainkey.aws.example.com.",
             ],
           ],
         },
@@ -618,7 +618,7 @@ exports[`rootmail create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "c15bd6766daf26c0c1c0b279c11577c09f7c8e0b20cbbafc2e496b3b9ce6c4aa.zip",
+          "S3Key": "0669eb748b229175fc83ac99435f92ab7e04b851c366dccd795b501a0b3a60bf.zip",
         },
         "Environment": {
           "Variables": {
