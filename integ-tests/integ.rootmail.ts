@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { IntegTest, ExpectedResult, LogType, InvocationType } from '@aws-cdk/integ-tests-alpha';
 import {
   App,
@@ -53,7 +54,8 @@ const integ = new IntegTest(app, 'SetupTest', {
 const id = 'test-id-1';
 const message = 'This is a mail body';
 const hostedZoneParameterName = '/superwerker/domain_name_servers';
-const wireRootmailDnsInvoke = new NodejsFunction(stackUnderTest, 'wire-rootmail-dns', {
+const wireRootmailDnsInvoke = new NodejsFunction(stackUnderTest, 'wire-rootmail-dns-handler', {
+  entry: path.join(__dirname, 'functions', 'wire-rootmail-dns-handler.ts'),
   runtime: lambda.Runtime.NODEJS_18_X,
   timeout: Duration.minutes(5),
 });
