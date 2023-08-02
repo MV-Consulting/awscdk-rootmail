@@ -39,6 +39,8 @@ export async function handler(event: any, _context: any) {
     n++;
   }
 
+  log('sending enabled');
+
   n = 1;
   while (true) {
     const res = await SES.getIdentityVerificationAttributes({ Identities: [domain] }).promise();
@@ -52,6 +54,8 @@ export async function handler(event: any, _context: any) {
     n++;
   }
 
+  log('identiity erification successful');
+
   n = 1;
   while (true) {
     const res = await SES.getIdentityDkimAttributes({ Identities: [domain] }).promise();
@@ -63,6 +67,8 @@ export async function handler(event: any, _context: any) {
     n++;
   }
 
+  log('DKIM verification successful');
+
   n = 1;
   while (true) {
     const res = await SES.getIdentityNotificationAttributes({ Identities: [domain] }).promise();
@@ -73,4 +79,7 @@ export async function handler(event: any, _context: any) {
     await backoff('forwarding not yet enabled', res, n);
     n++;
   }
+
+  log('forwarding enabled');
+  log('rootmail is ready');
 }
