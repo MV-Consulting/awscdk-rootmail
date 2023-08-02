@@ -1,7 +1,14 @@
-import { IntegTest, ExpectedResult } from '@aws-cdk/integ-tests-alpha';
-import { App, Duration, Aspects, Stack } from 'aws-cdk-lib';
+import { IntegTest, ExpectedResult, LogType, InvocationType } from '@aws-cdk/integ-tests-alpha';
+import {
+  App,
+  Duration,
+  Aspects,
+  Stack,
+  aws_lambda as lambda,
+} from 'aws-cdk-lib';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import { Rootmail } from '../src/rootmail';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 // CDK App for Integration Tests
 const app = new App();
 // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
@@ -18,11 +25,11 @@ const stackUnderTest = new Stack(app, 'IntegrationTestStack', {
 });
 
 new Rootmail(stackUnderTest, 'testRootmail', {
-  subdomain: 'aws',
+  subdomain: 'aws-test',
   domain: 'mavogel.xyz',
 });
 
-const fullDomain = 'aws.mavogel.xyz';
+const fullDomain = 'aws-test.mavogel.xyz';
 
 // Initialize Integ Test construct
 const integ = new IntegTest(app, 'SetupTest', {
@@ -44,26 +51,72 @@ const integ = new IntegTest(app, 'SetupTest', {
  */
 const id = 'test-id-1';
 const message = 'This is a mail body';
-/**
- * Publish a email to the domain.
- */
+const hostedZoneParameterName = '/superwerker/domain_name_servers';
+const wireRootmailDnsInvoke = new NodejsFunction(stackUnderTest, 'wire-rootmail-dns', {
+  runtime: lambda.Runtime.NODEJS_18_X,
+  timeout: Duration.minutes(3),
+});
+
 integ.assertions
-  .awsApiCall('SES', 'sendEmail', {
-    Source: `test@${fullDomain}`,
-    Destination: {
-      ToAddresses: [`root+${id}@${fullDomain}`],
-    },
-    Message: {
-      Subject: {
-        Data: id,
-      },
-      Body: {
-        Text: {
-          Data: message,
-        },
-      },
-    },
+  /**
+  * Wait until NS server a propagated
+  */
+  .awsApiCall('SSM', 'getParameter', {
+    Name: hostedZoneParameterName, // TODO as export
   })
+  .expect(
+    ExpectedResult.objectLike({
+      Parameter: {
+        PSParameterName: hostedZoneParameterName,
+        ParameterType: 'StringList',
+      },
+    }),
+  )
+  .waitForAssertions({
+    totalTimeout: Duration.minutes(5),
+    interval: Duration.seconds(30),
+  })
+  /**
+   * Wire the NS server for the subdomain
+   */
+  .next(
+    integ.assertions
+      .invokeFunction({
+        functionName: wireRootmailDnsInvoke.functionName,
+        logType: LogType.TAIL,
+        invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
+        payload: JSON.stringify({
+          domain: 'mavogel.xyz',
+          subdomain: 'aws-test',
+          hostedZoneParameterName: hostedZoneParameterName,
+        }),
+      }).expect(ExpectedResult.objectLike({
+        payload: '200',
+      }),
+      ),
+  )
+  /**
+   * Send a test email
+   */
+  .next(
+    integ.assertions
+      .awsApiCall('SES', 'sendEmail', {
+        Source: `test@${fullDomain}`,
+        Destination: {
+          ToAddresses: [`root+${id}@${fullDomain}`],
+        },
+        Message: {
+          Subject: {
+            Data: id,
+          },
+          Body: {
+            Text: {
+              Data: message,
+            },
+          },
+        },
+      }),
+  )
   /**
    * Validate an OPS item was created.
    */
@@ -114,4 +167,25 @@ integ.assertions
         totalTimeout: Duration.minutes(15),
         interval: Duration.seconds(30),
       }),
+  )
+  /**
+   * Close the OPS item that was created.
+   */
+  .next(
+    integ.assertions
+      .awsApiCall('SSM', 'updateOpsItem', { // TODO checke method
+        OpsItemId: id,
+        Status: 'Resolved',
+      })
+      /**
+       * Expect the ops item to be closed.
+       */
+      .expect(
+        ExpectedResult.objectLike({}), // TODO check
+      ),
   );
+// TODO call teardown lambda
+// - s3 rootmail bucket (empty & remove)
+// - main domain ns records for `aws` subdomain HZ
+// - SES ruleset and verified identities
+// - cw logs
