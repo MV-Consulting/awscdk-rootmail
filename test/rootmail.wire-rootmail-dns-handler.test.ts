@@ -29,7 +29,7 @@ describe('wire rootmail dns', () => {
     process.env.SUB_DOMAIN = 'subdomain';
     process.env.DOMAIN = 'domain.com';
     process.env.HOSTED_ZONE_PARAMETER_NAME = '/superwerker/dns_name_servers';
-    process.env.PARENT_HOSTED_ZONE_ID = '/hostedzone/Z1234567890CC2';
+    process.env.PARENT_HOSTED_ZONE_ID = 'Z1234567890CC2';
   });
 
   afterEach(() => {
@@ -53,7 +53,7 @@ describe('wire rootmail dns', () => {
       promise() {
         return Promise.resolve({
           HostedZones: [
-            { Id: hostedZoneId },
+            { Id: `/hostedzone/${hostedZoneId}` },
           ],
         });
       },
@@ -63,7 +63,7 @@ describe('wire rootmail dns', () => {
       promise() {
         return Promise.resolve({
           ResourceRecordSets: [
-            { Name: 'another.domain.com', Type: 'NS' },
+            { Name: 'another.domain.com.', Type: 'NS' },
           ],
         });
       },
@@ -96,7 +96,7 @@ describe('wire rootmail dns', () => {
   });
 
   it('dns ns records already exist', async () => {
-    const hostedZoneId = 'HZ1234567890';
+    const hostedZoneId = process.env.PARENT_HOSTED_ZONE_ID as string;
     spyGetParameter.mockImplementation(() => ({
       promise() {
         return Promise.resolve({
@@ -111,7 +111,7 @@ describe('wire rootmail dns', () => {
       promise() {
         return Promise.resolve({
           HostedZones: [
-            { Id: hostedZoneId },
+            { Id: `/hostedzone/${hostedZoneId}` },
           ],
         });
       },
@@ -122,7 +122,7 @@ describe('wire rootmail dns', () => {
         return Promise.resolve({
           ResourceRecordSets: [
             // record already exist
-            { Name: `${process.env.SUB_DOMAIN}.${process.env.DOMAIN}`, Type: 'NS' },
+            { Name: `${process.env.SUB_DOMAIN}.${process.env.DOMAIN}.`, Type: 'NS' },
           ],
         });
       },

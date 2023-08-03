@@ -52,7 +52,7 @@ export const handler = async () => {
       level: 'debug',
     });
 
-    throw new Error(`expected to find & filter exactly one hosted zone for ${domain}`);
+    throw new Error(`expected to find & filter exactly 1 hosted zone for ${domain}. Got ${filteredHostedZones.length}`);
   }
 
   const hostedZoneId = filteredHostedZones[0].Id;
@@ -73,7 +73,8 @@ export const handler = async () => {
   }
 
   const existingNSRecordSet = listResourceRecordSetsResponse.ResourceRecordSets?.find((recordSet) => {
-    return recordSet.Name === `${subdomain}.${domain}` && recordSet.Type === 'NS';
+    // Note the trainling dot in the name at the end
+    return recordSet.Name === `${subdomain}.${domain}.` && recordSet.Type === 'NS';
   });
 
   if (existingNSRecordSet !== undefined) {
