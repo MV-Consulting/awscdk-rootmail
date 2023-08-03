@@ -1,14 +1,11 @@
-import * as path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { IntegTest, ExpectedResult, LogType, InvocationType } from '@aws-cdk/integ-tests-alpha';
+import { IntegTest, ExpectedResult } from '@aws-cdk/integ-tests-alpha';
 import {
   App,
   Duration,
   // Aspects,
   Stack,
-  aws_lambda as lambda,
 } from 'aws-cdk-lib';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // import { AwsSolutionsChecks } from 'cdk-nag';
 import { Rootmail } from '../src/rootmail';
@@ -31,7 +28,10 @@ const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   subdomain: 'aws-test',
   domain: 'mavogel.xyz',
   emailBucketName: 'acd2d6439c39-rootmail-bucket-integtest',
-  autowireDNS: true,
+  autowireDNSOnAWS: {
+    enabled: true,
+    parentHostedZoneId: 'Z02503291YUXLE3C4727T', // mavogel.xyz
+  },
 });
 
 const fullDomain = 'aws-test.mavogel.xyz';
@@ -57,141 +57,145 @@ const integ = new IntegTest(app, 'SetupTest', {
 const id = 'test-id-1';
 const message = 'This is a mail body';
 const hostedZoneParameterName = rootmail.hostedZoneParameterName;
-const wireRootmailDnsInvoke = new NodejsFunction(stackUnderTest, 'wire-rootmail-dns-handler', {
-  entry: path.join(__dirname, 'functions', 'wire-rootmail-dns-handler.ts'),
-  runtime: lambda.Runtime.NODEJS_18_X,
-  timeout: Duration.minutes(5),
+
+const sendTestEmailAssertion = integ.assertions
+  .awsApiCall('SES', 'sendEmail', {
+    Source: `test@${fullDomain}`,
+    Destination: {
+      ToAddresses: [`root+${id}@${fullDomain}`],
+    },
+    Message: {
+      Subject: {
+        Data: id,
+      },
+      Body: {
+        Text: {
+          Data: message,
+        },
+      },
+    },
+  });
+
+sendTestEmailAssertion.provider.addToRolePolicy({
+  Effect: 'Allow',
+  Action: [
+    'ses:SendEmail',
+  ],
+  Resource: [
+    // 'arn:aws:ses:eu-central-1:935897259846:identity/root+test-id-1@aws-test.mavogel.xyz',
+    // `arn:aws:ses:::identity/root+${id}@${fullDomain}`,
+    '*',
+  ],
 });
 
+const validateOpsItemAssertion = integ.assertions
+  .awsApiCall('SSM', 'getOpsSummary', {
+    Filters: [
+      {
+        Key: 'AWS:OpsItem.Title',
+        Values: [id],
+        Type: 'Equal',
+      },
+      {
+        Key: 'AWS:OpsItem.Status',
+        Values: ['Open'],
+        Type: 'Equal',
+      },
+    ],
+  })
+  /**
+   * Expect the ops item to be created and returned.
+   */
+  .expect(
+    ExpectedResult.objectLike({
+      Entities: [
+        {
+          Id: id,
+          Data: {
+            'AWS:OpsItem': {
+              Content: [
+                {
+                  Description: message,
+                },
+              ],
+            },
+          },
+        },
+      ],
+      // NextToken: '',
+    }),
+  )
+  /**
+   * Timeout and interval check for assertion to be true.
+   * Note - Data may take some time to be parsed and the OPS item to be created.
+   * Iteratively executes API call at specified interval.
+   */
+  .waitForAssertions({
+    totalTimeout: Duration.minutes(1),
+    interval: Duration.seconds(5),
+  });
+
+validateOpsItemAssertion.provider.addToRolePolicy({
+  Effect: 'Allow',
+  Action: [
+    'ssm:GetOpsSummary',
+  ],
+  Resource: ['*'],
+});
+
+const updateOpsItemAssertion = integ.assertions
+  .awsApiCall('SSM', 'updateOpsItem', { // TODO check method
+    OpsItemId: id,
+    Status: 'Resolved',
+  });
+/**
+* Expect the ops item to be closed.
+*/
+// .expect(
+//   ExpectedResult.objectLike({}), // TODO check
+// ),
+
+updateOpsItemAssertion.provider.addToRolePolicy({
+  Effect: 'Allow',
+  Action: [
+    'ssm:UpdateOpsItem',
+  ],
+  Resource: ['*'],
+});
+
+/**
+ * Main test case
+ */
 integ.assertions
   /**
-  * Wait until NS server a propagated
+  * Check that parameter are present
   */
   .awsApiCall('SSM', 'getParameter', {
-    Name: hostedZoneParameterName, // TODO as export
+    Name: hostedZoneParameterName,
   })
   .expect(
     ExpectedResult.objectLike({
       Parameter: {
-        PSParameterName: hostedZoneParameterName,
-        ParameterType: 'StringList',
+        Name: hostedZoneParameterName,
+        Type: 'StringList',
       },
     }),
-  )
-  .waitForAssertions({
-    totalTimeout: Duration.minutes(5),
-    interval: Duration.seconds(30),
-  })
-  /**
-   * Wire the NS server for the subdomain
-   */
-  .next(
-    integ.assertions
-      .invokeFunction({
-        functionName: wireRootmailDnsInvoke.functionName,
-        logType: LogType.TAIL,
-        invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
-        payload: JSON.stringify({
-          domain: 'mavogel.xyz',
-          subdomain: 'aws-test',
-          hostedZoneParameterName: hostedZoneParameterName,
-        }),
-      }).expect(ExpectedResult.objectLike({
-        payload: '200',
-      }),
-      ),
   )
   /**
    * Send a test email
    */
-  .next(
-    integ.assertions
-      .awsApiCall('SES', 'sendEmail', {
-        Source: `test@${fullDomain}`,
-        Destination: {
-          ToAddresses: [`root+${id}@${fullDomain}`],
-        },
-        Message: {
-          Subject: {
-            Data: id,
-          },
-          Body: {
-            Text: {
-              Data: message,
-            },
-          },
-        },
-      }),
-  )
+  .next(sendTestEmailAssertion)
   /**
    * Validate an OPS item was created.
    */
-  .next(
-    integ.assertions
-      .awsApiCall('SSM', 'getOpsSummary', {
-        Filters: [
-          {
-            Key: 'AWS:OpsItem.Title',
-            Values: [id],
-            Type: 'Equal',
-          },
-          {
-            Key: 'AWS:OpsItem.Status',
-            Values: ['Open'],
-            Type: 'Equal',
-          },
-        ],
-      })
-      /**
-       * Expect the ops item to be created and returned.
-       */
-      .expect(
-        ExpectedResult.objectLike({
-          Entities: [
-            {
-              Id: id,
-              Data: {
-                'AWS:OpsItem': {
-                  Content: [
-                    {
-                      Description: message,
-                    },
-                  ],
-                },
-              },
-            },
-          ],
-          // NextToken: '',
-        }),
-      )
-      /**
-       * Timeout and interval check for assertion to be true.
-       * Note - Data may take some time to be parsed and the OPS item to be created.
-       * Iteratively executes API call at specified interval.
-       */
-      .waitForAssertions({
-        totalTimeout: Duration.minutes(15),
-        interval: Duration.seconds(30),
-      }),
-  )
+  .next(validateOpsItemAssertion)
   /**
    * Close the OPS item that was created.
    */
-  .next(
-    integ.assertions
-      .awsApiCall('SSM', 'updateOpsItem', { // TODO checke method
-        OpsItemId: id,
-        Status: 'Resolved',
-      })
-      /**
-       * Expect the ops item to be closed.
-       */
-      .expect(
-        ExpectedResult.objectLike({}), // TODO check
-      ),
-  );
+  .next(updateOpsItemAssertion);
+
 // TODO call teardown lambda
 // - s3 rootmail bucket (empty & remove)
 // - main domain ns records for `aws` subdomain HZ
-// - SES ruleset and verified identities
-// - cw logs
+// - SES verified identities
+// - cw log groups prefixed with '/aws/lambda/IntegrationTestStack*'
