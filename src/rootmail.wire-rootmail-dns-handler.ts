@@ -29,24 +29,48 @@ export const handler = async () => {
   }
 
   const hostedZoneResponse = await route53.listHostedZonesByName({
-    HostedZoneId: `/hostedzone/${parentHostedZoneId}`,
+    DNSName: domain,
   }).promise();
 
-  if (hostedZoneResponse.HostedZones?.length !== 1) {
+  if (hostedZoneResponse.HostedZones === undefined || hostedZoneResponse.HostedZones?.length === 0) {
     log({
       event: hostedZoneResponse,
       level: 'debug',
     });
 
-    throw new Error(`expected exactly one hosted zone for ${domain}`);
+    throw new Error(`expected to find at least one hosted zone for ${domain}`);
   }
 
-  const hostedZoneId = hostedZoneResponse.HostedZones?.[0].Id;
+  const filteredHostedZones = hostedZoneResponse.HostedZones?.filter((hostedZone) => {
+    // the response prefix is /hostedzone/ but the input parameter is without the prefix
+    return hostedZone.Id === `/hostedzone/${parentHostedZoneId}`;
+  });
+
+  if (filteredHostedZones.length !== 1) {
+    log({
+      event: hostedZoneResponse,
+      level: 'debug',
+    });
+
+    throw new Error(`expected to find & filter exactly one hosted zone for ${domain}`);
+  }
+
+  const hostedZoneId = filteredHostedZones[0].Id;
 
   // iterate over hosted zone records
   const listResourceRecordSetsResponse = await route53.listResourceRecordSets({
-    HostedZoneId: hostedZoneId,
+    // remove the prefix for using it as parameter
+    HostedZoneId: hostedZoneId.replace('/hostedzone/', ''),
   }).promise();
+
+  if (listResourceRecordSetsResponse.ResourceRecordSets === undefined) {
+    log({
+      event: listResourceRecordSetsResponse,
+      level: 'debug',
+    });
+
+    throw new Error(`expected to find at least one resource record set for ${domain}`);
+  }
 
   const existingNSRecordSet = listResourceRecordSetsResponse.ResourceRecordSets?.find((recordSet) => {
     return recordSet.Name === `${subdomain}.${domain}` && recordSet.Type === 'NS';
