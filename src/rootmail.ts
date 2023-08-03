@@ -169,36 +169,37 @@ export class Rootmail extends Construct {
       const autowireDNSHandler = new NodejsFunction(this, 'wire-rootmail-dns-handler', {
         runtime: lambda.Runtime.NODEJS_18_X,
         timeout: Duration.seconds(160), // 2m40s
-        initialPolicy: [
-          new iam.PolicyStatement({
-            actions: [
-              'ssm:GetParameter',
-            ],
-            effect: iam.Effect.ALLOW,
-            resources: [
-              hostedZoneSSMParameter.parameterArn,
-            ],
-          }),
-          // NOTE: not possible to limit to NS records only
-          new iam.PolicyStatement({
-            actions: [
-              'route53:ListHostedZonesByName',
-              'route53:ListResourceRecordSets',
-              'route53:ChangeResourceRecordSets',
-              'route53:GetChange',
-            ],
-            effect: iam.Effect.ALLOW,
-            resources: [
-              hostedZone.hostedZoneArn,
-            ],
-          }),
-        ],
         environment: {
           DOMAIN: domain,
           SUB_DOMAIN: subdomain,
           HOSTED_ZONE_PARAMETER_NAME: this.hostedZoneParameterName,
         },
       });
+
+      autowireDNSHandler.addToRolePolicy(new iam.PolicyStatement({
+        actions: [
+          'ssm:GetParameter',
+        ],
+        effect: iam.Effect.ALLOW,
+        resources: [
+          hostedZoneSSMParameter.parameterArn,
+        ],
+      }));
+
+      autowireDNSHandler.addToRolePolicy(
+        // NOTE: not possible to limit to NS records only
+        new iam.PolicyStatement({
+          actions: [
+            'route53:ListHostedZonesByName',
+            'route53:ListResourceRecordSets',
+            'route53:ChangeResourceRecordSets',
+            'route53:GetChange',
+          ],
+          effect: iam.Effect.ALLOW,
+          resources: [
+            hostedZone.hostedZoneArn,
+          ],
+        }));
 
       const autowireDNSEventRule = new events.Rule(this, 'AutowireDNSEventRule', {
         schedule: events.Schedule.rate(Duration.minutes(3)),
