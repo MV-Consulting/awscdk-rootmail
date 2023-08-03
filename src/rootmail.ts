@@ -195,6 +195,7 @@ export class Rootmail extends Construct {
         new iam.PolicyStatement({
           actions: [
             'route53:ListHostedZonesByName',
+            'route53:GetChange',
           ],
           effect: iam.Effect.ALLOW,
           resources: ['*'],
@@ -206,7 +207,6 @@ export class Rootmail extends Construct {
           actions: [
             'route53:ListResourceRecordSets',
             'route53:ChangeResourceRecordSets',
-            'route53:GetChange',
           ],
           effect: iam.Effect.ALLOW,
           resources: [
