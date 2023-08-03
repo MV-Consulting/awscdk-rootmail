@@ -49,8 +49,11 @@ export interface RootmailProps {
 }
 
 export class Rootmail extends Construct {
+  public readonly hostedZoneParameterName: string;
+
   constructor(scope: Construct, id: string, props: RootmailProps) {
     super(scope, id);
+    this.hostedZoneParameterName = '/superwerker/domain_name_servers';
 
     const domain = props.domain;
     const subdomain = props.subdomain || 'aws';
@@ -102,8 +105,8 @@ export class Rootmail extends Construct {
       zoneName: `${subdomain}.${domain}`,
     });
 
-    new ssm.StringListParameter(this, 'HostedZoneSSMParameter', {
-      parameterName: '/superwerker/domain_name_servers',
+    const hostedZoneSSMParameter = new ssm.StringListParameter(this, 'HostedZoneSSMParameter', {
+      parameterName: this.hostedZoneParameterName,
       stringListValue: hostedZone.hostedZoneNameServers || [],
     });
 
@@ -155,7 +158,8 @@ export class Rootmail extends Construct {
       zone: hostedZone,
       recordName: `_amazonses.${subdomain}.${domain}`,
       // # this is fixed to eu-west-1 until SES supports receive more globally (see #23)
-      target: r53.RecordTarget.fromValues(`"${hostedZoneDKIMAndVerificationRecords.verificationToken}"`), // need to wrap in quotes
+      // Note: needs to be wrapped in quotes
+      target: r53.RecordTarget.fromValues(`"${hostedZoneDKIMAndVerificationRecords.verificationToken}"`),
       deleteExisting: false,
       ttl: Duration.seconds(60),
     });
@@ -164,25 +168,43 @@ export class Rootmail extends Construct {
       // TODO add a schedule (idempotent calls) or make it a CR
       const autowireDNSHandler = new NodejsFunction(this, 'wire-rootmail-dns-handler', {
         runtime: lambda.Runtime.NODEJS_18_X,
-        // # the timeout effectivly limits retries to 2^(n+1) - 1 = 9 attempts with backup
-        //  as the function is called every 5 minutes from the event rule
-        timeout: Duration.seconds(260),
-        environment: { // TODO
-          // DOMAIN: domain,
-          // SUB_DOMAIN: subdomain,
+        timeout: Duration.seconds(160), // 2m40s
+        initialPolicy: [
+          new iam.PolicyStatement({
+            actions: [
+              'ssm:GetParameter',
+            ],
+            effect: iam.Effect.ALLOW,
+            resources: [
+              hostedZoneSSMParameter.parameterArn,
+            ],
+          }),
+          // NOTE: not possible to limit to NS records only
+          new iam.PolicyStatement({
+            actions: [
+              'route53:ListHostedZonesByName',
+              'route53:ListResourceRecordSets',
+              'route53:ChangeResourceRecordSets',
+              'route53:GetChange',
+            ],
+            effect: iam.Effect.ALLOW,
+            resources: [
+              hostedZone.hostedZoneArn,
+            ],
+          }),
+        ],
+        environment: {
+          DOMAIN: domain,
+          SUB_DOMAIN: subdomain,
+          HOSTED_ZONE_PARAMETER_NAME: this.hostedZoneParameterName,
         },
       });
 
-      autowireDNSHandler.addToRolePolicy(new iam.PolicyStatement({
-        actions: [
-          'ses:GetIdentityVerificationAttributes', // TODO
-          'ses:GetAccountSendingEnabled',
-          'ses:GetIdentityDkimAttributes',
-          'ses:GetIdentityNotificationAttributes',
-        ],
-        effect: iam.Effect.ALLOW,
-        resources: ['*'],
-      }));
+      const autowireDNSEventRule = new events.Rule(this, 'AutowireDNSEventRule', {
+        schedule: events.Schedule.rate(Duration.minutes(3)),
+      });
+
+      autowireDNSEventRule.addTarget(new LambdaFunction(autowireDNSHandler));
     }
 
     /**

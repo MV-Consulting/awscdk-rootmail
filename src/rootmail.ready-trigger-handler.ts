@@ -8,4 +8,6 @@ export const handler = async () => {
     UniqueId: uuid.v4(),
     Data: 'RootMail Setup completed',
   });
+
+  // TODO remove event rule trigger
 };

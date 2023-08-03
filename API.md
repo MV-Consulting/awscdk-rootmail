@@ -230,6 +230,7 @@ Any object.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#awscdk-rootmail.Rootmail.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#awscdk-rootmail.Rootmail.property.hostedZoneParameterName">hostedZoneParameterName</a></code> | <code>string</code> | *No description.* |
 
 ---
 
@@ -242,6 +243,16 @@ public readonly node: Node;
 - *Type:* constructs.Node
 
 The tree node.
+
+---
+
+##### `hostedZoneParameterName`<sup>Required</sup> <a name="hostedZoneParameterName" id="awscdk-rootmail.Rootmail.property.hostedZoneParameterName"></a>
+
+```typescript
+public readonly hostedZoneParameterName: string;
+```
+
+- *Type:* string
 
 ---
 
@@ -1181,6 +1192,7 @@ const rootmailProps: RootmailProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#awscdk-rootmail.RootmailProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
+| <code><a href="#awscdk-rootmail.RootmailProps.property.autowireDNS">autowireDNS</a></code> | <code>boolean</code> | Whether to autowire the DNS records for the root mail feature. |
 | <code><a href="#awscdk-rootmail.RootmailProps.property.emailBucketName">emailBucketName</a></code> | <code>string</code> | The name of the S3 bucket that will be used to store the emails for 'root@<subdomain>.<domain>'. |
 | <code><a href="#awscdk-rootmail.RootmailProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 
@@ -1197,6 +1209,19 @@ public readonly domain: string;
 Domain used for root mail feature.
 
 Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+
+---
+
+##### `autowireDNS`<sup>Optional</sup> <a name="autowireDNS" id="awscdk-rootmail.RootmailProps.property.autowireDNS"></a>
+
+```typescript
+public readonly autowireDNS: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Whether to autowire the DNS records for the root mail feature.
 
 ---
 

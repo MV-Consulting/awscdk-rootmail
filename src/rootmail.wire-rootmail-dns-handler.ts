@@ -1,26 +1,15 @@
 import { Route53, SSM } from 'aws-sdk';
 
-export interface wireRootmailDnsInvokeEvent {
-  domain: string;
-  subdomain: string;
-  hostedZoneParameterName: string;
-}
-
-export interface wireRootmailDnsInvokeResponse {
-  payload: string;
-}
-
 const route53 = new Route53();
 const ssm = new SSM();
 
-export const handler = async (event: wireRootmailDnsInvokeEvent): Promise<wireRootmailDnsInvokeResponse> => {
-  log({
-    event: event,
-    level: 'debug',
-  });
+export const handler = async () => {
+  const domain = process.env.DOMAIN;
+  const subdomain = process.env.SUB_DOMAIN;
+  const hostedZoneParameterName = process.env.HOSTED_ZONE_PARAMETER_NAME as string;
 
   const hostedZoneParameterResponse = await ssm.getParameter({
-    Name: event.hostedZoneParameterName,
+    Name: hostedZoneParameterName,
   }).promise();
 
   const hostedZoneNameServersAsString = hostedZoneParameterResponse.Parameter?.Value;
@@ -30,12 +19,16 @@ export const handler = async (event: wireRootmailDnsInvokeEvent): Promise<wireRo
   });
 
   if (hostedZoneNameServersAsString === undefined) {
-    throw new Error(`hosted zone name servers not found in parameter store for ${event.domain}`);
+    throw new Error(`hosted zone name servers not found in parameter store for ${domain}`);
+  }
+
+  if (hostedZoneNameServersAsString === '') {
+    throw new Error(`hosted zone name servers empty in parameter store for ${domain}`);
   }
 
   const hostedZoneNameServers = hostedZoneNameServersAsString?.split(',');
   const hostedZoneResponse = await route53.listHostedZonesByName({
-    DNSName: event.domain,
+    DNSName: domain,
   }).promise();
 
   if (hostedZoneResponse.HostedZones?.length !== 1) {
@@ -44,11 +37,31 @@ export const handler = async (event: wireRootmailDnsInvokeEvent): Promise<wireRo
       level: 'debug',
     });
 
-    throw new Error(`expected exactly one hosted zone for ${event.domain}`);
+    throw new Error(`expected exactly one hosted zone for ${domain}`);
   }
 
   const hostedZoneId = hostedZoneResponse.HostedZones?.[0].Id;
 
+  // iterate over hosted zone records
+  const listResourceRecordSetsResponse = await route53.listResourceRecordSets({
+    HostedZoneId: hostedZoneId,
+  }).promise();
+
+  const existingNSRecordSet = listResourceRecordSetsResponse.ResourceRecordSets?.find((recordSet) => {
+    return recordSet.Name === `${subdomain}.${domain}` && recordSet.Type === 'NS';
+  });
+
+  if (existingNSRecordSet !== undefined) {
+    log({
+      event: existingNSRecordSet,
+      level: 'debug',
+    });
+
+    log(`NS record for Name '${subdomain}.${domain}' and type NS already exists. Skipping.`);
+    return;
+  }
+
+  log(`NS record for Name '${subdomain}.${domain}' and type NS does not exist. Creating.`);
   // in the HZ of the domain we create the NS record for the subdomain
   const recordSetCreationResponse = await route53.changeResourceRecordSets({
     HostedZoneId: hostedZoneId,
@@ -58,7 +71,7 @@ export const handler = async (event: wireRootmailDnsInvokeEvent): Promise<wireRo
         {
           Action: 'CREATE',
           ResourceRecordSet: {
-            Name: `${event.subdomain}.${event.domain}`,
+            Name: `${subdomain}.${domain}`,
             Type: 'NS',
             TTL: 60,
             ResourceRecords: [ // are always 4
@@ -78,7 +91,7 @@ export const handler = async (event: wireRootmailDnsInvokeEvent): Promise<wireRo
     Id: recordSetCreationResponse.ChangeInfo.Id,
     $waiter: {
       delay: 5,
-      maxAttempts: 36, // 3 minutes
+      maxAttempts: 24, // 2 minutes
     },
   }).promise();
 
