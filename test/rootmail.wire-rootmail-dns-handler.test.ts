@@ -29,6 +29,7 @@ describe('wire rootmail dns', () => {
     process.env.SUB_DOMAIN = 'subdomain';
     process.env.DOMAIN = 'domain.com';
     process.env.HOSTED_ZONE_PARAMETER_NAME = '/superwerker/dns_name_servers';
+    process.env.PARENT_HOSTED_ZONE_ID = '/hostedzone/Z1234567890CC2';
   });
 
   afterEach(() => {
@@ -37,7 +38,7 @@ describe('wire rootmail dns', () => {
   });
 
   it('wire dns ns records', async () => {
-    const hostedZoneId = '/hostedzone/Z1234567890CC2';
+    const hostedZoneId = process.env.PARENT_HOSTED_ZONE_ID as string;
     spyGetParameter.mockImplementation(() => ({
       promise() {
         return Promise.resolve({
