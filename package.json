@@ -28,7 +28,7 @@
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
     "projen": "npx projen",
-    "integ-test": "integ-runner --directory ./integ-tests --parallel-regions us-east-1 --update-on-failed"
+    "integ-test": "integ-runner --directory ./integ-tests --parallel-regions eu-central-1 --update-on-failed"
   },
   "author": {
     "name": "Manuel Vogel",
