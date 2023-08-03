@@ -7,6 +7,7 @@ export const handler = async () => {
   const domain = process.env.DOMAIN;
   const subdomain = process.env.SUB_DOMAIN;
   const hostedZoneParameterName = process.env.HOSTED_ZONE_PARAMETER_NAME as string;
+  const parentHostedZoneId = process.env.PARENT_HOSTED_ZONE_ID;
 
   const hostedZoneParameterResponse = await ssm.getParameter({
     Name: hostedZoneParameterName,
@@ -18,17 +19,17 @@ export const handler = async () => {
     level: 'debug',
   });
 
-  if (hostedZoneNameServersAsString === undefined) {
-    throw new Error(`hosted zone name servers not found in parameter store for ${domain}`);
-  }
-
-  if (hostedZoneNameServersAsString === '') {
-    throw new Error(`hosted zone name servers empty in parameter store for ${domain}`);
+  if (hostedZoneNameServersAsString === undefined || hostedZoneNameServersAsString === '') {
+    throw new Error(`hosted zone name servers not found or empty in parameter store for ${domain}: ${hostedZoneNameServersAsString}`);
   }
 
   const hostedZoneNameServers = hostedZoneNameServersAsString?.split(',');
+  if (hostedZoneNameServers.length !== 4) {
+    throw new Error(`expected exactly 4 hosted zone name servers for ${domain}. Got ${hostedZoneNameServers.length}: ${hostedZoneNameServers}`);
+  }
+
   const hostedZoneResponse = await route53.listHostedZonesByName({
-    DNSName: domain,
+    HostedZoneId: `/hostedzone/${parentHostedZoneId}`,
   }).promise();
 
   if (hostedZoneResponse.HostedZones?.length !== 1) {

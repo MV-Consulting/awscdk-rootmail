@@ -37,7 +37,7 @@ describe('wire rootmail dns', () => {
   });
 
   it('wire dns ns records', async () => {
-    const hostedZoneId = 'HZ1234567890';
+    const hostedZoneId = '/hostedzone/Z1234567890CC2';
     spyGetParameter.mockImplementation(() => ({
       promise() {
         return Promise.resolve({

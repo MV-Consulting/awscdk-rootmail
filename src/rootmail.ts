@@ -43,9 +43,12 @@ export interface RootmailProps {
   /**
    * Whether to autowire the DNS records for the root mail feature.
    *
-   * @default false
+   * @default { enabled: false, parentHostedZoneId: ''}
    */
-  readonly autowireDNS?: boolean;
+  readonly autowireDNSOnAWS?: {
+    enabled: boolean;
+    parentHostedZoneId: string;
+  };
 }
 
 export class Rootmail extends Construct {
@@ -58,7 +61,7 @@ export class Rootmail extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain || 'aws';
     const emailBucketName = props.emailBucketName || `${Stack.of(this).account}-rootmail-bucket`;
-    const autowireDNS = props.autowireDNS || false;
+    const autowireDNSOnAWS = props.autowireDNSOnAWS || { enabled: false, parentHostedZoneId: '' };
 
     /**
      * EMAIL Bucket
@@ -101,10 +104,6 @@ export class Rootmail extends Construct {
     /**
      * HOSTED ZONE
      */
-    const parentHostedZone = r53.HostedZone.fromLookup(this, 'ParentHostedZone', {
-      domainName: domain,
-    });
-
     const hostedZone = new r53.HostedZone(this, 'HostedZone', {
       zoneName: `${subdomain}.${domain}`,
     });
@@ -168,7 +167,7 @@ export class Rootmail extends Construct {
       ttl: Duration.seconds(60),
     });
 
-    if (autowireDNS) {
+    if (autowireDNSOnAWS.enabled) {
       // TODO add a schedule (idempotent calls) or make it a CR
       const autowireDNSHandler = new NodejsFunction(this, 'wire-rootmail-dns-handler', {
         runtime: lambda.Runtime.NODEJS_18_X,
@@ -176,7 +175,8 @@ export class Rootmail extends Construct {
         environment: {
           DOMAIN: domain,
           SUB_DOMAIN: subdomain,
-          HOSTED_ZONE_PARAMETER_NAME: this.hostedZoneParameterName,
+          HOSTED_ZONE_PARAMETER_NAME: this.hostedZoneParameterName, // TODO pass in list directly
+          PARENT_HOSTED_ZONE_ID: autowireDNSOnAWS.parentHostedZoneId,
         },
       });
 
@@ -210,7 +210,17 @@ export class Rootmail extends Construct {
           ],
           effect: iam.Effect.ALLOW,
           resources: [
-            parentHostedZone.hostedZoneArn,
+            // arn:aws:route53:::hostedzone/H12345
+            // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
+            Arn.format({
+              partition: 'aws',
+              service: 'route53',
+              region: '',
+              account: '',
+              resource: 'hostedzone',
+              arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+              resourceName: autowireDNSOnAWS.parentHostedZoneId,
+            }),
           ],
         }));
 
