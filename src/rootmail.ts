@@ -101,6 +101,10 @@ export class Rootmail extends Construct {
     /**
      * HOSTED ZONE
      */
+    const parentHostedZone = r53.HostedZone.fromLookup(this, 'ParentHostedZone', {
+      domainName: domain,
+    });
+
     const hostedZone = new r53.HostedZone(this, 'HostedZone', {
       zoneName: `${subdomain}.${domain}`,
     });
@@ -191,13 +195,22 @@ export class Rootmail extends Construct {
         new iam.PolicyStatement({
           actions: [
             'route53:ListHostedZonesByName',
+          ],
+          effect: iam.Effect.ALLOW,
+          resources: ['*'],
+        }));
+
+      autowireDNSHandler.addToRolePolicy(
+        // NOTE: not possible to limit to NS records only
+        new iam.PolicyStatement({
+          actions: [
             'route53:ListResourceRecordSets',
             'route53:ChangeResourceRecordSets',
             'route53:GetChange',
           ],
           effect: iam.Effect.ALLOW,
           resources: [
-            hostedZone.hostedZoneArn,
+            parentHostedZone.hostedZoneArn,
           ],
         }));
 
