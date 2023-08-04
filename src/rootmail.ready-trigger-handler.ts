@@ -6,8 +6,8 @@ const cwe = new CloudWatchEvents();
 
 export const handler = async () => {
   const signalUrl = process.env.SIGNAL_URL;
-  const rootMailReadyEventRuleArn = process.env.ROOTMAIL_READY_EVENTRULE_ARN as string;
-  const autowireDNSEventRuleArn = process.env.AUTOWIRE_DNS_EVENTRULE_ARN as string;
+  const rootMailReadyEventRuleName = process.env.ROOTMAIL_READY_EVENTRULE_NAME as string;
+  const autowireDNSEventRuleName = process.env.AUTOWIRE_DNS_EVENTRULE_NAME as string;
 
   console.log(`RootMail Setup completed. Triggering signal to ${signalUrl}`);
 
@@ -20,7 +20,7 @@ export const handler = async () => {
 
   // Disable event rule triggers
   const disableRootMailReadyEventRule = await cwe.disableRule({
-    Name: rootMailReadyEventRuleArn,
+    Name: rootMailReadyEventRuleName,
   }).promise();
 
   if (disableRootMailReadyEventRule.$response.error) {
@@ -28,9 +28,9 @@ export const handler = async () => {
   }
 
   // as we pass an non-empty string to the env var, if the autowireDNS feature is activated
-  if (autowireDNSEventRuleArn !== '') {
+  if (autowireDNSEventRuleName !== '') {
     const disableAutowireDNSEventRule = await cwe.disableRule({
-      Name: autowireDNSEventRuleArn,
+      Name: autowireDNSEventRuleName,
     }).promise();
 
     if (disableAutowireDNSEventRule.$response.error) {

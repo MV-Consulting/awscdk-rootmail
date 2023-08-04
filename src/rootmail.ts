@@ -307,8 +307,8 @@ export class Rootmail extends Construct {
       logRetention: 3,
       environment: {
         SIGNAL_URL: rootMailReadyHandle.ref,
-        ROOTMAIL_READY_EVENTRULE_ARN: rootMailReadyEventRule.ruleArn,
-        AUTOWIRE_DNS_EVENTRULE_ARN: autowireDNSEventRuleArn,
+        ROOTMAIL_READY_EVENTRULE_NAME: rootMailReadyEventRule.ruleName,
+        AUTOWIRE_DNS_EVENTRULE_NAME: autowireDNSEventRuleArn,
       },
     });
 

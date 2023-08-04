@@ -28,8 +28,8 @@ describe('root-mail-ready-trigger', () => {
   });
 
   it('root-mail is ready trigger with autoWire enabled', async () => {
-    process.env.ROOTMAIL_READY_EVENTRULE_ARN = 'event-rule-arn1';
-    process.env.AUTOWIRE_DNS_EVENTRULE_ARN = 'event-rule-arn2';
+    process.env.ROOTMAIL_READY_EVENTRULE_NAME = 'event-rule-name1';
+    process.env.AUTOWIRE_DNS_EVENTRULE_NAME = 'event-rule-name2';
 
     spyDisableRule.mockImplementation(() => ({
       promise() {
@@ -47,8 +47,8 @@ describe('root-mail-ready-trigger', () => {
   });
 
   it('root-mail is ready trigger with autoWire disabled', async () => {
-    process.env.ROOTMAIL_READY_EVENTRULE_ARN = 'event-rule-arn1';
-    process.env.AUTOWIRE_DNS_EVENTRULE_ARN = ''; // empty for disabled
+    process.env.ROOTMAIL_READY_EVENTRULE_NAME = 'event-rule-name1';
+    process.env.AUTOWIRE_DNS_EVENTRULE_NAME = ''; // empty for disabled
 
     spyDisableRule.mockImplementation(() => ({
       promise() {
