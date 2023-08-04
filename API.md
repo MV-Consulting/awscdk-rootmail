@@ -37,116 +37,6 @@ npx cdk deploy --all
 
 ## Constructs <a name="Constructs" id="Constructs"></a>
 
-### GenerateEmailAddress <a name="GenerateEmailAddress" id="awscdk-rootmail.GenerateEmailAddress"></a>
-
-#### Initializers <a name="Initializers" id="awscdk-rootmail.GenerateEmailAddress.Initializer"></a>
-
-```typescript
-import { GenerateEmailAddress } from 'awscdk-rootmail'
-
-new GenerateEmailAddress(scope: Construct, id: string, props: GenerateEmailAddressProps)
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#awscdk-rootmail.GenerateEmailAddress.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
-| <code><a href="#awscdk-rootmail.GenerateEmailAddress.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#awscdk-rootmail.GenerateEmailAddress.Initializer.parameter.props">props</a></code> | <code><a href="#awscdk-rootmail.GenerateEmailAddressProps">GenerateEmailAddressProps</a></code> | *No description.* |
-
----
-
-##### `scope`<sup>Required</sup> <a name="scope" id="awscdk-rootmail.GenerateEmailAddress.Initializer.parameter.scope"></a>
-
-- *Type:* constructs.Construct
-
----
-
-##### `id`<sup>Required</sup> <a name="id" id="awscdk-rootmail.GenerateEmailAddress.Initializer.parameter.id"></a>
-
-- *Type:* string
-
----
-
-##### `props`<sup>Required</sup> <a name="props" id="awscdk-rootmail.GenerateEmailAddress.Initializer.parameter.props"></a>
-
-- *Type:* <a href="#awscdk-rootmail.GenerateEmailAddressProps">GenerateEmailAddressProps</a>
-
----
-
-#### Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#awscdk-rootmail.GenerateEmailAddress.toString">toString</a></code> | Returns a string representation of this construct. |
-
----
-
-##### `toString` <a name="toString" id="awscdk-rootmail.GenerateEmailAddress.toString"></a>
-
-```typescript
-public toString(): string
-```
-
-Returns a string representation of this construct.
-
-#### Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#awscdk-rootmail.GenerateEmailAddress.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
-
----
-
-##### ~~`isConstruct`~~ <a name="isConstruct" id="awscdk-rootmail.GenerateEmailAddress.isConstruct"></a>
-
-```typescript
-import { GenerateEmailAddress } from 'awscdk-rootmail'
-
-GenerateEmailAddress.isConstruct(x: any)
-```
-
-Checks if `x` is a construct.
-
-###### `x`<sup>Required</sup> <a name="x" id="awscdk-rootmail.GenerateEmailAddress.isConstruct.parameter.x"></a>
-
-- *Type:* any
-
-Any object.
-
----
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#awscdk-rootmail.GenerateEmailAddress.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#awscdk-rootmail.GenerateEmailAddress.property.email">email</a></code> | <code>string</code> | *No description.* |
-
----
-
-##### `node`<sup>Required</sup> <a name="node" id="awscdk-rootmail.GenerateEmailAddress.property.node"></a>
-
-```typescript
-public readonly node: Node;
-```
-
-- *Type:* constructs.Node
-
-The tree node.
-
----
-
-##### `email`<sup>Required</sup> <a name="email" id="awscdk-rootmail.GenerateEmailAddress.property.email"></a>
-
-```typescript
-public readonly email: string;
-```
-
-- *Type:* string
-
----
-
-
 ### Rootmail <a name="Rootmail" id="awscdk-rootmail.Rootmail"></a>
 
 #### Initializers <a name="Initializers" id="awscdk-rootmail.Rootmail.Initializer"></a>
@@ -1134,49 +1024,6 @@ Whether termination protection is enabled for this stack.
 
 ## Structs <a name="Structs" id="Structs"></a>
 
-### GenerateEmailAddressProps <a name="GenerateEmailAddressProps" id="awscdk-rootmail.GenerateEmailAddressProps"></a>
-
-#### Initializer <a name="Initializer" id="awscdk-rootmail.GenerateEmailAddressProps.Initializer"></a>
-
-```typescript
-import { GenerateEmailAddressProps } from 'awscdk-rootmail'
-
-const generateEmailAddressProps: GenerateEmailAddressProps = { ... }
-```
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#awscdk-rootmail.GenerateEmailAddressProps.property.domain">domain</a></code> | <code>string</code> | The domain for the email to be generated, ....@<domain>. |
-| <code><a href="#awscdk-rootmail.GenerateEmailAddressProps.property.name">name</a></code> | <code>string</code> | The account name. |
-
----
-
-##### `domain`<sup>Required</sup> <a name="domain" id="awscdk-rootmail.GenerateEmailAddressProps.property.domain"></a>
-
-```typescript
-public readonly domain: string;
-```
-
-- *Type:* string
-
-The domain for the email to be generated, ....@<domain>.
-
----
-
-##### `name`<sup>Required</sup> <a name="name" id="awscdk-rootmail.GenerateEmailAddressProps.property.name"></a>
-
-```typescript
-public readonly name: string;
-```
-
-- *Type:* string
-
-The account name.
-
----
-
 ### RootmailProps <a name="RootmailProps" id="awscdk-rootmail.RootmailProps"></a>
 
 #### Initializer <a name="Initializer" id="awscdk-rootmail.RootmailProps.Initializer"></a>
@@ -1192,7 +1039,8 @@ const rootmailProps: RootmailProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#awscdk-rootmail.RootmailProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.autowireDNS">autowireDNS</a></code> | <code>boolean</code> | Whether to autowire the DNS records for the root mail feature. |
+| <code><a href="#awscdk-rootmail.RootmailProps.property.autowireDNSOnAWSEnabled">autowireDNSOnAWSEnabled</a></code> | <code>boolean</code> | Whether to autowire the DNS records for the root mail feature. |
+| <code><a href="#awscdk-rootmail.RootmailProps.property.autowireDNSOnAWSParentHostedZoneId">autowireDNSOnAWSParentHostedZoneId</a></code> | <code>string</code> | The ID of the hosted zone of the <domain>, which has to be in the same AWS account. |
 | <code><a href="#awscdk-rootmail.RootmailProps.property.emailBucketName">emailBucketName</a></code> | <code>string</code> | The name of the S3 bucket that will be used to store the emails for 'root@<subdomain>.<domain>'. |
 | <code><a href="#awscdk-rootmail.RootmailProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 
@@ -1212,16 +1060,31 @@ Please see https://github.com/superwerker/superwerker/blob/main/README.md#techni
 
 ---
 
-##### `autowireDNS`<sup>Optional</sup> <a name="autowireDNS" id="awscdk-rootmail.RootmailProps.property.autowireDNS"></a>
+##### `autowireDNSOnAWSEnabled`<sup>Optional</sup> <a name="autowireDNSOnAWSEnabled" id="awscdk-rootmail.RootmailProps.property.autowireDNSOnAWSEnabled"></a>
 
 ```typescript
-public readonly autowireDNS: boolean;
+public readonly autowireDNSOnAWSEnabled: boolean;
 ```
 
 - *Type:* boolean
 - *Default:* false
 
 Whether to autowire the DNS records for the root mail feature.
+
+---
+
+##### `autowireDNSOnAWSParentHostedZoneId`<sup>Optional</sup> <a name="autowireDNSOnAWSParentHostedZoneId" id="awscdk-rootmail.RootmailProps.property.autowireDNSOnAWSParentHostedZoneId"></a>
+
+```typescript
+public readonly autowireDNSOnAWSParentHostedZoneId: string;
+```
+
+- *Type:* string
+- *Default:* ''
+
+The ID of the hosted zone of the <domain>, which has to be in the same AWS account.
+
+Cannot be '' if autowireDNSOnAWSEnabled is true.
 
 ---
 
@@ -1277,9 +1140,9 @@ const sESReceiveStackProps: SESReceiveStackProps = { ... }
 | <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.synthesizer">synthesizer</a></code> | <code>aws-cdk-lib.IStackSynthesizer</code> | Synthesis method to use while deploying this stack. |
 | <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.tags">tags</a></code> | <code>{[ key: string ]: string}</code> | Stack tags that will be applied to all the taggable resources and the stack itself. |
 | <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.terminationProtection">terminationProtection</a></code> | <code>boolean</code> | Whether to enable termination protection for this stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.domain">domain</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.emailbucket">emailbucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | *No description.* |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.subdomain">subdomain</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
+| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.emailbucket">emailbucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | S3 bucket to store received emails. |
+| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 
 ---
 
@@ -1501,6 +1364,10 @@ public readonly domain: string;
 
 - *Type:* string
 
+Domain used for root mail feature.
+
+Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+
 ---
 
 ##### `emailbucket`<sup>Required</sup> <a name="emailbucket" id="awscdk-rootmail.SESReceiveStackProps.property.emailbucket"></a>
@@ -1511,6 +1378,8 @@ public readonly emailbucket: Bucket;
 
 - *Type:* aws-cdk-lib.aws_s3.Bucket
 
+S3 bucket to store received emails.
+
 ---
 
 ##### `subdomain`<sup>Required</sup> <a name="subdomain" id="awscdk-rootmail.SESReceiveStackProps.property.subdomain"></a>
@@ -1520,6 +1389,10 @@ public readonly subdomain: string;
 ```
 
 - *Type:* string
+
+Subdomain used for root mail feature.
+
+Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
 
 ---
 
