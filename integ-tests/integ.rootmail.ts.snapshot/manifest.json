@@ -1,0 +1,512 @@
+{
+  "version": "32.0.0",
+  "artifacts": {
+    "IntegrationTestStacktestRootmailSESReceiveStackED6E8370.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "IntegrationTestStacktestRootmailSESReceiveStackED6E8370.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "IntegrationTestStacktestRootmailSESReceiveStackED6E8370": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/eu-west-1",
+      "properties": {
+        "templateFile": "IntegrationTestStacktestRootmailSESReceiveStackED6E8370.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-eu-west-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-eu-west-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/4637157f51bd0052aca601029d4ec82738a134a5d0233aac830a4a3048bc9536.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "IntegrationTestStacktestRootmailSESReceiveStackED6E8370.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-eu-west-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "IntegrationTestStacktestRootmailSESReceiveStackED6E8370.assets"
+      ],
+      "metadata": {
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/OpsSantaFunctionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OpsSantaFunctionRole0876FEB1"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/ops-santa-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "opssantahandler0CE197FE"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/ops-santa-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "opssantahandlerLogRetention9D370E5B"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/ops-santa-handler/OpsSantaFunctionSESPermissions": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "opssantahandlerOpsSantaFunctionSESPermissionsC9FC2F06"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/SESReceiptRuleSetActivation/Resource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SESReceiptRuleSetActivationCE4657C0"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/SesReceiptRuleSetActivationCustomResourceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/on-event-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/on-event-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "superwerkersesreceiptrulesetactivationprovideroneventhandlerLogRetention4030C654"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/SESReceiveStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "IntegrationTestStack/testRootmail/SESReceiveStack"
+    },
+    "IntegrationTestStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "IntegrationTestStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "IntegrationTestStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "IntegrationTestStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/b8f48bb4fea207cb396d6aa2f8416bdccd781998e4555b106452f50c966901cb.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "IntegrationTestStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "IntegrationTestStack.assets"
+      ],
+      "metadata": {
+        "/IntegrationTestStack/testRootmail/EmailBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailEmailBucket2A470446"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/EmailBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailEmailBucketPolicy5DA39984"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/HostedZone/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailHostedZone6DFD3C9C"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/HostedZoneSSMParameter/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailHostedZoneSSMParameter574DA41C"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/HostedZoneDKIMAndVerificationRecords/Resource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailHostedZoneDKIMAndVerificationRecordsE48944E4"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/HostedZoneDKIMTokenRecord0/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailHostedZoneDKIMTokenRecord0E194A84E"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/HostedZoneDKIMTokenRecord1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailHostedZoneDKIMTokenRecord1F2425011"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/HostedZoneDKIMTokenRecord2/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailHostedZoneDKIMTokenRecord2F143C5BA"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/HostedZoneMXRecord/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailHostedZoneMXRecordA975A9BB"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/HostedZoneVerificationTokenRecord/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailHostedZoneVerificationTokenRecordB9EB1498"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/wire-rootmail-dns-handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailwirerootmaildnshandlerServiceRoleFA98AC2F"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/wire-rootmail-dns-handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailwirerootmaildnshandlerServiceRoleDefaultPolicy7B7CC55F"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/wire-rootmail-dns-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailwirerootmaildnshandlerC3503756"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/wire-rootmail-dns-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailwirerootmaildnshandlerLogRetention9922F2FF"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/AutowireDNSEventRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailAutowireDNSEventRule7D482668"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/AutowireDNSEventRule/AllowEventRuleIntegrationTestStacktestRootmailwirerootmaildnshandler7273298D": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailAutowireDNSEventRuleAllowEventRuleIntegrationTestStacktestRootmailwirerootmaildnshandler7273298D6561CC47"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/ready-handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailreadyhandlerServiceRole249853CC"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/ready-handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailreadyhandlerServiceRoleDefaultPolicy7BEBBD32"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/ready-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailreadyhandlerCCD267B6"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/ready-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailreadyhandlerLogRetention02DEC7DE"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/RootMailReadyEventRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailRootMailReadyEventRule77EE7FF3"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/RootMailReadyEventRule/AllowEventRuleIntegrationTestStacktestRootmailreadyhandlerF12F8EEA": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailRootMailReadyEventRuleAllowEventRuleIntegrationTestStacktestRootmailreadyhandlerF12F8EEA461C1447"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/Errors/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailErrors174176D2"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/RootMailReadyHandle": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailRootMailReadyHandleC6B1EB65"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/RootMailReadyHandleWaitCondition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailRootMailReadyHandleWaitConditionAE1C01F5"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/ready-trigger-handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailreadytriggerhandlerServiceRoleE902110E"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/ready-trigger-handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailreadytriggerhandlerServiceRoleDefaultPolicy8807ED98"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/ready-trigger-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailreadytriggerhandlerEF7DC4EF"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/ready-trigger-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailreadytriggerhandlerLogRetention9311835F"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/RootMailReadyTriggerEventPattern/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailRootMailReadyTriggerEventPattern0C7DAE47"
+          }
+        ],
+        "/IntegrationTestStack/testRootmail/RootMailReadyTriggerEventPattern/AllowEventRuleIntegrationTestStacktestRootmailreadytriggerhandler1A59D246": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailRootMailReadyTriggerEventPatternAllowEventRuleIntegrationTestStacktestRootmailreadytriggerhandler1A59D246C3024AA9"
+          }
+        ],
+        "/IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRole4677E5E3"
+          }
+        ],
+        "/IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRoleDefaultPolicy73A44F10"
+          }
+        ],
+        "/IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "superwerkerhostedzonedkimverificationrecordsprovideroneventhandler73A574D3"
+          }
+        ],
+        "/IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/on-event-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerLogRetention7A01EB5E"
+          }
+        ],
+        "/IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleFE1295B9"
+          }
+        ],
+        "/IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleDefaultPolicy4EBCA739"
+          }
+        ],
+        "/IntegrationTestStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEvent0173C90D"
+          }
+        ],
+        "/IntegrationTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ],
+        "/IntegrationTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+          }
+        ],
+        "/IntegrationTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
+        "/IntegrationTestStack/DefaultCrNodeVersionMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DefaultCrNodeVersionMap"
+          }
+        ],
+        "/IntegrationTestStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/IntegrationTestStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "IntegrationTestStack"
+    },
+    "SetupTestDefaultTestDeployAssert8633B62F.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SetupTestDefaultTestDeployAssert8633B62F.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SetupTestDefaultTestDeployAssert8633B62F": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "SetupTestDefaultTestDeployAssert8633B62F.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2bbeb3f62a4434ccb8baf9a31b5f82d28c829ba691f81df546a6e6de7409287a.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SetupTestDefaultTestDeployAssert8633B62F.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SetupTestDefaultTestDeployAssert8633B62F.assets"
+      ],
+      "metadata": {
+        "/SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/Default/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48"
+          }
+        ],
+        "/SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48/AssertionResults": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssertionResultsAwsApiCallSSMgetParameter54d8139acead03cd7aa5b62bc2c22a48"
+          }
+        ],
+        "/SetupTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73"
+          }
+        ],
+        "/SetupTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F"
+          }
+        ],
+        "/SetupTest/DefaultTest/DeployAssert/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SetupTest/DefaultTest/DeployAssert/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SetupTest/DefaultTest/DeployAssert"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

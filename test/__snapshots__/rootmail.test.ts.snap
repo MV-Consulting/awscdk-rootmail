@@ -826,17 +826,14 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "5eb25db382a911c97682c1c489bd2e8174036ba777680ef37d9951fd7638cf12.zip",
+          "S3Key": "5b7f350ffc20ba4942534f9171e8ae22e0dbe313270652855348ae601c6415c9.zip",
         },
         "Environment": {
           "Variables": {
-            "AUTOWIRE_DNS_EVENTRULE_ARN": "",
+            "AUTOWIRE_DNS_EVENTRULE_NAME": "",
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-            "ROOTMAIL_READY_EVENTRULE_ARN": {
-              "Fn::GetAtt": [
-                "testRootmailRootMailReadyEventRule77EE7FF3",
-                "Arn",
-              ],
+            "ROOTMAIL_READY_EVENTRULE_NAME": {
+              "Ref": "testRootmailRootMailReadyEventRule77EE7FF3",
             },
             "SIGNAL_URL": {
               "Ref": "testRootmailRootMailReadyHandleC6B1EB65",
