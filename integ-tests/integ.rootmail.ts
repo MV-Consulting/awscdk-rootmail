@@ -2,6 +2,7 @@
 import { IntegTest, ExpectedResult } from '@aws-cdk/integ-tests-alpha';
 import {
   App,
+  Duration,
   // Duration,
   // Aspects,
   Stack,
@@ -28,6 +29,7 @@ const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   subdomain: 'aws-test',
   domain: 'mavogel.xyz',
   emailBucketName: 'acd2d6439c39-rootmail-bucket-integtest',
+  totalTimeToWireDNS: Duration.minutes(30), // tests took on average 15-20 minutes
   autowireDNSOnAWSEnabled: true,
   autowireDNSOnAWSParentHostedZoneId: 'Z02503291YUXLE3C4727T', // mavogel.xyz
 });

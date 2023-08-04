@@ -13,7 +13,7 @@ export class MyStack extends Stack {
     super(scope, id, props);
 
     // define resources here...
-    new Rootmail(this, 'mavogelRootmail', {
+    new Rootmail(this, 'rootmail-stack', {
       subdomain: 'aws', // which is the default
       domain: 'example.com',
     });

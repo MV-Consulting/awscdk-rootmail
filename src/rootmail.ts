@@ -41,6 +41,13 @@ export interface RootmailProps {
   readonly emailBucketName?: string;
 
   /**
+   * The total time to wait for the DNS records to be available/wired.
+   *
+   * @default Duration.hours(8)
+   */
+  readonly totalTimeToWireDNS?: Duration;
+
+  /**
    * Whether to autowire the DNS records for the root mail feature.
    *
    * @default false
@@ -67,6 +74,7 @@ export class Rootmail extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain || 'aws';
     const emailBucketName = props.emailBucketName || `${Stack.of(this).account}-rootmail-bucket`;
+    const totalTimeToWireDNS = props.totalTimeToWireDNS || Duration.hours(8);
     const autowireDNSOnAWSEnabled = props.autowireDNSOnAWSEnabled || false;
     const autowireDNSOnAWSParentHostedZoneId = props.autowireDNSOnAWSParentHostedZoneId || '';
 
@@ -178,6 +186,7 @@ export class Rootmail extends Construct {
       ttl: Duration.seconds(60),
     });
 
+    let autowireDNSEventRuleName: string = '';
     let autowireDNSEventRuleArn: string = '';
     if (autowireDNSOnAWSEnabled) {
       const autowireDNSHandler = new NodejsFunction(this, 'wire-rootmail-dns-handler', {
@@ -239,6 +248,7 @@ export class Rootmail extends Construct {
       const autowireDNSEventRule = new events.Rule(this, 'AutowireDNSEventRule', {
         schedule: events.Schedule.rate(Duration.minutes(3)),
       });
+      autowireDNSEventRuleName = autowireDNSEventRule.ruleName;
       autowireDNSEventRuleArn = autowireDNSEventRule.ruleArn;
 
       autowireDNSEventRule.addTarget(new LambdaFunction(autowireDNSHandler));
@@ -297,8 +307,7 @@ export class Rootmail extends Construct {
 
     new CfnWaitCondition(this, 'RootMailReadyHandleWaitCondition', {
       handle: rootMailReadyHandle.ref,
-      // 8 hours time to wire DNS
-      timeout: Duration.hours(8).toSeconds().toString(),
+      timeout: totalTimeToWireDNS.toSeconds().toString(),
     });
 
     const rootMailReadyTrigger = new NodejsFunction(this, 'ready-trigger-handler', {
@@ -309,14 +318,14 @@ export class Rootmail extends Construct {
       environment: {
         SIGNAL_URL: rootMailReadyHandle.ref,
         ROOTMAIL_READY_EVENTRULE_NAME: this.rootMailReadyEventRule.ruleName,
-        AUTOWIRE_DNS_EVENTRULE_NAME: autowireDNSEventRuleArn,
+        AUTOWIRE_DNS_EVENTRULE_NAME: autowireDNSEventRuleName,
       },
     });
 
     // dynamicaly add the event rule arn to the role policy
-    const rootMailReadyTriggerRoleResources = autowireDNSEventRuleArn === ''
-      ? [this.rootMailReadyEventRule.ruleArn]
-      : [this.rootMailReadyEventRule.ruleArn, autowireDNSEventRuleArn];
+    const rootMailReadyTriggerRoleResources = autowireDNSOnAWSEnabled
+      ? [this.rootMailReadyEventRule.ruleArn, autowireDNSEventRuleArn]
+      : [this.rootMailReadyEventRule.ruleArn];
     rootMailReadyTrigger.addToRolePolicy(new iam.PolicyStatement({
       actions: [
         'events:DisableRule',
