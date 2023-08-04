@@ -9,5 +9,7 @@ export const handler = async () => {
     Data: 'RootMail Setup completed',
   });
 
-  // TODO remove event rule trigger
+  // TODO disable event rule triggers
+  // autowire dns is enabled
+  // hz dkim verification
 };

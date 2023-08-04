@@ -15,9 +15,11 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       console.log(`Do Domain verification and DKIM records for ${event.LogicalResourceId} and domain '${domain}'`);
       const verifyDomainResponse = await SES.verifyDomainIdentity({ Domain: domain }).promise();
       const verificationToken = verifyDomainResponse.VerificationToken;
+      console.log(`Got verification token '${verificationToken}' for domain '${domain}'`);
 
       const verifyDomainDkimResponse = await SES.verifyDomainDkim({ Domain: domain }).promise();
       const dkimTokens = verifyDomainDkimResponse.DkimTokens;
+      console.log(`Got DKIM tokens '${dkimTokens}' for domain '${domain}'`);
 
       return {
         PhysicalResourceId: event.PhysicalResourceId,

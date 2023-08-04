@@ -175,7 +175,7 @@ export class Rootmail extends Construct {
         environment: {
           DOMAIN: domain,
           SUB_DOMAIN: subdomain,
-          HOSTED_ZONE_PARAMETER_NAME: this.hostedZoneParameterName, // TODO pass in list directly
+          HOSTED_ZONE_PARAMETER_NAME: this.hostedZoneParameterName,
           PARENT_HOSTED_ZONE_ID: autowireDNSOnAWS.parentHostedZoneId,
         },
       });
