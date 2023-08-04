@@ -54,7 +54,6 @@ const integ = new IntegTest(app, 'SetupTest', {
  */
 // const id = 'test-id-1';
 // const message = 'This is a mail body';
-const hostedZoneParameterName = rootmail.hostedZoneParameterName;
 
 // const sendTestEmailAssertion = integ.assertions
 //   .awsApiCall('SES', 'sendEmail', {
@@ -169,12 +168,12 @@ integ.assertions
   * Check that parameter are present
   */
   .awsApiCall('SSM', 'getParameter', {
-    Name: hostedZoneParameterName,
+    Name: rootmail.hostedZoneParameterName,
   })
   .expect(
     ExpectedResult.objectLike({
       Parameter: {
-        Name: hostedZoneParameterName,
+        Name: rootmail.hostedZoneParameterName,
         Type: 'StringList',
       },
     }),
