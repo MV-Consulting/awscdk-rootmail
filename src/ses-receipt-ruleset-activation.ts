@@ -56,6 +56,7 @@ class SESReceiptRuleSetActivationProvider extends Construct {
       onEventHandler: new NodejsFunction(this, 'on-event-handler', {
         handler: 'handler',
         runtime: lambda.Runtime.NODEJS_18_X,
+        logRetention: 3,
         role: new iam.Role(this, 'SesReceiptRuleSetActivationCustomResourceRole', {
           assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
           managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')],

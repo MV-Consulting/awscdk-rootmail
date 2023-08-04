@@ -41,14 +41,19 @@ export interface RootmailProps {
   readonly emailBucketName?: string;
 
   /**
-   * Whether to autowire the DNS records for the root mail feature. Set enabled to true and provide for parentHostedZoneId the ID of the hosted zone of the <domain>, which has to be in the same AWS account.
+   * Whether to autowire the DNS records for the root mail feature.
    *
-   * @default { enabled: false, parentHostedZoneId: ''}
+   * @default false
    */
-  readonly autowireDNSOnAWS?: {
-    enabled: boolean;
-    parentHostedZoneId: string;
-  };
+  readonly autowireDNSOnAWSEnabled?: boolean;
+
+  /**
+   * The ID of the hosted zone of the <domain>, which has to be in the same AWS account.
+   * Cannot be '' if autowireDNSOnAWSEnabled is true.
+   *
+   * @default ''
+   */
+  readonly autowireDNSOnAWSParentHostedZoneId?: string;
 }
 
 export class Rootmail extends Construct {
@@ -61,7 +66,12 @@ export class Rootmail extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain || 'aws';
     const emailBucketName = props.emailBucketName || `${Stack.of(this).account}-rootmail-bucket`;
-    const autowireDNSOnAWS = props.autowireDNSOnAWS || { enabled: false, parentHostedZoneId: '' };
+    const autowireDNSOnAWSEnabled = props.autowireDNSOnAWSEnabled || false;
+    const autowireDNSOnAWSParentHostedZoneId = props.autowireDNSOnAWSParentHostedZoneId || '';
+
+    if (autowireDNSOnAWSEnabled && autowireDNSOnAWSParentHostedZoneId === '') {
+      throw new Error('autowireDNSOnAWSEnabled is true but autowireDNSOnAWSParentHostedZoneId is empty');
+    }
 
     /**
      * EMAIL Bucket
@@ -167,16 +177,17 @@ export class Rootmail extends Construct {
       ttl: Duration.seconds(60),
     });
 
-    if (autowireDNSOnAWS && autowireDNSOnAWS.enabled) {
-      // TODO add a schedule (idempotent calls) or make it a CR
+    let autowireDNSEventRuleArn: string = '';
+    if (autowireDNSOnAWSEnabled) {
       const autowireDNSHandler = new NodejsFunction(this, 'wire-rootmail-dns-handler', {
         runtime: lambda.Runtime.NODEJS_18_X,
         timeout: Duration.seconds(160), // 2m40s
+        logRetention: 3,
         environment: {
           DOMAIN: domain,
           SUB_DOMAIN: subdomain,
           HOSTED_ZONE_PARAMETER_NAME: this.hostedZoneParameterName,
-          PARENT_HOSTED_ZONE_ID: autowireDNSOnAWS.parentHostedZoneId,
+          PARENT_HOSTED_ZONE_ID: autowireDNSOnAWSParentHostedZoneId,
         },
       });
 
@@ -219,7 +230,7 @@ export class Rootmail extends Construct {
               account: '',
               resource: 'hostedzone',
               arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-              resourceName: autowireDNSOnAWS.parentHostedZoneId,
+              resourceName: autowireDNSOnAWSParentHostedZoneId,
             }),
           ],
         }));
@@ -227,8 +238,10 @@ export class Rootmail extends Construct {
       const autowireDNSEventRule = new events.Rule(this, 'AutowireDNSEventRule', {
         schedule: events.Schedule.rate(Duration.minutes(3)),
       });
+      autowireDNSEventRuleArn = autowireDNSEventRule.ruleArn;
 
       autowireDNSEventRule.addTarget(new LambdaFunction(autowireDNSHandler));
+
     }
 
     /**
@@ -239,6 +252,7 @@ export class Rootmail extends Construct {
       // # the timeout effectivly limits retries to 2^(n+1) - 1 = 9 attempts with backup
       //  as the function is called every 5 minutes from the event rule
       timeout: Duration.seconds(260),
+      logRetention: 3,
       environment: {
         DOMAIN: domain,
         SUB_DOMAIN: subdomain,
@@ -290,10 +304,25 @@ export class Rootmail extends Construct {
       handler: 'handler',
       runtime: lambda.Runtime.NODEJS_18_X,
       timeout: Duration.seconds(10),
+      logRetention: 3,
       environment: {
         SIGNAL_URL: rootMailReadyHandle.ref,
+        ROOTMAIL_READY_EVENTRULE_ARN: rootMailReadyEventRule.ruleArn,
+        AUTOWIRE_DNS_EVENTRULE_ARN: autowireDNSEventRuleArn,
       },
     });
+
+    // dynamicaly add the event rule arn to the role policy
+    const rootMailReadyTriggerRoleResources = autowireDNSEventRuleArn === ''
+      ? [rootMailReadyEventRule.ruleArn]
+      : [rootMailReadyEventRule.ruleArn, autowireDNSEventRuleArn];
+    rootMailReadyTrigger.addToRolePolicy(new iam.PolicyStatement({
+      actions: [
+        'events:DisableRule',
+      ],
+      effect: iam.Effect.ALLOW,
+      resources: rootMailReadyTriggerRoleResources,
+    }));
 
     // when the RootMailReady CR / lamdbda passes successfully the RootMailReadyTrigger function is called
     // by the alarm state change event. It signals the RootMailReadyHandle to continue the stack creation

@@ -13,8 +13,19 @@ import { Construct } from 'constructs';
 import { SESReceiptRuleSetActivation } from './ses-receipt-ruleset-activation';
 
 export interface SESReceiveStackProps extends StackProps {
+  /**
+   * Domain used for root mail feature. Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+   */
   readonly domain: string;
+
+  /**
+   * Subdomain used for root mail feature. Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+   */
   readonly subdomain: string;
+
+  /**
+   * S3 bucket to store received emails
+   */
   readonly emailbucket: s3.Bucket;
 }
 
@@ -78,6 +89,7 @@ export class SESReceiveStack extends Stack {
       role: opsSantaFunctionRole,
       runtime: lambda.Runtime.NODEJS_18_X,
       timeout: Duration.seconds(60),
+      logRetention: 3,
       environment: {
         EMAIL_BUCKET: props.emailbucket.bucketName,
         EMAIL_BUCKET_ARN: props.emailbucket.bucketArn,
