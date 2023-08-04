@@ -37,18 +37,6 @@ export class SESReceiveStack extends Stack {
               ],
               resources: [
                 props.emailbucket.arnForObjects('RootMail/*'),
-                // ${EmailBucket.Arn}/RootMail/*
-                // arn:PARTITION:s3:::NAME-OF-YOUR-BUCKET
-                // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
-                // Arn.format({
-                //   partition: Stack.of(this).partition,
-                //   service: 's3',
-                //   region: Stack.of(this).region,
-                //   account: Stack.of(this).account,
-                //   resource: props.emailbucketName,
-                //   arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-                //   resourceName: 'RootMail/*',
-                // }, Stack.of(this)),
               ],
             }),
             new iam.PolicyStatement({
@@ -102,7 +90,7 @@ export class SESReceiveStack extends Stack {
       sourceAccount: Stack.of(this).account,
     });
 
-    // custom resource to activate SES receipt rule set
+    // CR to activate SES receipt rule set
     new SESReceiptRuleSetActivation(this, 'SESReceiptRuleSetActivation', {
       domain: props.domain,
       subdomain: props.subdomain,

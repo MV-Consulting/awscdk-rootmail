@@ -59,11 +59,11 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
         timeout: Duration.seconds(200),
         initialPolicy: [
           new iam.PolicyStatement({
-            resources: ['*'],
             actions: [
               'ses:VerifyDomainDkim',
               'ses:VerifyDomainIdentity',
             ],
+            resources: ['*'],
           }),
         ],
       }),

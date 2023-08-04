@@ -112,7 +112,7 @@ export const handler = async () => {
     },
   }).promise();
 
-  log('waiting for DNS to propagate: 5s delay, 36 attempts = 3 minutes');
+  log('waiting for DNS to propagate: 5s delay, 24 attempts = 2 minutes');
   const res = await route53.waitFor('resourceRecordSetsChanged', {
     Id: recordSetCreationResponse.ChangeInfo.Id,
     $waiter: {

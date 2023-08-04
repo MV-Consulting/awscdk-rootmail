@@ -41,7 +41,7 @@ export interface RootmailProps {
   readonly emailBucketName?: string;
 
   /**
-   * Whether to autowire the DNS records for the root mail feature.
+   * Whether to autowire the DNS records for the root mail feature. Set enabled to true and provide for parentHostedZoneId the ID of the hosted zone of the <domain>, which has to be in the same AWS account.
    *
    * @default { enabled: false, parentHostedZoneId: ''}
    */
@@ -167,7 +167,7 @@ export class Rootmail extends Construct {
       ttl: Duration.seconds(60),
     });
 
-    if (autowireDNSOnAWS.enabled) {
+    if (autowireDNSOnAWS && autowireDNSOnAWS.enabled) {
       // TODO add a schedule (idempotent calls) or make it a CR
       const autowireDNSHandler = new NodejsFunction(this, 'wire-rootmail-dns-handler', {
         runtime: lambda.Runtime.NODEJS_18_X,
@@ -232,7 +232,7 @@ export class Rootmail extends Construct {
     }
 
     /**
-     * CR: wait until R53 records are set and the rootmail is ready
+     * Wait until R53 records are set and the rootmail is ready
      */
     const rootMailReady = new NodejsFunction(this, 'ready-handler', {
       runtime: lambda.Runtime.NODEJS_18_X,
@@ -274,12 +274,7 @@ export class Rootmail extends Construct {
           FunctionName: rootMailReady.functionName,
         },
       }),
-      // dimensions √
       evaluationPeriods: 1,
-      // metricName √
-      // namespace √
-      // period √
-      // statistic √
       threshold: 1,
     });
 
