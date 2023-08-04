@@ -178,6 +178,17 @@ integ.assertions
         Type: 'StringList',
       },
     }),
+  )
+  .next(
+    integ.assertions.
+      awsApiCall('CloudWatchEvents', 'describeRule', {
+        Name: rootmail.rootMailReadyEventRule.ruleName,
+      })
+      .expect(
+        ExpectedResult.objectLike({
+          State: 'DISABLED',
+        }),
+      ),
   );
 // Send a test email
 // .next(sendTestEmailAssertion)

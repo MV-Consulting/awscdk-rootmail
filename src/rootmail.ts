@@ -58,6 +58,7 @@ export interface RootmailProps {
 
 export class Rootmail extends Construct {
   public readonly hostedZoneParameterName: string;
+  public readonly rootMailReadyEventRule: events.Rule;
 
   constructor(scope: Construct, id: string, props: RootmailProps) {
     super(scope, id);
@@ -270,11 +271,11 @@ export class Rootmail extends Construct {
       resources: ['*'],
     }));
 
-    const rootMailReadyEventRule = new events.Rule(this, 'RootMailReadyEventRule', {
+    this.rootMailReadyEventRule = new events.Rule(this, 'RootMailReadyEventRule', {
       schedule: events.Schedule.rate(Duration.minutes(5)),
     });
 
-    rootMailReadyEventRule.addTarget(new LambdaFunction(rootMailReady));
+    this.rootMailReadyEventRule.addTarget(new LambdaFunction(rootMailReady));
 
     const rootMailReadyAlert = new cw.Alarm(this, 'Errors', {
       alarmName: 'superwerker-RootMailReady',
@@ -307,15 +308,15 @@ export class Rootmail extends Construct {
       logRetention: 3,
       environment: {
         SIGNAL_URL: rootMailReadyHandle.ref,
-        ROOTMAIL_READY_EVENTRULE_NAME: rootMailReadyEventRule.ruleName,
+        ROOTMAIL_READY_EVENTRULE_NAME: this.rootMailReadyEventRule.ruleName,
         AUTOWIRE_DNS_EVENTRULE_NAME: autowireDNSEventRuleArn,
       },
     });
 
     // dynamicaly add the event rule arn to the role policy
     const rootMailReadyTriggerRoleResources = autowireDNSEventRuleArn === ''
-      ? [rootMailReadyEventRule.ruleArn]
-      : [rootMailReadyEventRule.ruleArn, autowireDNSEventRuleArn];
+      ? [this.rootMailReadyEventRule.ruleArn]
+      : [this.rootMailReadyEventRule.ruleArn, autowireDNSEventRuleArn];
     rootMailReadyTrigger.addToRolePolicy(new iam.PolicyStatement({
       actions: [
         'events:DisableRule',
