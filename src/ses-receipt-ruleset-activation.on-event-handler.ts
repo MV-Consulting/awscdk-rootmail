@@ -55,7 +55,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
     case 'Delete':
       console.log('Deactivating SES ReceiptRuleSet:', logicalResourceId);
 
-      await ses.setActiveReceiptRuleSet().promise();
+      await ses.setActiveReceiptRuleSet({ RuleSetName: undefined }).promise();
 
       await ses.deleteReceiptRule({
         RuleName: ruleName,
