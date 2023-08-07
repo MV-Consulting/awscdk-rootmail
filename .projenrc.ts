@@ -48,5 +48,5 @@ const project = new awscdk.AwsCdkConstructLibrary({
 });
 
 // project.package.setScript('prepare', 'husky install');
-project.package.setScript('integ-test', 'integ-runner --directory ./integ-tests --parallel-regions us-east-1 --update-on-failed');
+project.package.setScript('integ-test', 'integ-runner --directory ./integ-tests --parallel-regions eu-central-1 --update-on-failed');
 project.synth();

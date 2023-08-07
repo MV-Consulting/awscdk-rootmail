@@ -13,14 +13,14 @@ import {
   aws_s3 as s3,
   aws_ssm as ssm,
   Fn,
+  StackProps,
 } from 'aws-cdk-lib';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 import { HostedZoneDKIMAndVerificationRecords } from './hosted-zone-dkim-verification-records';
-import { SESReceiveStack } from './ses-receive-stack';
 
-export interface RootmailProps {
+export interface RootmailProps extends StackProps {
   /**
    * Domain used for root mail feature. Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
    */
@@ -63,9 +63,10 @@ export interface RootmailProps {
   readonly autowireDNSOnAWSParentHostedZoneId?: string;
 }
 
-export class Rootmail extends Construct {
+export class Rootmail extends Stack {
   public readonly hostedZoneParameterName: string;
   public readonly rootMailReadyEventRule: events.Rule;
+  public readonly emailBucket: s3.Bucket;
 
   constructor(scope: Construct, id: string, props: RootmailProps) {
     super(scope, id);
@@ -85,7 +86,7 @@ export class Rootmail extends Construct {
     /**
      * EMAIL Bucket
      */
-    const emailBucket = new s3.Bucket(this, 'EmailBucket', {
+    this.emailBucket = new s3.Bucket(this, 'EmailBucket', {
       bucketName: emailBucketName,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       // TODO later
@@ -110,7 +111,7 @@ export class Rootmail extends Construct {
           service: 's3',
           region: '',
           account: '',
-          resource: emailBucket.bucketName,
+          resource: this.emailBucket.bucketName,
           arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
           resourceName: 'RootMail/*',
         }, Stack.of(this)),
@@ -118,7 +119,7 @@ export class Rootmail extends Construct {
       sid: 'EnableSESReceive',
     });
 
-    emailBucket.addToResourcePolicy(emailBucketPolicyStatement);
+    this.emailBucket.addToResourcePolicy(emailBucketPolicyStatement);
 
     /**
      * HOSTED ZONE
@@ -350,16 +351,5 @@ export class Rootmail extends Construct {
     });
 
     rootMailReadyTriggerEventPattern.addTarget(new LambdaFunction(rootMailReadyTrigger));
-
-    // as cdk is multi account and region unlike cloudformation we can deploy the stack directly
-    new SESReceiveStack(this, 'SESReceiveStack', {
-      domain: domain,
-      subdomain: subdomain,
-      emailbucket: emailBucket,
-      // this is fixed to eu-west-1 until SES supports receive more globally (see #23)
-      env: {
-        region: 'eu-west-1',
-      },
-    });
   }
 }
