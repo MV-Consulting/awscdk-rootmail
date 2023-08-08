@@ -10,15 +10,15 @@ import {
   aws_iam as iam,
   aws_lambda as lambda,
 } from 'aws-cdk-lib';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // import { AwsSolutionsChecks } from 'cdk-nag';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Rootmail } from '../src/rootmail';
 import { SESReceiveStack } from '../src/ses-receive-stack';
 // CDK App for Integration Tests
 const app = new App();
 // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
-// Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true })); // TODO enable again
+// Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }));
 // Stack under test
 const stackUnderTest = new Stack(app, 'RootmailTestStack', {
   // env: {
@@ -64,11 +64,6 @@ const integ = new IntegTest(app, 'SetupTest', {
     // Customize the integ-runner parameters
     deploy: {
       args: {
-        // TODO test stack is missing
-        // stacks: [
-        //   `${stackUnderTest.stackName}/testRootmail`, // TODO make naming dynamic
-        //   `${stackUnderTest.stackName}/SESReceiveStack`,
-        // ],
         // If I do not provide this argument it will fail with
         // 'You must either specify a list of Stacks or the `--all` argument'
         stacks: [], // TODO dunno why the opsSanta is not processing! Keep the stacks maybe
@@ -199,12 +194,6 @@ const updateOpsItemAssertion = integ.assertions
     OpsItemId: id,
     Status: 'Resolved',
   });
-// /**
-// * Expect the ops item to be closed.
-// */
-// // .expect(
-// //   ExpectedResult.objectLike({}), // TODO check
-// // ),
 
 updateOpsItemAssertion.provider.addToRolePolicy({
   Effect: 'Allow',
@@ -254,4 +243,4 @@ integ.assertions
 // - s3 rootmail bucket (empty & remove)
 // - SES verified identities
 // - main domain ns records for `aws` subdomain HZ
-// - cw log groups prefixed with '/aws/lambda/IntegrationTestStack*'
+// - cw log groups prefixed with '/aws/lambda/RootmailTestStack*'

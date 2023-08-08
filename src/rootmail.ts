@@ -89,7 +89,7 @@ export class Rootmail extends Stack {
     this.emailBucket = new s3.Bucket(this, 'EmailBucket', {
       bucketName: emailBucketName,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      // TODO later
+      // TODO later or via aspects in tests
       // removalPolicy: RemovalPolicy.DESTROY,
     });
 
