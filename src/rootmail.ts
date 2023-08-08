@@ -169,7 +169,7 @@ export class Rootmail extends Stack {
     new r53.RecordSet(this, 'HostedZoneMXRecord', {
       recordType: r53.RecordType.MX,
       zone: hostedZone,
-      // # this is fixed to eu-west-1 until SES supports receive more globally (see #23)
+      // Note: this is fixed to eu-west-1 until SES supports receive more globally
       target: r53.RecordTarget.fromValues('10 inbound-smtp.eu-west-1.amazonaws.com'),
       recordName: `${subdomain}.${domain}`,
       deleteExisting: false,
@@ -180,7 +180,6 @@ export class Rootmail extends Stack {
       recordType: r53.RecordType.TXT,
       zone: hostedZone,
       recordName: `_amazonses.${subdomain}.${domain}`,
-      // # this is fixed to eu-west-1 until SES supports receive more globally (see #23)
       // Note: needs to be wrapped in quotes
       target: r53.RecordTarget.fromValues(`"${hostedZoneDKIMAndVerificationRecords.verificationToken}"`),
       deleteExisting: false,
