@@ -1,4 +1,4 @@
-<mxfile modified="2023-08-08T12:44:01.699Z" host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" etag="VV0rHBUgJa0Dv10B8J-F" version="21.6.6" type="device">
+<mxfile modified="2023-08-08T12:56:14.914Z" host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" etag="GE8zjGv2kESVFtX0KEe7" version="21.6.6" type="device">
   <diagram id="Ht1M8jgEwFfnCIfOTk4-" name="Page-1">
     <mxGraphModel dx="1794" dy="775" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -46,7 +46,7 @@
         <mxCell id="7OVz4w7n9kzEPWy-4BBC-13" value="&lt;span&gt;You own a domain, e.g., &#39;example.com&#39;. It can be at any registrar, also Route53 itself in the same or any other AWS account.&lt;/span&gt;" style="text;html=1;align=left;verticalAlign=top;spacingTop=-4;fontSize=14;labelBackgroundColor=none;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="1220.5" y="62.5" width="449" height="118" as="geometry" />
         </mxCell>
-        <mxCell id="7OVz4w7n9kzEPWy-4BBC-14" value="The stack creates a Route53 public Hosted Zone for the subdomain, e.g., &#39;aws.example.com&#39;. You need to add the NS server entries now into the Domain provider which owns the main domain &#39;example.com&#39;." style="text;html=1;align=left;verticalAlign=top;spacingTop=-4;fontSize=14;labelBackgroundColor=none;whiteSpace=wrap;" parent="1" vertex="1">
+        <mxCell id="7OVz4w7n9kzEPWy-4BBC-14" value="The stack creates a Route53 public Hosted Zone for the subdomain, e.g., &#39;aws.example.com&#39;. It also automatically adds the TXT and CNAME records for verifying the domain towards SES.&lt;br&gt;&lt;br&gt;You must now add the NS server entries into the Domain provider which owns the main domain &#39;example.com&#39;." style="text;html=1;align=left;verticalAlign=top;spacingTop=-4;fontSize=14;labelBackgroundColor=none;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="1219.5" y="185.5" width="450" height="115" as="geometry" />
         </mxCell>
         <mxCell id="7OVz4w7n9kzEPWy-4BBC-15" value="&lt;span&gt;When the subdomain &#39;aws.example.com&#39; is successfully propagated, the stack creates a verified Domain in AWS SES and adds a recipient rule for &#39;root@aws.example.com&#39;. &lt;br&gt;&lt;/span&gt;" style="text;html=1;align=left;verticalAlign=top;spacingTop=-4;fontSize=14;labelBackgroundColor=none;whiteSpace=wrap;" parent="1" vertex="1">
@@ -64,7 +64,7 @@
         <mxCell id="7OVz4w7n9kzEPWy-4BBC-19" value="&lt;span&gt;The SSM parameter store for password reset links.&lt;/span&gt;" style="text;html=1;align=left;verticalAlign=top;spacingTop=-4;fontSize=14;labelBackgroundColor=none;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="1220.5" y="748.5" width="449" height="47.5" as="geometry" />
         </mxCell>
-        <mxCell id="7OVz4w7n9kzEPWy-4BBC-20" value="&lt;span&gt;The OpsItem which is created.&lt;/span&gt;" style="text;html=1;align=left;verticalAlign=top;spacingTop=-4;fontSize=14;labelBackgroundColor=none;whiteSpace=wrap;" parent="1" vertex="1">
+        <mxCell id="7OVz4w7n9kzEPWy-4BBC-20" value="&lt;span&gt;The OpsItem which is created. It is open and shall be further processed either in the OpsCenter or any other issue tracker.&lt;/span&gt;" style="text;html=1;align=left;verticalAlign=top;spacingTop=-4;fontSize=14;labelBackgroundColor=none;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="1220.5" y="832.5" width="449" height="48.5" as="geometry" />
         </mxCell>
         <mxCell id="bbvVeTHvoaUDWQekboov-1" value="AWS Account" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_account;strokeColor=#CD2264;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#CD2264;dashed=0;" vertex="1" parent="1">
