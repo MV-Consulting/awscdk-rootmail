@@ -50,6 +50,12 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       console.log('Activating SES ReceiptRuleSet:', logicalResourceId);
 
       await ses.setActiveReceiptRuleSet({ RuleSetName: ruleSetName }).promise();
+
+      console.log('wait for 2 minutes to let activation settle ...');
+      // Which is usually the time between the
+      // AMAZON_SES_SETUP_NOTIFICATION mail in the S3 bucket
+      // and the test run the setup being complete.
+      await new Promise((resolve) => setTimeout(resolve, 120000));
       break;
 
     case 'Delete':
