@@ -8,20 +8,11 @@ export const handler = async (event: any) => {
   const sourceMail = event.sourceMail || 'test@example.com';
   const toMail = event.toMail || 'root@example.com';
 
-  const ruleBefore = await SES.describeReceiptRule({
-    RuleSetName: 'RootMail',
-    RuleName: 'Receive',
-  }).promise();
-  log({ message: 'Rule before:', rule: ruleBefore.Rule });
-
-  log({ message: 'Waiting 30 seconds to settle...' });
-  await new Promise((resolve) => setTimeout(resolve, 30000));
-
   const ruleAfter = await SES.describeReceiptRule({
     RuleSetName: 'RootMail',
     RuleName: 'Receive',
   }).promise();
-  log({ message: 'Rule after:', rule: ruleAfter.Rule });
+  log({ message: 'Rule:', rule: ruleAfter.Rule });
 
   const params: AWS.SES.SendEmailRequest = {
     Source: sourceMail,
