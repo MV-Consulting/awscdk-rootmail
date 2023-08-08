@@ -71,7 +71,8 @@ const integ = new IntegTest(app, 'SetupTest', {
         // ],
         // If I do not provide this argument it will fail with
         // 'You must either specify a list of Stacks or the `--all` argument'
-        stacks: [],
+        stacks: [], // TODO dunno why the opsSanta is not processing! Keep the stacks maybe
+        //  Wait for SES in eu-west-1 to be in production state
         all: true,
       },
     },
@@ -181,8 +182,8 @@ const validateOpsItemAssertion = integ.assertions
    * Iteratively executes API call at specified interval.
    */
   .waitForAssertions({
-    totalTimeout: Duration.minutes(1),
-    interval: Duration.seconds(5),
+    totalTimeout: Duration.minutes(3),
+    interval: Duration.seconds(10),
   });
 
 validateOpsItemAssertion.provider.addToRolePolicy({
