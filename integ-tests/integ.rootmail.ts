@@ -22,8 +22,8 @@ const app = new App();
 // Stack under test
 const stackUnderTest = new Stack(app, 'RootmailTestStack', {
   // env: {
-  //   region: 'eu-central-1',
-  //   account: '1234',
+  // region: 'eu-central-1',
+  // account: '1234',
   // },
   // setDestroyPolicyToAllResources: true,
   description:
@@ -32,6 +32,7 @@ const stackUnderTest = new Stack(app, 'RootmailTestStack', {
 
 const subdomain = 'aws-test';
 const domain = 'mavogel.xyz';
+const rootMailDeployRegion = 'eu-central-1';
 
 const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   subdomain: subdomain,
@@ -41,6 +42,9 @@ const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   totalTimeToWireDNS: Duration.minutes(40),
   autowireDNSOnAWSEnabled: true,
   autowireDNSOnAWSParentHostedZoneId: 'Z02503291YUXLE3C4727T', // mavogel.xyz
+  env: {
+    region: rootMailDeployRegion,
+  },
 });
 
 // as cdk is multi account and region unlike cloudformation we can deploy the stack directly
@@ -48,6 +52,7 @@ const sesReceiveStack = new SESReceiveStack(stackUnderTest, 'SESReceiveStack', {
   domain: domain,
   subdomain: subdomain,
   emailbucket: rootmail.emailBucket,
+  rootMailDeployRegion: rootMailDeployRegion,
   // this is fixed to eu-west-1 until SES supports receive more globally (see #23)
   env: {
     region: 'eu-west-1',

@@ -1,7 +1,7 @@
 import { S3, SSM } from 'aws-sdk';
 import { simpleParser } from 'mailparser';
 
-const region = process.env.AWS_REGION;
+const region = process.env.ROOTMAIL_DEPLOY_REGION;
 const emailBucket = process.env.EMAIL_BUCKET;
 const emailBucketArn = process.env.EMAIL_BUCKET_ARN;
 const s3 = new S3();

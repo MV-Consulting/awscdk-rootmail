@@ -27,6 +27,11 @@ export interface SESReceiveStackProps extends StackProps {
    * S3 bucket to store received emails
    */
   readonly emailbucket: s3.Bucket;
+
+  /**
+   * Region where the root mail feature is deployed.
+   */
+  readonly rootMailDeployRegion: string;
 }
 
 export class SESReceiveStack extends Stack {
@@ -70,7 +75,7 @@ export class SESReceiveStack extends Stack {
                 Arn.format({
                   partition: Stack.of(this).partition,
                   service: 'ssm',
-                  region: Stack.of(this).region,
+                  region: props.rootMailDeployRegion,
                   account: Stack.of(this).account,
                   resource: 'parameter',
                   arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
@@ -93,6 +98,7 @@ export class SESReceiveStack extends Stack {
       environment: {
         EMAIL_BUCKET: props.emailbucket.bucketName,
         EMAIL_BUCKET_ARN: props.emailbucket.bucketArn,
+        ROOTMAIL_DEPLOY_REGION: props.rootMailDeployRegion,
       },
     });
 

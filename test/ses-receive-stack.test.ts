@@ -24,6 +24,7 @@ test('ses-receive-stack-create', () => {
     domain: 'example.com',
     subdomain: 'aws',
     emailbucket: emailBucket,
+    rootMailDeployRegion: 'eu-central-1',
   };
 
   new SESReceiveStack(stack, 'testSesReceive', testProps);
