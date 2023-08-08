@@ -64,7 +64,13 @@ class SESReceiptRuleSetActivationProvider extends Construct {
             AllowSesAccess: new iam.PolicyDocument({
               statements: [
                 new iam.PolicyStatement({
-                  actions: ['ses:*'], // TODO: least privilege
+                  actions: [
+                    'ses:CreateReceiptRuleSet',
+                    'ses:CreateReceiptRule',
+                    'ses:SetActiveReceiptRuleSet',
+                    'ses:DeleteReceiptRule',
+                    'ses:DeleteReceiptRuleSet',
+                  ],
                   resources: ['*'],
                 }),
 
