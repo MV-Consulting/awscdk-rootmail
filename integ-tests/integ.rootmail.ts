@@ -93,11 +93,12 @@ const integ = new IntegTest(app, 'SetupTest', {
 const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler', {
   entry: path.join(__dirname, 'functions', 'send-email-handler.ts'),
   runtime: lambda.Runtime.NODEJS_18_X,
-  timeout: Duration.seconds(15),
+  timeout: Duration.seconds(60),
   initialPolicy: [
     new iam.PolicyStatement({
       actions: [
         'ses:SendEmail',
+        'ses:DescribeReceiptRule',
       ],
       resources: ['*'],
     }),

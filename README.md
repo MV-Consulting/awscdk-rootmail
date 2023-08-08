@@ -17,16 +17,21 @@ export class MyStack extends Stack {
 
     const domain = 'example.com'; // a domain you need to own
     const subdomain = 'aws'; // subdomain which will be created
+    const rootMailDeployRegion = 'eu-central-1';
     
     const rootmail = new Rootmail(this, 'rootmail-stack', {
       domain: domain,
       subdomain: subdomain,
+      env: {
+        region: rootMailDeployRegion,
+      },
     });
 
     new SESReceiveStack(this, 'ses-receive-stack', {
       domain: domain,
       subdomain: subdomain,
       emailbucket: rootmail.emailBucket,
+      rootMailDeployRegion: rootMailDeployRegion,
       // SES only supports receiving in certain regions
       // https://docs.aws.amazon.com/ses/latest/dg/regions.html#region-receive-email
       env: {
