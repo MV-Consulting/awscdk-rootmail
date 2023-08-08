@@ -2,6 +2,8 @@
 
 See the ADR from superwerker about the rootmail feature [here](https://github.com/superwerker/superwerker/blob/main/docs/adrs/rootmail.md)
 
+## Solution diagram
+![rootmail-solution-diagram](docs/img/awscdk-rootmail-v0.png)
 ## Setup
 1. In you `main.ts`
 ```ts
