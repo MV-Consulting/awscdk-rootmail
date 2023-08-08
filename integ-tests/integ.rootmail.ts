@@ -248,6 +248,5 @@ integ.assertions
 
 // TODO call teardown lambda
 // - s3 rootmail bucket (empty & remove)
-// - SES verified identities (TODO in CR)
 // - main domain ns records for `aws` subdomain HZ
 // - cw log groups prefixed with '/aws/lambda/RootmailTestStack*' in eu-west-1 and eu-central-1

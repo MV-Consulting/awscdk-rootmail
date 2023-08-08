@@ -32,9 +32,9 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       console.log('Updating DKIM verification, doing nothing');
       return {};
     case 'Delete':
-      console.log('Deleting DKIM verification, doing nothing');
-      // TODO later
-      // await SES.deleteIdentity({ Identity: domain }).promise();
+      console.log(`Deleting Domain identity for domain '${domain}'`);
+      const deleteResponse = await SES.deleteIdentity({ Identity: domain }).promise();
+      console.log(`Deleted Domain identity for domain '${domain}'`, deleteResponse);
       return {};
   }
 }

@@ -1,8 +1,10 @@
 const spyVerifyDomainIdentity = jest.fn();
 const spyVerifyDomainDkim = jest.fn();
+const spyDeleteIdentity = jest.fn();
 const spySES = jest.fn(() => ({
   verifyDomainIdentity: spyVerifyDomainIdentity,
   verifyDomainDkim: spyVerifyDomainDkim,
+  deleteIdentity: spyDeleteIdentity,
 }));
 
 jest.mock('aws-sdk', () => ({
@@ -18,7 +20,7 @@ describe('hosted-zone-dkim-verification-records', () => {
     jest.resetAllMocks();
   });
 
-  it('verifies domain and dkim records', async () => {
+  it('verifies-create-domain-and-dkim-records', async () => {
     spyVerifyDomainIdentity.mockImplementation(() => ({
       promise() {
         return Promise.resolve({ VerificationToken: 'abc-token' });
@@ -31,7 +33,7 @@ describe('hosted-zone-dkim-verification-records', () => {
       },
     }));
 
-    const result = handler(
+    const result = await handler(
       {
         RequestType: 'Create',
         ResourceProperties: {
@@ -41,10 +43,9 @@ describe('hosted-zone-dkim-verification-records', () => {
     );
 
     expect(spyVerifyDomainIdentity).toHaveBeenCalledTimes(1);
-    // Note: it got called, but the test fails and say no calls were made
-    expect(spyVerifyDomainDkim).toHaveBeenCalledTimes(0);
+    expect(spyVerifyDomainDkim).toHaveBeenCalledTimes(1);
 
-    await expect(result).resolves.toMatchObject(
+    expect(result).toMatchObject(
       {
         Data: {
           VerificationToken: expect.stringMatching(/abc-token/),
@@ -52,5 +53,24 @@ describe('hosted-zone-dkim-verification-records', () => {
         },
       },
     );
+  });
+
+  it('verifies-delete-domain-and-dkim-records', async () => {
+    spyDeleteIdentity.mockImplementation(() => ({
+      promise() {
+        return Promise.resolve({});
+      },
+    }));
+
+    await handler(
+      {
+        RequestType: 'Delete',
+        ResourceProperties: {
+          Domain: 'aws.superluminar.io',
+        },
+      } as unknown as OnEventRequest,
+    );
+
+    expect(spyDeleteIdentity).toHaveBeenCalledTimes(1);
   });
 });
