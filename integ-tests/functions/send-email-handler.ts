@@ -27,16 +27,27 @@ export const handler = async (event: any) => {
 
   try {
     const res = await SES.sendEmail(params).promise();
+    if (res.$response.error) {
+      log({
+        message: 'Error sending email',
+        params: params,
+        messageId: res.MessageId,
+        err: res.$response.error,
+      });
+
+      return { statusCode: 500, err: res.$response.error };
+    }
     log({
       message: 'Email sent',
       params: params,
       res: res,
     });
+
     // return { statusCode: res.$response.httpResponse.statusCode };
     return { statusCode: 200 };
   } catch (err) {
     log({
-      message: 'Error sending email',
+      message: 'Error (catch) sending email',
       err: err,
     });
     // return { statusCode: err.statusCode, err: err };

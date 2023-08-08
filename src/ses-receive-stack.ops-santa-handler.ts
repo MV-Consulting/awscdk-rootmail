@@ -108,6 +108,7 @@ export const handler = async (event: SESEventRecordsToLambda) => {
 
         log({
           class: k,
+          value: v,
           id: id,
           key: key,
           level: 'warn',
