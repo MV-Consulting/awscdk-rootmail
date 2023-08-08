@@ -62,6 +62,7 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
             actions: [
               'ses:VerifyDomainDkim',
               'ses:VerifyDomainIdentity',
+              'ses:DeleteIdentity',
             ],
             resources: ['*'],
           }),
