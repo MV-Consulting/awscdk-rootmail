@@ -164,12 +164,13 @@ const validateOpsItemAssertion = integ.assertions
     ExpectedResult.objectLike({
       Entities: [
         {
-          Id: id,
           Data: {
             'AWS:OpsItem': {
               Content: [
                 {
-                  Description: message,
+                  Title: id,
+                  Source: `root+${id}@${fullDomain}`,
+                  Description: `${message}\n`,
                 },
               ],
             },
