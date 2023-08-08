@@ -78,7 +78,8 @@ class SESReceiptRuleSetActivationProvider extends Construct {
             }),
           },
         }),
-        timeout: Duration.seconds(10),
+        // Note: inside we wait 2 minutes for the activation to settle
+        timeout: Duration.seconds(120 + 30),
         //  Note: we use the resource properties from above as it is a CustomResource
         environment: {},
       }),
