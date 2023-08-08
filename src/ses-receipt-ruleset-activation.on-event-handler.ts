@@ -41,7 +41,6 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
             {
               LambdaAction: {
                 FunctionArn: opsSantaFunctionArn,
-                InvocationType: 'RequestResponse', // call it synchronously
               },
             },
           ],
