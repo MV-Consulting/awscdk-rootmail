@@ -30,14 +30,14 @@ const stackUnderTest = new Stack(app, 'RootmailTestStack', {
     "This stack includes the application's resources for integration testing.",
 });
 
-const subdomain = 'aws-test';
+const subdomain = 'integ-test-auto';
 const domain = 'mavogel.xyz';
 const rootMailDeployRegion = 'eu-central-1';
 
 const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   subdomain: subdomain,
   domain: domain,
-  emailBucketName: 'acd2d6439c39-rootmail-bucket-integtest',
+  emailBucketName: 'bab2d6439c39-rootmail-bucket-integtest',
   // tests took on average 15-20 minutes , but we leave some buffer
   totalTimeToWireDNS: Duration.minutes(40),
   autowireDNSOnAWSEnabled: true,
@@ -93,7 +93,8 @@ const integ = new IntegTest(app, 'SetupTest', {
 const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler', {
   entry: path.join(__dirname, 'functions', 'send-email-handler.ts'),
   runtime: lambda.Runtime.NODEJS_18_X,
-  timeout: Duration.seconds(60),
+  logRetention: 1,
+  timeout: Duration.seconds(30),
   initialPolicy: [
     new iam.PolicyStatement({
       actions: [
@@ -247,6 +248,6 @@ integ.assertions
 
 // TODO call teardown lambda
 // - s3 rootmail bucket (empty & remove)
-// - SES verified identities
+// - SES verified identities (TODO in CR)
 // - main domain ns records for `aws` subdomain HZ
-// - cw log groups prefixed with '/aws/lambda/RootmailTestStack*'
+// - cw log groups prefixed with '/aws/lambda/RootmailTestStack*' in eu-west-1 and eu-central-1
