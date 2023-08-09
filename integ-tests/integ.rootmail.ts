@@ -48,7 +48,7 @@ const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
 });
 
 // as cdk is multi account and region unlike cloudformation we can deploy the stack directly
-const sesReceiveStack = new SESReceiveStack(stackUnderTest, 'SESReceiveStack', {
+new SESReceiveStack(stackUnderTest, 'SESReceiveStack', {
   domain: domain,
   subdomain: subdomain,
   emailbucket: rootmail.emailBucket,
@@ -58,7 +58,6 @@ const sesReceiveStack = new SESReceiveStack(stackUnderTest, 'SESReceiveStack', {
     region: 'eu-west-1',
   },
 });
-sesReceiveStack.addDependency(rootmail); // TODO is this needed?
 
 const fullDomain = `${subdomain}.${domain}`;
 
