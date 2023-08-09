@@ -29,7 +29,7 @@ export const handler = async (event: any) => {
         err: res.$response.error,
       });
 
-      return { sendStatusCode: 500, err: res.$response.error };
+      return { closeStatusCode: 500, err: res.$response.error };
     }
     log({
       message: 'Got opsItem',
@@ -52,24 +52,25 @@ export const handler = async (event: any) => {
         err: res.$response.error,
       });
 
-      return { sendStatusCode: 500, err: res.$response.error };
+      return { closeStatusCode: 500, err: res.$response.error };
     }
 
     log({
       message: 'Updated opsItem',
       title: title,
+      id: opsItemId,
       res: resUpdate,
     });
 
     // return { statusCode: res.$response.httpResponse.statusCode };
-    return { sendStatusCode: 200 };
+    return { closeStatusCode: 200 };
   } catch (err) {
     log({
       message: 'Error (catch) getting and closing opsItem',
       err: err,
     });
     // return { statusCode: err.statusCode, err: err };
-    return { sendStatusCode: 500, err: err };
+    return { closeStatusCode: 500, err: err };
   }
 };
 

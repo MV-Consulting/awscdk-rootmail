@@ -144,7 +144,7 @@ const sendTestEmailAssertion = integ.assertions
     // as the object 'return { sendStatusCode: 200 };' is wrapped in a Payload object with other properties
     {
       Payload: {
-        sendStatusCode: '200',
+        sendStatusCode: 200,
       },
     },
   ),
@@ -227,10 +227,10 @@ const updateOpsItemAssertion = integ.assertions
       title: id,
     }),
   }).expect(ExpectedResult.objectLike(
-    // as the object 'return { sendStatusCode: 200 };' is wrapped in a Payload object with other properties
+    // as the object 'return { closeStatusCode: 200 };' is wrapped in a Payload object with other properties
     {
       Payload: {
-        sendStatusCode: '200',
+        closeStatusCode: 200,
       },
     },
   ),
