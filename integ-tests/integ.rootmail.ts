@@ -124,9 +124,14 @@ const sendTestEmailAssertion = integ.assertions
       sourceMail: `test@${fullDomain}`,
       toMail: `root+${id}@${fullDomain}`,
     }),
-  }).expect(ExpectedResult.exact({
-    statusCode: '200',
-  }),
+  }).expect(ExpectedResult.objectLike(
+    // as the object 'return { sendStatusCode: 200 };' is wrapped in a Payload object with other properties
+    {
+      Payload: {
+        sendStatusCode: '200',
+      },
+    },
+  ),
   );
 
 // sendTestEmailAssertion.provider.addToRolePolicy({
@@ -248,6 +253,8 @@ integ.assertions
   .next(updateOpsItemAssertion);
 
 // TODO call teardown lambda
-// - s3 rootmail bucket (empty & remove)
+// - s3 rootmail bucket (empty & remove) -> removal policy?
 // - main domain ns records for `aws` subdomain HZ or CR?
-// - cw log groups prefixed with '/aws/lambda/RootmailTestStack*' in eu-west-1 and eu-central-1
+// - cw log groups prefixed with -> removal policy?
+//   - '/aws/lambda/RootmailTestStack*' in eu-west-1 and eu-central-1
+//   - '/aws/lambda/SetupTest in eu-central-1
