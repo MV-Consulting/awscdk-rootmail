@@ -28,6 +28,7 @@
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
     "projen": "npx projen",
+    "prepare": "husky install",
     "integ-test": "integ-runner --directory ./integ-tests --parallel-regions eu-central-1 --update-on-failed"
   },
   "author": {
