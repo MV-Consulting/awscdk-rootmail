@@ -41,7 +41,7 @@ const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   totalTimeToWireDNS: Duration.minutes(40),
   autowireDNSOnAWSEnabled: true,
   autowireDNSOnAWSParentHostedZoneId: 'Z02503291YUXLE3C4727T', // mavogel.xyz
-  setDestroyPolicyToAllResources: true,
+  setDestroyPolicyToAllResources: false,
   env: {
     region: rootMailDeployRegion,
   },
@@ -53,7 +53,7 @@ new SESReceiveStack(stackUnderTest, 'SESReceiveStack', {
   subdomain: subdomain,
   emailbucket: rootmail.emailBucket,
   rootMailDeployRegion: rootMailDeployRegion,
-  setDestroyPolicyToAllResources: true,
+  setDestroyPolicyToAllResources: false,
   env: {
     region: 'eu-west-1',
   },
@@ -262,7 +262,7 @@ getHostedZoneParametersAssertion
   .next(updateOpsItemAssertion);
 
 // TODO call teardown lambda
-// - s3 rootmail bucket (empty & remove) -> removal policy?
+// - s3 rootmail bucket (empty only) -> removal policy?
 // - main domain ns records for `aws` subdomain HZ or CR?
 // - cw log groups prefixed with -> removal policy?
 //   - '/aws/lambda/RootmailTestStack*' in eu-west-1 and eu-central-1
