@@ -54,7 +54,6 @@ const sesReceiveStack = new SESReceiveStack(stackUnderTest, 'SESReceiveStack', {
   emailbucket: rootmail.emailBucket,
   rootMailDeployRegion: rootMailDeployRegion,
   setDestroyPolicyToAllResources: true,
-  // this is fixed to eu-west-1 until SES supports receive more globally (see #23)
   env: {
     region: 'eu-west-1',
   },
@@ -72,8 +71,7 @@ const integ = new IntegTest(app, 'SetupTest', {
       args: {
         // If I do not provide this argument it will fail with
         // 'You must either specify a list of Stacks or the `--all` argument'
-        stacks: [], // TODO dunno why the opsSanta is not processing! Keep the stacks maybe
-        //  Wait for SES in eu-west-1 to be in production state
+        stacks: [],
         all: true,
       },
     },
