@@ -30,7 +30,7 @@ export class SESReceiptRuleSetActivation extends Construct {
     super(scope, id);
 
     new CustomResource(this, 'Resource', {
-      serviceToken: SESReceiptRuleSetActivationProvider.getOrCreate(this),
+      serviceToken: SESReceiptRuleSetActivationProvider.getOrCreate(this, { rulesetSettleTimeSeconds: props.rulesetSettleTimeSeconds }),
       resourceType: 'Custom::SESReceiptRuleSetActivation',
       properties: {
         [PROP_DOMAIN]: props.domain,
@@ -43,22 +43,26 @@ export class SESReceiptRuleSetActivation extends Construct {
   }
 }
 
+interface SESReceiptRuleSetActivationProviderProps {
+  readonly rulesetSettleTimeSeconds: number;
+}
+
 class SESReceiptRuleSetActivationProvider extends Construct {
 
   /**
    * Returns the singleton provider.
    */
-  public static getOrCreate(scope: Construct) {
+  public static getOrCreate(scope: Construct, props: SESReceiptRuleSetActivationProviderProps) {
     const stack = Stack.of(scope);
     const id = 'superwerker.ses-receipt-ruleset-activation-provider';
     const x = Node.of(stack).tryFindChild(id) as SESReceiptRuleSetActivationProvider
-      || new SESReceiptRuleSetActivationProvider(stack, id);
+      || new SESReceiptRuleSetActivationProvider(stack, id, props);
     return x.provider.serviceToken;
   }
 
   private readonly provider: cr.Provider;
 
-  constructor(scope: Construct, id: string) {
+  constructor(scope: Construct, id: string, props: SESReceiptRuleSetActivationProviderProps) {
     super(scope, id);
 
     this.provider = new cr.Provider(this, 'ses-receipt-ruleset-activation-provider', {
@@ -87,8 +91,8 @@ class SESReceiptRuleSetActivationProvider extends Construct {
             }),
           },
         }),
-        // Note: inside we wait 2 minutes for the activation to settle
-        timeout: Duration.seconds(120 + 30),
+        // Note: inside we wait 'rulesetSettleTimeSeconds' seconds for the activation to settle
+        timeout: Duration.seconds(props.rulesetSettleTimeSeconds + 30),
         //  Note: we use the resource properties from above as it is a CustomResource
         environment: {},
       }),
