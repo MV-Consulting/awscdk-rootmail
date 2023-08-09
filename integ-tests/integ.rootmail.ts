@@ -106,6 +106,22 @@ const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler'
   ],
 });
 
+const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-handler', {
+  entry: path.join(__dirname, 'functions', 'close-opsitem-handler.ts'),
+  runtime: lambda.Runtime.NODEJS_18_X,
+  logRetention: 1,
+  timeout: Duration.seconds(30),
+  initialPolicy: [
+    new iam.PolicyStatement({
+      actions: [
+        'ssm:GetOpsSummary',
+        'ssm:UpdateOpsItem',
+      ],
+      resources: ['*'],
+    }),
+  ],
+});
+
 /**
  * Assertion:
  * The application should parse a dummy email, store it in S3 and set create an OPS item.
@@ -203,23 +219,34 @@ validateOpsItemAssertion.provider.addToRolePolicy({
 });
 
 const updateOpsItemAssertion = integ.assertions
-  .awsApiCall('SSM', 'updateOpsItem', {
-    OpsItemId: id,
-    Status: 'Resolved',
-  });
+  .invokeFunction({
+    functionName: closeOpsItemHandler.functionName,
+    logType: LogType.TAIL,
+    invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
+    payload: JSON.stringify({
+      title: id,
+    }),
+  }).expect(ExpectedResult.objectLike(
+    // as the object 'return { sendStatusCode: 200 };' is wrapped in a Payload object with other properties
+    {
+      Payload: {
+        sendStatusCode: '200',
+      },
+    },
+  ),
+  );
 
-updateOpsItemAssertion.provider.addToRolePolicy({
-  Effect: 'Allow',
-  Action: [
-    'ssm:UpdateOpsItem',
-  ],
-  Resource: ['*'],
-});
+const cwRulesDisabledAssertion = integ.assertions.
+  awsApiCall('CloudWatchEvents', 'describeRule', {
+    Name: rootmail.rootMailReadyEventRule.ruleName,
+  })
+  .expect(
+    ExpectedResult.objectLike({
+      State: 'DISABLED',
+    }),
+  );
 
-/**
- * Main test case
- */
-integ.assertions
+const getHostedZoneParametersAssertion = integ.assertions
   /**
   * Check that parameter are present
   */
@@ -233,18 +260,15 @@ integ.assertions
         Type: 'StringList',
       },
     }),
-  )
-  .next(
-    integ.assertions.
-      awsApiCall('CloudWatchEvents', 'describeRule', {
-        Name: rootmail.rootMailReadyEventRule.ruleName,
-      })
-      .expect(
-        ExpectedResult.objectLike({
-          State: 'DISABLED',
-        }),
-      ),
-  )
+  );
+
+/**
+ * Main test case
+ */
+// check the parameter store
+getHostedZoneParametersAssertion
+  // check the cw rule is disabled
+  .next(cwRulesDisabledAssertion)
   // Send a test email
   .next(sendTestEmailAssertion)
   // Validate an OPS item was created.
