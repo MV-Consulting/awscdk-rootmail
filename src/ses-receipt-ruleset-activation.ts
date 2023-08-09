@@ -8,17 +8,25 @@ import {
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct, Node } from 'constructs';
-import { PROP_DOMAIN, PROP_SUBDOMAIN, PROP_EMAILBUCKET_NAME, PROP_OPS_SANTA_FUNCTION_ARN } from './ses-receipt-ruleset-activation.on-event-handler';
+import {
+  PROP_DOMAIN,
+  PROP_SUBDOMAIN,
+  PROP_EMAILBUCKET_NAME,
+  PROP_OPS_SANTA_FUNCTION_ARN,
+  PROP_RULESET_SETTLE_TIME_SECONDS,
+} from './ses-receipt-ruleset-activation.on-event-handler';
 
 export interface SESReceiptRuleSetActivationProps {
   readonly domain: string;
   readonly subdomain: string;
   readonly emailbucketName: string;
   readonly opsSantaFunctionArn: string;
+  readonly rulesetSettleTimeSeconds: number;
 }
 
 export class SESReceiptRuleSetActivation extends Construct {
-  constructor(scope: Construct, id: string, props: SESReceiptRuleSetActivationProps) {
+  constructor(scope: Construct,
+    id: string, props: SESReceiptRuleSetActivationProps) {
     super(scope, id);
 
     new CustomResource(this, 'Resource', {
@@ -29,6 +37,7 @@ export class SESReceiptRuleSetActivation extends Construct {
         [PROP_SUBDOMAIN]: props.subdomain,
         [PROP_EMAILBUCKET_NAME]: props.emailbucketName,
         [PROP_OPS_SANTA_FUNCTION_ARN]: props.opsSantaFunctionArn,
+        [PROP_RULESET_SETTLE_TIME_SECONDS]: props.rulesetSettleTimeSeconds,
       },
     });
   }

@@ -1,7 +1,11 @@
 import {
   Arn,
   ArnFormat,
+  Aspects,
+  CfnResource,
   Duration,
+  IAspect,
+  RemovalPolicy,
   Stack,
   StackProps,
   aws_iam as iam,
@@ -9,7 +13,7 @@ import {
   aws_s3 as s3,
 } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { Construct } from 'constructs';
+import { Construct, IConstruct } from 'constructs';
 import { SESReceiptRuleSetActivation } from './ses-receipt-ruleset-activation';
 
 export interface SESReceiveStackProps extends StackProps {
@@ -32,11 +36,29 @@ export interface SESReceiveStackProps extends StackProps {
    * Region where the root mail feature is deployed.
    */
   readonly rootMailDeployRegion: string;
+
+  /**
+   * Time in seconds to wait for the SES receipt rule set to settle.
+   *
+   * The reason is that although the rule is active immediately, it takes some time for the rule to
+   * really forwards incoming mails to the S3 bucket and the Lambda function. During tests 120 seconds
+   * were enough to wait for the rule to settle. This propery is offered to lower it for testing purposes.
+   *
+   * @default 120
+   */
+  readonly rulesetSettleTimeSeconds?: number;
+
+  /**
+   * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
+   */
+  readonly setDestroyPolicyToAllResources?: boolean;
 }
 
 export class SESReceiveStack extends Stack {
   constructor(scope: Construct, id: string, props: SESReceiveStackProps) {
     super(scope, id, props);
+
+    const rulesetSettleTimeSeconds = props.rulesetSettleTimeSeconds || 120;
 
     const opsSantaFunctionSESPermissions = new iam.ServicePrincipal('ses.amazonaws.com');
 
@@ -114,6 +136,23 @@ export class SESReceiveStack extends Stack {
       subdomain: props.subdomain,
       emailbucketName: props.emailbucket.bucketName,
       opsSantaFunctionArn: opsSantaFunction.functionArn,
+      rulesetSettleTimeSeconds: rulesetSettleTimeSeconds,
     });
+
+    // If Destroy Policy Aspect is present:
+    if (props.setDestroyPolicyToAllResources) {
+      Aspects.of(this).add(new ApplyDestroyPolicyAspect());
+    }
+  }
+}
+
+/**
+ * Aspect for setting all removal policies to DESTROY
+ */
+class ApplyDestroyPolicyAspect implements IAspect {
+  public visit(node: IConstruct): void {
+    if (node instanceof CfnResource) {
+      node.applyRemovalPolicy(RemovalPolicy.DESTROY);
+    }
   }
 }

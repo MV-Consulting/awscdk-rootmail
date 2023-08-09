@@ -14,10 +14,14 @@ import {
   aws_ssm as ssm,
   Fn,
   StackProps,
+  CfnResource,
+  IAspect,
+  RemovalPolicy,
+  Aspects,
 } from 'aws-cdk-lib';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { Construct } from 'constructs';
+import { Construct, IConstruct } from 'constructs';
 import { HostedZoneDKIMAndVerificationRecords } from './hosted-zone-dkim-verification-records';
 
 export interface RootmailProps extends StackProps {
@@ -61,6 +65,11 @@ export interface RootmailProps extends StackProps {
    * @default ''
    */
   readonly autowireDNSOnAWSParentHostedZoneId?: string;
+
+  /**
+   * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
+   */
+  readonly setDestroyPolicyToAllResources?: boolean;
 }
 
 export class Rootmail extends Stack {
@@ -89,8 +98,6 @@ export class Rootmail extends Stack {
     this.emailBucket = new s3.Bucket(this, 'EmailBucket', {
       bucketName: emailBucketName,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      // TODO later or via aspects in tests
-      // removalPolicy: RemovalPolicy.DESTROY,
     });
 
     const emailBucketPolicyStatement = new iam.PolicyStatement({
@@ -350,5 +357,22 @@ export class Rootmail extends Stack {
     });
 
     rootMailReadyTriggerEventPattern.addTarget(new LambdaFunction(rootMailReadyTrigger));
+
+    // If Destroy Policy Aspect is present:
+    if (props.setDestroyPolicyToAllResources) {
+      Aspects.of(this).add(new ApplyDestroyPolicyAspect());
+    }
+  }
+
+}
+
+/**
+ * Aspect for setting all removal policies to DESTROY
+ */
+class ApplyDestroyPolicyAspect implements IAspect {
+  public visit(node: IConstruct): void {
+    if (node instanceof CfnResource) {
+      node.applyRemovalPolicy(RemovalPolicy.DESTROY);
+    }
   }
 }

@@ -2,6 +2,8 @@
 
 See the ADR from superwerker about the rootmail feature [here](https://github.com/superwerker/superwerker/blob/main/docs/adrs/rootmail.md)
 
+## Solution diagram
+![rootmail-solution-diagram](docs/img/awscdk-rootmail-v0.png)
 ## Setup
 1. In you `main.ts`
 ```ts
@@ -15,16 +17,21 @@ export class MyStack extends Stack {
 
     const domain = 'example.com'; // a domain you need to own
     const subdomain = 'aws'; // subdomain which will be created
+    const rootMailDeployRegion = 'eu-central-1';
 
     const rootmail = new Rootmail(this, 'rootmail-stack', {
       domain: domain,
       subdomain: subdomain,
+      env: {
+        region: rootMailDeployRegion,
+      },
     });
 
     new SESReceiveStack(this, 'ses-receive-stack', {
       domain: domain,
       subdomain: subdomain,
       emailbucket: rootmail.emailBucket,
+      rootMailDeployRegion: rootMailDeployRegion,
       // SES only supports receiving in certain regions
       // https://docs.aws.amazon.com/ses/latest/dg/regions.html#region-receive-email
       env: {
@@ -1877,6 +1884,7 @@ const rootmailProps: RootmailProps = { ... }
 | <code><a href="#awscdk-rootmail.RootmailProps.property.autowireDNSOnAWSEnabled">autowireDNSOnAWSEnabled</a></code> | <code>boolean</code> | Whether to autowire the DNS records for the root mail feature. |
 | <code><a href="#awscdk-rootmail.RootmailProps.property.autowireDNSOnAWSParentHostedZoneId">autowireDNSOnAWSParentHostedZoneId</a></code> | <code>string</code> | The ID of the hosted zone of the <domain>, which has to be in the same AWS account. |
 | <code><a href="#awscdk-rootmail.RootmailProps.property.emailBucketName">emailBucketName</a></code> | <code>string</code> | The name of the S3 bucket that will be used to store the emails for 'root@<subdomain>.<domain>'. |
+| <code><a href="#awscdk-rootmail.RootmailProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 | <code><a href="#awscdk-rootmail.RootmailProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 | <code><a href="#awscdk-rootmail.RootmailProps.property.totalTimeToWireDNS">totalTimeToWireDNS</a></code> | <code>aws-cdk-lib.Duration</code> | The total time to wait for the DNS records to be available/wired. |
 
@@ -2147,6 +2155,18 @@ The name of the S3 bucket that will be used to store the emails for 'root@<subdo
 
 ---
 
+##### `setDestroyPolicyToAllResources`<sup>Optional</sup> <a name="setDestroyPolicyToAllResources" id="awscdk-rootmail.RootmailProps.property.setDestroyPolicyToAllResources"></a>
+
+```typescript
+public readonly setDestroyPolicyToAllResources: boolean;
+```
+
+- *Type:* boolean
+
+Whether to set all removal policies to DESTROY.
+
+---
+
 ##### `subdomain`<sup>Optional</sup> <a name="subdomain" id="awscdk-rootmail.RootmailProps.property.subdomain"></a>
 
 ```typescript
@@ -2203,6 +2223,8 @@ const sESReceiveStackProps: SESReceiveStackProps = { ... }
 | <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.emailbucket">emailbucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | S3 bucket to store received emails. |
 | <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.rootMailDeployRegion">rootMailDeployRegion</a></code> | <code>string</code> | Region where the root mail feature is deployed. |
 | <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
+| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.rulesetSettleTimeSeconds">rulesetSettleTimeSeconds</a></code> | <code>number</code> | Time in seconds to wait for the SES receipt rule set to settle. |
+| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 
 ---
 
@@ -2465,6 +2487,31 @@ public readonly subdomain: string;
 Subdomain used for root mail feature.
 
 Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+
+---
+
+##### `rulesetSettleTimeSeconds`<sup>Optional</sup> <a name="rulesetSettleTimeSeconds" id="awscdk-rootmail.SESReceiveStackProps.property.rulesetSettleTimeSeconds"></a>
+
+```typescript
+public readonly rulesetSettleTimeSeconds: number;
+```
+
+- *Type:* number
+- *Default:* 120
+
+Time in seconds to wait for the SES receipt rule set to settle.
+
+---
+
+##### `setDestroyPolicyToAllResources`<sup>Optional</sup> <a name="setDestroyPolicyToAllResources" id="awscdk-rootmail.SESReceiveStackProps.property.setDestroyPolicyToAllResources"></a>
+
+```typescript
+public readonly setDestroyPolicyToAllResources: boolean;
+```
+
+- *Type:* boolean
+
+Whether to set all removal policies to DESTROY.
 
 ---
 

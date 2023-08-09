@@ -25,9 +25,8 @@ const stackUnderTest = new Stack(app, 'RootmailTestStack', {
   // region: 'eu-central-1',
   // account: '1234',
   // },
-  // setDestroyPolicyToAllResources: true,
   description:
-    "This stack includes the application's resources for integration testing.",
+  "This stack includes the application's resources for integration testing.",
 });
 
 const subdomain = 'integ-test-auto';
@@ -42,6 +41,7 @@ const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   totalTimeToWireDNS: Duration.minutes(40),
   autowireDNSOnAWSEnabled: true,
   autowireDNSOnAWSParentHostedZoneId: 'Z02503291YUXLE3C4727T', // mavogel.xyz
+  setDestroyPolicyToAllResources: true,
   env: {
     region: rootMailDeployRegion,
   },
@@ -53,6 +53,7 @@ const sesReceiveStack = new SESReceiveStack(stackUnderTest, 'SESReceiveStack', {
   subdomain: subdomain,
   emailbucket: rootmail.emailBucket,
   rootMailDeployRegion: rootMailDeployRegion,
+  setDestroyPolicyToAllResources: true,
   // this is fixed to eu-west-1 until SES supports receive more globally (see #23)
   env: {
     region: 'eu-west-1',

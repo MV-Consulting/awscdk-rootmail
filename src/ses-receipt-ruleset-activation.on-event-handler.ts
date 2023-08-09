@@ -5,6 +5,7 @@ export const PROP_DOMAIN = 'Domain';
 export const PROP_SUBDOMAIN = 'Subdomain';
 export const PROP_EMAILBUCKET_NAME = 'EmailBucketName';
 export const PROP_OPS_SANTA_FUNCTION_ARN = 'OpsSantaFunctionArn';
+export const PROP_RULESET_SETTLE_TIME_SECONDS = 'RulesetSettleTimeSeconds';
 
 const ses = new AWS.SES();
 
@@ -13,6 +14,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
   const subdomain = event.ResourceProperties[PROP_SUBDOMAIN];
   const emailBucketName = event.ResourceProperties[PROP_EMAILBUCKET_NAME];
   const opsSantaFunctionArn = event.ResourceProperties[PROP_OPS_SANTA_FUNCTION_ARN];
+  const ruleSetActivationSettletimeSeconds = event.ResourceProperties[PROP_RULESET_SETTLE_TIME_SECONDS];
   const logicalResourceId = event.LogicalResourceId;
 
   const ruleSetName = 'RootMail';
@@ -51,11 +53,11 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
 
       await ses.setActiveReceiptRuleSet({ RuleSetName: ruleSetName }).promise();
 
-      console.log('wait for 2 minutes to let activation settle ...');
+      console.log(`wait for ${ruleSetActivationSettletimeSeconds} seconds to let activation settle ...`);
       // Which is usually the time between the
       // AMAZON_SES_SETUP_NOTIFICATION mail in the S3 bucket
       // and the test run the setup being complete.
-      await new Promise((resolve) => setTimeout(resolve, 120000));
+      await new Promise((resolve) => setTimeout(resolve, ruleSetActivationSettletimeSeconds * 1000));
       break;
 
     case 'Delete':
