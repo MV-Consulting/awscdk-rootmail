@@ -22,7 +22,7 @@ const deleteLogGroups = async (cwlHandler: AWS.CloudWatchLogs, logGroupNamePrefi
       for (const logGroup of logGroupsResponse.logGroups || []) {
         if (logGroup.logGroupName) {
           console.log(`Deleting log group: ${logGroup.logGroupName}`);
-          await cwl.deleteLogGroup({ logGroupName: logGroup.logGroupName }).promise();
+          await cwlHandler.deleteLogGroup({ logGroupName: logGroup.logGroupName }).promise();
           console.log(`Deleted log group: ${logGroup.logGroupName}`);
         }
       }
