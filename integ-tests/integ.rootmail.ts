@@ -149,19 +149,6 @@ const sendTestEmailAssertion = integ.assertions
   ),
   );
 
-// sendTestEmailAssertion.provider.addToRolePolicy({
-//   Effect: 'Allow',
-//   Action: [
-//     'ses:SendEmail',
-//   ],
-//   Resource: [
-//     // 'arn:aws:ses:eu-central-1:935897259846:identity/root+test-id-1@aws-test.mavogel.xyz',
-//     // `arn:aws:ses:::identity/root+${id}@${fullDomain}`,
-//     // arn:aws:ses:eu-west-1:935897259846:identity/aws-test.mavogel.xyz
-//     '*',
-//   ],
-// });
-
 const validateOpsItemAssertion = integ.assertions
   .awsApiCall('SSM', 'getOpsSummary', {
     Filters: [
