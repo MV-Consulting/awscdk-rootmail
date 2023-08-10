@@ -2,6 +2,17 @@
 
 A single rootmail box for all your AWS accounts. The cdk implementation of the [superwerker](https://superwerker.cloud/) rootmail feature. See [here](https://github.com/superwerker/superwerker/blob/main/docs/adrs/rootmail.md) for a detailed Architectural Decision Record ([ADR](https://adr.github.io/))
 
+- [awscdk-rootmail](#awscdk-rootmail)
+  - [TL;DR](#tldr)
+  - [Prerequisites](#prerequisites)
+  - [Solution design: Version 1 - external DNS provider](#solution-design-version-1---external-dns-provider)
+    - [Setup v1](#setup-v1)
+    - [Verify](#verify)
+  - [Solution design: Version 2 - Domain in the same AWS account](#solution-design-version-2---domain-in-the-same-aws-account)
+    - [Setup v2](#setup-v2)
+  - [Known issues](#known-issues)
+  - [Related projects](#related-projects)
+
 ## TL;DR
 Each AWS account needs one unique email address (the so-called "AWS account root user email address").
 
