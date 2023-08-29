@@ -52,17 +52,9 @@ export interface RootmailProps extends StackProps {
   readonly totalTimeToWireDNS?: Duration;
 
   /**
-   * Whether to autowire the DNS records for the root mail feature.
-   *
-   * @default false
-   */
-  readonly autowireDNSOnAWSEnabled?: boolean;
-
-  /**
    * The ID of the hosted zone of the <domain>, which has to be in the same AWS account.
-   * Cannot be '' if autowireDNSOnAWSEnabled is true.
    *
-   * @default ''
+   * @default undefined
    */
   readonly autowireDNSOnAWSParentHostedZoneId?: string;
 
@@ -70,6 +62,10 @@ export interface RootmailProps extends StackProps {
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
    */
   readonly setDestroyPolicyToAllResources?: boolean;
+}
+
+function isAutowireDNSOnAWSParentHostedZoneIdSet(autowireDNSOnAWSParentHostedZoneId: string): boolean {
+  return autowireDNSOnAWSParentHostedZoneId !== undefined && autowireDNSOnAWSParentHostedZoneId !== '';
 }
 
 export class Rootmail extends Stack {
@@ -85,11 +81,10 @@ export class Rootmail extends Stack {
     const subdomain = props.subdomain ?? 'aws';
     const emailBucketName = props.emailBucketName ?? `${Stack.of(this).account}-rootmail-bucket`;
     const totalTimeToWireDNS = props.totalTimeToWireDNS ?? Duration.hours(8);
-    const autowireDNSOnAWSEnabled = props.autowireDNSOnAWSEnabled ?? false;
     const autowireDNSOnAWSParentHostedZoneId = props.autowireDNSOnAWSParentHostedZoneId ?? '';
 
-    if (autowireDNSOnAWSEnabled && autowireDNSOnAWSParentHostedZoneId === '') {
-      throw new Error('autowireDNSOnAWSEnabled is true but autowireDNSOnAWSParentHostedZoneId is empty');
+    if (autowireDNSOnAWSParentHostedZoneId !== undefined && autowireDNSOnAWSParentHostedZoneId === '') {
+      throw new Error('autowireDNSOnAWSParentHostedZoneId is set but empty');
     }
 
     /**
@@ -195,7 +190,7 @@ export class Rootmail extends Stack {
 
     let autowireDNSEventRuleName: string = '';
     let autowireDNSEventRuleArn: string = '';
-    if (autowireDNSOnAWSEnabled) {
+    if (isAutowireDNSOnAWSParentHostedZoneIdSet(autowireDNSOnAWSParentHostedZoneId)) {
       const autowireDNSHandler = new NodejsFunction(this, 'wire-rootmail-dns-handler', {
         runtime: lambda.Runtime.NODEJS_18_X,
         timeout: Duration.seconds(160), // 2m40s
@@ -330,7 +325,7 @@ export class Rootmail extends Stack {
     });
 
     // dynamicaly add the event rule arn to the role policy
-    const rootMailReadyTriggerRoleResources = autowireDNSOnAWSEnabled
+    const rootMailReadyTriggerRoleResources = isAutowireDNSOnAWSParentHostedZoneIdSet(autowireDNSOnAWSParentHostedZoneId)
       ? [this.rootMailReadyEventRule.ruleArn, autowireDNSEventRuleArn]
       : [this.rootMailReadyEventRule.ruleArn];
     rootMailReadyTrigger.addToRolePolicy(new iam.PolicyStatement({

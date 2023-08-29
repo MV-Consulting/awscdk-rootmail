@@ -16,7 +16,6 @@ test('rootmail-fails-to-create-with-autoDNSEnable', () => {
 
   const testProps: RootmailProps = {
     domain: 'example.com',
-    autowireDNSOnAWSEnabled: true,
     autowireDNSOnAWSParentHostedZoneId: '',
   };
 
@@ -41,6 +40,7 @@ test('rootmail-create-with-autoDNSEnable', () => {
 
   const testProps: RootmailProps = {
     domain: 'example.com',
+    autowireDNSOnAWSParentHostedZoneId: 'randomHZId',
   };
 
   new Rootmail(stack, 'testRootmail', testProps);
