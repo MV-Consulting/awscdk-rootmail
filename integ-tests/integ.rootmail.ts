@@ -18,6 +18,7 @@ import { SESReceiveStack } from '../src/ses-receive-stack';
 // CDK App for Integration Tests
 const app = new App();
 // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
+// see https://aws.amazon.com/de/blogs/devops/manage-application-security-and-compliance-with-the-aws-cloud-development-kit-and-cdk-nag/
 // Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }));
 // Stack under test
 const stackUnderTest = new Stack(app, 'RootmailTestStack', {
