@@ -93,6 +93,7 @@ export class Rootmail extends Stack {
     this.emailBucket = new s3.Bucket(this, 'EmailBucket', {
       bucketName: emailBucketName,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      encryption: s3.BucketEncryption.S3_MANAGED,
     });
 
     const emailBucketPolicyStatement = new iam.PolicyStatement({
