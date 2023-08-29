@@ -58,7 +58,7 @@ export class SESReceiveStack extends Stack {
   constructor(scope: Construct, id: string, props: SESReceiveStackProps) {
     super(scope, id, props);
 
-    const rulesetSettleTimeSeconds = props.rulesetSettleTimeSeconds || 120;
+    const rulesetSettleTimeSeconds = props.rulesetSettleTimeSeconds ?? 120;
 
     const opsSantaFunctionSESPermissions = new iam.ServicePrincipal('ses.amazonaws.com');
 

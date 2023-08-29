@@ -82,11 +82,11 @@ export class Rootmail extends Stack {
     this.hostedZoneParameterName = '/superwerker/domain_name_servers';
 
     const domain = props.domain;
-    const subdomain = props.subdomain || 'aws';
-    const emailBucketName = props.emailBucketName || `${Stack.of(this).account}-rootmail-bucket`;
-    const totalTimeToWireDNS = props.totalTimeToWireDNS || Duration.hours(8);
-    const autowireDNSOnAWSEnabled = props.autowireDNSOnAWSEnabled || false;
-    const autowireDNSOnAWSParentHostedZoneId = props.autowireDNSOnAWSParentHostedZoneId || '';
+    const subdomain = props.subdomain ?? 'aws';
+    const emailBucketName = props.emailBucketName ?? `${Stack.of(this).account}-rootmail-bucket`;
+    const totalTimeToWireDNS = props.totalTimeToWireDNS ?? Duration.hours(8);
+    const autowireDNSOnAWSEnabled = props.autowireDNSOnAWSEnabled ?? false;
+    const autowireDNSOnAWSParentHostedZoneId = props.autowireDNSOnAWSParentHostedZoneId ?? '';
 
     if (autowireDNSOnAWSEnabled && autowireDNSOnAWSParentHostedZoneId === '') {
       throw new Error('autowireDNSOnAWSEnabled is true but autowireDNSOnAWSParentHostedZoneId is empty');
