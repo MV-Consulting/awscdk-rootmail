@@ -1,11 +1,57 @@
 # awscdk-rootmail
 
-See the ADR from superwerker about the rootmail feature [here](https://github.com/superwerker/superwerker/blob/main/docs/adrs/rootmail.md)
+A single rootmail box for all your AWS accounts. The cdk implementation of the [superwerker](https://superwerker.cloud/) rootmail feature. See [here](https://github.com/superwerker/superwerker/blob/main/docs/adrs/rootmail.md) for a detailed Architectural Decision Record ([ADR](https://adr.github.io/))
 
-## Solution diagram
-![rootmail-solution-diagram](docs/img/awscdk-rootmail-v0.png)
-## Setup
-1. In you `main.ts`
+- [awscdk-rootmail](#awscdk-rootmail)
+  - [TL;DR](#tldr)
+  - [Prerequisites](#prerequisites)
+  - [Solution design: Version 1 - external DNS provider](#solution-design-version-1---external-dns-provider)
+    - [Setup v1](#setup-v1)
+    - [Verify](#verify)
+  - [Solution design: Version 2 - Domain in the same AWS account](#solution-design-version-2---domain-in-the-same-aws-account)
+    - [Setup v2](#setup-v2)
+  - [Known issues](#known-issues)
+  - [Related projects](#related-projects)
+
+## TL;DR
+Each AWS account needs one unique email address (the so-called "AWS account root user email address").
+
+Access to these email addresses must be adequately secured since they provide privileged access to AWS accounts, such as account deletion procedures.
+
+This is why you only need 1 mailing list for the AWS Management (formerly *root*) account, we recommend `aws-roots+<uuid>@mycompany.test` (**NOTE:** maximum 64 character are allowed for the whole address). And as you own the domain `mycompany.test` you can add a subdomain, e.g. `aws`, for which all EMails will then be received with this solution within this particular AWS Management account.
+
+## Prerequisites
+- Administrative access to an AWS account
+- Access to a development environment.  It is recommended to use AWS Cloud9 to avoid having to set up the tools needed to deploy the solution.  See [Getting started with AWS Cloud9](https://aws.amazon.com/cloud9/getting-started/).
+- Using Cloud9, all of the following have already been configured for you.  If you choose not to use Cloud9, you will need to install the following.
+    - AWS CLI. See [Installing, updating and uninstalling the AWS CLI version 2](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
+    - Set up the AWS CLI with IAM access credentials. See [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
+    - Node.js version 10.13.0 or later
+    - AWS CDK version 2.90.0 or later. For installation instructions see [Getting Started with the AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_install)
+    - Docker version 20.10.x or later
+
+## Solution design: Version 1 - external DNS provider
+![rootmail-solution-diagram-v1](docs/img/awscdk-rootmail-v1-min.png)
+
+1. You own a domain, e.g., `mycompany.test`. It can be at any registrar such as `godaddy`, also `Route53` itself in another AWS account.
+2. The stack creates a `Route53` public Hosted Zone for the subdomain, e.g., `aws.mycompany.test`. It also automatically adds the TXT and CNAME records (for DKIM etc.) for verifying the domain towards SES. **NOTE:** You must now add the NS server entries into the Domain provider which owns the main domain `mycompany.test`.
+3. When the subdomain `aws.mycompany.test` is successfully propagated, the stack creates a verified Domain in AWS SES and adds a recipient rule for `root@aws.mycompany.test`. **NOTE:** SES support alias, so mail to `root+random-string@aws.mycompany.test` will also be catched and forwared. On a successfull propagation you will get a mail as follows to the root Email address of the account you are installing the stack
+![domain-verification](docs/img/3-domain-verification-min.png)
+1. Now, any mail going to `root+<any-string>@aws.mycompany.test` will be processed by OpsSanta 🎅🏽 Lambda function and also stored in the rootmail S3 bucket 🪣.
+2. The OpsSanta function verifies the verdicts (DKIM etc.) of the sender, also skips AWS Account welcome EMails, and processes all other EMails. If it is a password reset link EMail it stores the link in the parameter store (and does *not* create an OpsItem for now). For all other mails, which are not skipped an OpsItem is created to have a central location for all items. Note: you can also connect your Jira to the OpsCenter.
+3. The bucket where all mail to `root@aws.mycompany.test` are stored.
+4. The SSM parameter store for password reset links.
+5. The OpsItem which is created. It is open and shall be further processed either in the OpsCenter or any other issue tracker.
+
+### Setup v1
+1. To start a new project we recommend using [projen](https://projen.io/).
+   1. Create a new projen project
+   ```sh
+   npx projen new awscdk-app-ts
+   ```
+   2. Add `@mavogel/awscdk-rootmail` as a dependency to your project in the `.projenrc.ts` file
+   3. Run `npm run projen` to install it
+2. In you `main.ts` file add the following
 ```ts
 import { App, Stack, StackProps } from 'aws-cdk-lib';
 import { Rootmail, SESReceiveStack } from 'awscdk-rootmail';
@@ -15,7 +61,7 @@ export class MyStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
     super(scope, id, props);
 
-    const domain = 'example.com'; // a domain you need to own
+    const domain = 'mycompany.test'; // a domain you need to own
     const subdomain = 'aws'; // subdomain which will be created
     const rootMailDeployRegion = 'eu-central-1';
 
@@ -43,67 +89,134 @@ export class MyStack extends Stack {
 ```
 2. run on your commandline
 ```sh
-# projen
+docker ps # need to be running to build lambdas with esbuild
 npm run deploy -- --all
-# plain cdk
-npx cdk deploy --all
 ```
 3. watch our for the [cfn wait condition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waitcondition.html)
-![wait-condition](docs/img/1-wait-condition.png)
-4. Then create the NS record in your domain `example.com` for the subdomain `aws.example.com`. Here for Route53 in AWS:
-![create-ns-records](docs/img/2-create-ns-records.png)
-5. The `rootmail-ready-handler` Lambda function checks every 5 minutes if the DNS for the subdomain is propagated. You can test it yourself via
+![wait-condition](docs/img/1-wait-condition-min.png) By default you have **8 hours** to wire the DNS!
+4. Then create the NS record in your domain `mycompany.test` for the subdomain `aws.mycompany.test`. Here for Route53 in AWS:
+![create-ns-records](docs/img/2-create-ns-records-min.png)
+5. The `rootmail-ready-handler` Lambda function checks every **5 minutes** if the DNS records for the subdomain are propagated.
+
+### Verify
+You can test it yourself via
 ```sh
-dig +short NS 8.8.8.8 aws.example.com
+dig +short NS 8.8.8.8 aws.mycompany.test
 # should return something like
-ns-1111.awsdns-10.org.
-ns-2222.awsdns-21.co.uk.
-ns-33.awsdns-04.com.
-ns-444.awsdns-12.net.
+ns-1111.your-dns-provider-10.org.
+ns-2222.your-dns-provider-21.co.uk.
+ns-33.your-dns-provider-04.com.
+ns-444.your-dns-provider-12.net.
 ```
+and also by sending an EMail, e.g. from Gmail to `root@aws.mycompany.test`
+
+## Solution design: Version 2 - Domain in the same AWS account
+![rootmail-solution-diagram-v2](docs/img/awscdk-rootmail-v2-min.png)
+
+1. You own a domain, e.g., `mycompany.test`, registered via `Route53` in the **same** AWS account.
+2. The stack creates a `Route53` public Hosted Zone for the subdomain, e.g., `aws.mycompany.test`. It also automatically adds the TXT and CNAME records for verifying the domain towards SES **and** adds the NS server entries automatically to the main domain `mycompany.test`. (**NOTE:** you can still do this manually if desired, as described in `v1` above)
+3. items 3-7 are the same as in `v1`
+
+### Setup v2
+1. To start a new project we recommend using [projen](https://projen.io/).
+   1. Create a new projen project
+   ```sh
+   npx projen new awscdk-app-ts
+   ```
+   2. Add `@mavogel/awscdk-rootmail` as a dependency to your project in the `.projenrc.ts` file
+   3. Run `npm run projen` to install it
+2. In you `main.ts` file add the following
+```ts
+import { App, Stack, StackProps, Duration } from 'aws-cdk-lib';
+import { Rootmail, SESReceiveStack } from 'awscdk-rootmail';
+import { Construct } from 'constructs';
+
+export class MyStack extends Stack {
+  constructor(scope: Construct, id: string, props: StackProps = {}) {
+    super(scope, id, props);
+
+    const domain = 'mycompany.test'; // a domain you need to own
+    const subdomain = 'aws'; // subdomain which will be created
+    const rootMailDeployRegion = 'eu-central-1';
+
+    const rootmail = new Rootmail(this, 'rootmail-stack', {
+      domain: domain,
+      subdomain: subdomain,
+      // NEW start (compared to v1)
+      totalTimeToWireDNS: Duration.minutes(40),                    // <- NEW: time can be reduced
+      autowireDNSOnAWSEnabled: true,                               // <- NEW: enable autowire
+      autowireDNSOnAWSParentHostedZoneId: 'Z09999999TESTE1A2B3C4D', // <- NEW the id for 'mycompany.test'
+      // NEW end
+      env: {
+        region: rootMailDeployRegion,
+      },
+    });
+
+    new SESReceiveStack(this, 'ses-receive-stack', {
+      domain: domain,
+      subdomain: subdomain,
+      emailbucket: rootmail.emailBucket,
+      rootMailDeployRegion: rootMailDeployRegion,
+      // SES only supports receiving in certain regions
+      // https://docs.aws.amazon.com/ses/latest/dg/regions.html#region-receive-email
+      env: {
+        region: 'eu-west-1',
+      },
+    });
+  }
+}
+```
+2. run on your commandline
+```sh
+docker ps # need to be running to build lambdas with esbuild
+npm run deploy -- --all
+```
+1. No need to do anything when you see the [cfn wait condition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waitcondition.html). The NS records are **automatically** propagated!
+![wait-condition](docs/img/1-wait-condition-automatically-min.png)
+1. The `rootmail-ready-handler` Lambda function checks every 5 minutes if the DNS for the subdomain is propagated.
 
 ## Known issues
-- https://github.com/aws/jsii/issues/2071: so adding  `compilerOptions."esModuleInterop": true,` in `tsconfig.json` is not possible. See [aws-sdk](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/#Usage_with_TypeScript). So change from `import AWS from 'aws-sdk';` to `import * as AWS from 'aws-sdk';`
+- [jsii/2071](https://github.com/aws/jsii/issues/2071): so adding  `compilerOptions."esModuleInterop": true,` in `tsconfig.json` is not possible. See aws-cdk usage with[typescript](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/#Usage_with_TypeScript). So we needed to change import from `import AWS from 'aws-sdk';` -> `import * as AWS from 'aws-sdk';` to be able to compile.
 
-## Docs
-- activate opscenter via [url](https://eu-central-1.console.aws.amazon.com/systems-manager/opsitems/?region=eu-central-1&onboarded=true#activeTab=OPS_ITEMS&list_ops_items_filters=Status:Equal:Open_InProgress)
+## Related projects
+- [aws-account-factory-email](https://github.com/aws-samples/aws-account-factory-email): a similar approach with SES, however you need to manually configure it upfront and also it about delivering root mails for a specific account to a specific mailing list and mainly decouples the real email address from the one of the AWS account. The main difference is that we do not *hide* or decouple the email address, but more make those as unique and unguessable/bruteforable as possible (with `uuids`).
 # API Reference <a name="API Reference" id="api-reference"></a>
 
 ## Constructs <a name="Constructs" id="Constructs"></a>
 
-### Rootmail <a name="Rootmail" id="awscdk-rootmail.Rootmail"></a>
+### Rootmail <a name="Rootmail" id="@mavogel/awscdk-rootmail.Rootmail"></a>
 
-#### Initializers <a name="Initializers" id="awscdk-rootmail.Rootmail.Initializer"></a>
+#### Initializers <a name="Initializers" id="@mavogel/awscdk-rootmail.Rootmail.Initializer"></a>
 
 ```typescript
-import { Rootmail } from 'awscdk-rootmail'
+import { Rootmail } from '@mavogel/awscdk-rootmail'
 
 new Rootmail(scope: Construct, id: string, props: RootmailProps)
 ```
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#awscdk-rootmail.Rootmail.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
-| <code><a href="#awscdk-rootmail.Rootmail.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#awscdk-rootmail.Rootmail.Initializer.parameter.props">props</a></code> | <code><a href="#awscdk-rootmail.RootmailProps">RootmailProps</a></code> | *No description.* |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.Initializer.parameter.props">props</a></code> | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps">RootmailProps</a></code> | *No description.* |
 
 ---
 
-##### `scope`<sup>Required</sup> <a name="scope" id="awscdk-rootmail.Rootmail.Initializer.parameter.scope"></a>
+##### `scope`<sup>Required</sup> <a name="scope" id="@mavogel/awscdk-rootmail.Rootmail.Initializer.parameter.scope"></a>
 
 - *Type:* constructs.Construct
 
 ---
 
-##### `id`<sup>Required</sup> <a name="id" id="awscdk-rootmail.Rootmail.Initializer.parameter.id"></a>
+##### `id`<sup>Required</sup> <a name="id" id="@mavogel/awscdk-rootmail.Rootmail.Initializer.parameter.id"></a>
 
 - *Type:* string
 
 ---
 
-##### `props`<sup>Required</sup> <a name="props" id="awscdk-rootmail.Rootmail.Initializer.parameter.props"></a>
+##### `props`<sup>Required</sup> <a name="props" id="@mavogel/awscdk-rootmail.Rootmail.Initializer.parameter.props"></a>
 
-- *Type:* <a href="#awscdk-rootmail.RootmailProps">RootmailProps</a>
+- *Type:* <a href="#@mavogel/awscdk-rootmail.RootmailProps">RootmailProps</a>
 
 ---
 
@@ -111,25 +224,25 @@ new Rootmail(scope: Construct, id: string, props: RootmailProps)
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#awscdk-rootmail.Rootmail.toString">toString</a></code> | Returns a string representation of this construct. |
-| <code><a href="#awscdk-rootmail.Rootmail.addDependency">addDependency</a></code> | Add a dependency between this stack and another stack. |
-| <code><a href="#awscdk-rootmail.Rootmail.addMetadata">addMetadata</a></code> | Adds an arbitary key-value pair, with information you want to record about the stack. |
-| <code><a href="#awscdk-rootmail.Rootmail.addTransform">addTransform</a></code> | Add a Transform to this stack. A Transform is a macro that AWS CloudFormation uses to process your template. |
-| <code><a href="#awscdk-rootmail.Rootmail.exportStringListValue">exportStringListValue</a></code> | Create a CloudFormation Export for a string list value. |
-| <code><a href="#awscdk-rootmail.Rootmail.exportValue">exportValue</a></code> | Create a CloudFormation Export for a string value. |
-| <code><a href="#awscdk-rootmail.Rootmail.formatArn">formatArn</a></code> | Creates an ARN from components. |
-| <code><a href="#awscdk-rootmail.Rootmail.getLogicalId">getLogicalId</a></code> | Allocates a stack-unique CloudFormation-compatible logical identity for a specific resource. |
-| <code><a href="#awscdk-rootmail.Rootmail.regionalFact">regionalFact</a></code> | Look up a fact value for the given fact for the region of this stack. |
-| <code><a href="#awscdk-rootmail.Rootmail.renameLogicalId">renameLogicalId</a></code> | Rename a generated logical identities. |
-| <code><a href="#awscdk-rootmail.Rootmail.reportMissingContextKey">reportMissingContextKey</a></code> | Indicate that a context key was expected. |
-| <code><a href="#awscdk-rootmail.Rootmail.resolve">resolve</a></code> | Resolve a tokenized value in the context of the current stack. |
-| <code><a href="#awscdk-rootmail.Rootmail.splitArn">splitArn</a></code> | Splits the provided ARN into its components. |
-| <code><a href="#awscdk-rootmail.Rootmail.toJsonString">toJsonString</a></code> | Convert an object, potentially containing tokens, to a JSON string. |
-| <code><a href="#awscdk-rootmail.Rootmail.toYamlString">toYamlString</a></code> | Convert an object, potentially containing tokens, to a YAML string. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.addDependency">addDependency</a></code> | Add a dependency between this stack and another stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.addMetadata">addMetadata</a></code> | Adds an arbitary key-value pair, with information you want to record about the stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.addTransform">addTransform</a></code> | Add a Transform to this stack. A Transform is a macro that AWS CloudFormation uses to process your template. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.exportStringListValue">exportStringListValue</a></code> | Create a CloudFormation Export for a string list value. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.exportValue">exportValue</a></code> | Create a CloudFormation Export for a string value. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.formatArn">formatArn</a></code> | Creates an ARN from components. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.getLogicalId">getLogicalId</a></code> | Allocates a stack-unique CloudFormation-compatible logical identity for a specific resource. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.regionalFact">regionalFact</a></code> | Look up a fact value for the given fact for the region of this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.renameLogicalId">renameLogicalId</a></code> | Rename a generated logical identities. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.reportMissingContextKey">reportMissingContextKey</a></code> | Indicate that a context key was expected. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.resolve">resolve</a></code> | Resolve a tokenized value in the context of the current stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.splitArn">splitArn</a></code> | Splits the provided ARN into its components. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.toJsonString">toJsonString</a></code> | Convert an object, potentially containing tokens, to a JSON string. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.toYamlString">toYamlString</a></code> | Convert an object, potentially containing tokens, to a YAML string. |
 
 ---
 
-##### `toString` <a name="toString" id="awscdk-rootmail.Rootmail.toString"></a>
+##### `toString` <a name="toString" id="@mavogel/awscdk-rootmail.Rootmail.toString"></a>
 
 ```typescript
 public toString(): string
@@ -137,7 +250,7 @@ public toString(): string
 
 Returns a string representation of this construct.
 
-##### `addDependency` <a name="addDependency" id="awscdk-rootmail.Rootmail.addDependency"></a>
+##### `addDependency` <a name="addDependency" id="@mavogel/awscdk-rootmail.Rootmail.addDependency"></a>
 
 ```typescript
 public addDependency(target: Stack, reason?: string): void
@@ -148,19 +261,19 @@ Add a dependency between this stack and another stack.
 This can be used to define dependencies between any two stacks within an
 app, and also supports nested stacks.
 
-###### `target`<sup>Required</sup> <a name="target" id="awscdk-rootmail.Rootmail.addDependency.parameter.target"></a>
+###### `target`<sup>Required</sup> <a name="target" id="@mavogel/awscdk-rootmail.Rootmail.addDependency.parameter.target"></a>
 
 - *Type:* aws-cdk-lib.Stack
 
 ---
 
-###### `reason`<sup>Optional</sup> <a name="reason" id="awscdk-rootmail.Rootmail.addDependency.parameter.reason"></a>
+###### `reason`<sup>Optional</sup> <a name="reason" id="@mavogel/awscdk-rootmail.Rootmail.addDependency.parameter.reason"></a>
 
 - *Type:* string
 
 ---
 
-##### `addMetadata` <a name="addMetadata" id="awscdk-rootmail.Rootmail.addMetadata"></a>
+##### `addMetadata` <a name="addMetadata" id="@mavogel/awscdk-rootmail.Rootmail.addMetadata"></a>
 
 ```typescript
 public addMetadata(key: string, value: any): void
@@ -172,19 +285,19 @@ These get translated to the Metadata section of the generated template.
 
 > [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html)
 
-###### `key`<sup>Required</sup> <a name="key" id="awscdk-rootmail.Rootmail.addMetadata.parameter.key"></a>
+###### `key`<sup>Required</sup> <a name="key" id="@mavogel/awscdk-rootmail.Rootmail.addMetadata.parameter.key"></a>
 
 - *Type:* string
 
 ---
 
-###### `value`<sup>Required</sup> <a name="value" id="awscdk-rootmail.Rootmail.addMetadata.parameter.value"></a>
+###### `value`<sup>Required</sup> <a name="value" id="@mavogel/awscdk-rootmail.Rootmail.addMetadata.parameter.value"></a>
 
 - *Type:* any
 
 ---
 
-##### `addTransform` <a name="addTransform" id="awscdk-rootmail.Rootmail.addTransform"></a>
+##### `addTransform` <a name="addTransform" id="@mavogel/awscdk-rootmail.Rootmail.addTransform"></a>
 
 ```typescript
 public addTransform(transform: string): void
@@ -205,7 +318,7 @@ stack.addTransform('AWS::Serverless-2016-10-31')
 ```
 
 
-###### `transform`<sup>Required</sup> <a name="transform" id="awscdk-rootmail.Rootmail.addTransform.parameter.transform"></a>
+###### `transform`<sup>Required</sup> <a name="transform" id="@mavogel/awscdk-rootmail.Rootmail.addTransform.parameter.transform"></a>
 
 - *Type:* string
 
@@ -213,7 +326,7 @@ The transform to add.
 
 ---
 
-##### `exportStringListValue` <a name="exportStringListValue" id="awscdk-rootmail.Rootmail.exportStringListValue"></a>
+##### `exportStringListValue` <a name="exportStringListValue" id="@mavogel/awscdk-rootmail.Rootmail.exportStringListValue"></a>
 
 ```typescript
 public exportStringListValue(exportedValue: any, options?: ExportValueOptions): string[]
@@ -239,19 +352,19 @@ the resource and the manual export.
 
 See `exportValue` for an example of this process.
 
-###### `exportedValue`<sup>Required</sup> <a name="exportedValue" id="awscdk-rootmail.Rootmail.exportStringListValue.parameter.exportedValue"></a>
+###### `exportedValue`<sup>Required</sup> <a name="exportedValue" id="@mavogel/awscdk-rootmail.Rootmail.exportStringListValue.parameter.exportedValue"></a>
 
 - *Type:* any
 
 ---
 
-###### `options`<sup>Optional</sup> <a name="options" id="awscdk-rootmail.Rootmail.exportStringListValue.parameter.options"></a>
+###### `options`<sup>Optional</sup> <a name="options" id="@mavogel/awscdk-rootmail.Rootmail.exportStringListValue.parameter.options"></a>
 
 - *Type:* aws-cdk-lib.ExportValueOptions
 
 ---
 
-##### `exportValue` <a name="exportValue" id="awscdk-rootmail.Rootmail.exportValue"></a>
+##### `exportValue` <a name="exportValue" id="@mavogel/awscdk-rootmail.Rootmail.exportValue"></a>
 
 ```typescript
 public exportValue(exportedValue: any, options?: ExportValueOptions): string
@@ -302,19 +415,19 @@ Instead, the process takes two deployments:
 - Don't forget to remove the `exportValue()` call as well.
 - Deploy again (this time only the `producerStack` will be changed -- the bucket will be deleted).
 
-###### `exportedValue`<sup>Required</sup> <a name="exportedValue" id="awscdk-rootmail.Rootmail.exportValue.parameter.exportedValue"></a>
+###### `exportedValue`<sup>Required</sup> <a name="exportedValue" id="@mavogel/awscdk-rootmail.Rootmail.exportValue.parameter.exportedValue"></a>
 
 - *Type:* any
 
 ---
 
-###### `options`<sup>Optional</sup> <a name="options" id="awscdk-rootmail.Rootmail.exportValue.parameter.options"></a>
+###### `options`<sup>Optional</sup> <a name="options" id="@mavogel/awscdk-rootmail.Rootmail.exportValue.parameter.options"></a>
 
 - *Type:* aws-cdk-lib.ExportValueOptions
 
 ---
 
-##### `formatArn` <a name="formatArn" id="awscdk-rootmail.Rootmail.formatArn"></a>
+##### `formatArn` <a name="formatArn" id="@mavogel/awscdk-rootmail.Rootmail.formatArn"></a>
 
 ```typescript
 public formatArn(components: ArnComponents): string
@@ -336,13 +449,13 @@ The required ARN pieces that are omitted will be taken from the stack that
 the 'scope' is attached to. If all ARN pieces are supplied, the supplied scope
 can be 'undefined'.
 
-###### `components`<sup>Required</sup> <a name="components" id="awscdk-rootmail.Rootmail.formatArn.parameter.components"></a>
+###### `components`<sup>Required</sup> <a name="components" id="@mavogel/awscdk-rootmail.Rootmail.formatArn.parameter.components"></a>
 
 - *Type:* aws-cdk-lib.ArnComponents
 
 ---
 
-##### `getLogicalId` <a name="getLogicalId" id="awscdk-rootmail.Rootmail.getLogicalId"></a>
+##### `getLogicalId` <a name="getLogicalId" id="@mavogel/awscdk-rootmail.Rootmail.getLogicalId"></a>
 
 ```typescript
 public getLogicalId(element: CfnElement): string
@@ -358,7 +471,7 @@ This method uses the protected method `allocateLogicalId` to render the
 logical ID for an element. To modify the naming scheme, extend the `Stack`
 class and override this method.
 
-###### `element`<sup>Required</sup> <a name="element" id="awscdk-rootmail.Rootmail.getLogicalId.parameter.element"></a>
+###### `element`<sup>Required</sup> <a name="element" id="@mavogel/awscdk-rootmail.Rootmail.getLogicalId.parameter.element"></a>
 
 - *Type:* aws-cdk-lib.CfnElement
 
@@ -366,7 +479,7 @@ The CloudFormation element for which a logical identity is needed.
 
 ---
 
-##### `regionalFact` <a name="regionalFact" id="awscdk-rootmail.Rootmail.regionalFact"></a>
+##### `regionalFact` <a name="regionalFact" id="@mavogel/awscdk-rootmail.Rootmail.regionalFact"></a>
 
 ```typescript
 public regionalFact(factName: string, defaultValue?: string): string
@@ -390,19 +503,19 @@ not have to worry about regional facts.
 If `defaultValue` is not given, it is an error if the fact is unknown for
 the given region.
 
-###### `factName`<sup>Required</sup> <a name="factName" id="awscdk-rootmail.Rootmail.regionalFact.parameter.factName"></a>
+###### `factName`<sup>Required</sup> <a name="factName" id="@mavogel/awscdk-rootmail.Rootmail.regionalFact.parameter.factName"></a>
 
 - *Type:* string
 
 ---
 
-###### `defaultValue`<sup>Optional</sup> <a name="defaultValue" id="awscdk-rootmail.Rootmail.regionalFact.parameter.defaultValue"></a>
+###### `defaultValue`<sup>Optional</sup> <a name="defaultValue" id="@mavogel/awscdk-rootmail.Rootmail.regionalFact.parameter.defaultValue"></a>
 
 - *Type:* string
 
 ---
 
-##### `renameLogicalId` <a name="renameLogicalId" id="awscdk-rootmail.Rootmail.renameLogicalId"></a>
+##### `renameLogicalId` <a name="renameLogicalId" id="@mavogel/awscdk-rootmail.Rootmail.renameLogicalId"></a>
 
 ```typescript
 public renameLogicalId(oldId: string, newId: string): void
@@ -413,19 +526,19 @@ Rename a generated logical identities.
 To modify the naming scheme strategy, extend the `Stack` class and
 override the `allocateLogicalId` method.
 
-###### `oldId`<sup>Required</sup> <a name="oldId" id="awscdk-rootmail.Rootmail.renameLogicalId.parameter.oldId"></a>
+###### `oldId`<sup>Required</sup> <a name="oldId" id="@mavogel/awscdk-rootmail.Rootmail.renameLogicalId.parameter.oldId"></a>
 
 - *Type:* string
 
 ---
 
-###### `newId`<sup>Required</sup> <a name="newId" id="awscdk-rootmail.Rootmail.renameLogicalId.parameter.newId"></a>
+###### `newId`<sup>Required</sup> <a name="newId" id="@mavogel/awscdk-rootmail.Rootmail.renameLogicalId.parameter.newId"></a>
 
 - *Type:* string
 
 ---
 
-##### `reportMissingContextKey` <a name="reportMissingContextKey" id="awscdk-rootmail.Rootmail.reportMissingContextKey"></a>
+##### `reportMissingContextKey` <a name="reportMissingContextKey" id="@mavogel/awscdk-rootmail.Rootmail.reportMissingContextKey"></a>
 
 ```typescript
 public reportMissingContextKey(report: MissingContext): void
@@ -436,7 +549,7 @@ Indicate that a context key was expected.
 Contains instructions which will be emitted into the cloud assembly on how
 the key should be supplied.
 
-###### `report`<sup>Required</sup> <a name="report" id="awscdk-rootmail.Rootmail.reportMissingContextKey.parameter.report"></a>
+###### `report`<sup>Required</sup> <a name="report" id="@mavogel/awscdk-rootmail.Rootmail.reportMissingContextKey.parameter.report"></a>
 
 - *Type:* aws-cdk-lib.cloud_assembly_schema.MissingContext
 
@@ -444,7 +557,7 @@ The set of parameters needed to obtain the context.
 
 ---
 
-##### `resolve` <a name="resolve" id="awscdk-rootmail.Rootmail.resolve"></a>
+##### `resolve` <a name="resolve" id="@mavogel/awscdk-rootmail.Rootmail.resolve"></a>
 
 ```typescript
 public resolve(obj: any): any
@@ -452,13 +565,13 @@ public resolve(obj: any): any
 
 Resolve a tokenized value in the context of the current stack.
 
-###### `obj`<sup>Required</sup> <a name="obj" id="awscdk-rootmail.Rootmail.resolve.parameter.obj"></a>
+###### `obj`<sup>Required</sup> <a name="obj" id="@mavogel/awscdk-rootmail.Rootmail.resolve.parameter.obj"></a>
 
 - *Type:* any
 
 ---
 
-##### `splitArn` <a name="splitArn" id="awscdk-rootmail.Rootmail.splitArn"></a>
+##### `splitArn` <a name="splitArn" id="@mavogel/awscdk-rootmail.Rootmail.splitArn"></a>
 
 ```typescript
 public splitArn(arn: string, arnFormat: ArnFormat): ArnComponents
@@ -471,7 +584,7 @@ and a Token representing a dynamic CloudFormation expression
 (in which case the returned components will also be dynamic CloudFormation expressions,
 encoded as Tokens).
 
-###### `arn`<sup>Required</sup> <a name="arn" id="awscdk-rootmail.Rootmail.splitArn.parameter.arn"></a>
+###### `arn`<sup>Required</sup> <a name="arn" id="@mavogel/awscdk-rootmail.Rootmail.splitArn.parameter.arn"></a>
 
 - *Type:* string
 
@@ -479,7 +592,7 @@ the ARN to split into its components.
 
 ---
 
-###### `arnFormat`<sup>Required</sup> <a name="arnFormat" id="awscdk-rootmail.Rootmail.splitArn.parameter.arnFormat"></a>
+###### `arnFormat`<sup>Required</sup> <a name="arnFormat" id="@mavogel/awscdk-rootmail.Rootmail.splitArn.parameter.arnFormat"></a>
 
 - *Type:* aws-cdk-lib.ArnFormat
 
@@ -487,7 +600,7 @@ the expected format of 'arn' - depends on what format the service 'arn' represen
 
 ---
 
-##### `toJsonString` <a name="toJsonString" id="awscdk-rootmail.Rootmail.toJsonString"></a>
+##### `toJsonString` <a name="toJsonString" id="@mavogel/awscdk-rootmail.Rootmail.toJsonString"></a>
 
 ```typescript
 public toJsonString(obj: any, space?: number): string
@@ -495,19 +608,19 @@ public toJsonString(obj: any, space?: number): string
 
 Convert an object, potentially containing tokens, to a JSON string.
 
-###### `obj`<sup>Required</sup> <a name="obj" id="awscdk-rootmail.Rootmail.toJsonString.parameter.obj"></a>
+###### `obj`<sup>Required</sup> <a name="obj" id="@mavogel/awscdk-rootmail.Rootmail.toJsonString.parameter.obj"></a>
 
 - *Type:* any
 
 ---
 
-###### `space`<sup>Optional</sup> <a name="space" id="awscdk-rootmail.Rootmail.toJsonString.parameter.space"></a>
+###### `space`<sup>Optional</sup> <a name="space" id="@mavogel/awscdk-rootmail.Rootmail.toJsonString.parameter.space"></a>
 
 - *Type:* number
 
 ---
 
-##### `toYamlString` <a name="toYamlString" id="awscdk-rootmail.Rootmail.toYamlString"></a>
+##### `toYamlString` <a name="toYamlString" id="@mavogel/awscdk-rootmail.Rootmail.toYamlString"></a>
 
 ```typescript
 public toYamlString(obj: any): string
@@ -515,7 +628,7 @@ public toYamlString(obj: any): string
 
 Convert an object, potentially containing tokens, to a YAML string.
 
-###### `obj`<sup>Required</sup> <a name="obj" id="awscdk-rootmail.Rootmail.toYamlString.parameter.obj"></a>
+###### `obj`<sup>Required</sup> <a name="obj" id="@mavogel/awscdk-rootmail.Rootmail.toYamlString.parameter.obj"></a>
 
 - *Type:* any
 
@@ -525,23 +638,23 @@ Convert an object, potentially containing tokens, to a YAML string.
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#awscdk-rootmail.Rootmail.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
-| <code><a href="#awscdk-rootmail.Rootmail.isStack">isStack</a></code> | Return whether the given object is a Stack. |
-| <code><a href="#awscdk-rootmail.Rootmail.of">of</a></code> | Looks up the first stack scope in which `construct` is defined. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.isStack">isStack</a></code> | Return whether the given object is a Stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.of">of</a></code> | Looks up the first stack scope in which `construct` is defined. |
 
 ---
 
-##### ~~`isConstruct`~~ <a name="isConstruct" id="awscdk-rootmail.Rootmail.isConstruct"></a>
+##### ~~`isConstruct`~~ <a name="isConstruct" id="@mavogel/awscdk-rootmail.Rootmail.isConstruct"></a>
 
 ```typescript
-import { Rootmail } from 'awscdk-rootmail'
+import { Rootmail } from '@mavogel/awscdk-rootmail'
 
 Rootmail.isConstruct(x: any)
 ```
 
 Checks if `x` is a construct.
 
-###### `x`<sup>Required</sup> <a name="x" id="awscdk-rootmail.Rootmail.isConstruct.parameter.x"></a>
+###### `x`<sup>Required</sup> <a name="x" id="@mavogel/awscdk-rootmail.Rootmail.isConstruct.parameter.x"></a>
 
 - *Type:* any
 
@@ -549,10 +662,10 @@ Any object.
 
 ---
 
-##### `isStack` <a name="isStack" id="awscdk-rootmail.Rootmail.isStack"></a>
+##### `isStack` <a name="isStack" id="@mavogel/awscdk-rootmail.Rootmail.isStack"></a>
 
 ```typescript
-import { Rootmail } from 'awscdk-rootmail'
+import { Rootmail } from '@mavogel/awscdk-rootmail'
 
 Rootmail.isStack(x: any)
 ```
@@ -561,16 +674,16 @@ Return whether the given object is a Stack.
 
 We do attribute detection since we can't reliably use 'instanceof'.
 
-###### `x`<sup>Required</sup> <a name="x" id="awscdk-rootmail.Rootmail.isStack.parameter.x"></a>
+###### `x`<sup>Required</sup> <a name="x" id="@mavogel/awscdk-rootmail.Rootmail.isStack.parameter.x"></a>
 
 - *Type:* any
 
 ---
 
-##### `of` <a name="of" id="awscdk-rootmail.Rootmail.of"></a>
+##### `of` <a name="of" id="@mavogel/awscdk-rootmail.Rootmail.of"></a>
 
 ```typescript
-import { Rootmail } from 'awscdk-rootmail'
+import { Rootmail } from '@mavogel/awscdk-rootmail'
 
 Rootmail.of(construct: IConstruct)
 ```
@@ -579,7 +692,7 @@ Looks up the first stack scope in which `construct` is defined.
 
 Fails if there is no stack up the tree.
 
-###### `construct`<sup>Required</sup> <a name="construct" id="awscdk-rootmail.Rootmail.of.parameter.construct"></a>
+###### `construct`<sup>Required</sup> <a name="construct" id="@mavogel/awscdk-rootmail.Rootmail.of.parameter.construct"></a>
 
 - *Type:* constructs.IConstruct
 
@@ -591,34 +704,34 @@ The construct to start the search from.
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#awscdk-rootmail.Rootmail.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.account">account</a></code> | <code>string</code> | The AWS account into which this stack will be deployed. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.artifactId">artifactId</a></code> | <code>string</code> | The ID of the cloud assembly artifact for this stack. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.availabilityZones">availabilityZones</a></code> | <code>string[]</code> | Returns the list of AZs that are available in the AWS environment (account/region) associated with this stack. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.bundlingRequired">bundlingRequired</a></code> | <code>boolean</code> | Indicates whether the stack requires bundling or not. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.dependencies">dependencies</a></code> | <code>aws-cdk-lib.Stack[]</code> | Return the stacks this stack depends on. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.environment">environment</a></code> | <code>string</code> | The environment coordinates in which this stack is deployed. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.nested">nested</a></code> | <code>boolean</code> | Indicates if this is a nested stack, in which case `parentStack` will include a reference to it's parent. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.notificationArns">notificationArns</a></code> | <code>string[]</code> | Returns the list of notification Amazon Resource Names (ARNs) for the current stack. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.partition">partition</a></code> | <code>string</code> | The partition in which this stack is defined. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.region">region</a></code> | <code>string</code> | The AWS region into which this stack will be deployed (e.g. `us-west-2`). |
-| <code><a href="#awscdk-rootmail.Rootmail.property.stackId">stackId</a></code> | <code>string</code> | The ID of the stack. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.stackName">stackName</a></code> | <code>string</code> | The concrete CloudFormation physical stack name. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.synthesizer">synthesizer</a></code> | <code>aws-cdk-lib.IStackSynthesizer</code> | Synthesis method for this stack. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.tags">tags</a></code> | <code>aws-cdk-lib.TagManager</code> | Tags to be applied to the stack. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.templateFile">templateFile</a></code> | <code>string</code> | The name of the CloudFormation template file emitted to the output directory during synthesis. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.templateOptions">templateOptions</a></code> | <code>aws-cdk-lib.ITemplateOptions</code> | Options for CloudFormation template (like version, transform, description). |
-| <code><a href="#awscdk-rootmail.Rootmail.property.urlSuffix">urlSuffix</a></code> | <code>string</code> | The Amazon domain suffix for the region in which this stack is defined. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.nestedStackParent">nestedStackParent</a></code> | <code>aws-cdk-lib.Stack</code> | If this is a nested stack, returns it's parent stack. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.nestedStackResource">nestedStackResource</a></code> | <code>aws-cdk-lib.CfnResource</code> | If this is a nested stack, this represents its `AWS::CloudFormation::Stack` resource. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.terminationProtection">terminationProtection</a></code> | <code>boolean</code> | Whether termination protection is enabled for this stack. |
-| <code><a href="#awscdk-rootmail.Rootmail.property.emailBucket">emailBucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | *No description.* |
-| <code><a href="#awscdk-rootmail.Rootmail.property.hostedZoneParameterName">hostedZoneParameterName</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#awscdk-rootmail.Rootmail.property.rootMailReadyEventRule">rootMailReadyEventRule</a></code> | <code>aws-cdk-lib.aws_events.Rule</code> | *No description.* |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.account">account</a></code> | <code>string</code> | The AWS account into which this stack will be deployed. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.artifactId">artifactId</a></code> | <code>string</code> | The ID of the cloud assembly artifact for this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.availabilityZones">availabilityZones</a></code> | <code>string[]</code> | Returns the list of AZs that are available in the AWS environment (account/region) associated with this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.bundlingRequired">bundlingRequired</a></code> | <code>boolean</code> | Indicates whether the stack requires bundling or not. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.dependencies">dependencies</a></code> | <code>aws-cdk-lib.Stack[]</code> | Return the stacks this stack depends on. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.environment">environment</a></code> | <code>string</code> | The environment coordinates in which this stack is deployed. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.nested">nested</a></code> | <code>boolean</code> | Indicates if this is a nested stack, in which case `parentStack` will include a reference to it's parent. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.notificationArns">notificationArns</a></code> | <code>string[]</code> | Returns the list of notification Amazon Resource Names (ARNs) for the current stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.partition">partition</a></code> | <code>string</code> | The partition in which this stack is defined. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.region">region</a></code> | <code>string</code> | The AWS region into which this stack will be deployed (e.g. `us-west-2`). |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.stackId">stackId</a></code> | <code>string</code> | The ID of the stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.stackName">stackName</a></code> | <code>string</code> | The concrete CloudFormation physical stack name. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.synthesizer">synthesizer</a></code> | <code>aws-cdk-lib.IStackSynthesizer</code> | Synthesis method for this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.tags">tags</a></code> | <code>aws-cdk-lib.TagManager</code> | Tags to be applied to the stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.templateFile">templateFile</a></code> | <code>string</code> | The name of the CloudFormation template file emitted to the output directory during synthesis. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.templateOptions">templateOptions</a></code> | <code>aws-cdk-lib.ITemplateOptions</code> | Options for CloudFormation template (like version, transform, description). |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.urlSuffix">urlSuffix</a></code> | <code>string</code> | The Amazon domain suffix for the region in which this stack is defined. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.nestedStackParent">nestedStackParent</a></code> | <code>aws-cdk-lib.Stack</code> | If this is a nested stack, returns it's parent stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.nestedStackResource">nestedStackResource</a></code> | <code>aws-cdk-lib.CfnResource</code> | If this is a nested stack, this represents its `AWS::CloudFormation::Stack` resource. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.terminationProtection">terminationProtection</a></code> | <code>boolean</code> | Whether termination protection is enabled for this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.emailBucket">emailBucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | *No description.* |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.hostedZoneParameterName">hostedZoneParameterName</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.rootMailReadyEventRule">rootMailReadyEventRule</a></code> | <code>aws-cdk-lib.aws_events.Rule</code> | *No description.* |
 
 ---
 
-##### `node`<sup>Required</sup> <a name="node" id="awscdk-rootmail.Rootmail.property.node"></a>
+##### `node`<sup>Required</sup> <a name="node" id="@mavogel/awscdk-rootmail.Rootmail.property.node"></a>
 
 ```typescript
 public readonly node: Node;
@@ -630,7 +743,7 @@ The tree node.
 
 ---
 
-##### `account`<sup>Required</sup> <a name="account" id="awscdk-rootmail.Rootmail.property.account"></a>
+##### `account`<sup>Required</sup> <a name="account" id="@mavogel/awscdk-rootmail.Rootmail.property.account"></a>
 
 ```typescript
 public readonly account: string;
@@ -659,7 +772,7 @@ implement some other region-agnostic behavior.
 
 ---
 
-##### `artifactId`<sup>Required</sup> <a name="artifactId" id="awscdk-rootmail.Rootmail.property.artifactId"></a>
+##### `artifactId`<sup>Required</sup> <a name="artifactId" id="@mavogel/awscdk-rootmail.Rootmail.property.artifactId"></a>
 
 ```typescript
 public readonly artifactId: string;
@@ -671,7 +784,7 @@ The ID of the cloud assembly artifact for this stack.
 
 ---
 
-##### `availabilityZones`<sup>Required</sup> <a name="availabilityZones" id="awscdk-rootmail.Rootmail.property.availabilityZones"></a>
+##### `availabilityZones`<sup>Required</sup> <a name="availabilityZones" id="@mavogel/awscdk-rootmail.Rootmail.property.availabilityZones"></a>
 
 ```typescript
 public readonly availabilityZones: string[];
@@ -694,7 +807,7 @@ To specify a different strategy for selecting availability zones override this m
 
 ---
 
-##### `bundlingRequired`<sup>Required</sup> <a name="bundlingRequired" id="awscdk-rootmail.Rootmail.property.bundlingRequired"></a>
+##### `bundlingRequired`<sup>Required</sup> <a name="bundlingRequired" id="@mavogel/awscdk-rootmail.Rootmail.property.bundlingRequired"></a>
 
 ```typescript
 public readonly bundlingRequired: boolean;
@@ -706,7 +819,7 @@ Indicates whether the stack requires bundling or not.
 
 ---
 
-##### `dependencies`<sup>Required</sup> <a name="dependencies" id="awscdk-rootmail.Rootmail.property.dependencies"></a>
+##### `dependencies`<sup>Required</sup> <a name="dependencies" id="@mavogel/awscdk-rootmail.Rootmail.property.dependencies"></a>
 
 ```typescript
 public readonly dependencies: Stack[];
@@ -718,7 +831,7 @@ Return the stacks this stack depends on.
 
 ---
 
-##### `environment`<sup>Required</sup> <a name="environment" id="awscdk-rootmail.Rootmail.property.environment"></a>
+##### `environment`<sup>Required</sup> <a name="environment" id="@mavogel/awscdk-rootmail.Rootmail.property.environment"></a>
 
 ```typescript
 public readonly environment: string;
@@ -742,7 +855,7 @@ region/account-agnostic.
 
 ---
 
-##### `nested`<sup>Required</sup> <a name="nested" id="awscdk-rootmail.Rootmail.property.nested"></a>
+##### `nested`<sup>Required</sup> <a name="nested" id="@mavogel/awscdk-rootmail.Rootmail.property.nested"></a>
 
 ```typescript
 public readonly nested: boolean;
@@ -754,7 +867,7 @@ Indicates if this is a nested stack, in which case `parentStack` will include a 
 
 ---
 
-##### `notificationArns`<sup>Required</sup> <a name="notificationArns" id="awscdk-rootmail.Rootmail.property.notificationArns"></a>
+##### `notificationArns`<sup>Required</sup> <a name="notificationArns" id="@mavogel/awscdk-rootmail.Rootmail.property.notificationArns"></a>
 
 ```typescript
 public readonly notificationArns: string[];
@@ -766,7 +879,7 @@ Returns the list of notification Amazon Resource Names (ARNs) for the current st
 
 ---
 
-##### `partition`<sup>Required</sup> <a name="partition" id="awscdk-rootmail.Rootmail.property.partition"></a>
+##### `partition`<sup>Required</sup> <a name="partition" id="@mavogel/awscdk-rootmail.Rootmail.property.partition"></a>
 
 ```typescript
 public readonly partition: string;
@@ -778,7 +891,7 @@ The partition in which this stack is defined.
 
 ---
 
-##### `region`<sup>Required</sup> <a name="region" id="awscdk-rootmail.Rootmail.property.region"></a>
+##### `region`<sup>Required</sup> <a name="region" id="@mavogel/awscdk-rootmail.Rootmail.property.region"></a>
 
 ```typescript
 public readonly region: string;
@@ -807,7 +920,7 @@ implement some other region-agnostic behavior.
 
 ---
 
-##### `stackId`<sup>Required</sup> <a name="stackId" id="awscdk-rootmail.Rootmail.property.stackId"></a>
+##### `stackId`<sup>Required</sup> <a name="stackId" id="@mavogel/awscdk-rootmail.Rootmail.property.stackId"></a>
 
 ```typescript
 public readonly stackId: string;
@@ -827,7 +940,7 @@ The ID of the stack.
 ```
 
 
-##### `stackName`<sup>Required</sup> <a name="stackName" id="awscdk-rootmail.Rootmail.property.stackName"></a>
+##### `stackName`<sup>Required</sup> <a name="stackName" id="@mavogel/awscdk-rootmail.Rootmail.property.stackName"></a>
 
 ```typescript
 public readonly stackName: string;
@@ -848,7 +961,7 @@ you can use `Aws.STACK_NAME` directly.
 
 ---
 
-##### `synthesizer`<sup>Required</sup> <a name="synthesizer" id="awscdk-rootmail.Rootmail.property.synthesizer"></a>
+##### `synthesizer`<sup>Required</sup> <a name="synthesizer" id="@mavogel/awscdk-rootmail.Rootmail.property.synthesizer"></a>
 
 ```typescript
 public readonly synthesizer: IStackSynthesizer;
@@ -860,7 +973,7 @@ Synthesis method for this stack.
 
 ---
 
-##### `tags`<sup>Required</sup> <a name="tags" id="awscdk-rootmail.Rootmail.property.tags"></a>
+##### `tags`<sup>Required</sup> <a name="tags" id="@mavogel/awscdk-rootmail.Rootmail.property.tags"></a>
 
 ```typescript
 public readonly tags: TagManager;
@@ -872,7 +985,7 @@ Tags to be applied to the stack.
 
 ---
 
-##### `templateFile`<sup>Required</sup> <a name="templateFile" id="awscdk-rootmail.Rootmail.property.templateFile"></a>
+##### `templateFile`<sup>Required</sup> <a name="templateFile" id="@mavogel/awscdk-rootmail.Rootmail.property.templateFile"></a>
 
 ```typescript
 public readonly templateFile: string;
@@ -886,7 +999,7 @@ Example value: `MyStack.template.json`
 
 ---
 
-##### `templateOptions`<sup>Required</sup> <a name="templateOptions" id="awscdk-rootmail.Rootmail.property.templateOptions"></a>
+##### `templateOptions`<sup>Required</sup> <a name="templateOptions" id="@mavogel/awscdk-rootmail.Rootmail.property.templateOptions"></a>
 
 ```typescript
 public readonly templateOptions: ITemplateOptions;
@@ -898,7 +1011,7 @@ Options for CloudFormation template (like version, transform, description).
 
 ---
 
-##### `urlSuffix`<sup>Required</sup> <a name="urlSuffix" id="awscdk-rootmail.Rootmail.property.urlSuffix"></a>
+##### `urlSuffix`<sup>Required</sup> <a name="urlSuffix" id="@mavogel/awscdk-rootmail.Rootmail.property.urlSuffix"></a>
 
 ```typescript
 public readonly urlSuffix: string;
@@ -910,7 +1023,7 @@ The Amazon domain suffix for the region in which this stack is defined.
 
 ---
 
-##### `nestedStackParent`<sup>Optional</sup> <a name="nestedStackParent" id="awscdk-rootmail.Rootmail.property.nestedStackParent"></a>
+##### `nestedStackParent`<sup>Optional</sup> <a name="nestedStackParent" id="@mavogel/awscdk-rootmail.Rootmail.property.nestedStackParent"></a>
 
 ```typescript
 public readonly nestedStackParent: Stack;
@@ -922,7 +1035,7 @@ If this is a nested stack, returns it's parent stack.
 
 ---
 
-##### `nestedStackResource`<sup>Optional</sup> <a name="nestedStackResource" id="awscdk-rootmail.Rootmail.property.nestedStackResource"></a>
+##### `nestedStackResource`<sup>Optional</sup> <a name="nestedStackResource" id="@mavogel/awscdk-rootmail.Rootmail.property.nestedStackResource"></a>
 
 ```typescript
 public readonly nestedStackResource: CfnResource;
@@ -936,7 +1049,7 @@ If this is a nested stack, this represents its `AWS::CloudFormation::Stack` reso
 
 ---
 
-##### `terminationProtection`<sup>Optional</sup> <a name="terminationProtection" id="awscdk-rootmail.Rootmail.property.terminationProtection"></a>
+##### `terminationProtection`<sup>Optional</sup> <a name="terminationProtection" id="@mavogel/awscdk-rootmail.Rootmail.property.terminationProtection"></a>
 
 ```typescript
 public readonly terminationProtection: boolean;
@@ -948,7 +1061,7 @@ Whether termination protection is enabled for this stack.
 
 ---
 
-##### `emailBucket`<sup>Required</sup> <a name="emailBucket" id="awscdk-rootmail.Rootmail.property.emailBucket"></a>
+##### `emailBucket`<sup>Required</sup> <a name="emailBucket" id="@mavogel/awscdk-rootmail.Rootmail.property.emailBucket"></a>
 
 ```typescript
 public readonly emailBucket: Bucket;
@@ -958,7 +1071,7 @@ public readonly emailBucket: Bucket;
 
 ---
 
-##### `hostedZoneParameterName`<sup>Required</sup> <a name="hostedZoneParameterName" id="awscdk-rootmail.Rootmail.property.hostedZoneParameterName"></a>
+##### `hostedZoneParameterName`<sup>Required</sup> <a name="hostedZoneParameterName" id="@mavogel/awscdk-rootmail.Rootmail.property.hostedZoneParameterName"></a>
 
 ```typescript
 public readonly hostedZoneParameterName: string;
@@ -968,7 +1081,7 @@ public readonly hostedZoneParameterName: string;
 
 ---
 
-##### `rootMailReadyEventRule`<sup>Required</sup> <a name="rootMailReadyEventRule" id="awscdk-rootmail.Rootmail.property.rootMailReadyEventRule"></a>
+##### `rootMailReadyEventRule`<sup>Required</sup> <a name="rootMailReadyEventRule" id="@mavogel/awscdk-rootmail.Rootmail.property.rootMailReadyEventRule"></a>
 
 ```typescript
 public readonly rootMailReadyEventRule: Rule;
@@ -979,39 +1092,39 @@ public readonly rootMailReadyEventRule: Rule;
 ---
 
 
-### SESReceiveStack <a name="SESReceiveStack" id="awscdk-rootmail.SESReceiveStack"></a>
+### SESReceiveStack <a name="SESReceiveStack" id="@mavogel/awscdk-rootmail.SESReceiveStack"></a>
 
-#### Initializers <a name="Initializers" id="awscdk-rootmail.SESReceiveStack.Initializer"></a>
+#### Initializers <a name="Initializers" id="@mavogel/awscdk-rootmail.SESReceiveStack.Initializer"></a>
 
 ```typescript
-import { SESReceiveStack } from 'awscdk-rootmail'
+import { SESReceiveStack } from '@mavogel/awscdk-rootmail'
 
 new SESReceiveStack(scope: Construct, id: string, props: SESReceiveStackProps)
 ```
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.Initializer.parameter.props">props</a></code> | <code><a href="#awscdk-rootmail.SESReceiveStackProps">SESReceiveStackProps</a></code> | *No description.* |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.Initializer.parameter.props">props</a></code> | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps">SESReceiveStackProps</a></code> | *No description.* |
 
 ---
 
-##### `scope`<sup>Required</sup> <a name="scope" id="awscdk-rootmail.SESReceiveStack.Initializer.parameter.scope"></a>
+##### `scope`<sup>Required</sup> <a name="scope" id="@mavogel/awscdk-rootmail.SESReceiveStack.Initializer.parameter.scope"></a>
 
 - *Type:* constructs.Construct
 
 ---
 
-##### `id`<sup>Required</sup> <a name="id" id="awscdk-rootmail.SESReceiveStack.Initializer.parameter.id"></a>
+##### `id`<sup>Required</sup> <a name="id" id="@mavogel/awscdk-rootmail.SESReceiveStack.Initializer.parameter.id"></a>
 
 - *Type:* string
 
 ---
 
-##### `props`<sup>Required</sup> <a name="props" id="awscdk-rootmail.SESReceiveStack.Initializer.parameter.props"></a>
+##### `props`<sup>Required</sup> <a name="props" id="@mavogel/awscdk-rootmail.SESReceiveStack.Initializer.parameter.props"></a>
 
-- *Type:* <a href="#awscdk-rootmail.SESReceiveStackProps">SESReceiveStackProps</a>
+- *Type:* <a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps">SESReceiveStackProps</a>
 
 ---
 
@@ -1019,25 +1132,25 @@ new SESReceiveStack(scope: Construct, id: string, props: SESReceiveStackProps)
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.toString">toString</a></code> | Returns a string representation of this construct. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.addDependency">addDependency</a></code> | Add a dependency between this stack and another stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.addMetadata">addMetadata</a></code> | Adds an arbitary key-value pair, with information you want to record about the stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.addTransform">addTransform</a></code> | Add a Transform to this stack. A Transform is a macro that AWS CloudFormation uses to process your template. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.exportStringListValue">exportStringListValue</a></code> | Create a CloudFormation Export for a string list value. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.exportValue">exportValue</a></code> | Create a CloudFormation Export for a string value. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.formatArn">formatArn</a></code> | Creates an ARN from components. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.getLogicalId">getLogicalId</a></code> | Allocates a stack-unique CloudFormation-compatible logical identity for a specific resource. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.regionalFact">regionalFact</a></code> | Look up a fact value for the given fact for the region of this stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.renameLogicalId">renameLogicalId</a></code> | Rename a generated logical identities. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.reportMissingContextKey">reportMissingContextKey</a></code> | Indicate that a context key was expected. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.resolve">resolve</a></code> | Resolve a tokenized value in the context of the current stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.splitArn">splitArn</a></code> | Splits the provided ARN into its components. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.toJsonString">toJsonString</a></code> | Convert an object, potentially containing tokens, to a JSON string. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.toYamlString">toYamlString</a></code> | Convert an object, potentially containing tokens, to a YAML string. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.addDependency">addDependency</a></code> | Add a dependency between this stack and another stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.addMetadata">addMetadata</a></code> | Adds an arbitary key-value pair, with information you want to record about the stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.addTransform">addTransform</a></code> | Add a Transform to this stack. A Transform is a macro that AWS CloudFormation uses to process your template. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.exportStringListValue">exportStringListValue</a></code> | Create a CloudFormation Export for a string list value. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.exportValue">exportValue</a></code> | Create a CloudFormation Export for a string value. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.formatArn">formatArn</a></code> | Creates an ARN from components. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.getLogicalId">getLogicalId</a></code> | Allocates a stack-unique CloudFormation-compatible logical identity for a specific resource. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.regionalFact">regionalFact</a></code> | Look up a fact value for the given fact for the region of this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.renameLogicalId">renameLogicalId</a></code> | Rename a generated logical identities. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.reportMissingContextKey">reportMissingContextKey</a></code> | Indicate that a context key was expected. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.resolve">resolve</a></code> | Resolve a tokenized value in the context of the current stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.splitArn">splitArn</a></code> | Splits the provided ARN into its components. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.toJsonString">toJsonString</a></code> | Convert an object, potentially containing tokens, to a JSON string. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.toYamlString">toYamlString</a></code> | Convert an object, potentially containing tokens, to a YAML string. |
 
 ---
 
-##### `toString` <a name="toString" id="awscdk-rootmail.SESReceiveStack.toString"></a>
+##### `toString` <a name="toString" id="@mavogel/awscdk-rootmail.SESReceiveStack.toString"></a>
 
 ```typescript
 public toString(): string
@@ -1045,7 +1158,7 @@ public toString(): string
 
 Returns a string representation of this construct.
 
-##### `addDependency` <a name="addDependency" id="awscdk-rootmail.SESReceiveStack.addDependency"></a>
+##### `addDependency` <a name="addDependency" id="@mavogel/awscdk-rootmail.SESReceiveStack.addDependency"></a>
 
 ```typescript
 public addDependency(target: Stack, reason?: string): void
@@ -1056,19 +1169,19 @@ Add a dependency between this stack and another stack.
 This can be used to define dependencies between any two stacks within an
 app, and also supports nested stacks.
 
-###### `target`<sup>Required</sup> <a name="target" id="awscdk-rootmail.SESReceiveStack.addDependency.parameter.target"></a>
+###### `target`<sup>Required</sup> <a name="target" id="@mavogel/awscdk-rootmail.SESReceiveStack.addDependency.parameter.target"></a>
 
 - *Type:* aws-cdk-lib.Stack
 
 ---
 
-###### `reason`<sup>Optional</sup> <a name="reason" id="awscdk-rootmail.SESReceiveStack.addDependency.parameter.reason"></a>
+###### `reason`<sup>Optional</sup> <a name="reason" id="@mavogel/awscdk-rootmail.SESReceiveStack.addDependency.parameter.reason"></a>
 
 - *Type:* string
 
 ---
 
-##### `addMetadata` <a name="addMetadata" id="awscdk-rootmail.SESReceiveStack.addMetadata"></a>
+##### `addMetadata` <a name="addMetadata" id="@mavogel/awscdk-rootmail.SESReceiveStack.addMetadata"></a>
 
 ```typescript
 public addMetadata(key: string, value: any): void
@@ -1080,19 +1193,19 @@ These get translated to the Metadata section of the generated template.
 
 > [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html)
 
-###### `key`<sup>Required</sup> <a name="key" id="awscdk-rootmail.SESReceiveStack.addMetadata.parameter.key"></a>
+###### `key`<sup>Required</sup> <a name="key" id="@mavogel/awscdk-rootmail.SESReceiveStack.addMetadata.parameter.key"></a>
 
 - *Type:* string
 
 ---
 
-###### `value`<sup>Required</sup> <a name="value" id="awscdk-rootmail.SESReceiveStack.addMetadata.parameter.value"></a>
+###### `value`<sup>Required</sup> <a name="value" id="@mavogel/awscdk-rootmail.SESReceiveStack.addMetadata.parameter.value"></a>
 
 - *Type:* any
 
 ---
 
-##### `addTransform` <a name="addTransform" id="awscdk-rootmail.SESReceiveStack.addTransform"></a>
+##### `addTransform` <a name="addTransform" id="@mavogel/awscdk-rootmail.SESReceiveStack.addTransform"></a>
 
 ```typescript
 public addTransform(transform: string): void
@@ -1113,7 +1226,7 @@ stack.addTransform('AWS::Serverless-2016-10-31')
 ```
 
 
-###### `transform`<sup>Required</sup> <a name="transform" id="awscdk-rootmail.SESReceiveStack.addTransform.parameter.transform"></a>
+###### `transform`<sup>Required</sup> <a name="transform" id="@mavogel/awscdk-rootmail.SESReceiveStack.addTransform.parameter.transform"></a>
 
 - *Type:* string
 
@@ -1121,7 +1234,7 @@ The transform to add.
 
 ---
 
-##### `exportStringListValue` <a name="exportStringListValue" id="awscdk-rootmail.SESReceiveStack.exportStringListValue"></a>
+##### `exportStringListValue` <a name="exportStringListValue" id="@mavogel/awscdk-rootmail.SESReceiveStack.exportStringListValue"></a>
 
 ```typescript
 public exportStringListValue(exportedValue: any, options?: ExportValueOptions): string[]
@@ -1147,19 +1260,19 @@ the resource and the manual export.
 
 See `exportValue` for an example of this process.
 
-###### `exportedValue`<sup>Required</sup> <a name="exportedValue" id="awscdk-rootmail.SESReceiveStack.exportStringListValue.parameter.exportedValue"></a>
+###### `exportedValue`<sup>Required</sup> <a name="exportedValue" id="@mavogel/awscdk-rootmail.SESReceiveStack.exportStringListValue.parameter.exportedValue"></a>
 
 - *Type:* any
 
 ---
 
-###### `options`<sup>Optional</sup> <a name="options" id="awscdk-rootmail.SESReceiveStack.exportStringListValue.parameter.options"></a>
+###### `options`<sup>Optional</sup> <a name="options" id="@mavogel/awscdk-rootmail.SESReceiveStack.exportStringListValue.parameter.options"></a>
 
 - *Type:* aws-cdk-lib.ExportValueOptions
 
 ---
 
-##### `exportValue` <a name="exportValue" id="awscdk-rootmail.SESReceiveStack.exportValue"></a>
+##### `exportValue` <a name="exportValue" id="@mavogel/awscdk-rootmail.SESReceiveStack.exportValue"></a>
 
 ```typescript
 public exportValue(exportedValue: any, options?: ExportValueOptions): string
@@ -1210,19 +1323,19 @@ Instead, the process takes two deployments:
 - Don't forget to remove the `exportValue()` call as well.
 - Deploy again (this time only the `producerStack` will be changed -- the bucket will be deleted).
 
-###### `exportedValue`<sup>Required</sup> <a name="exportedValue" id="awscdk-rootmail.SESReceiveStack.exportValue.parameter.exportedValue"></a>
+###### `exportedValue`<sup>Required</sup> <a name="exportedValue" id="@mavogel/awscdk-rootmail.SESReceiveStack.exportValue.parameter.exportedValue"></a>
 
 - *Type:* any
 
 ---
 
-###### `options`<sup>Optional</sup> <a name="options" id="awscdk-rootmail.SESReceiveStack.exportValue.parameter.options"></a>
+###### `options`<sup>Optional</sup> <a name="options" id="@mavogel/awscdk-rootmail.SESReceiveStack.exportValue.parameter.options"></a>
 
 - *Type:* aws-cdk-lib.ExportValueOptions
 
 ---
 
-##### `formatArn` <a name="formatArn" id="awscdk-rootmail.SESReceiveStack.formatArn"></a>
+##### `formatArn` <a name="formatArn" id="@mavogel/awscdk-rootmail.SESReceiveStack.formatArn"></a>
 
 ```typescript
 public formatArn(components: ArnComponents): string
@@ -1244,13 +1357,13 @@ The required ARN pieces that are omitted will be taken from the stack that
 the 'scope' is attached to. If all ARN pieces are supplied, the supplied scope
 can be 'undefined'.
 
-###### `components`<sup>Required</sup> <a name="components" id="awscdk-rootmail.SESReceiveStack.formatArn.parameter.components"></a>
+###### `components`<sup>Required</sup> <a name="components" id="@mavogel/awscdk-rootmail.SESReceiveStack.formatArn.parameter.components"></a>
 
 - *Type:* aws-cdk-lib.ArnComponents
 
 ---
 
-##### `getLogicalId` <a name="getLogicalId" id="awscdk-rootmail.SESReceiveStack.getLogicalId"></a>
+##### `getLogicalId` <a name="getLogicalId" id="@mavogel/awscdk-rootmail.SESReceiveStack.getLogicalId"></a>
 
 ```typescript
 public getLogicalId(element: CfnElement): string
@@ -1266,7 +1379,7 @@ This method uses the protected method `allocateLogicalId` to render the
 logical ID for an element. To modify the naming scheme, extend the `Stack`
 class and override this method.
 
-###### `element`<sup>Required</sup> <a name="element" id="awscdk-rootmail.SESReceiveStack.getLogicalId.parameter.element"></a>
+###### `element`<sup>Required</sup> <a name="element" id="@mavogel/awscdk-rootmail.SESReceiveStack.getLogicalId.parameter.element"></a>
 
 - *Type:* aws-cdk-lib.CfnElement
 
@@ -1274,7 +1387,7 @@ The CloudFormation element for which a logical identity is needed.
 
 ---
 
-##### `regionalFact` <a name="regionalFact" id="awscdk-rootmail.SESReceiveStack.regionalFact"></a>
+##### `regionalFact` <a name="regionalFact" id="@mavogel/awscdk-rootmail.SESReceiveStack.regionalFact"></a>
 
 ```typescript
 public regionalFact(factName: string, defaultValue?: string): string
@@ -1298,19 +1411,19 @@ not have to worry about regional facts.
 If `defaultValue` is not given, it is an error if the fact is unknown for
 the given region.
 
-###### `factName`<sup>Required</sup> <a name="factName" id="awscdk-rootmail.SESReceiveStack.regionalFact.parameter.factName"></a>
+###### `factName`<sup>Required</sup> <a name="factName" id="@mavogel/awscdk-rootmail.SESReceiveStack.regionalFact.parameter.factName"></a>
 
 - *Type:* string
 
 ---
 
-###### `defaultValue`<sup>Optional</sup> <a name="defaultValue" id="awscdk-rootmail.SESReceiveStack.regionalFact.parameter.defaultValue"></a>
+###### `defaultValue`<sup>Optional</sup> <a name="defaultValue" id="@mavogel/awscdk-rootmail.SESReceiveStack.regionalFact.parameter.defaultValue"></a>
 
 - *Type:* string
 
 ---
 
-##### `renameLogicalId` <a name="renameLogicalId" id="awscdk-rootmail.SESReceiveStack.renameLogicalId"></a>
+##### `renameLogicalId` <a name="renameLogicalId" id="@mavogel/awscdk-rootmail.SESReceiveStack.renameLogicalId"></a>
 
 ```typescript
 public renameLogicalId(oldId: string, newId: string): void
@@ -1321,19 +1434,19 @@ Rename a generated logical identities.
 To modify the naming scheme strategy, extend the `Stack` class and
 override the `allocateLogicalId` method.
 
-###### `oldId`<sup>Required</sup> <a name="oldId" id="awscdk-rootmail.SESReceiveStack.renameLogicalId.parameter.oldId"></a>
+###### `oldId`<sup>Required</sup> <a name="oldId" id="@mavogel/awscdk-rootmail.SESReceiveStack.renameLogicalId.parameter.oldId"></a>
 
 - *Type:* string
 
 ---
 
-###### `newId`<sup>Required</sup> <a name="newId" id="awscdk-rootmail.SESReceiveStack.renameLogicalId.parameter.newId"></a>
+###### `newId`<sup>Required</sup> <a name="newId" id="@mavogel/awscdk-rootmail.SESReceiveStack.renameLogicalId.parameter.newId"></a>
 
 - *Type:* string
 
 ---
 
-##### `reportMissingContextKey` <a name="reportMissingContextKey" id="awscdk-rootmail.SESReceiveStack.reportMissingContextKey"></a>
+##### `reportMissingContextKey` <a name="reportMissingContextKey" id="@mavogel/awscdk-rootmail.SESReceiveStack.reportMissingContextKey"></a>
 
 ```typescript
 public reportMissingContextKey(report: MissingContext): void
@@ -1344,7 +1457,7 @@ Indicate that a context key was expected.
 Contains instructions which will be emitted into the cloud assembly on how
 the key should be supplied.
 
-###### `report`<sup>Required</sup> <a name="report" id="awscdk-rootmail.SESReceiveStack.reportMissingContextKey.parameter.report"></a>
+###### `report`<sup>Required</sup> <a name="report" id="@mavogel/awscdk-rootmail.SESReceiveStack.reportMissingContextKey.parameter.report"></a>
 
 - *Type:* aws-cdk-lib.cloud_assembly_schema.MissingContext
 
@@ -1352,7 +1465,7 @@ The set of parameters needed to obtain the context.
 
 ---
 
-##### `resolve` <a name="resolve" id="awscdk-rootmail.SESReceiveStack.resolve"></a>
+##### `resolve` <a name="resolve" id="@mavogel/awscdk-rootmail.SESReceiveStack.resolve"></a>
 
 ```typescript
 public resolve(obj: any): any
@@ -1360,13 +1473,13 @@ public resolve(obj: any): any
 
 Resolve a tokenized value in the context of the current stack.
 
-###### `obj`<sup>Required</sup> <a name="obj" id="awscdk-rootmail.SESReceiveStack.resolve.parameter.obj"></a>
+###### `obj`<sup>Required</sup> <a name="obj" id="@mavogel/awscdk-rootmail.SESReceiveStack.resolve.parameter.obj"></a>
 
 - *Type:* any
 
 ---
 
-##### `splitArn` <a name="splitArn" id="awscdk-rootmail.SESReceiveStack.splitArn"></a>
+##### `splitArn` <a name="splitArn" id="@mavogel/awscdk-rootmail.SESReceiveStack.splitArn"></a>
 
 ```typescript
 public splitArn(arn: string, arnFormat: ArnFormat): ArnComponents
@@ -1379,7 +1492,7 @@ and a Token representing a dynamic CloudFormation expression
 (in which case the returned components will also be dynamic CloudFormation expressions,
 encoded as Tokens).
 
-###### `arn`<sup>Required</sup> <a name="arn" id="awscdk-rootmail.SESReceiveStack.splitArn.parameter.arn"></a>
+###### `arn`<sup>Required</sup> <a name="arn" id="@mavogel/awscdk-rootmail.SESReceiveStack.splitArn.parameter.arn"></a>
 
 - *Type:* string
 
@@ -1387,7 +1500,7 @@ the ARN to split into its components.
 
 ---
 
-###### `arnFormat`<sup>Required</sup> <a name="arnFormat" id="awscdk-rootmail.SESReceiveStack.splitArn.parameter.arnFormat"></a>
+###### `arnFormat`<sup>Required</sup> <a name="arnFormat" id="@mavogel/awscdk-rootmail.SESReceiveStack.splitArn.parameter.arnFormat"></a>
 
 - *Type:* aws-cdk-lib.ArnFormat
 
@@ -1395,7 +1508,7 @@ the expected format of 'arn' - depends on what format the service 'arn' represen
 
 ---
 
-##### `toJsonString` <a name="toJsonString" id="awscdk-rootmail.SESReceiveStack.toJsonString"></a>
+##### `toJsonString` <a name="toJsonString" id="@mavogel/awscdk-rootmail.SESReceiveStack.toJsonString"></a>
 
 ```typescript
 public toJsonString(obj: any, space?: number): string
@@ -1403,19 +1516,19 @@ public toJsonString(obj: any, space?: number): string
 
 Convert an object, potentially containing tokens, to a JSON string.
 
-###### `obj`<sup>Required</sup> <a name="obj" id="awscdk-rootmail.SESReceiveStack.toJsonString.parameter.obj"></a>
+###### `obj`<sup>Required</sup> <a name="obj" id="@mavogel/awscdk-rootmail.SESReceiveStack.toJsonString.parameter.obj"></a>
 
 - *Type:* any
 
 ---
 
-###### `space`<sup>Optional</sup> <a name="space" id="awscdk-rootmail.SESReceiveStack.toJsonString.parameter.space"></a>
+###### `space`<sup>Optional</sup> <a name="space" id="@mavogel/awscdk-rootmail.SESReceiveStack.toJsonString.parameter.space"></a>
 
 - *Type:* number
 
 ---
 
-##### `toYamlString` <a name="toYamlString" id="awscdk-rootmail.SESReceiveStack.toYamlString"></a>
+##### `toYamlString` <a name="toYamlString" id="@mavogel/awscdk-rootmail.SESReceiveStack.toYamlString"></a>
 
 ```typescript
 public toYamlString(obj: any): string
@@ -1423,7 +1536,7 @@ public toYamlString(obj: any): string
 
 Convert an object, potentially containing tokens, to a YAML string.
 
-###### `obj`<sup>Required</sup> <a name="obj" id="awscdk-rootmail.SESReceiveStack.toYamlString.parameter.obj"></a>
+###### `obj`<sup>Required</sup> <a name="obj" id="@mavogel/awscdk-rootmail.SESReceiveStack.toYamlString.parameter.obj"></a>
 
 - *Type:* any
 
@@ -1433,23 +1546,23 @@ Convert an object, potentially containing tokens, to a YAML string.
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.isStack">isStack</a></code> | Return whether the given object is a Stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.of">of</a></code> | Looks up the first stack scope in which `construct` is defined. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.isStack">isStack</a></code> | Return whether the given object is a Stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.of">of</a></code> | Looks up the first stack scope in which `construct` is defined. |
 
 ---
 
-##### ~~`isConstruct`~~ <a name="isConstruct" id="awscdk-rootmail.SESReceiveStack.isConstruct"></a>
+##### ~~`isConstruct`~~ <a name="isConstruct" id="@mavogel/awscdk-rootmail.SESReceiveStack.isConstruct"></a>
 
 ```typescript
-import { SESReceiveStack } from 'awscdk-rootmail'
+import { SESReceiveStack } from '@mavogel/awscdk-rootmail'
 
 SESReceiveStack.isConstruct(x: any)
 ```
 
 Checks if `x` is a construct.
 
-###### `x`<sup>Required</sup> <a name="x" id="awscdk-rootmail.SESReceiveStack.isConstruct.parameter.x"></a>
+###### `x`<sup>Required</sup> <a name="x" id="@mavogel/awscdk-rootmail.SESReceiveStack.isConstruct.parameter.x"></a>
 
 - *Type:* any
 
@@ -1457,10 +1570,10 @@ Any object.
 
 ---
 
-##### `isStack` <a name="isStack" id="awscdk-rootmail.SESReceiveStack.isStack"></a>
+##### `isStack` <a name="isStack" id="@mavogel/awscdk-rootmail.SESReceiveStack.isStack"></a>
 
 ```typescript
-import { SESReceiveStack } from 'awscdk-rootmail'
+import { SESReceiveStack } from '@mavogel/awscdk-rootmail'
 
 SESReceiveStack.isStack(x: any)
 ```
@@ -1469,16 +1582,16 @@ Return whether the given object is a Stack.
 
 We do attribute detection since we can't reliably use 'instanceof'.
 
-###### `x`<sup>Required</sup> <a name="x" id="awscdk-rootmail.SESReceiveStack.isStack.parameter.x"></a>
+###### `x`<sup>Required</sup> <a name="x" id="@mavogel/awscdk-rootmail.SESReceiveStack.isStack.parameter.x"></a>
 
 - *Type:* any
 
 ---
 
-##### `of` <a name="of" id="awscdk-rootmail.SESReceiveStack.of"></a>
+##### `of` <a name="of" id="@mavogel/awscdk-rootmail.SESReceiveStack.of"></a>
 
 ```typescript
-import { SESReceiveStack } from 'awscdk-rootmail'
+import { SESReceiveStack } from '@mavogel/awscdk-rootmail'
 
 SESReceiveStack.of(construct: IConstruct)
 ```
@@ -1487,7 +1600,7 @@ Looks up the first stack scope in which `construct` is defined.
 
 Fails if there is no stack up the tree.
 
-###### `construct`<sup>Required</sup> <a name="construct" id="awscdk-rootmail.SESReceiveStack.of.parameter.construct"></a>
+###### `construct`<sup>Required</sup> <a name="construct" id="@mavogel/awscdk-rootmail.SESReceiveStack.of.parameter.construct"></a>
 
 - *Type:* constructs.IConstruct
 
@@ -1499,31 +1612,31 @@ The construct to start the search from.
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.account">account</a></code> | <code>string</code> | The AWS account into which this stack will be deployed. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.artifactId">artifactId</a></code> | <code>string</code> | The ID of the cloud assembly artifact for this stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.availabilityZones">availabilityZones</a></code> | <code>string[]</code> | Returns the list of AZs that are available in the AWS environment (account/region) associated with this stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.bundlingRequired">bundlingRequired</a></code> | <code>boolean</code> | Indicates whether the stack requires bundling or not. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.dependencies">dependencies</a></code> | <code>aws-cdk-lib.Stack[]</code> | Return the stacks this stack depends on. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.environment">environment</a></code> | <code>string</code> | The environment coordinates in which this stack is deployed. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.nested">nested</a></code> | <code>boolean</code> | Indicates if this is a nested stack, in which case `parentStack` will include a reference to it's parent. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.notificationArns">notificationArns</a></code> | <code>string[]</code> | Returns the list of notification Amazon Resource Names (ARNs) for the current stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.partition">partition</a></code> | <code>string</code> | The partition in which this stack is defined. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.region">region</a></code> | <code>string</code> | The AWS region into which this stack will be deployed (e.g. `us-west-2`). |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.stackId">stackId</a></code> | <code>string</code> | The ID of the stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.stackName">stackName</a></code> | <code>string</code> | The concrete CloudFormation physical stack name. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.synthesizer">synthesizer</a></code> | <code>aws-cdk-lib.IStackSynthesizer</code> | Synthesis method for this stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.tags">tags</a></code> | <code>aws-cdk-lib.TagManager</code> | Tags to be applied to the stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.templateFile">templateFile</a></code> | <code>string</code> | The name of the CloudFormation template file emitted to the output directory during synthesis. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.templateOptions">templateOptions</a></code> | <code>aws-cdk-lib.ITemplateOptions</code> | Options for CloudFormation template (like version, transform, description). |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.urlSuffix">urlSuffix</a></code> | <code>string</code> | The Amazon domain suffix for the region in which this stack is defined. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.nestedStackParent">nestedStackParent</a></code> | <code>aws-cdk-lib.Stack</code> | If this is a nested stack, returns it's parent stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.nestedStackResource">nestedStackResource</a></code> | <code>aws-cdk-lib.CfnResource</code> | If this is a nested stack, this represents its `AWS::CloudFormation::Stack` resource. |
-| <code><a href="#awscdk-rootmail.SESReceiveStack.property.terminationProtection">terminationProtection</a></code> | <code>boolean</code> | Whether termination protection is enabled for this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.account">account</a></code> | <code>string</code> | The AWS account into which this stack will be deployed. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.artifactId">artifactId</a></code> | <code>string</code> | The ID of the cloud assembly artifact for this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.availabilityZones">availabilityZones</a></code> | <code>string[]</code> | Returns the list of AZs that are available in the AWS environment (account/region) associated with this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.bundlingRequired">bundlingRequired</a></code> | <code>boolean</code> | Indicates whether the stack requires bundling or not. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.dependencies">dependencies</a></code> | <code>aws-cdk-lib.Stack[]</code> | Return the stacks this stack depends on. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.environment">environment</a></code> | <code>string</code> | The environment coordinates in which this stack is deployed. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.nested">nested</a></code> | <code>boolean</code> | Indicates if this is a nested stack, in which case `parentStack` will include a reference to it's parent. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.notificationArns">notificationArns</a></code> | <code>string[]</code> | Returns the list of notification Amazon Resource Names (ARNs) for the current stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.partition">partition</a></code> | <code>string</code> | The partition in which this stack is defined. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.region">region</a></code> | <code>string</code> | The AWS region into which this stack will be deployed (e.g. `us-west-2`). |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.stackId">stackId</a></code> | <code>string</code> | The ID of the stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.stackName">stackName</a></code> | <code>string</code> | The concrete CloudFormation physical stack name. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.synthesizer">synthesizer</a></code> | <code>aws-cdk-lib.IStackSynthesizer</code> | Synthesis method for this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.tags">tags</a></code> | <code>aws-cdk-lib.TagManager</code> | Tags to be applied to the stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.templateFile">templateFile</a></code> | <code>string</code> | The name of the CloudFormation template file emitted to the output directory during synthesis. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.templateOptions">templateOptions</a></code> | <code>aws-cdk-lib.ITemplateOptions</code> | Options for CloudFormation template (like version, transform, description). |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.urlSuffix">urlSuffix</a></code> | <code>string</code> | The Amazon domain suffix for the region in which this stack is defined. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.nestedStackParent">nestedStackParent</a></code> | <code>aws-cdk-lib.Stack</code> | If this is a nested stack, returns it's parent stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.nestedStackResource">nestedStackResource</a></code> | <code>aws-cdk-lib.CfnResource</code> | If this is a nested stack, this represents its `AWS::CloudFormation::Stack` resource. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStack.property.terminationProtection">terminationProtection</a></code> | <code>boolean</code> | Whether termination protection is enabled for this stack. |
 
 ---
 
-##### `node`<sup>Required</sup> <a name="node" id="awscdk-rootmail.SESReceiveStack.property.node"></a>
+##### `node`<sup>Required</sup> <a name="node" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.node"></a>
 
 ```typescript
 public readonly node: Node;
@@ -1535,7 +1648,7 @@ The tree node.
 
 ---
 
-##### `account`<sup>Required</sup> <a name="account" id="awscdk-rootmail.SESReceiveStack.property.account"></a>
+##### `account`<sup>Required</sup> <a name="account" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.account"></a>
 
 ```typescript
 public readonly account: string;
@@ -1564,7 +1677,7 @@ implement some other region-agnostic behavior.
 
 ---
 
-##### `artifactId`<sup>Required</sup> <a name="artifactId" id="awscdk-rootmail.SESReceiveStack.property.artifactId"></a>
+##### `artifactId`<sup>Required</sup> <a name="artifactId" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.artifactId"></a>
 
 ```typescript
 public readonly artifactId: string;
@@ -1576,7 +1689,7 @@ The ID of the cloud assembly artifact for this stack.
 
 ---
 
-##### `availabilityZones`<sup>Required</sup> <a name="availabilityZones" id="awscdk-rootmail.SESReceiveStack.property.availabilityZones"></a>
+##### `availabilityZones`<sup>Required</sup> <a name="availabilityZones" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.availabilityZones"></a>
 
 ```typescript
 public readonly availabilityZones: string[];
@@ -1599,7 +1712,7 @@ To specify a different strategy for selecting availability zones override this m
 
 ---
 
-##### `bundlingRequired`<sup>Required</sup> <a name="bundlingRequired" id="awscdk-rootmail.SESReceiveStack.property.bundlingRequired"></a>
+##### `bundlingRequired`<sup>Required</sup> <a name="bundlingRequired" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.bundlingRequired"></a>
 
 ```typescript
 public readonly bundlingRequired: boolean;
@@ -1611,7 +1724,7 @@ Indicates whether the stack requires bundling or not.
 
 ---
 
-##### `dependencies`<sup>Required</sup> <a name="dependencies" id="awscdk-rootmail.SESReceiveStack.property.dependencies"></a>
+##### `dependencies`<sup>Required</sup> <a name="dependencies" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.dependencies"></a>
 
 ```typescript
 public readonly dependencies: Stack[];
@@ -1623,7 +1736,7 @@ Return the stacks this stack depends on.
 
 ---
 
-##### `environment`<sup>Required</sup> <a name="environment" id="awscdk-rootmail.SESReceiveStack.property.environment"></a>
+##### `environment`<sup>Required</sup> <a name="environment" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.environment"></a>
 
 ```typescript
 public readonly environment: string;
@@ -1647,7 +1760,7 @@ region/account-agnostic.
 
 ---
 
-##### `nested`<sup>Required</sup> <a name="nested" id="awscdk-rootmail.SESReceiveStack.property.nested"></a>
+##### `nested`<sup>Required</sup> <a name="nested" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.nested"></a>
 
 ```typescript
 public readonly nested: boolean;
@@ -1659,7 +1772,7 @@ Indicates if this is a nested stack, in which case `parentStack` will include a 
 
 ---
 
-##### `notificationArns`<sup>Required</sup> <a name="notificationArns" id="awscdk-rootmail.SESReceiveStack.property.notificationArns"></a>
+##### `notificationArns`<sup>Required</sup> <a name="notificationArns" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.notificationArns"></a>
 
 ```typescript
 public readonly notificationArns: string[];
@@ -1671,7 +1784,7 @@ Returns the list of notification Amazon Resource Names (ARNs) for the current st
 
 ---
 
-##### `partition`<sup>Required</sup> <a name="partition" id="awscdk-rootmail.SESReceiveStack.property.partition"></a>
+##### `partition`<sup>Required</sup> <a name="partition" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.partition"></a>
 
 ```typescript
 public readonly partition: string;
@@ -1683,7 +1796,7 @@ The partition in which this stack is defined.
 
 ---
 
-##### `region`<sup>Required</sup> <a name="region" id="awscdk-rootmail.SESReceiveStack.property.region"></a>
+##### `region`<sup>Required</sup> <a name="region" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.region"></a>
 
 ```typescript
 public readonly region: string;
@@ -1712,7 +1825,7 @@ implement some other region-agnostic behavior.
 
 ---
 
-##### `stackId`<sup>Required</sup> <a name="stackId" id="awscdk-rootmail.SESReceiveStack.property.stackId"></a>
+##### `stackId`<sup>Required</sup> <a name="stackId" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.stackId"></a>
 
 ```typescript
 public readonly stackId: string;
@@ -1732,7 +1845,7 @@ The ID of the stack.
 ```
 
 
-##### `stackName`<sup>Required</sup> <a name="stackName" id="awscdk-rootmail.SESReceiveStack.property.stackName"></a>
+##### `stackName`<sup>Required</sup> <a name="stackName" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.stackName"></a>
 
 ```typescript
 public readonly stackName: string;
@@ -1753,7 +1866,7 @@ you can use `Aws.STACK_NAME` directly.
 
 ---
 
-##### `synthesizer`<sup>Required</sup> <a name="synthesizer" id="awscdk-rootmail.SESReceiveStack.property.synthesizer"></a>
+##### `synthesizer`<sup>Required</sup> <a name="synthesizer" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.synthesizer"></a>
 
 ```typescript
 public readonly synthesizer: IStackSynthesizer;
@@ -1765,7 +1878,7 @@ Synthesis method for this stack.
 
 ---
 
-##### `tags`<sup>Required</sup> <a name="tags" id="awscdk-rootmail.SESReceiveStack.property.tags"></a>
+##### `tags`<sup>Required</sup> <a name="tags" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.tags"></a>
 
 ```typescript
 public readonly tags: TagManager;
@@ -1777,7 +1890,7 @@ Tags to be applied to the stack.
 
 ---
 
-##### `templateFile`<sup>Required</sup> <a name="templateFile" id="awscdk-rootmail.SESReceiveStack.property.templateFile"></a>
+##### `templateFile`<sup>Required</sup> <a name="templateFile" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.templateFile"></a>
 
 ```typescript
 public readonly templateFile: string;
@@ -1791,7 +1904,7 @@ Example value: `MyStack.template.json`
 
 ---
 
-##### `templateOptions`<sup>Required</sup> <a name="templateOptions" id="awscdk-rootmail.SESReceiveStack.property.templateOptions"></a>
+##### `templateOptions`<sup>Required</sup> <a name="templateOptions" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.templateOptions"></a>
 
 ```typescript
 public readonly templateOptions: ITemplateOptions;
@@ -1803,7 +1916,7 @@ Options for CloudFormation template (like version, transform, description).
 
 ---
 
-##### `urlSuffix`<sup>Required</sup> <a name="urlSuffix" id="awscdk-rootmail.SESReceiveStack.property.urlSuffix"></a>
+##### `urlSuffix`<sup>Required</sup> <a name="urlSuffix" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.urlSuffix"></a>
 
 ```typescript
 public readonly urlSuffix: string;
@@ -1815,7 +1928,7 @@ The Amazon domain suffix for the region in which this stack is defined.
 
 ---
 
-##### `nestedStackParent`<sup>Optional</sup> <a name="nestedStackParent" id="awscdk-rootmail.SESReceiveStack.property.nestedStackParent"></a>
+##### `nestedStackParent`<sup>Optional</sup> <a name="nestedStackParent" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.nestedStackParent"></a>
 
 ```typescript
 public readonly nestedStackParent: Stack;
@@ -1827,7 +1940,7 @@ If this is a nested stack, returns it's parent stack.
 
 ---
 
-##### `nestedStackResource`<sup>Optional</sup> <a name="nestedStackResource" id="awscdk-rootmail.SESReceiveStack.property.nestedStackResource"></a>
+##### `nestedStackResource`<sup>Optional</sup> <a name="nestedStackResource" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.nestedStackResource"></a>
 
 ```typescript
 public readonly nestedStackResource: CfnResource;
@@ -1841,7 +1954,7 @@ If this is a nested stack, this represents its `AWS::CloudFormation::Stack` reso
 
 ---
 
-##### `terminationProtection`<sup>Optional</sup> <a name="terminationProtection" id="awscdk-rootmail.SESReceiveStack.property.terminationProtection"></a>
+##### `terminationProtection`<sup>Optional</sup> <a name="terminationProtection" id="@mavogel/awscdk-rootmail.SESReceiveStack.property.terminationProtection"></a>
 
 ```typescript
 public readonly terminationProtection: boolean;
@@ -1856,12 +1969,12 @@ Whether termination protection is enabled for this stack.
 
 ## Structs <a name="Structs" id="Structs"></a>
 
-### RootmailProps <a name="RootmailProps" id="awscdk-rootmail.RootmailProps"></a>
+### RootmailProps <a name="RootmailProps" id="@mavogel/awscdk-rootmail.RootmailProps"></a>
 
-#### Initializer <a name="Initializer" id="awscdk-rootmail.RootmailProps.Initializer"></a>
+#### Initializer <a name="Initializer" id="@mavogel/awscdk-rootmail.RootmailProps.Initializer"></a>
 
 ```typescript
-import { RootmailProps } from 'awscdk-rootmail'
+import { RootmailProps } from '@mavogel/awscdk-rootmail'
 
 const rootmailProps: RootmailProps = { ... }
 ```
@@ -1870,27 +1983,26 @@ const rootmailProps: RootmailProps = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.analyticsReporting">analyticsReporting</a></code> | <code>boolean</code> | Include runtime versioning information in this Stack. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.crossRegionReferences">crossRegionReferences</a></code> | <code>boolean</code> | Enable this flag to allow native cross region stack references. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.description">description</a></code> | <code>string</code> | A description of the stack. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.env">env</a></code> | <code>aws-cdk-lib.Environment</code> | The AWS environment (account/region) where this stack will be deployed. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.permissionsBoundary">permissionsBoundary</a></code> | <code>aws-cdk-lib.PermissionsBoundary</code> | Options for applying a permissions boundary to all IAM Roles and Users created within this Stage. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.stackName">stackName</a></code> | <code>string</code> | Name to deploy the stack with. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.suppressTemplateIndentation">suppressTemplateIndentation</a></code> | <code>boolean</code> | Enable this flag to suppress indentation in generated CloudFormation templates. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.synthesizer">synthesizer</a></code> | <code>aws-cdk-lib.IStackSynthesizer</code> | Synthesis method to use while deploying this stack. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.tags">tags</a></code> | <code>{[ key: string ]: string}</code> | Stack tags that will be applied to all the taggable resources and the stack itself. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.terminationProtection">terminationProtection</a></code> | <code>boolean</code> | Whether to enable termination protection for this stack. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.autowireDNSOnAWSEnabled">autowireDNSOnAWSEnabled</a></code> | <code>boolean</code> | Whether to autowire the DNS records for the root mail feature. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.autowireDNSOnAWSParentHostedZoneId">autowireDNSOnAWSParentHostedZoneId</a></code> | <code>string</code> | The ID of the hosted zone of the <domain>, which has to be in the same AWS account. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.emailBucketName">emailBucketName</a></code> | <code>string</code> | The name of the S3 bucket that will be used to store the emails for 'root@<subdomain>.<domain>'. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
-| <code><a href="#awscdk-rootmail.RootmailProps.property.totalTimeToWireDNS">totalTimeToWireDNS</a></code> | <code>aws-cdk-lib.Duration</code> | The total time to wait for the DNS records to be available/wired. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.analyticsReporting">analyticsReporting</a></code> | <code>boolean</code> | Include runtime versioning information in this Stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.crossRegionReferences">crossRegionReferences</a></code> | <code>boolean</code> | Enable this flag to allow native cross region stack references. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.description">description</a></code> | <code>string</code> | A description of the stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.env">env</a></code> | <code>aws-cdk-lib.Environment</code> | The AWS environment (account/region) where this stack will be deployed. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.permissionsBoundary">permissionsBoundary</a></code> | <code>aws-cdk-lib.PermissionsBoundary</code> | Options for applying a permissions boundary to all IAM Roles and Users created within this Stage. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.stackName">stackName</a></code> | <code>string</code> | Name to deploy the stack with. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.suppressTemplateIndentation">suppressTemplateIndentation</a></code> | <code>boolean</code> | Enable this flag to suppress indentation in generated CloudFormation templates. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.synthesizer">synthesizer</a></code> | <code>aws-cdk-lib.IStackSynthesizer</code> | Synthesis method to use while deploying this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.tags">tags</a></code> | <code>{[ key: string ]: string}</code> | Stack tags that will be applied to all the taggable resources and the stack itself. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.terminationProtection">terminationProtection</a></code> | <code>boolean</code> | Whether to enable termination protection for this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.autowireDNSOnAWSParentHostedZoneId">autowireDNSOnAWSParentHostedZoneId</a></code> | <code>string</code> | The ID of the hosted zone of the <domain>, which has to be in the same AWS account. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.emailBucketName">emailBucketName</a></code> | <code>string</code> | The name of the S3 bucket that will be used to store the emails for 'root@<subdomain>.<domain>'. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.totalTimeToWireDNS">totalTimeToWireDNS</a></code> | <code>aws-cdk-lib.Duration</code> | The total time to wait for the DNS records to be available/wired. |
 
 ---
 
-##### `analyticsReporting`<sup>Optional</sup> <a name="analyticsReporting" id="awscdk-rootmail.RootmailProps.property.analyticsReporting"></a>
+##### `analyticsReporting`<sup>Optional</sup> <a name="analyticsReporting" id="@mavogel/awscdk-rootmail.RootmailProps.property.analyticsReporting"></a>
 
 ```typescript
 public readonly analyticsReporting: boolean;
@@ -1903,7 +2015,7 @@ Include runtime versioning information in this Stack.
 
 ---
 
-##### `crossRegionReferences`<sup>Optional</sup> <a name="crossRegionReferences" id="awscdk-rootmail.RootmailProps.property.crossRegionReferences"></a>
+##### `crossRegionReferences`<sup>Optional</sup> <a name="crossRegionReferences" id="@mavogel/awscdk-rootmail.RootmailProps.property.crossRegionReferences"></a>
 
 ```typescript
 public readonly crossRegionReferences: boolean;
@@ -1921,7 +2033,7 @@ This feature is currently experimental
 
 ---
 
-##### `description`<sup>Optional</sup> <a name="description" id="awscdk-rootmail.RootmailProps.property.description"></a>
+##### `description`<sup>Optional</sup> <a name="description" id="@mavogel/awscdk-rootmail.RootmailProps.property.description"></a>
 
 ```typescript
 public readonly description: string;
@@ -1934,7 +2046,7 @@ A description of the stack.
 
 ---
 
-##### `env`<sup>Optional</sup> <a name="env" id="awscdk-rootmail.RootmailProps.property.env"></a>
+##### `env`<sup>Optional</sup> <a name="env" id="@mavogel/awscdk-rootmail.RootmailProps.property.env"></a>
 
 ```typescript
 public readonly env: Environment;
@@ -2008,7 +2120,7 @@ new MyStack(app, 'Stack1');
 ```
 
 
-##### `permissionsBoundary`<sup>Optional</sup> <a name="permissionsBoundary" id="awscdk-rootmail.RootmailProps.property.permissionsBoundary"></a>
+##### `permissionsBoundary`<sup>Optional</sup> <a name="permissionsBoundary" id="@mavogel/awscdk-rootmail.RootmailProps.property.permissionsBoundary"></a>
 
 ```typescript
 public readonly permissionsBoundary: PermissionsBoundary;
@@ -2021,7 +2133,7 @@ Options for applying a permissions boundary to all IAM Roles and Users created w
 
 ---
 
-##### `stackName`<sup>Optional</sup> <a name="stackName" id="awscdk-rootmail.RootmailProps.property.stackName"></a>
+##### `stackName`<sup>Optional</sup> <a name="stackName" id="@mavogel/awscdk-rootmail.RootmailProps.property.stackName"></a>
 
 ```typescript
 public readonly stackName: string;
@@ -2034,7 +2146,7 @@ Name to deploy the stack with.
 
 ---
 
-##### `suppressTemplateIndentation`<sup>Optional</sup> <a name="suppressTemplateIndentation" id="awscdk-rootmail.RootmailProps.property.suppressTemplateIndentation"></a>
+##### `suppressTemplateIndentation`<sup>Optional</sup> <a name="suppressTemplateIndentation" id="@mavogel/awscdk-rootmail.RootmailProps.property.suppressTemplateIndentation"></a>
 
 ```typescript
 public readonly suppressTemplateIndentation: boolean;
@@ -2051,7 +2163,7 @@ default value `false` will be used.
 
 ---
 
-##### `synthesizer`<sup>Optional</sup> <a name="synthesizer" id="awscdk-rootmail.RootmailProps.property.synthesizer"></a>
+##### `synthesizer`<sup>Optional</sup> <a name="synthesizer" id="@mavogel/awscdk-rootmail.RootmailProps.property.synthesizer"></a>
 
 ```typescript
 public readonly synthesizer: IStackSynthesizer;
@@ -2074,7 +2186,7 @@ other synthesizer is specified.
 
 ---
 
-##### `tags`<sup>Optional</sup> <a name="tags" id="awscdk-rootmail.RootmailProps.property.tags"></a>
+##### `tags`<sup>Optional</sup> <a name="tags" id="@mavogel/awscdk-rootmail.RootmailProps.property.tags"></a>
 
 ```typescript
 public readonly tags: {[ key: string ]: string};
@@ -2087,7 +2199,7 @@ Stack tags that will be applied to all the taggable resources and the stack itse
 
 ---
 
-##### `terminationProtection`<sup>Optional</sup> <a name="terminationProtection" id="awscdk-rootmail.RootmailProps.property.terminationProtection"></a>
+##### `terminationProtection`<sup>Optional</sup> <a name="terminationProtection" id="@mavogel/awscdk-rootmail.RootmailProps.property.terminationProtection"></a>
 
 ```typescript
 public readonly terminationProtection: boolean;
@@ -2100,7 +2212,7 @@ Whether to enable termination protection for this stack.
 
 ---
 
-##### `domain`<sup>Required</sup> <a name="domain" id="awscdk-rootmail.RootmailProps.property.domain"></a>
+##### `domain`<sup>Required</sup> <a name="domain" id="@mavogel/awscdk-rootmail.RootmailProps.property.domain"></a>
 
 ```typescript
 public readonly domain: string;
@@ -2114,35 +2226,20 @@ Please see https://github.com/superwerker/superwerker/blob/main/README.md#techni
 
 ---
 
-##### `autowireDNSOnAWSEnabled`<sup>Optional</sup> <a name="autowireDNSOnAWSEnabled" id="awscdk-rootmail.RootmailProps.property.autowireDNSOnAWSEnabled"></a>
-
-```typescript
-public readonly autowireDNSOnAWSEnabled: boolean;
-```
-
-- *Type:* boolean
-- *Default:* false
-
-Whether to autowire the DNS records for the root mail feature.
-
----
-
-##### `autowireDNSOnAWSParentHostedZoneId`<sup>Optional</sup> <a name="autowireDNSOnAWSParentHostedZoneId" id="awscdk-rootmail.RootmailProps.property.autowireDNSOnAWSParentHostedZoneId"></a>
+##### `autowireDNSOnAWSParentHostedZoneId`<sup>Optional</sup> <a name="autowireDNSOnAWSParentHostedZoneId" id="@mavogel/awscdk-rootmail.RootmailProps.property.autowireDNSOnAWSParentHostedZoneId"></a>
 
 ```typescript
 public readonly autowireDNSOnAWSParentHostedZoneId: string;
 ```
 
 - *Type:* string
-- *Default:* ''
+- *Default:* undefined
 
 The ID of the hosted zone of the <domain>, which has to be in the same AWS account.
 
-Cannot be '' if autowireDNSOnAWSEnabled is true.
-
 ---
 
-##### `emailBucketName`<sup>Optional</sup> <a name="emailBucketName" id="awscdk-rootmail.RootmailProps.property.emailBucketName"></a>
+##### `emailBucketName`<sup>Optional</sup> <a name="emailBucketName" id="@mavogel/awscdk-rootmail.RootmailProps.property.emailBucketName"></a>
 
 ```typescript
 public readonly emailBucketName: string;
@@ -2155,7 +2252,7 @@ The name of the S3 bucket that will be used to store the emails for 'root@<subdo
 
 ---
 
-##### `setDestroyPolicyToAllResources`<sup>Optional</sup> <a name="setDestroyPolicyToAllResources" id="awscdk-rootmail.RootmailProps.property.setDestroyPolicyToAllResources"></a>
+##### `setDestroyPolicyToAllResources`<sup>Optional</sup> <a name="setDestroyPolicyToAllResources" id="@mavogel/awscdk-rootmail.RootmailProps.property.setDestroyPolicyToAllResources"></a>
 
 ```typescript
 public readonly setDestroyPolicyToAllResources: boolean;
@@ -2165,9 +2262,11 @@ public readonly setDestroyPolicyToAllResources: boolean;
 
 Whether to set all removal policies to DESTROY.
 
+This is useful for integration testing purposes.
+
 ---
 
-##### `subdomain`<sup>Optional</sup> <a name="subdomain" id="awscdk-rootmail.RootmailProps.property.subdomain"></a>
+##### `subdomain`<sup>Optional</sup> <a name="subdomain" id="@mavogel/awscdk-rootmail.RootmailProps.property.subdomain"></a>
 
 ```typescript
 public readonly subdomain: string;
@@ -2182,7 +2281,7 @@ Please see https://github.com/superwerker/superwerker/blob/main/README.md#techni
 
 ---
 
-##### `totalTimeToWireDNS`<sup>Optional</sup> <a name="totalTimeToWireDNS" id="awscdk-rootmail.RootmailProps.property.totalTimeToWireDNS"></a>
+##### `totalTimeToWireDNS`<sup>Optional</sup> <a name="totalTimeToWireDNS" id="@mavogel/awscdk-rootmail.RootmailProps.property.totalTimeToWireDNS"></a>
 
 ```typescript
 public readonly totalTimeToWireDNS: Duration;
@@ -2195,12 +2294,12 @@ The total time to wait for the DNS records to be available/wired.
 
 ---
 
-### SESReceiveStackProps <a name="SESReceiveStackProps" id="awscdk-rootmail.SESReceiveStackProps"></a>
+### SESReceiveStackProps <a name="SESReceiveStackProps" id="@mavogel/awscdk-rootmail.SESReceiveStackProps"></a>
 
-#### Initializer <a name="Initializer" id="awscdk-rootmail.SESReceiveStackProps.Initializer"></a>
+#### Initializer <a name="Initializer" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.Initializer"></a>
 
 ```typescript
-import { SESReceiveStackProps } from 'awscdk-rootmail'
+import { SESReceiveStackProps } from '@mavogel/awscdk-rootmail'
 
 const sESReceiveStackProps: SESReceiveStackProps = { ... }
 ```
@@ -2209,26 +2308,26 @@ const sESReceiveStackProps: SESReceiveStackProps = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.analyticsReporting">analyticsReporting</a></code> | <code>boolean</code> | Include runtime versioning information in this Stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.crossRegionReferences">crossRegionReferences</a></code> | <code>boolean</code> | Enable this flag to allow native cross region stack references. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.description">description</a></code> | <code>string</code> | A description of the stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.env">env</a></code> | <code>aws-cdk-lib.Environment</code> | The AWS environment (account/region) where this stack will be deployed. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.permissionsBoundary">permissionsBoundary</a></code> | <code>aws-cdk-lib.PermissionsBoundary</code> | Options for applying a permissions boundary to all IAM Roles and Users created within this Stage. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.stackName">stackName</a></code> | <code>string</code> | Name to deploy the stack with. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.suppressTemplateIndentation">suppressTemplateIndentation</a></code> | <code>boolean</code> | Enable this flag to suppress indentation in generated CloudFormation templates. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.synthesizer">synthesizer</a></code> | <code>aws-cdk-lib.IStackSynthesizer</code> | Synthesis method to use while deploying this stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.tags">tags</a></code> | <code>{[ key: string ]: string}</code> | Stack tags that will be applied to all the taggable resources and the stack itself. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.terminationProtection">terminationProtection</a></code> | <code>boolean</code> | Whether to enable termination protection for this stack. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.emailbucket">emailbucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | S3 bucket to store received emails. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.rootMailDeployRegion">rootMailDeployRegion</a></code> | <code>string</code> | Region where the root mail feature is deployed. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.rulesetSettleTimeSeconds">rulesetSettleTimeSeconds</a></code> | <code>number</code> | Time in seconds to wait for the SES receipt rule set to settle. |
-| <code><a href="#awscdk-rootmail.SESReceiveStackProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.analyticsReporting">analyticsReporting</a></code> | <code>boolean</code> | Include runtime versioning information in this Stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.crossRegionReferences">crossRegionReferences</a></code> | <code>boolean</code> | Enable this flag to allow native cross region stack references. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.description">description</a></code> | <code>string</code> | A description of the stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.env">env</a></code> | <code>aws-cdk-lib.Environment</code> | The AWS environment (account/region) where this stack will be deployed. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.permissionsBoundary">permissionsBoundary</a></code> | <code>aws-cdk-lib.PermissionsBoundary</code> | Options for applying a permissions boundary to all IAM Roles and Users created within this Stage. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.stackName">stackName</a></code> | <code>string</code> | Name to deploy the stack with. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.suppressTemplateIndentation">suppressTemplateIndentation</a></code> | <code>boolean</code> | Enable this flag to suppress indentation in generated CloudFormation templates. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.synthesizer">synthesizer</a></code> | <code>aws-cdk-lib.IStackSynthesizer</code> | Synthesis method to use while deploying this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.tags">tags</a></code> | <code>{[ key: string ]: string}</code> | Stack tags that will be applied to all the taggable resources and the stack itself. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.terminationProtection">terminationProtection</a></code> | <code>boolean</code> | Whether to enable termination protection for this stack. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.emailbucket">emailbucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | S3 bucket to store received emails. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.rootMailDeployRegion">rootMailDeployRegion</a></code> | <code>string</code> | Region where the root mail feature is deployed. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.rulesetSettleTimeSeconds">rulesetSettleTimeSeconds</a></code> | <code>number</code> | Time in seconds to wait for the SES receipt rule set to settle. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveStackProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 
 ---
 
-##### `analyticsReporting`<sup>Optional</sup> <a name="analyticsReporting" id="awscdk-rootmail.SESReceiveStackProps.property.analyticsReporting"></a>
+##### `analyticsReporting`<sup>Optional</sup> <a name="analyticsReporting" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.analyticsReporting"></a>
 
 ```typescript
 public readonly analyticsReporting: boolean;
@@ -2241,7 +2340,7 @@ Include runtime versioning information in this Stack.
 
 ---
 
-##### `crossRegionReferences`<sup>Optional</sup> <a name="crossRegionReferences" id="awscdk-rootmail.SESReceiveStackProps.property.crossRegionReferences"></a>
+##### `crossRegionReferences`<sup>Optional</sup> <a name="crossRegionReferences" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.crossRegionReferences"></a>
 
 ```typescript
 public readonly crossRegionReferences: boolean;
@@ -2259,7 +2358,7 @@ This feature is currently experimental
 
 ---
 
-##### `description`<sup>Optional</sup> <a name="description" id="awscdk-rootmail.SESReceiveStackProps.property.description"></a>
+##### `description`<sup>Optional</sup> <a name="description" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.description"></a>
 
 ```typescript
 public readonly description: string;
@@ -2272,7 +2371,7 @@ A description of the stack.
 
 ---
 
-##### `env`<sup>Optional</sup> <a name="env" id="awscdk-rootmail.SESReceiveStackProps.property.env"></a>
+##### `env`<sup>Optional</sup> <a name="env" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.env"></a>
 
 ```typescript
 public readonly env: Environment;
@@ -2346,7 +2445,7 @@ new MyStack(app, 'Stack1');
 ```
 
 
-##### `permissionsBoundary`<sup>Optional</sup> <a name="permissionsBoundary" id="awscdk-rootmail.SESReceiveStackProps.property.permissionsBoundary"></a>
+##### `permissionsBoundary`<sup>Optional</sup> <a name="permissionsBoundary" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.permissionsBoundary"></a>
 
 ```typescript
 public readonly permissionsBoundary: PermissionsBoundary;
@@ -2359,7 +2458,7 @@ Options for applying a permissions boundary to all IAM Roles and Users created w
 
 ---
 
-##### `stackName`<sup>Optional</sup> <a name="stackName" id="awscdk-rootmail.SESReceiveStackProps.property.stackName"></a>
+##### `stackName`<sup>Optional</sup> <a name="stackName" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.stackName"></a>
 
 ```typescript
 public readonly stackName: string;
@@ -2372,7 +2471,7 @@ Name to deploy the stack with.
 
 ---
 
-##### `suppressTemplateIndentation`<sup>Optional</sup> <a name="suppressTemplateIndentation" id="awscdk-rootmail.SESReceiveStackProps.property.suppressTemplateIndentation"></a>
+##### `suppressTemplateIndentation`<sup>Optional</sup> <a name="suppressTemplateIndentation" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.suppressTemplateIndentation"></a>
 
 ```typescript
 public readonly suppressTemplateIndentation: boolean;
@@ -2389,7 +2488,7 @@ default value `false` will be used.
 
 ---
 
-##### `synthesizer`<sup>Optional</sup> <a name="synthesizer" id="awscdk-rootmail.SESReceiveStackProps.property.synthesizer"></a>
+##### `synthesizer`<sup>Optional</sup> <a name="synthesizer" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.synthesizer"></a>
 
 ```typescript
 public readonly synthesizer: IStackSynthesizer;
@@ -2412,7 +2511,7 @@ other synthesizer is specified.
 
 ---
 
-##### `tags`<sup>Optional</sup> <a name="tags" id="awscdk-rootmail.SESReceiveStackProps.property.tags"></a>
+##### `tags`<sup>Optional</sup> <a name="tags" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.tags"></a>
 
 ```typescript
 public readonly tags: {[ key: string ]: string};
@@ -2425,7 +2524,7 @@ Stack tags that will be applied to all the taggable resources and the stack itse
 
 ---
 
-##### `terminationProtection`<sup>Optional</sup> <a name="terminationProtection" id="awscdk-rootmail.SESReceiveStackProps.property.terminationProtection"></a>
+##### `terminationProtection`<sup>Optional</sup> <a name="terminationProtection" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.terminationProtection"></a>
 
 ```typescript
 public readonly terminationProtection: boolean;
@@ -2438,7 +2537,7 @@ Whether to enable termination protection for this stack.
 
 ---
 
-##### `domain`<sup>Required</sup> <a name="domain" id="awscdk-rootmail.SESReceiveStackProps.property.domain"></a>
+##### `domain`<sup>Required</sup> <a name="domain" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.domain"></a>
 
 ```typescript
 public readonly domain: string;
@@ -2452,7 +2551,7 @@ Please see https://github.com/superwerker/superwerker/blob/main/README.md#techni
 
 ---
 
-##### `emailbucket`<sup>Required</sup> <a name="emailbucket" id="awscdk-rootmail.SESReceiveStackProps.property.emailbucket"></a>
+##### `emailbucket`<sup>Required</sup> <a name="emailbucket" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.emailbucket"></a>
 
 ```typescript
 public readonly emailbucket: Bucket;
@@ -2464,7 +2563,7 @@ S3 bucket to store received emails.
 
 ---
 
-##### `rootMailDeployRegion`<sup>Required</sup> <a name="rootMailDeployRegion" id="awscdk-rootmail.SESReceiveStackProps.property.rootMailDeployRegion"></a>
+##### `rootMailDeployRegion`<sup>Required</sup> <a name="rootMailDeployRegion" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.rootMailDeployRegion"></a>
 
 ```typescript
 public readonly rootMailDeployRegion: string;
@@ -2476,7 +2575,7 @@ Region where the root mail feature is deployed.
 
 ---
 
-##### `subdomain`<sup>Required</sup> <a name="subdomain" id="awscdk-rootmail.SESReceiveStackProps.property.subdomain"></a>
+##### `subdomain`<sup>Required</sup> <a name="subdomain" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.subdomain"></a>
 
 ```typescript
 public readonly subdomain: string;
@@ -2490,7 +2589,7 @@ Please see https://github.com/superwerker/superwerker/blob/main/README.md#techni
 
 ---
 
-##### `rulesetSettleTimeSeconds`<sup>Optional</sup> <a name="rulesetSettleTimeSeconds" id="awscdk-rootmail.SESReceiveStackProps.property.rulesetSettleTimeSeconds"></a>
+##### `rulesetSettleTimeSeconds`<sup>Optional</sup> <a name="rulesetSettleTimeSeconds" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.rulesetSettleTimeSeconds"></a>
 
 ```typescript
 public readonly rulesetSettleTimeSeconds: number;
@@ -2501,9 +2600,13 @@ public readonly rulesetSettleTimeSeconds: number;
 
 Time in seconds to wait for the SES receipt rule set to settle.
 
+The reason is that although the rule is active immediately, it takes some time for the rule to
+really forwards incoming mails to the S3 bucket and the Lambda function. During tests 120 seconds
+were enough to wait for the rule to settle. This propery is offered to lower it for testing purposes.
+
 ---
 
-##### `setDestroyPolicyToAllResources`<sup>Optional</sup> <a name="setDestroyPolicyToAllResources" id="awscdk-rootmail.SESReceiveStackProps.property.setDestroyPolicyToAllResources"></a>
+##### `setDestroyPolicyToAllResources`<sup>Optional</sup> <a name="setDestroyPolicyToAllResources" id="@mavogel/awscdk-rootmail.SESReceiveStackProps.property.setDestroyPolicyToAllResources"></a>
 
 ```typescript
 public readonly setDestroyPolicyToAllResources: boolean;
@@ -2512,6 +2615,8 @@ public readonly setDestroyPolicyToAllResources: boolean;
 - *Type:* boolean
 
 Whether to set all removal policies to DESTROY.
+
+This is useful for integration testing purposes.
 
 ---
 
