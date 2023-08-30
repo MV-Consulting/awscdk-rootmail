@@ -1,6 +1,4 @@
 import {
-  Arn,
-  ArnFormat,
   CfnWaitCondition,
   CfnWaitConditionHandle,
   Duration,
@@ -22,6 +20,7 @@ import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct, IConstruct } from 'constructs';
 import { HostedZoneDkim } from './hosted-zone-dkim';
+import { RootmailAutowireDns } from './rootmail-autowire-dns';
 
 export interface RootmailProps extends StackProps {
   /**
@@ -118,69 +117,15 @@ export class Rootmail extends Stack {
     let autowireDNSEventRuleName: string = '';
     let autowireDNSEventRuleArn: string = '';
     if (isAutowireDNSOnAWSParentHostedZoneIdSet(autowireDNSOnAWSParentHostedZoneId)) {
-      const autowireDNSHandler = new NodejsFunction(this, 'wire-rootmail-dns-handler', {
-        runtime: lambda.Runtime.NODEJS_18_X,
-        timeout: Duration.seconds(160), // 2m40s
-        logRetention: 3,
-        environment: {
-          DOMAIN: domain,
-          SUB_DOMAIN: subdomain,
-          HOSTED_ZONE_PARAMETER_NAME: this.hostedZoneParameterName,
-          PARENT_HOSTED_ZONE_ID: autowireDNSOnAWSParentHostedZoneId,
-        },
+      const rootmailAutowireDns = new RootmailAutowireDns(this, 'RootmailAutowireDns', {
+        domain: domain,
+        subdomain: subdomain,
+        autowireDNSOnAWSParentHostedZoneId: autowireDNSOnAWSParentHostedZoneId,
+        hostedZoneSSMParameter: hostedZoneSSMParameter,
       });
 
-      autowireDNSHandler.addToRolePolicy(new iam.PolicyStatement({
-        actions: [
-          'ssm:GetParameter',
-        ],
-        effect: iam.Effect.ALLOW,
-        resources: [
-          hostedZoneSSMParameter.parameterArn,
-        ],
-      }));
-
-      autowireDNSHandler.addToRolePolicy(
-        // NOTE: not possible to limit to NS records only
-        new iam.PolicyStatement({
-          actions: [
-            'route53:ListHostedZonesByName',
-            'route53:GetChange',
-          ],
-          effect: iam.Effect.ALLOW,
-          resources: ['*'],
-        }));
-
-      autowireDNSHandler.addToRolePolicy(
-        // NOTE: not possible to limit to NS records only
-        new iam.PolicyStatement({
-          actions: [
-            'route53:ListResourceRecordSets',
-            'route53:ChangeResourceRecordSets',
-          ],
-          effect: iam.Effect.ALLOW,
-          resources: [
-            // arn:aws:route53:::hostedzone/H12345
-            // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
-            Arn.format({
-              partition: 'aws',
-              service: 'route53',
-              region: '',
-              account: '',
-              resource: 'hostedzone',
-              arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-              resourceName: autowireDNSOnAWSParentHostedZoneId,
-            }),
-          ],
-        }));
-
-      const autowireDNSEventRule = new events.Rule(this, 'AutowireDNSEventRule', {
-        schedule: events.Schedule.rate(Duration.minutes(3)),
-      });
-      autowireDNSEventRuleName = autowireDNSEventRule.ruleName;
-      autowireDNSEventRuleArn = autowireDNSEventRule.ruleArn;
-
-      autowireDNSEventRule.addTarget(new LambdaFunction(autowireDNSHandler));
+      autowireDNSEventRuleName = rootmailAutowireDns.autowireDNSEventRuleName;
+      autowireDNSEventRuleArn = rootmailAutowireDns.autowireDNSEventRuleArn;
     }
 
     /**

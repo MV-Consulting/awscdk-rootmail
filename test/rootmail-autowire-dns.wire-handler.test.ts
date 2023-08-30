@@ -19,7 +19,7 @@ jest.mock('aws-sdk', () => ({
 }));
 
 // eslint-disable-next-line import/no-unresolved
-import { handler } from '../src/rootmail.wire-rootmail-dns-handler';
+import { handler } from '../src/rootmail-autowire-dns.wire-handler';
 
 describe('wire rootmail dns', () => {
   const originalEnvironment = process.env;
