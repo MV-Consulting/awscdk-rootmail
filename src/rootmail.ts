@@ -96,33 +96,7 @@ export class Rootmail extends Stack {
       encryption: s3.BucketEncryption.S3_MANAGED,
     });
 
-    const emailBucketPolicyStatement = new iam.PolicyStatement({
-      actions: ['s3:PutObject'],
-      conditions: {
-        StringEquals: {
-          'aws:Referer': Stack.of(this).account,
-        },
-      },
-      effect: iam.Effect.ALLOW,
-      principals: [
-        new iam.ServicePrincipal('ses.amazonaws.com'),
-      ],
-      resources: [
-        // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
-        Arn.format({
-          partition: Stack.of(this).partition,
-          service: 's3',
-          region: '',
-          account: '',
-          resource: this.emailBucket.bucketName,
-          arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-          resourceName: 'RootMail/*',
-        }, Stack.of(this)),
-      ],
-      sid: 'EnableSESReceive',
-    });
-
-    this.emailBucket.addToResourcePolicy(emailBucketPolicyStatement);
+    this.emailBucket.grantPut(new iam.ServicePrincipal('ses.amazonaws.com'), 'RootMail/*');
 
     /**
      * HOSTED ZONE
@@ -255,7 +229,6 @@ export class Rootmail extends Stack {
       autowireDNSEventRuleArn = autowireDNSEventRule.ruleArn;
 
       autowireDNSEventRule.addTarget(new LambdaFunction(autowireDNSHandler));
-
     }
 
     /**
