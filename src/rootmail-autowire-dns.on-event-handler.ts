@@ -124,6 +124,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       await ssm.putParameter({
         Name: r53ChangeInfoIdParameterName,
         Value: recordSetCreationResponse.ChangeInfo.Id,
+        Overwrite: true,
       }).promise();
 
       return {
@@ -132,6 +133,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
 
     case 'Update':
     case 'Delete':
+      // TODO add deletion of NS records
       return {};
   }
 };
