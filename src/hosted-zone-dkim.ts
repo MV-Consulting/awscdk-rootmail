@@ -5,6 +5,7 @@ import {
   aws_ssm as ssm,
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import { HostedZoneDKIMPropagation } from './hosted-zone-dkim-propagation';
 import { HostedZoneDKIMAndVerificationRecords } from './hosted-zone-dkim-verification-records';
 import { RootmailAutowireDns } from './rootmail-autowire-dns';
 
@@ -33,6 +34,7 @@ export interface HostedZoneDkimProps {
    */
   readonly autowireDNSOnAWSParentHostedZoneId?: string;
   readonly hostedZoneSSMParameter: ssm.StringListParameter;
+  readonly totalTimeToWireDNS?: Duration;
 }
 
 export class HostedZoneDkim extends Construct {
@@ -109,6 +111,11 @@ export class HostedZoneDkim extends Construct {
         hostedZoneSSMParameter: hostedZoneSSMParameter,
       });
     }
+
+    // 4: trigger SES DKIM propagation polling
+    new HostedZoneDKIMPropagation(this, 'HostedZoneDKIMPropagation', {
+      domain: `${subdomain}.${domain}`,
+    });
   }
 }
 

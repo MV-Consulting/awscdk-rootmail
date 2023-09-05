@@ -12,6 +12,7 @@ import { PROP_DOMAIN } from './hosted-zone-dkim-propagation.on-event-handler';
 
 export interface HostedZoneDKIMPropagationProps {
   readonly domain: string;
+  readonly totalTimeToWireDNS?: Duration;
 }
 
 export class HostedZoneDKIMPropagation extends Construct {
@@ -19,7 +20,7 @@ export class HostedZoneDKIMPropagation extends Construct {
     super(scope, id);
 
     new CustomResource(this, 'Resource', {
-      serviceToken: HostedZoneDKIMPropagationProvider.getOrCreate(this),
+      serviceToken: HostedZoneDKIMPropagationProvider.getOrCreate(this, { totalTimeToWireDNS: props.totalTimeToWireDNS }),
       resourceType: 'Custom::HostedZoneDKIMPropagation',
       properties: {
         [PROP_DOMAIN]: props.domain,
@@ -28,22 +29,26 @@ export class HostedZoneDKIMPropagation extends Construct {
   }
 }
 
+interface HostedZoneDKIMPropagationProviderProps {
+  readonly totalTimeToWireDNS?: Duration;
+}
+
 class HostedZoneDKIMPropagationProvider extends Construct {
 
   /**
    * Returns the singleton provider.
    */
-  public static getOrCreate(scope: Construct) {
+  public static getOrCreate(scope: Construct, props: HostedZoneDKIMPropagationProviderProps) {
     const stack = Stack.of(scope);
     const id = 'superwerker.hosted-zone-dkim-propagation-provider';
     const x = Node.of(stack).tryFindChild(id) as HostedZoneDKIMPropagationProvider
-      || new HostedZoneDKIMPropagationProvider(stack, id);
+      || new HostedZoneDKIMPropagationProvider(stack, id, props);
     return x.provider.serviceToken;
   }
 
   private readonly provider: cr.Provider;
 
-  constructor(scope: Construct, id: string) {
+  constructor(scope: Construct, id: string, props: HostedZoneDKIMPropagationProviderProps) {
     super(scope, id);
 
     this.provider = new cr.Provider(this, 'hosted-zone-dkim-propagation-provider', {
@@ -65,7 +70,7 @@ class HostedZoneDKIMPropagationProvider extends Construct {
         ],
       }),
       queryInterval: Duration.seconds(10), // TODO
-      totalTimeout: Duration.hours(2), // TODO make configurable
+      totalTimeout: props.totalTimeToWireDNS,
       onEventHandler: new NodejsFunction(this, 'on-event-handler', {
         runtime: lambda.Runtime.NODEJS_18_X,
         logRetention: 3,

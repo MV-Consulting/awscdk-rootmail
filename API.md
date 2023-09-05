@@ -727,7 +727,6 @@ The construct to start the search from.
 | <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.terminationProtection">terminationProtection</a></code> | <code>boolean</code> | Whether termination protection is enabled for this stack. |
 | <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.emailBucket">emailBucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | *No description.* |
 | <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.hostedZoneParameterName">hostedZoneParameterName</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.rootMailReadyEventRule">rootMailReadyEventRule</a></code> | <code>aws-cdk-lib.aws_events.Rule</code> | *No description.* |
 
 ---
 
@@ -1078,16 +1077,6 @@ public readonly hostedZoneParameterName: string;
 ```
 
 - *Type:* string
-
----
-
-##### `rootMailReadyEventRule`<sup>Required</sup> <a name="rootMailReadyEventRule" id="@mavogel/awscdk-rootmail.Rootmail.property.rootMailReadyEventRule"></a>
-
-```typescript
-public readonly rootMailReadyEventRule: Rule;
-```
-
-- *Type:* aws-cdk-lib.aws_events.Rule
 
 ---
 
@@ -2288,7 +2277,7 @@ public readonly totalTimeToWireDNS: Duration;
 ```
 
 - *Type:* aws-cdk-lib.Duration
-- *Default:* Duration.hours(8)
+- *Default:* Duration.hours(2)
 
 The total time to wait for the DNS records to be available/wired.
 
