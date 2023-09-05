@@ -55,50 +55,38 @@ export class HostedZoneDkim extends Construct {
     const hostedZoneDKIMTokens = hostedZoneDKIMAndVerificationRecords.dkimTokens;
 
     // 2: set the records in the hosted zone
-    new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord0', {
-      deleteExisting: false,
-      zone: hostedZone,
-      target: r53.RecordTarget.fromValues(`${Fn.select(0, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
-      recordName: `${Fn.select(0, hostedZoneDKIMTokens)}._domainkey.${subdomain}.${domain}`,
-      ttl: Duration.seconds(60),
-      recordType: r53.RecordType.CNAME,
-    });
+    for (let i = 0; i < hostedZoneDKIMTokens.length; i++) {
+      new r53.RecordSet(this, `HostedZoneDKIMTokenRecord${i}`, {
+        deleteExisting: false,
+        zone: hostedZone,
+        target: r53.RecordTarget.fromValues(`${Fn.select(i, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
+        recordName: `${Fn.select(i, hostedZoneDKIMTokens)}._domainkey.${subdomain}.${domain}`,
+        ttl: Duration.seconds(60),
+        recordType: r53.RecordType.CNAME,
+      });
+    }
 
-    new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord1', {
+    new r53.MxRecord(this, 'HostedZoneMXRecord', {
+      zone: hostedZone,
+      values: [
+        {
+          priority: 10,
+          hostName: 'inbound-smtp.eu-west-1.amazonaws.com',
+        },
+      ],
       deleteExisting: false,
-      zone: hostedZone,
-      target: r53.RecordTarget.fromValues(`${Fn.select(1, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
-      recordName: `${Fn.select(1, hostedZoneDKIMTokens)}._domainkey.${subdomain}.${domain}`,
-      ttl: Duration.seconds(60),
-      recordType: r53.RecordType.CNAME,
-    });
-
-    new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord2', {
-      deleteExisting: false,
-      zone: hostedZone,
-      target: r53.RecordTarget.fromValues(`${Fn.select(2, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
-      recordName: `${Fn.select(2, hostedZoneDKIMTokens)}._domainkey.${subdomain}.${domain}`,
-      ttl: Duration.seconds(60),
-      recordType: r53.RecordType.CNAME,
-    });
-
-    new r53.RecordSet(this, 'HostedZoneMXRecord', {
-      recordType: r53.RecordType.MX,
-      zone: hostedZone,
-      // Note: this is fixed to eu-west-1 until SES supports receive more globally
-      target: r53.RecordTarget.fromValues('10 inbound-smtp.eu-west-1.amazonaws.com'),
       recordName: `${subdomain}.${domain}`,
-      deleteExisting: false,
       ttl: Duration.seconds(60),
     });
 
-    new r53.RecordSet(this, 'HostedZoneVerificationTokenRecord', {
-      recordType: r53.RecordType.TXT,
+    new r53.TxtRecord(this, 'HostedZoneVerificationTokenRecord', {
       zone: hostedZone,
-      recordName: `_amazonses.${subdomain}.${domain}`,
       // Note: needs to be wrapped in quotes
-      target: r53.RecordTarget.fromValues(`"${hostedZoneDKIMAndVerificationRecords.verificationToken}"`),
+      values: [
+        `"${hostedZoneDKIMAndVerificationRecords.verificationToken}"`,
+      ],
       deleteExisting: false,
+      recordName: `_amazonses.${subdomain}.${domain}`,
       ttl: Duration.seconds(60),
     });
 
