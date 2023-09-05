@@ -51,31 +51,36 @@ class HostedZoneDKIMPropagationProvider extends Construct {
   constructor(scope: Construct, id: string, props: HostedZoneDKIMPropagationProviderProps) {
     super(scope, id);
 
-    this.provider = new cr.Provider(this, 'hosted-zone-dkim-propagation-provider', {
-      isCompleteHandler: new NodejsFunction(this, 'is-complete-handler', {
-        runtime: lambda.Runtime.NODEJS_18_X,
-        logRetention: 3, // TODO
-        timeout: Duration.seconds(30), // TODO
-        initialPolicy: [
-          new iam.PolicyStatement({
-            actions: [
-              'ses:GetIdentityVerificationAttributes',
-              'ses:GetAccountSendingEnabled',
-              'ses:GetIdentityDkimAttributes',
-              'ses:GetIdentityNotificationAttributes',
-            ],
-            effect: iam.Effect.ALLOW,
-            resources: ['*'],
-          }),
+    const isCompleteHandlerFunc = new NodejsFunction(this, 'is-complete-handler', {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      logRetention: 3,
+      timeout: Duration.seconds(30),
+    });
+
+    isCompleteHandlerFunc.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: [
+          'ses:GetIdentityVerificationAttributes',
+          'ses:GetAccountSendingEnabled',
+          'ses:GetIdentityDkimAttributes',
+          'ses:GetIdentityNotificationAttributes',
         ],
+        effect: iam.Effect.ALLOW,
+        resources: ['*'],
       }),
-      queryInterval: Duration.seconds(10), // TODO
+    );
+
+    const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      logRetention: 3,
+      timeout: Duration.seconds(10),
+    });
+
+    this.provider = new cr.Provider(this, 'hosted-zone-dkim-propagation-provider', {
+      isCompleteHandler: isCompleteHandlerFunc,
+      queryInterval: Duration.seconds(10),
       totalTimeout: props.totalTimeToWireDNS,
-      onEventHandler: new NodejsFunction(this, 'on-event-handler', {
-        runtime: lambda.Runtime.NODEJS_18_X,
-        logRetention: 3,
-        timeout: Duration.seconds(10),
-      }),
+      onEventHandler: onEventHandlerFunc,
     });
   };
 }

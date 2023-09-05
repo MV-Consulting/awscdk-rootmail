@@ -52,22 +52,26 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.provider = new cr.Provider(this, 'hosted-zone-dkim-verification-records-provider', {
-      onEventHandler: new NodejsFunction(this, 'on-event-handler', {
-        runtime: lambda.Runtime.NODEJS_18_X,
-        logRetention: 3,
-        timeout: Duration.seconds(200),
-        initialPolicy: [
-          new iam.PolicyStatement({
-            actions: [
-              'ses:VerifyDomainDkim',
-              'ses:VerifyDomainIdentity',
-              'ses:DeleteIdentity',
-            ],
-            resources: ['*'],
-          }),
+    const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      logRetention: 3,
+      timeout: Duration.seconds(200),
+    });
+
+    onEventHandlerFunc.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: [
+          'ses:VerifyDomainDkim',
+          'ses:VerifyDomainIdentity',
+          'ses:DeleteIdentity',
         ],
+        resources: ['*'],
       }),
+    );
+
+    this.provider = new cr.Provider(this, 'hosted-zone-dkim-verification-records-provider', {
+      onEventHandler: onEventHandlerFunc,
+      logRetention: 3,
     });
   };
 }
