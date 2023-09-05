@@ -28,13 +28,6 @@ export interface RootmailProps {
   readonly subdomain?: string;
 
   /**
-   * The name of the S3 bucket that will be used to store the emails for 'root@<subdomain>.<domain>'
-   *
-   * @default '<accountId>-rootmail-bucket'
-   */
-  readonly emailBucketName?: string;
-
-  /**
    * The total time to wait for the DNS records to be available/wired.
    *
    * @default Duration.hours(2)
@@ -64,7 +57,6 @@ export class Rootmail extends Construct {
 
     const domain = props.domain;
     const subdomain = props.subdomain ?? 'aws';
-    const emailBucketName = props.emailBucketName ?? `${Stack.of(this).account}-rootmail-bucket`;
     const totalTimeToWireDNS = props.totalTimeToWireDNS ?? Duration.hours(2);
     const autowireDNSOnAWSParentHostedZoneId = props.autowireDNSOnAWSParentHostedZoneId ?? '';
 
@@ -82,7 +74,6 @@ export class Rootmail extends Construct {
      * EMAIL Bucket
      */
     this.emailBucket = new s3.Bucket(this, 'EmailBucket', {
-      bucketName: emailBucketName,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.S3_MANAGED,
     });

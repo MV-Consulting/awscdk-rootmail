@@ -35,7 +35,6 @@ const domain = 'mavogel.xyz';
 const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   subdomain: subdomain,
   domain: domain,
-  emailBucketName: 'bab2d6439c39-rootmail-bucket-integtest',
   // tests took on average 15-20 minutes , but we leave some buffer
   totalTimeToWireDNS: Duration.minutes(40),
   autowireDNSOnAWSParentHostedZoneId: 'Z02503291YUXLE3C4727T', // mavogel.xyz
