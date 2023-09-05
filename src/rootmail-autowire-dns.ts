@@ -47,7 +47,7 @@ export class RootmailAutowireDns extends Construct {
 
     const autoWireR53ChangeInfoId = new ssm.StringParameter(this, 'AutoWireR53ChangeInfoId', {
       parameterName: autoWireR53ChangeInfoIdParameterName,
-      stringValue: '',
+      stringValue: 'dummy',
     });
 
     new CustomResource(this, 'Resource', {
