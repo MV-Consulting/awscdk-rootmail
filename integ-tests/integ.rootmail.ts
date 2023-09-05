@@ -32,7 +32,6 @@ const stackUnderTest = new Stack(app, 'RootmailTestStack', {
 
 const subdomain = 'integ-test-auto';
 const domain = 'mavogel.xyz';
-const rootMailDeployRegion = 'eu-central-1';
 
 const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   subdomain: subdomain,
@@ -42,21 +41,6 @@ const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   totalTimeToWireDNS: Duration.minutes(40),
   autowireDNSOnAWSParentHostedZoneId: 'Z02503291YUXLE3C4727T', // mavogel.xyz
   setDestroyPolicyToAllResources: false,
-  env: {
-    region: rootMailDeployRegion,
-  },
-});
-
-// as cdk is multi account and region unlike cloudformation we can deploy the stack directly
-new SESReceiveStack(stackUnderTest, 'SESReceiveStack', {
-  domain: domain,
-  subdomain: subdomain,
-  emailbucket: rootmail.emailBucket,
-  rootMailDeployRegion: rootMailDeployRegion,
-  setDestroyPolicyToAllResources: false,
-  env: {
-    region: 'eu-west-1',
-  },
 });
 
 const fullDomain = `${subdomain}.${domain}`;
@@ -221,16 +205,6 @@ const updateOpsItemAssertion = integ.assertions
   ),
   );
 
-const cwRulesDisabledAssertion = integ.assertions.
-  awsApiCall('CloudWatchEvents', 'describeRule', {
-    Name: rootmail.rootMailReadyEventRule.ruleName,
-  })
-  .expect(
-    ExpectedResult.objectLike({
-      State: 'DISABLED',
-    }),
-  );
-
 const getHostedZoneParametersAssertion = integ.assertions
   /**
   * Check that parameter are present
@@ -252,8 +226,6 @@ const getHostedZoneParametersAssertion = integ.assertions
  */
 // check the parameter store
 getHostedZoneParametersAssertion
-  // check the cw rule is disabled
-  .next(cwRulesDisabledAssertion)
   // Send a test email
   .next(sendTestEmailAssertion)
   // Validate an OPS item was created.

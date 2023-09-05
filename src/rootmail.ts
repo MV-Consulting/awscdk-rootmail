@@ -13,6 +13,7 @@ import {
 } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { HostedZoneDkim } from './hosted-zone-dkim';
+import { SESReceiveStack } from './ses-receive-stack';
 
 export interface RootmailProps extends StackProps {
   /**
@@ -72,6 +73,12 @@ export class Rootmail extends Stack {
       throw new Error('autowireDNSOnAWSParentHostedZoneId is set but empty');
     }
 
+    const deployRegion = Stack.of(this).region;
+    const sesEnabledRegions = ['us-east-1', 'us-west-2', 'eu-west-1'];
+    if (!sesEnabledRegions.includes(deployRegion)) {
+      throw new Error(`SES is not available in region ${deployRegion}. Use one of the following regions: ${sesEnabledRegions.join(', ')}`);
+    }
+
     /**
      * EMAIL Bucket
      */
@@ -104,7 +111,11 @@ export class Rootmail extends Stack {
       totalTimeToWireDNS: totalTimeToWireDNS,
     });
 
-    // TODO add ses receive construct
+    new SESReceiveStack(this, 'SESReceiveStack', {
+      domain: domain,
+      subdomain: subdomain,
+      emailbucket: this.emailBucket,
+    });
 
     // If Destroy Policy Aspect is present:
     if (props.setDestroyPolicyToAllResources) {

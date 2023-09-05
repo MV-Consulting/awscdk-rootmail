@@ -33,11 +33,6 @@ export interface SESReceiveStackProps extends StackProps {
   readonly emailbucket: s3.Bucket;
 
   /**
-   * Region where the root mail feature is deployed.
-   */
-  readonly rootMailDeployRegion: string;
-
-  /**
    * Time in seconds to wait for the SES receipt rule set to settle.
    *
    * The reason is that although the rule is active immediately, it takes some time for the rule to
@@ -57,11 +52,15 @@ export interface SESReceiveStackProps extends StackProps {
 export class SESReceiveStack extends Stack {
   constructor(scope: Construct, id: string, props: SESReceiveStackProps) {
     super(scope, id, props);
-
     const rulesetSettleTimeSeconds = props.rulesetSettleTimeSeconds ?? 120;
 
-    const opsSantaFunctionSESPermissions = new iam.ServicePrincipal('ses.amazonaws.com');
+    const deployRegion = Stack.of(this).region;
+    const sesEnabledRegions = ['us-east-1', 'us-west-2', 'eu-west-1'];
+    if (!sesEnabledRegions.includes(deployRegion)) {
+      throw new Error(`SES is not available in region ${deployRegion}. Use one of the following regions: ${sesEnabledRegions.join(', ')}`);
+    }
 
+    const opsSantaFunctionSESPermissions = new iam.ServicePrincipal('ses.amazonaws.com');
     const opsSantaFunctionRole = new iam.Role(this, 'OpsSantaFunctionRole', {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
       managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')],
@@ -97,7 +96,7 @@ export class SESReceiveStack extends Stack {
                 Arn.format({
                   partition: Stack.of(this).partition,
                   service: 'ssm',
-                  region: props.rootMailDeployRegion,
+                  region: Stack.of(this).region,
                   account: Stack.of(this).account,
                   resource: 'parameter',
                   arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
@@ -120,7 +119,7 @@ export class SESReceiveStack extends Stack {
       environment: {
         EMAIL_BUCKET: props.emailbucket.bucketName,
         EMAIL_BUCKET_ARN: props.emailbucket.bucketArn,
-        ROOTMAIL_DEPLOY_REGION: props.rootMailDeployRegion,
+        ROOTMAIL_DEPLOY_REGION: Stack.of(this).region,
       },
     });
 
