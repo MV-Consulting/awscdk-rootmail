@@ -4,7 +4,7 @@ import {
   aws_s3 as s3,
 } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
-import { SESReceiveStack, SESReceiveStackProps } from '../src';
+import { SESReceive, SESReceiveProps } from '../src';
 
 test('ses-receive-stack-create', () => {
   const app = new App();
@@ -20,14 +20,13 @@ test('ses-receive-stack-create', () => {
     blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
   });
 
-  const testProps: SESReceiveStackProps = {
+  const testProps: SESReceiveProps = {
     domain: 'example.com',
     subdomain: 'aws',
     emailbucket: emailBucket,
-    rootMailDeployRegion: 'eu-central-1',
   };
 
-  new SESReceiveStack(stack, 'testSesReceive', testProps);
+  new SESReceive(stack, 'testSesReceive', testProps);
 
   const template = Template.fromStack(stack);
   expect(template.toJSON()).toMatchSnapshot();

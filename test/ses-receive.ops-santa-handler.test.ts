@@ -19,7 +19,7 @@ jest.mock('aws-sdk', () => ({
 }));
 
 // eslint-disable-next-line import/no-unresolved
-import { SESEventRecordsToLambda, handler } from '../src/ses-receive-stack.ops-santa-handler';
+import { SESEventRecordsToLambda, handler } from '../src/ses-receive.ops-santa-handler';
 
 describe('ops santa', () => {
   beforeEach(() => {

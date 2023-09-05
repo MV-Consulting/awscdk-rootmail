@@ -9,6 +9,1897 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
   },
+  "Resources": {
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+      "DependsOn": [
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip",
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:PutRetentionPolicy",
+                "logs:DeleteRetentionPolicy",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "Roles": [
+          {
+            "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkerhostedzonedkimpropagationproviderframeworkisComplete4F30E421": {
+      "DependsOn": [
+        "superwerkerhostedzonedkimpropagationproviderframeworkisCompleteServiceRoleDefaultPolicyF591C16C",
+        "superwerkerhostedzonedkimpropagationproviderframeworkisCompleteServiceRoleE99E7D78",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - isComplete (testStack/superwerker.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerhostedzonedkimpropagationprovideriscompletehandlerF95C269E",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerhostedzonedkimpropagationprovideroneventhandler1DE224FF",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.isComplete",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkerhostedzonedkimpropagationproviderframeworkisCompleteServiceRoleE99E7D78",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkerhostedzonedkimpropagationproviderframeworkisCompleteServiceRoleDefaultPolicyF591C16C": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerhostedzonedkimpropagationprovideroneventhandler1DE224FF",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerhostedzonedkimpropagationprovideroneventhandler1DE224FF",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerhostedzonedkimpropagationprovideriscompletehandlerF95C269E",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerhostedzonedkimpropagationprovideriscompletehandlerF95C269E",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerhostedzonedkimpropagationproviderframeworkisCompleteServiceRoleDefaultPolicyF591C16C",
+        "Roles": [
+          {
+            "Ref": "superwerkerhostedzonedkimpropagationproviderframeworkisCompleteServiceRoleE99E7D78",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkerhostedzonedkimpropagationproviderframeworkisCompleteServiceRoleE99E7D78": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerhostedzonedkimpropagationproviderframeworkonEvent1E9788C2": {
+      "DependsOn": [
+        "superwerkerhostedzonedkimpropagationproviderframeworkonEventServiceRoleDefaultPolicy5E3CD666",
+        "superwerkerhostedzonedkimpropagationproviderframeworkonEventServiceRole2B1F2197",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onEvent (testStack/superwerker.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerhostedzonedkimpropagationprovideriscompletehandlerF95C269E",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerhostedzonedkimpropagationprovideroneventhandler1DE224FF",
+                "Arn",
+              ],
+            },
+            "WAITER_STATE_MACHINE_ARN": {
+              "Ref": "superwerkerhostedzonedkimpropagationproviderwaiterstatemachine48B52969",
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkerhostedzonedkimpropagationproviderframeworkonEventServiceRole2B1F2197",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkerhostedzonedkimpropagationproviderframeworkonEventServiceRole2B1F2197": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerhostedzonedkimpropagationproviderframeworkonEventServiceRoleDefaultPolicy5E3CD666": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerhostedzonedkimpropagationprovideroneventhandler1DE224FF",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerhostedzonedkimpropagationprovideroneventhandler1DE224FF",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerhostedzonedkimpropagationprovideriscompletehandlerF95C269E",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerhostedzonedkimpropagationprovideriscompletehandlerF95C269E",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "superwerkerhostedzonedkimpropagationproviderwaiterstatemachine48B52969",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerhostedzonedkimpropagationproviderframeworkonEventServiceRoleDefaultPolicy5E3CD666",
+        "Roles": [
+          {
+            "Ref": "superwerkerhostedzonedkimpropagationproviderframeworkonEventServiceRole2B1F2197",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkerhostedzonedkimpropagationproviderframeworkonTimeout4DD0B0A2": {
+      "DependsOn": [
+        "superwerkerhostedzonedkimpropagationproviderframeworkonTimeoutServiceRoleDefaultPolicy63AAC85D",
+        "superwerkerhostedzonedkimpropagationproviderframeworkonTimeoutServiceRoleC7918378",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onTimeout (testStack/superwerker.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerhostedzonedkimpropagationprovideriscompletehandlerF95C269E",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerhostedzonedkimpropagationprovideroneventhandler1DE224FF",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onTimeout",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkerhostedzonedkimpropagationproviderframeworkonTimeoutServiceRoleC7918378",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkerhostedzonedkimpropagationproviderframeworkonTimeoutServiceRoleC7918378": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerhostedzonedkimpropagationproviderframeworkonTimeoutServiceRoleDefaultPolicy63AAC85D": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerhostedzonedkimpropagationprovideroneventhandler1DE224FF",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerhostedzonedkimpropagationprovideroneventhandler1DE224FF",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerhostedzonedkimpropagationprovideriscompletehandlerF95C269E",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerhostedzonedkimpropagationprovideriscompletehandlerF95C269E",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerhostedzonedkimpropagationproviderframeworkonTimeoutServiceRoleDefaultPolicy63AAC85D",
+        "Roles": [
+          {
+            "Ref": "superwerkerhostedzonedkimpropagationproviderframeworkonTimeoutServiceRoleC7918378",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkerhostedzonedkimpropagationprovideriscompletehandlerF95C269E": {
+      "DependsOn": [
+        "superwerkerhostedzonedkimpropagationprovideriscompletehandlerServiceRoleDefaultPolicyE95B8D4A",
+        "superwerkerhostedzonedkimpropagationprovideriscompletehandlerServiceRole1906CA8F",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "d79be825803328e8aaa0c1bf8bf22e8d655d8532d8193d2d92a68ab30b37e710.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkerhostedzonedkimpropagationprovideriscompletehandlerServiceRole1906CA8F",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 30,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkerhostedzonedkimpropagationprovideriscompletehandlerLogRetentionBAD6DC77": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "superwerkerhostedzonedkimpropagationprovideriscompletehandlerF95C269E",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "superwerkerhostedzonedkimpropagationprovideriscompletehandlerServiceRole1906CA8F": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerhostedzonedkimpropagationprovideriscompletehandlerServiceRoleDefaultPolicyE95B8D4A": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ses:GetIdentityVerificationAttributes",
+                "ses:GetAccountSendingEnabled",
+                "ses:GetIdentityDkimAttributes",
+                "ses:GetIdentityNotificationAttributes",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerhostedzonedkimpropagationprovideriscompletehandlerServiceRoleDefaultPolicyE95B8D4A",
+        "Roles": [
+          {
+            "Ref": "superwerkerhostedzonedkimpropagationprovideriscompletehandlerServiceRole1906CA8F",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkerhostedzonedkimpropagationprovideroneventhandler1DE224FF": {
+      "DependsOn": [
+        "superwerkerhostedzonedkimpropagationprovideroneventhandlerServiceRole35B97B9D",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "341ab8a922d711f6fc42cf2c54bd01447bd095ed6a68d6226c4efc65696ebd04.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkerhostedzonedkimpropagationprovideroneventhandlerServiceRole35B97B9D",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 10,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkerhostedzonedkimpropagationprovideroneventhandlerLogRetention7E5FA291": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "superwerkerhostedzonedkimpropagationprovideroneventhandler1DE224FF",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "superwerkerhostedzonedkimpropagationprovideroneventhandlerServiceRole35B97B9D": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerhostedzonedkimpropagationproviderwaiterstatemachine48B52969": {
+      "DependsOn": [
+        "superwerkerhostedzonedkimpropagationproviderwaiterstatemachineRoleDefaultPolicy95E4F70A",
+        "superwerkerhostedzonedkimpropagationproviderwaiterstatemachineRole1E5740AE",
+      ],
+      "Properties": {
+        "DefinitionString": {
+          "Fn::Join": [
+            "",
+            [
+              "{"StartAt":"framework-isComplete-task","States":{"framework-isComplete-task":{"End":true,"Retry":[{"ErrorEquals":["States.ALL"],"IntervalSeconds":10,"MaxAttempts":180,"BackoffRate":1}],"Catch":[{"ErrorEquals":["States.ALL"],"Next":"framework-onTimeout-task"}],"Type":"Task","Resource":"",
+              {
+                "Fn::GetAtt": [
+                  "superwerkerhostedzonedkimpropagationproviderframeworkisComplete4F30E421",
+                  "Arn",
+                ],
+              },
+              ""},"framework-onTimeout-task":{"End":true,"Type":"Task","Resource":"",
+              {
+                "Fn::GetAtt": [
+                  "superwerkerhostedzonedkimpropagationproviderframeworkonTimeout4DD0B0A2",
+                  "Arn",
+                ],
+              },
+              ""}}}",
+            ],
+          ],
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "superwerkerhostedzonedkimpropagationproviderwaiterstatemachineRole1E5740AE",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "superwerkerhostedzonedkimpropagationproviderwaiterstatemachineRole1E5740AE": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "states.us-east-1.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerhostedzonedkimpropagationproviderwaiterstatemachineRoleDefaultPolicy95E4F70A": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerhostedzonedkimpropagationproviderframeworkisComplete4F30E421",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerhostedzonedkimpropagationproviderframeworkisComplete4F30E421",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerhostedzonedkimpropagationproviderframeworkonTimeout4DD0B0A2",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerhostedzonedkimpropagationproviderframeworkonTimeout4DD0B0A2",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerhostedzonedkimpropagationproviderwaiterstatemachineRoleDefaultPolicy95E4F70A",
+        "Roles": [
+          {
+            "Ref": "superwerkerhostedzonedkimpropagationproviderwaiterstatemachineRole1E5740AE",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEvent0173C90D": {
+      "DependsOn": [
+        "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleDefaultPolicy4EBCA739",
+        "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleFE1295B9",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onEvent (testStack/superwerker.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerhostedzonedkimverificationrecordsprovideroneventhandler73A574D3",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleFE1295B9",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleDefaultPolicy4EBCA739": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerhostedzonedkimverificationrecordsprovideroneventhandler73A574D3",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerhostedzonedkimverificationrecordsprovideroneventhandler73A574D3",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleDefaultPolicy4EBCA739",
+        "Roles": [
+          {
+            "Ref": "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleFE1295B9",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleFE1295B9": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerhostedzonedkimverificationrecordsprovideroneventhandler73A574D3": {
+      "DependsOn": [
+        "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRoleDefaultPolicy73A44F10",
+        "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRole4677E5E3",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "ce7c24d7d7dc8a3eb511c6460f2be9cd5998b9a1e15b9d6973c7e9f8de041535.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRole4677E5E3",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 200,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerLogRetention7A01EB5E": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "superwerkerhostedzonedkimverificationrecordsprovideroneventhandler73A574D3",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRole4677E5E3": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRoleDefaultPolicy73A44F10": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ses:VerifyDomainDkim",
+                "ses:VerifyDomainIdentity",
+                "ses:DeleteIdentity",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRoleDefaultPolicy73A44F10",
+        "Roles": [
+          {
+            "Ref": "superwerkerhostedzonedkimverificationrecordsprovideroneventhandlerServiceRole4677E5E3",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": [
+                    "ses:CreateReceiptRuleSet",
+                    "ses:CreateReceiptRule",
+                    "ses:SetActiveReceiptRuleSet",
+                    "ses:DeleteReceiptRule",
+                    "ses:DeleteReceiptRuleSet",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "AllowSesAccess",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528": {
+      "DependsOn": [
+        "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF",
+        "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onEvent (testStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF",
+        "Roles": [
+          {
+            "Ref": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571": {
+      "DependsOn": [
+        "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "cf2176897764b1fc368bd19b396ab7672e64078c6b5c363db8dd9bf980650037.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 150,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkersesreceiptrulesetactivationprovideroneventhandlerLogRetention4030C654": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "testRootmailEmailBucket2A470446": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256",
+              },
+            },
+          ],
+        },
+        "BucketName": "1234-rootmail-bucket",
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "testRootmailEmailBucketPolicy5DA39984": {
+      "Properties": {
+        "Bucket": {
+          "Ref": "testRootmailEmailBucket2A470446",
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ses.amazonaws.com",
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "testRootmailEmailBucket2A470446",
+                        "Arn",
+                      ],
+                    },
+                    "/RootMail/*",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "testRootmailHostedZone6DFD3C9C": {
+      "Properties": {
+        "Name": "aws.example.com.",
+      },
+      "Type": "AWS::Route53::HostedZone",
+    },
+    "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Domain": "aws.example.com",
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEvent0173C90D",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::HostedZoneDKIMAndVerificationRecords",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testRootmailHostedZoneDkimHostedZoneDKIMPropagation1F03F92B": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Domain": "aws.example.com",
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "superwerkerhostedzonedkimpropagationproviderframeworkonEvent1E9788C2",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::HostedZoneDKIMPropagation",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testRootmailHostedZoneDkimHostedZoneDKIMTokenRecord07A3BA244": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "testRootmailHostedZone6DFD3C9C",
+        },
+        "Name": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Fn::Select": [
+                  0,
+                  {
+                    "Fn::GetAtt": [
+                      "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
+                      "DkimTokens",
+                    ],
+                  },
+                ],
+              },
+              "._domainkey.aws.example.com.",
+            ],
+          ],
+        },
+        "ResourceRecords": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::GetAtt": [
+                        "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
+                        "DkimTokens",
+                      ],
+                    },
+                  ],
+                },
+                ".dkim.amazonses.com",
+              ],
+            ],
+          },
+        ],
+        "TTL": "60",
+        "Type": "CNAME",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "testRootmailHostedZoneDkimHostedZoneDKIMTokenRecord135221F6A": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "testRootmailHostedZone6DFD3C9C",
+        },
+        "Name": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Fn::Select": [
+                  1,
+                  {
+                    "Fn::GetAtt": [
+                      "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
+                      "DkimTokens",
+                    ],
+                  },
+                ],
+              },
+              "._domainkey.aws.example.com.",
+            ],
+          ],
+        },
+        "ResourceRecords": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::GetAtt": [
+                        "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
+                        "DkimTokens",
+                      ],
+                    },
+                  ],
+                },
+                ".dkim.amazonses.com",
+              ],
+            ],
+          },
+        ],
+        "TTL": "60",
+        "Type": "CNAME",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "testRootmailHostedZoneDkimHostedZoneDKIMTokenRecord2175A1558": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "testRootmailHostedZone6DFD3C9C",
+        },
+        "Name": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Fn::Select": [
+                  2,
+                  {
+                    "Fn::GetAtt": [
+                      "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
+                      "DkimTokens",
+                    ],
+                  },
+                ],
+              },
+              "._domainkey.aws.example.com.",
+            ],
+          ],
+        },
+        "ResourceRecords": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    2,
+                    {
+                      "Fn::GetAtt": [
+                        "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
+                        "DkimTokens",
+                      ],
+                    },
+                  ],
+                },
+                ".dkim.amazonses.com",
+              ],
+            ],
+          },
+        ],
+        "TTL": "60",
+        "Type": "CNAME",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "testRootmailHostedZoneDkimHostedZoneMXRecord4446D9D3": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "testRootmailHostedZone6DFD3C9C",
+        },
+        "Name": "aws.example.com.",
+        "ResourceRecords": [
+          "10 inbound-smtp.eu-west-1.amazonaws.com",
+        ],
+        "TTL": "60",
+        "Type": "MX",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "testRootmailHostedZoneDkimHostedZoneVerificationTokenRecord80FAE944": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "testRootmailHostedZone6DFD3C9C",
+        },
+        "Name": "_amazonses.aws.example.com.",
+        "ResourceRecords": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                """,
+                {
+                  "Fn::GetAtt": [
+                    "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
+                    "VerificationToken",
+                  ],
+                },
+                """,
+              ],
+            ],
+          },
+        ],
+        "TTL": "60",
+        "Type": "TXT",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "testRootmailHostedZoneDkimRootmailAutowireDnsAutowireDNSEventRuleAllowEventRuletestStacktestRootmailHostedZoneDkimRootmailAutowireDnswirehandler43D472D4922570AC": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "testRootmailHostedZoneDkimRootmailAutowireDnswirehandler95E5B3C4",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "testRootmailHostedZoneDkimRootmailAutowireDnsAutowireDNSEventRuleDB360A10",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "testRootmailHostedZoneDkimRootmailAutowireDnsAutowireDNSEventRuleDB360A10": {
+      "Properties": {
+        "ScheduleExpression": "rate(3 minutes)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "testRootmailHostedZoneDkimRootmailAutowireDnswirehandler95E5B3C4",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "testRootmailHostedZoneDkimRootmailAutowireDnswirehandler95E5B3C4": {
+      "DependsOn": [
+        "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRoleDefaultPolicy178AAFA2",
+        "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRole8F77DA7F",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f1d99cb6703ba7af7ee1b16569ac237c3f6684de12f6a603f14ce9dc4a2eea82.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "DOMAIN": "example.com",
+            "HOSTED_ZONE_PARAMETER_NAME": {
+              "Ref": "testRootmailHostedZoneSSMParameter574DA41C",
+            },
+            "PARENT_HOSTED_ZONE_ID": "randomHZId",
+            "SUB_DOMAIN": "aws",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRole8F77DA7F",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 160,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerLogRetention687B2342": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnswirehandler95E5B3C4",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRole8F77DA7F": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRoleDefaultPolicy178AAFA2": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ssm:GetParameter",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ssm:us-east-1:1234:parameter",
+                    {
+                      "Ref": "testRootmailHostedZoneSSMParameter574DA41C",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "route53:ListHostedZonesByName",
+                "route53:GetChange",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "route53:ListResourceRecordSets",
+                "route53:ChangeResourceRecordSets",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:route53:::hostedzone/randomHZId",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRoleDefaultPolicy178AAFA2",
+        "Roles": [
+          {
+            "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRole8F77DA7F",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "testRootmailHostedZoneSSMParameter574DA41C": {
+      "Properties": {
+        "Name": "/superwerker/domain_name_servers",
+        "Type": "StringList",
+        "Value": {
+          "Fn::Join": [
+            ",",
+            {
+              "Fn::GetAtt": [
+                "testRootmailHostedZone6DFD3C9C",
+                "NameServers",
+              ],
+            },
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "testRootmailSESReceiveOpsSantaFunctionRole82D7297F": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": "s3:GetObject",
+                  "Effect": "Allow",
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        {
+                          "Fn::GetAtt": [
+                            "testRootmailEmailBucket2A470446",
+                            "Arn",
+                          ],
+                        },
+                        "/RootMail/*",
+                      ],
+                    ],
+                  },
+                },
+                {
+                  "Action": "ssm:CreateOpsItem",
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+                {
+                  "Action": "ssm:PutParameter",
+                  "Effect": "Allow",
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":ssm:us-east-1:1234:parameter/superwerker/*",
+                      ],
+                    ],
+                  },
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "OpsSantaFunctionRolePolicy",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testRootmailSESReceiveSESReceiptRuleSetActivation75911DB8": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Domain": "example.com",
+        "EmailBucketName": {
+          "Ref": "testRootmailEmailBucket2A470446",
+        },
+        "OpsSantaFunctionArn": {
+          "Fn::GetAtt": [
+            "testRootmailSESReceiveopssantahandler9628381A",
+            "Arn",
+          ],
+        },
+        "RulesetSettleTimeSeconds": 120,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528",
+            "Arn",
+          ],
+        },
+        "Subdomain": "aws",
+      },
+      "Type": "Custom::SESReceiptRuleSetActivation",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testRootmailSESReceiveopssantahandler9628381A": {
+      "DependsOn": [
+        "testRootmailSESReceiveOpsSantaFunctionRole82D7297F",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "26caa3dcf91fb0925a0d4b2da8aec28d4ace1938bc847ad47802fb3782a8c883.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "EMAIL_BUCKET": {
+              "Ref": "testRootmailEmailBucket2A470446",
+            },
+            "EMAIL_BUCKET_ARN": {
+              "Fn::GetAtt": [
+                "testRootmailEmailBucket2A470446",
+                "Arn",
+              ],
+            },
+            "ROOTMAIL_DEPLOY_REGION": "us-east-1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "testRootmailSESReceiveOpsSantaFunctionRole82D7297F",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 60,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "testRootmailSESReceiveopssantahandlerLogRetention23A4ECDE": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "testRootmailSESReceiveopssantahandler9628381A",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "testRootmailSESReceiveopssantahandlerOpsSantaFunctionSESPermissionsEAD3AD06": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "testRootmailSESReceiveopssantahandler9628381A",
+            "Arn",
+          ],
+        },
+        "Principal": "ses.amazonaws.com",
+        "SourceAccount": "1234",
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+  },
   "Rules": {
     "CheckBootstrapVersion": {
       "Assertions": [

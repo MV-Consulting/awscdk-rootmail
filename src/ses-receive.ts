@@ -7,7 +7,6 @@ import {
   IAspect,
   RemovalPolicy,
   Stack,
-  StackProps,
   aws_iam as iam,
   aws_lambda as lambda,
   aws_s3 as s3,
@@ -16,7 +15,7 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct, IConstruct } from 'constructs';
 import { SESReceiptRuleSetActivation } from './ses-receipt-ruleset-activation';
 
-export interface SESReceiveStackProps extends StackProps {
+export interface SESReceiveProps {
   /**
    * Domain used for root mail feature. Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
    */
@@ -49,9 +48,9 @@ export interface SESReceiveStackProps extends StackProps {
   readonly setDestroyPolicyToAllResources?: boolean;
 }
 
-export class SESReceiveStack extends Stack {
-  constructor(scope: Construct, id: string, props: SESReceiveStackProps) {
-    super(scope, id, props);
+export class SESReceive extends Construct {
+  constructor(scope: Construct, id: string, props: SESReceiveProps) {
+    super(scope, id);
     const rulesetSettleTimeSeconds = props.rulesetSettleTimeSeconds ?? 120;
 
     const deployRegion = Stack.of(this).region;

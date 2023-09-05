@@ -1,0 +1,517 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ses-receive-stack-create 1`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "EmailBucket843A740F": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "BucketName": "test-email-bucket",
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true,
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+      "DependsOn": [
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
+          "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip",
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:PutRetentionPolicy",
+                "logs:DeleteRetentionPolicy",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "Roles": [
+          {
+            "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": [
+                    "ses:CreateReceiptRuleSet",
+                    "ses:CreateReceiptRule",
+                    "ses:SetActiveReceiptRuleSet",
+                    "ses:DeleteReceiptRule",
+                    "ses:DeleteReceiptRuleSet",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "AllowSesAccess",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528": {
+      "DependsOn": [
+        "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF",
+        "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onEvent (testStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF",
+        "Roles": [
+          {
+            "Ref": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571": {
+      "DependsOn": [
+        "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
+          "S3Key": "cf2176897764b1fc368bd19b396ab7672e64078c6b5c363db8dd9bf980650037.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 150,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkersesreceiptrulesetactivationprovideroneventhandlerLogRetention4030C654": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "testSesReceiveOpsSantaFunctionRoleE4ADD3F6": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": "s3:GetObject",
+                  "Effect": "Allow",
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        {
+                          "Fn::GetAtt": [
+                            "EmailBucket843A740F",
+                            "Arn",
+                          ],
+                        },
+                        "/RootMail/*",
+                      ],
+                    ],
+                  },
+                },
+                {
+                  "Action": "ssm:CreateOpsItem",
+                  "Effect": "Allow",
+                  "Resource": "*",
+                },
+                {
+                  "Action": "ssm:PutParameter",
+                  "Effect": "Allow",
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":ssm:eu-west-1:1234:parameter/superwerker/*",
+                      ],
+                    ],
+                  },
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "OpsSantaFunctionRolePolicy",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "testSesReceiveSESReceiptRuleSetActivation4F766837": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Domain": "example.com",
+        "EmailBucketName": {
+          "Ref": "EmailBucket843A740F",
+        },
+        "OpsSantaFunctionArn": {
+          "Fn::GetAtt": [
+            "testSesReceiveopssantahandlerEF47BA3E",
+            "Arn",
+          ],
+        },
+        "RulesetSettleTimeSeconds": 120,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528",
+            "Arn",
+          ],
+        },
+        "Subdomain": "aws",
+      },
+      "Type": "Custom::SESReceiptRuleSetActivation",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "testSesReceiveopssantahandlerEF47BA3E": {
+      "DependsOn": [
+        "testSesReceiveOpsSantaFunctionRoleE4ADD3F6",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
+          "S3Key": "26caa3dcf91fb0925a0d4b2da8aec28d4ace1938bc847ad47802fb3782a8c883.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "EMAIL_BUCKET": {
+              "Ref": "EmailBucket843A740F",
+            },
+            "EMAIL_BUCKET_ARN": {
+              "Fn::GetAtt": [
+                "EmailBucket843A740F",
+                "Arn",
+              ],
+            },
+            "ROOTMAIL_DEPLOY_REGION": "eu-west-1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "testSesReceiveOpsSantaFunctionRoleE4ADD3F6",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 60,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "testSesReceiveopssantahandlerLogRetentionFF512AB6": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "testSesReceiveopssantahandlerEF47BA3E",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "testSesReceiveopssantahandlerOpsSantaFunctionSESPermissionsBC82EBA8": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "testSesReceiveopssantahandlerEF47BA3E",
+            "Arn",
+          ],
+        },
+        "Principal": "ses.amazonaws.com",
+        "SourceAccount": "1234",
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

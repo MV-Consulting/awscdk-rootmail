@@ -1,2 +1,2 @@
-export * from './ses-receive-stack';
+export * from './ses-receive';
 export * from './rootmail';

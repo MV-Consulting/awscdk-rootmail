@@ -14,7 +14,6 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // import { AwsSolutionsChecks } from 'cdk-nag';
 import { Rootmail } from '../src/rootmail';
-import { SESReceiveStack } from '../src/ses-receive-stack';
 // CDK App for Integration Tests
 const app = new App();
 // Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.

@@ -5,7 +5,6 @@ import {
   aws_route53 as r53,
   aws_s3 as s3,
   aws_ssm as ssm,
-  StackProps,
   CfnResource,
   IAspect,
   RemovalPolicy,
@@ -13,9 +12,9 @@ import {
 } from 'aws-cdk-lib';
 import { Construct, IConstruct } from 'constructs';
 import { HostedZoneDkim } from './hosted-zone-dkim';
-import { SESReceiveStack } from './ses-receive-stack';
+import { SESReceive } from './ses-receive';
 
-export interface RootmailProps extends StackProps {
+export interface RootmailProps {
   /**
    * Domain used for root mail feature. Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
    */
@@ -55,7 +54,7 @@ export interface RootmailProps extends StackProps {
   readonly setDestroyPolicyToAllResources?: boolean;
 }
 
-export class Rootmail extends Stack {
+export class Rootmail extends Construct {
   public readonly hostedZoneParameterName: string;
   public readonly emailBucket: s3.Bucket;
 
@@ -111,7 +110,7 @@ export class Rootmail extends Stack {
       totalTimeToWireDNS: totalTimeToWireDNS,
     });
 
-    new SESReceiveStack(this, 'SESReceiveStack', {
+    new SESReceive(this, 'SESReceive', {
       domain: domain,
       subdomain: subdomain,
       emailbucket: this.emailBucket,
