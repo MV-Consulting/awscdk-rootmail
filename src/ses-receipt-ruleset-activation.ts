@@ -65,37 +65,38 @@ class SESReceiptRuleSetActivationProvider extends Construct {
   constructor(scope: Construct, id: string, props: SESReceiptRuleSetActivationProviderProps) {
     super(scope, id);
 
-    this.provider = new cr.Provider(this, 'ses-receipt-ruleset-activation-provider', {
-      onEventHandler: new NodejsFunction(this, 'on-event-handler', {
-        handler: 'handler',
-        runtime: lambda.Runtime.NODEJS_18_X,
-        logRetention: 3,
-        role: new iam.Role(this, 'SesReceiptRuleSetActivationCustomResourceRole', {
-          assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
-          managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')],
-          inlinePolicies: {
-            AllowSesAccess: new iam.PolicyDocument({
-              statements: [
-                new iam.PolicyStatement({
-                  actions: [
-                    'ses:CreateReceiptRuleSet',
-                    'ses:CreateReceiptRule',
-                    'ses:SetActiveReceiptRuleSet',
-                    'ses:DeleteReceiptRule',
-                    'ses:DeleteReceiptRuleSet',
-                  ],
-                  resources: ['*'],
-                }),
+    const onEventHandlerFuncRole = new iam.Role(this, 'SesReceiptRuleSetActivationCustomResourceRole', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+    });
 
-              ],
-            }),
-          },
-        }),
-        // Note: inside we wait 'rulesetSettleTimeSeconds' seconds for the activation to settle
-        timeout: Duration.seconds(props.rulesetSettleTimeSeconds + 30),
-        //  Note: we use the resource properties from above as it is a CustomResource
-        environment: {},
+    onEventHandlerFuncRole.grantAssumeRole(new iam.ServicePrincipal('lambda.amazonaws.com'));
+    onEventHandlerFuncRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'));
+    onEventHandlerFuncRole.addToPolicy(
+      new iam.PolicyStatement({
+        actions: [
+          'ses:CreateReceiptRuleSet',
+          'ses:CreateReceiptRule',
+          'ses:SetActiveReceiptRuleSet',
+          'ses:DeleteReceiptRule',
+          'ses:DeleteReceiptRuleSet',
+        ],
+        resources: ['*'],
       }),
+    );
+
+    const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      logRetention: 3,
+      role: onEventHandlerFuncRole,
+      // Note: inside we wait 'rulesetSettleTimeSeconds' seconds for the activation to settle
+      timeout: Duration.seconds(props.rulesetSettleTimeSeconds + 30),
+      //  Note: we use the resource properties from above as it is a CustomResource
+      environment: {},
+    });
+
+    this.provider = new cr.Provider(this, 'ses-receipt-ruleset-activation-provider', {
+      onEventHandler: onEventHandlerFunc,
+      logRetention: 3,
     });
   }
 }

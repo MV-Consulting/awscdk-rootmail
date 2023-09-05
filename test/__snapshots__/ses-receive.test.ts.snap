@@ -128,29 +128,35 @@ exports[`ses-receive-stack-create 1`] = `
             ],
           },
         ],
-        "Policies": [
-          {
-            "PolicyDocument": {
-              "Statement": [
-                {
-                  "Action": [
-                    "ses:CreateReceiptRuleSet",
-                    "ses:CreateReceiptRule",
-                    "ses:SetActiveReceiptRuleSet",
-                    "ses:DeleteReceiptRule",
-                    "ses:DeleteReceiptRuleSet",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*",
-                },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy7EDC581F": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ses:CreateReceiptRuleSet",
+                "ses:CreateReceiptRule",
+                "ses:SetActiveReceiptRuleSet",
+                "ses:DeleteReceiptRule",
+                "ses:DeleteReceiptRuleSet",
               ],
-              "Version": "2012-10-17",
+              "Effect": "Allow",
+              "Resource": "*",
             },
-            "PolicyName": "AllowSesAccess",
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy7EDC581F",
+        "Roles": [
+          {
+            "Ref": "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6",
           },
         ],
       },
-      "Type": "AWS::IAM::Role",
+      "Type": "AWS::IAM::Policy",
     },
     "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528": {
       "DependsOn": [
@@ -184,6 +190,29 @@ exports[`ses-receive-stack-create 1`] = `
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
+    },
+    "superwerkersesreceiptrulesetactivationproviderframeworkonEventLogRetentionABE68CA2": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
     },
     "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79": {
       "Properties": {
@@ -260,6 +289,7 @@ exports[`ses-receive-stack-create 1`] = `
     },
     "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571": {
       "DependsOn": [
+        "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy7EDC581F",
         "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6",
       ],
       "Properties": {

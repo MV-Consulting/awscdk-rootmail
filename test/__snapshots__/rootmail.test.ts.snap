@@ -852,6 +852,29 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       },
       "Type": "AWS::Lambda::Function",
     },
+    "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventLogRetentionD99F8CE0": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEvent0173C90D",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
     "superwerkerhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleDefaultPolicy4EBCA739": {
       "Properties": {
         "PolicyDocument": {
@@ -1463,7 +1486,7 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "56ae56b213a6f7001eb37fa33e40ad42374b62a6e70a90167fddd52911b4deb4.zip",
+          "S3Key": "754488fc1ff3b6a1e10fd52845ec8f013f81516d8cac000cb5cbe369c6990d6b.zip",
         },
         "Environment": {
           "Variables": {
@@ -1541,7 +1564,20 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
         "PolicyDocument": {
           "Statement": [
             {
-              "Action": "ssm:GetParameter",
+              "Action": [
+                "route53:ListHostedZonesByName",
+                "route53:GetChange",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ssm:DescribeParameters",
+                "ssm:GetParameters",
+                "ssm:GetParameter",
+                "ssm:GetParameterHistory",
+              ],
               "Effect": "Allow",
               "Resource": {
                 "Fn::Join": [
@@ -1558,14 +1594,6 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
                   ],
                 ],
               },
-            },
-            {
-              "Action": [
-                "route53:ListHostedZonesByName",
-                "route53:GetChange",
-              ],
-              "Effect": "Allow",
-              "Resource": "*",
             },
           ],
           "Version": "2012-10-17",
@@ -1587,7 +1615,7 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "e90fbf7f5f71e5ebbbf3c614e847c290b83a3bab573418a1098db9386fde0cef.zip",
+          "S3Key": "bba9f8e3ccdec73d26ea0f2afea4b0d5ecfafbd7776532eb15d6a18d60d9da58.zip",
         },
         "Environment": {
           "Variables": {
@@ -1665,7 +1693,12 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
         "PolicyDocument": {
           "Statement": [
             {
-              "Action": "ssm:GetParameter",
+              "Action": [
+                "ssm:DescribeParameters",
+                "ssm:GetParameters",
+                "ssm:GetParameter",
+                "ssm:GetParameterHistory",
+              ],
               "Effect": "Allow",
               "Resource": {
                 "Fn::Join": [
@@ -1880,29 +1913,35 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
             ],
           },
         ],
-        "Policies": [
-          {
-            "PolicyDocument": {
-              "Statement": [
-                {
-                  "Action": [
-                    "ses:CreateReceiptRuleSet",
-                    "ses:CreateReceiptRule",
-                    "ses:SetActiveReceiptRuleSet",
-                    "ses:DeleteReceiptRule",
-                    "ses:DeleteReceiptRuleSet",
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*",
-                },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy7EDC581F": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ses:CreateReceiptRuleSet",
+                "ses:CreateReceiptRule",
+                "ses:SetActiveReceiptRuleSet",
+                "ses:DeleteReceiptRule",
+                "ses:DeleteReceiptRuleSet",
               ],
-              "Version": "2012-10-17",
+              "Effect": "Allow",
+              "Resource": "*",
             },
-            "PolicyName": "AllowSesAccess",
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy7EDC581F",
+        "Roles": [
+          {
+            "Ref": "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6",
           },
         ],
       },
-      "Type": "AWS::IAM::Role",
+      "Type": "AWS::IAM::Policy",
     },
     "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528": {
       "DependsOn": [
@@ -1936,6 +1975,29 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
+    },
+    "superwerkersesreceiptrulesetactivationproviderframeworkonEventLogRetentionABE68CA2": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
     },
     "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79": {
       "Properties": {
@@ -2012,6 +2074,7 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
     },
     "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571": {
       "DependsOn": [
+        "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy7EDC581F",
         "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6",
       ],
       "Properties": {
@@ -2207,106 +2270,6 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       },
       "Type": "AWS::Route53::RecordSet",
     },
-    "testRootmailHostedZoneDkimHostedZoneDKIMTokenRecord135221F6A": {
-      "Properties": {
-        "HostedZoneId": {
-          "Ref": "testRootmailHostedZone6DFD3C9C",
-        },
-        "Name": {
-          "Fn::Join": [
-            "",
-            [
-              {
-                "Fn::Select": [
-                  1,
-                  {
-                    "Fn::GetAtt": [
-                      "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
-                      "DkimTokens",
-                    ],
-                  },
-                ],
-              },
-              "._domainkey.aws.example.com.",
-            ],
-          ],
-        },
-        "ResourceRecords": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                {
-                  "Fn::Select": [
-                    1,
-                    {
-                      "Fn::GetAtt": [
-                        "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
-                        "DkimTokens",
-                      ],
-                    },
-                  ],
-                },
-                ".dkim.amazonses.com",
-              ],
-            ],
-          },
-        ],
-        "TTL": "60",
-        "Type": "CNAME",
-      },
-      "Type": "AWS::Route53::RecordSet",
-    },
-    "testRootmailHostedZoneDkimHostedZoneDKIMTokenRecord2175A1558": {
-      "Properties": {
-        "HostedZoneId": {
-          "Ref": "testRootmailHostedZone6DFD3C9C",
-        },
-        "Name": {
-          "Fn::Join": [
-            "",
-            [
-              {
-                "Fn::Select": [
-                  2,
-                  {
-                    "Fn::GetAtt": [
-                      "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
-                      "DkimTokens",
-                    ],
-                  },
-                ],
-              },
-              "._domainkey.aws.example.com.",
-            ],
-          ],
-        },
-        "ResourceRecords": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                {
-                  "Fn::Select": [
-                    2,
-                    {
-                      "Fn::GetAtt": [
-                        "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
-                        "DkimTokens",
-                      ],
-                    },
-                  ],
-                },
-                ".dkim.amazonses.com",
-              ],
-            ],
-          },
-        ],
-        "TTL": "60",
-        "Type": "CNAME",
-      },
-      "Type": "AWS::Route53::RecordSet",
-    },
     "testRootmailHostedZoneDkimHostedZoneMXRecord4446D9D3": {
       "Properties": {
         "HostedZoneId": {
@@ -2332,14 +2295,14 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
             "Fn::Join": [
               "",
               [
-                """,
+                ""\\"",
                 {
                   "Fn::GetAtt": [
                     "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
                     "VerificationToken",
                   ],
                 },
-                """,
+                "\\""",
               ],
             ],
           },
