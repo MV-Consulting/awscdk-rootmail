@@ -1,16 +1,16 @@
 const spyGetParameter = jest.fn();
+const spyPutParameter = jest.fn();
 const spySSM = jest.fn(() => ({
   getParameter: spyGetParameter,
+  putParameter: spyPutParameter,
 }));
 const spyListHostedZonesByName = jest.fn();
 const spyListResourceRecordSets = jest.fn();
 const spyChangeResourceRecordSets = jest.fn();
-const spyWaitFor = jest.fn();
 const spyRoute53 = jest.fn(() => ({
   listHostedZonesByName: spyListHostedZonesByName,
   listResourceRecordSets: spyListResourceRecordSets,
   changeResourceRecordSets: spyChangeResourceRecordSets,
-  waitFor: spyWaitFor,
 }));
 
 jest.mock('aws-sdk', () => ({
@@ -19,26 +19,15 @@ jest.mock('aws-sdk', () => ({
 }));
 
 // eslint-disable-next-line import/no-unresolved
-import { handler } from '../src/rootmail-autowire-dns.wire-handler';
+import { OnEventRequest } from 'aws-cdk-lib/custom-resources/lib/provider-framework/types';
+import { handler } from '../src/rootmail-autowire-dns.on-event-handler';
 
-describe('wire rootmail dns', () => {
-  const originalEnvironment = process.env;
+describe('wire-rootmail-dns', () => {
   beforeEach(() => {
     jest.resetAllMocks();
-    process.env = { ...originalEnvironment };
-    process.env.SUB_DOMAIN = 'subdomain';
-    process.env.DOMAIN = 'domain.com';
-    process.env.HOSTED_ZONE_PARAMETER_NAME = '/superwerker/dns_name_servers';
-    process.env.PARENT_HOSTED_ZONE_ID = 'Z1234567890CC2';
   });
 
-  afterEach(() => {
-    // restore the original env after each test
-    process.env = originalEnvironment;
-  });
-
-  it('wire dns ns records', async () => {
-    const hostedZoneId = process.env.PARENT_HOSTED_ZONE_ID as string;
+  it('wire-dns-ns-records', async () => {
     spyGetParameter.mockImplementation(() => ({
       promise() {
         return Promise.resolve({
@@ -53,7 +42,7 @@ describe('wire rootmail dns', () => {
       promise() {
         return Promise.resolve({
           HostedZones: [
-            { Id: `/hostedzone/${hostedZoneId}` },
+            { Id: '/hostedzone/Z1234567890CC2' },
           ],
         });
       },
@@ -77,26 +66,34 @@ describe('wire rootmail dns', () => {
       },
     }));
 
-    spyWaitFor.mockImplementation(() => ({
+    spyPutParameter.mockImplementation(() => ({
       promise() {
-        return Promise.resolve({
-          ChangeInfo: { Status: 'INSYNC' },
-        });
+        return Promise.resolve({});
       },
     }));
 
 
-    await handler();
+    await handler(
+      {
+        RequestType: 'Create',
+        ResourceProperties: {
+          Domain: 'superluminar.io',
+          Subdomain: 'aws',
+          HostedZoneParameterName: '/superwerker/dns_name_servers',
+          R53ChangeInfoIdParameterName: '/superwerker/auto_wire_r53_changeinfo_id',
+          ParentHostedZoneId: 'Z1234567890CC2',
+        },
+      } as unknown as OnEventRequest,
+    );
 
     expect(spyGetParameter).toHaveBeenCalledTimes(1);
     expect(spyListHostedZonesByName).toHaveBeenCalledTimes(1);
     expect(spyListResourceRecordSets).toHaveBeenCalledTimes(1);
     expect(spyChangeResourceRecordSets).toHaveBeenCalledTimes(1);
-    expect(spyWaitFor).toHaveBeenCalledTimes(1);
+    expect(spyPutParameter).toHaveBeenCalledTimes(1);
   });
 
-  it('dns ns records already exist', async () => {
-    const hostedZoneId = process.env.PARENT_HOSTED_ZONE_ID as string;
+  it('dns-ns-records-already-exist', async () => {
     spyGetParameter.mockImplementation(() => ({
       promise() {
         return Promise.resolve({
@@ -111,7 +108,7 @@ describe('wire rootmail dns', () => {
       promise() {
         return Promise.resolve({
           HostedZones: [
-            { Id: `/hostedzone/${hostedZoneId}` },
+            { Id: '/hostedzone/Z1234567890CC2' },
           ],
         });
       },
@@ -122,18 +119,29 @@ describe('wire rootmail dns', () => {
         return Promise.resolve({
           ResourceRecordSets: [
             // record already exist
-            { Name: `${process.env.SUB_DOMAIN}.${process.env.DOMAIN}.`, Type: 'NS' },
+            { Name: 'aws.superluminar.io.', Type: 'NS' },
           ],
         });
       },
     }));
 
-    await handler();
+    await handler(
+      {
+        RequestType: 'Create',
+        ResourceProperties: {
+          Domain: 'superluminar.io',
+          Subdomain: 'aws',
+          HostedZoneParameterName: '/superwerker/dns_name_servers',
+          R53ChangeInfoIdParameterName: '/superwerker/auto_wire_r53_changeinfo_id',
+          ParentHostedZoneId: 'Z1234567890CC2',
+        },
+      } as unknown as OnEventRequest,
+    );
 
     expect(spyGetParameter).toHaveBeenCalledTimes(1);
     expect(spyListHostedZonesByName).toHaveBeenCalledTimes(1);
     expect(spyListResourceRecordSets).toHaveBeenCalledTimes(1);
     expect(spyChangeResourceRecordSets).not.toHaveBeenCalled();
-    expect(spyWaitFor).not.toHaveBeenCalled();
+    expect(spyPutParameter).not.toHaveBeenCalled();
   });
 });

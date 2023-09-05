@@ -1031,6 +1031,827 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       },
       "Type": "AWS::IAM::Policy",
     },
+    "superwerkerrootmailautowirednsproviderframeworkisComplete38FC88AC": {
+      "DependsOn": [
+        "superwerkerrootmailautowirednsproviderframeworkisCompleteServiceRoleDefaultPolicy85C31839",
+        "superwerkerrootmailautowirednsproviderframeworkisCompleteServiceRole7F514AA1",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - isComplete (testStack/superwerker.rootmail-autowire-dns-provider/rootmail-autowire-dns-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerrootmailautowirednsprovideriscompletehandler0B498516",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerrootmailautowirednsprovideroneventhandlerE2607822",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.isComplete",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkerrootmailautowirednsproviderframeworkisCompleteServiceRole7F514AA1",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkerrootmailautowirednsproviderframeworkisCompleteServiceRole7F514AA1": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerrootmailautowirednsproviderframeworkisCompleteServiceRoleDefaultPolicy85C31839": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerrootmailautowirednsprovideroneventhandlerE2607822",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerrootmailautowirednsprovideroneventhandlerE2607822",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerrootmailautowirednsprovideriscompletehandler0B498516",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerrootmailautowirednsprovideriscompletehandler0B498516",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerrootmailautowirednsproviderframeworkisCompleteServiceRoleDefaultPolicy85C31839",
+        "Roles": [
+          {
+            "Ref": "superwerkerrootmailautowirednsproviderframeworkisCompleteServiceRole7F514AA1",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkerrootmailautowirednsproviderframeworkonEventFAC2BC96": {
+      "DependsOn": [
+        "superwerkerrootmailautowirednsproviderframeworkonEventServiceRoleDefaultPolicy86D1423B",
+        "superwerkerrootmailautowirednsproviderframeworkonEventServiceRole21B19716",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onEvent (testStack/superwerker.rootmail-autowire-dns-provider/rootmail-autowire-dns-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerrootmailautowirednsprovideriscompletehandler0B498516",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerrootmailautowirednsprovideroneventhandlerE2607822",
+                "Arn",
+              ],
+            },
+            "WAITER_STATE_MACHINE_ARN": {
+              "Ref": "superwerkerrootmailautowirednsproviderwaiterstatemachine67B40B39",
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkerrootmailautowirednsproviderframeworkonEventServiceRole21B19716",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkerrootmailautowirednsproviderframeworkonEventServiceRole21B19716": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerrootmailautowirednsproviderframeworkonEventServiceRoleDefaultPolicy86D1423B": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerrootmailautowirednsprovideroneventhandlerE2607822",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerrootmailautowirednsprovideroneventhandlerE2607822",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerrootmailautowirednsprovideriscompletehandler0B498516",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerrootmailautowirednsprovideriscompletehandler0B498516",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "superwerkerrootmailautowirednsproviderwaiterstatemachine67B40B39",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerrootmailautowirednsproviderframeworkonEventServiceRoleDefaultPolicy86D1423B",
+        "Roles": [
+          {
+            "Ref": "superwerkerrootmailautowirednsproviderframeworkonEventServiceRole21B19716",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkerrootmailautowirednsproviderframeworkonTimeout0AB11DE7": {
+      "DependsOn": [
+        "superwerkerrootmailautowirednsproviderframeworkonTimeoutServiceRoleDefaultPolicy101F26E1",
+        "superwerkerrootmailautowirednsproviderframeworkonTimeoutServiceRoleEDBE637E",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onTimeout (testStack/superwerker.rootmail-autowire-dns-provider/rootmail-autowire-dns-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerrootmailautowirednsprovideriscompletehandler0B498516",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "superwerkerrootmailautowirednsprovideroneventhandlerE2607822",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onTimeout",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkerrootmailautowirednsproviderframeworkonTimeoutServiceRoleEDBE637E",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkerrootmailautowirednsproviderframeworkonTimeoutServiceRoleDefaultPolicy101F26E1": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerrootmailautowirednsprovideroneventhandlerE2607822",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerrootmailautowirednsprovideroneventhandlerE2607822",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerrootmailautowirednsprovideriscompletehandler0B498516",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerrootmailautowirednsprovideriscompletehandler0B498516",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerrootmailautowirednsproviderframeworkonTimeoutServiceRoleDefaultPolicy101F26E1",
+        "Roles": [
+          {
+            "Ref": "superwerkerrootmailautowirednsproviderframeworkonTimeoutServiceRoleEDBE637E",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkerrootmailautowirednsproviderframeworkonTimeoutServiceRoleEDBE637E": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerrootmailautowirednsprovideriscompletehandler0B498516": {
+      "DependsOn": [
+        "superwerkerrootmailautowirednsprovideriscompletehandlerServiceRoleDefaultPolicy38249FE5",
+        "superwerkerrootmailautowirednsprovideriscompletehandlerServiceRole3180117B",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "56ae56b213a6f7001eb37fa33e40ad42374b62a6e70a90167fddd52911b4deb4.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkerrootmailautowirednsprovideriscompletehandlerServiceRole3180117B",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkerrootmailautowirednsprovideriscompletehandlerLogRetention4F8B0C1C": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "superwerkerrootmailautowirednsprovideriscompletehandler0B498516",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "superwerkerrootmailautowirednsprovideriscompletehandlerServiceRole3180117B": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerrootmailautowirednsprovideriscompletehandlerServiceRoleDefaultPolicy38249FE5": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ssm:GetParameter",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ssm:us-east-1:1234:parameter",
+                    {
+                      "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "route53:ListHostedZonesByName",
+                "route53:GetChange",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerrootmailautowirednsprovideriscompletehandlerServiceRoleDefaultPolicy38249FE5",
+        "Roles": [
+          {
+            "Ref": "superwerkerrootmailautowirednsprovideriscompletehandlerServiceRole3180117B",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkerrootmailautowirednsprovideroneventhandlerE2607822": {
+      "DependsOn": [
+        "superwerkerrootmailautowirednsprovideroneventhandlerServiceRoleDefaultPolicy0D0321A7",
+        "superwerkerrootmailautowirednsprovideroneventhandlerServiceRole5684126C",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "e90fbf7f5f71e5ebbbf3c614e847c290b83a3bab573418a1098db9386fde0cef.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "superwerkerrootmailautowirednsprovideroneventhandlerServiceRole5684126C",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 160,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "superwerkerrootmailautowirednsprovideroneventhandlerLogRetention0556FAEF": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "superwerkerrootmailautowirednsprovideroneventhandlerE2607822",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "superwerkerrootmailautowirednsprovideroneventhandlerServiceRole5684126C": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerrootmailautowirednsprovideroneventhandlerServiceRoleDefaultPolicy0D0321A7": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ssm:GetParameter",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ssm:us-east-1:1234:parameter",
+                    {
+                      "Ref": "testRootmailHostedZoneSSMParameter574DA41C",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ssm:PutParameter",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ssm:us-east-1:1234:parameter",
+                    {
+                      "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "route53:ListHostedZonesByName",
+                "route53:GetChange",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "route53:ListResourceRecordSets",
+                "route53:ChangeResourceRecordSets",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:route53:::hostedzone/randomHZId",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerrootmailautowirednsprovideroneventhandlerServiceRoleDefaultPolicy0D0321A7",
+        "Roles": [
+          {
+            "Ref": "superwerkerrootmailautowirednsprovideroneventhandlerServiceRole5684126C",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "superwerkerrootmailautowirednsproviderwaiterstatemachine67B40B39": {
+      "DependsOn": [
+        "superwerkerrootmailautowirednsproviderwaiterstatemachineRoleDefaultPolicy2873C843",
+        "superwerkerrootmailautowirednsproviderwaiterstatemachineRole587B9C28",
+      ],
+      "Properties": {
+        "DefinitionString": {
+          "Fn::Join": [
+            "",
+            [
+              "{"StartAt":"framework-isComplete-task","States":{"framework-isComplete-task":{"End":true,"Retry":[{"ErrorEquals":["States.ALL"],"IntervalSeconds":5,"MaxAttempts":360,"BackoffRate":1}],"Catch":[{"ErrorEquals":["States.ALL"],"Next":"framework-onTimeout-task"}],"Type":"Task","Resource":"",
+              {
+                "Fn::GetAtt": [
+                  "superwerkerrootmailautowirednsproviderframeworkisComplete38FC88AC",
+                  "Arn",
+                ],
+              },
+              ""},"framework-onTimeout-task":{"End":true,"Type":"Task","Resource":"",
+              {
+                "Fn::GetAtt": [
+                  "superwerkerrootmailautowirednsproviderframeworkonTimeout0AB11DE7",
+                  "Arn",
+                ],
+              },
+              ""}}}",
+            ],
+          ],
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "superwerkerrootmailautowirednsproviderwaiterstatemachineRole587B9C28",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "superwerkerrootmailautowirednsproviderwaiterstatemachineRole587B9C28": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "states.us-east-1.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "superwerkerrootmailautowirednsproviderwaiterstatemachineRoleDefaultPolicy2873C843": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerrootmailautowirednsproviderframeworkisComplete38FC88AC",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerrootmailautowirednsproviderframeworkisComplete38FC88AC",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "superwerkerrootmailautowirednsproviderframeworkonTimeout0AB11DE7",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "superwerkerrootmailautowirednsproviderframeworkonTimeout0AB11DE7",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "superwerkerrootmailautowirednsproviderwaiterstatemachineRoleDefaultPolicy2873C843",
+        "Roles": [
+          {
+            "Ref": "superwerkerrootmailautowirednsproviderwaiterstatemachineRole587B9C28",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6": {
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -1528,180 +2349,35 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       },
       "Type": "AWS::Route53::RecordSet",
     },
-    "testRootmailHostedZoneDkimRootmailAutowireDnsAutowireDNSEventRuleAllowEventRuletestStacktestRootmailHostedZoneDkimRootmailAutowireDnswirehandler43D472D4922570AC": {
+    "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7": {
       "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "testRootmailHostedZoneDkimRootmailAutowireDnswirehandler95E5B3C4",
-            "Arn",
-          ],
-        },
-        "Principal": "events.amazonaws.com",
-        "SourceArn": {
-          "Fn::GetAtt": [
-            "testRootmailHostedZoneDkimRootmailAutowireDnsAutowireDNSEventRuleDB360A10",
-            "Arn",
-          ],
-        },
+        "Name": "/superwerker/auto_wire_r53_changeinfo_id",
+        "Type": "String",
+        "Value": "",
       },
-      "Type": "AWS::Lambda::Permission",
+      "Type": "AWS::SSM::Parameter",
     },
-    "testRootmailHostedZoneDkimRootmailAutowireDnsAutowireDNSEventRuleDB360A10": {
+    "testRootmailHostedZoneDkimRootmailAutowireDnsE60E593E": {
+      "DeletionPolicy": "Delete",
       "Properties": {
-        "ScheduleExpression": "rate(3 minutes)",
-        "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
-              "Fn::GetAtt": [
-                "testRootmailHostedZoneDkimRootmailAutowireDnswirehandler95E5B3C4",
-                "Arn",
-              ],
-            },
-            "Id": "Target0",
-          },
-        ],
-      },
-      "Type": "AWS::Events::Rule",
-    },
-    "testRootmailHostedZoneDkimRootmailAutowireDnswirehandler95E5B3C4": {
-      "DependsOn": [
-        "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRoleDefaultPolicy178AAFA2",
-        "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRole8F77DA7F",
-      ],
-      "Properties": {
-        "Code": {
-          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f1d99cb6703ba7af7ee1b16569ac237c3f6684de12f6a603f14ce9dc4a2eea82.zip",
+        "Domain": "example.com",
+        "HostedZoneParameterName": {
+          "Ref": "testRootmailHostedZoneSSMParameter574DA41C",
         },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-            "DOMAIN": "example.com",
-            "HOSTED_ZONE_PARAMETER_NAME": {
-              "Ref": "testRootmailHostedZoneSSMParameter574DA41C",
-            },
-            "PARENT_HOSTED_ZONE_ID": "randomHZId",
-            "SUB_DOMAIN": "aws",
-          },
+        "ParentHostedZoneId": "randomHZId",
+        "R53ChangeInfoIdParameterName": {
+          "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7",
         },
-        "Handler": "index.handler",
-        "Role": {
-          "Fn::GetAtt": [
-            "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRole8F77DA7F",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs18.x",
-        "Timeout": 160,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerLogRetention687B2342": {
-      "Properties": {
-        "LogGroupName": {
-          "Fn::Join": [
-            "",
-            [
-              "/aws/lambda/",
-              {
-                "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnswirehandler95E5B3C4",
-              },
-            ],
-          ],
-        },
-        "RetentionInDays": 3,
         "ServiceToken": {
           "Fn::GetAtt": [
-            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "superwerkerrootmailautowirednsproviderframeworkonEventFAC2BC96",
             "Arn",
           ],
         },
+        "Subdomain": "aws",
       },
-      "Type": "Custom::LogRetention",
-    },
-    "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRole8F77DA7F": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRoleDefaultPolicy178AAFA2": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "ssm:GetParameter",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":ssm:us-east-1:1234:parameter",
-                    {
-                      "Ref": "testRootmailHostedZoneSSMParameter574DA41C",
-                    },
-                  ],
-                ],
-              },
-            },
-            {
-              "Action": [
-                "route53:ListHostedZonesByName",
-                "route53:GetChange",
-              ],
-              "Effect": "Allow",
-              "Resource": "*",
-            },
-            {
-              "Action": [
-                "route53:ListResourceRecordSets",
-                "route53:ChangeResourceRecordSets",
-              ],
-              "Effect": "Allow",
-              "Resource": "arn:aws:route53:::hostedzone/randomHZId",
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRoleDefaultPolicy178AAFA2",
-        "Roles": [
-          {
-            "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnswirehandlerServiceRole8F77DA7F",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
+      "Type": "Custom::RootmailAutowireDnsProvider",
+      "UpdateReplacePolicy": "Delete",
     },
     "testRootmailHostedZoneSSMParameter574DA41C": {
       "Properties": {
