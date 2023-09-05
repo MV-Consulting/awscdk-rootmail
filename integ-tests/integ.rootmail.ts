@@ -236,5 +236,5 @@ getHostedZoneParametersAssertion
 // - s3 rootmail bucket (empty only) -> removal policy?
 // - main domain ns records for `aws` subdomain HZ or CR?
 // - cw log groups prefixed with -> removal policy?
-//   - '/aws/lambda/RootmailTestStack*' in eu-west-1 and eu-central-1
+//   - '/aws/lambda/RootmailTestStack*' in the region
 //   - '/aws/lambda/SetupTest in eu-central-1

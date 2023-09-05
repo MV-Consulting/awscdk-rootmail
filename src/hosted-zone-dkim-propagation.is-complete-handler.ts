@@ -3,8 +3,7 @@ import * as AWSCDKAsyncCustomResource from 'aws-cdk-lib/custom-resources/lib/pro
 import * as AWS from 'aws-sdk';
 export const PROP_DOMAIN = 'Domain';
 
-// this is fixed to eu-west-1 until SES supports receive more globally (see #23)
-const SES = new AWS.SES({ region: 'eu-west-1' });
+const SES = new AWS.SES();
 
 export interface IsCompleteHandlerResponse {
   IsComplete: boolean;

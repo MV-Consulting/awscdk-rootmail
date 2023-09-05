@@ -3,6 +3,7 @@ import {
   Duration,
   aws_route53 as r53,
   aws_ssm as ssm,
+  Stack,
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { HostedZoneDKIMPropagation } from './hosted-zone-dkim-propagation';
@@ -71,7 +72,7 @@ export class HostedZoneDkim extends Construct {
       values: [
         {
           priority: 10,
-          hostName: 'inbound-smtp.eu-west-1.amazonaws.com',
+          hostName: `inbound-smtp.${Stack.of(this).region}.amazonaws.com`,
         },
       ],
       deleteExisting: false,

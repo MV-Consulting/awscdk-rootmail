@@ -5,8 +5,7 @@ export const PROP_DOMAIN = 'Domain';
 export const ATTR_VERIFICATION_TOKEN = 'VerificationToken';
 export const ATTR_DKIM_TOKENS = 'DkimTokens';
 
-// this is fixed to eu-west-1 until SES supports receive more globally (see #23)
-const SES = new AWS.SES({ region: 'eu-west-1' });
+const SES = new AWS.SES();
 
 export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): Promise<AWSCDKAsyncCustomResource.OnEventResponse> {
   const domain = event.ResourceProperties[PROP_DOMAIN];

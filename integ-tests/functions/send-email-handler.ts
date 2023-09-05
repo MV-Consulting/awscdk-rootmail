@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 
-const SES = new AWS.SES({ region: 'eu-west-1' });
+const SES = new AWS.SES();
 
 export const handler = async (event: any) => {
   const id = event.id || 'test-id-1';
