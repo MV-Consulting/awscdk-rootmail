@@ -131,7 +131,6 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       };
 
     case 'Update':
-      return {};
     case 'Delete':
       return {};
   }

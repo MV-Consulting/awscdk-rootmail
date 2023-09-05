@@ -85,86 +85,77 @@ class RootmailAutowireDnsProvider extends Construct {
   constructor(scope: Construct, id: string, props: RootmailAutowireDnsProps) {
     super(scope, id);
 
+    const isCompleteHandlerFunc = new NodejsFunction(this, 'is-complete-handler', {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      timeout: Duration.seconds(120),
+      logRetention: 3,
+    });
+
+    isCompleteHandlerFunc.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: [
+          'route53:ListHostedZonesByName',
+          'route53:GetChange',
+        ],
+        effect: iam.Effect.ALLOW,
+        resources: ['*'],
+      }),
+    );
+
+    if (props.autoWireR53ChangeInfoIdParameter !== undefined) {
+      props.autoWireR53ChangeInfoIdParameter.grantRead(isCompleteHandlerFunc);
+    }
+
+    const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      timeout: Duration.seconds(160), // 2m40s
+      logRetention: 3,
+      environment: {},
+    });
+
+    props.hostedZoneSSMParameter.grantRead(onEventHandlerFunc);
+    if (props.autoWireR53ChangeInfoIdParameter !== undefined) {
+      props.autoWireR53ChangeInfoIdParameter.grantWrite(onEventHandlerFunc);
+    }
+
+    onEventHandlerFunc.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: [
+          'route53:ListHostedZonesByName',
+          'route53:GetChange',
+        ],
+        effect: iam.Effect.ALLOW,
+        resources: ['*'],
+      }),
+    );
+
+    onEventHandlerFunc.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: [
+          'route53:ListResourceRecordSets',
+          'route53:ChangeResourceRecordSets',
+        ],
+        effect: iam.Effect.ALLOW,
+        resources: [
+          // arn:aws:route53:::hostedzone/H12345
+          // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
+          Arn.format({
+            partition: 'aws',
+            service: 'route53',
+            region: '',
+            account: '',
+            resource: 'hostedzone',
+            arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+            resourceName: props.autowireDNSOnAWSParentHostedZoneId,
+          }),
+        ],
+      }),
+    );
+
     this.provider = new cr.Provider(this, 'rootmail-autowire-dns-provider', {
-      isCompleteHandler: new NodejsFunction(this, 'is-complete-handler', {
-        runtime: lambda.Runtime.NODEJS_18_X,
-        timeout: Duration.seconds(120),
-        logRetention: 3,
-        initialPolicy: [
-          new iam.PolicyStatement({
-            actions: [
-              'ssm:GetParameter',
-            ],
-            effect: iam.Effect.ALLOW,
-            resources: [
-              props.autoWireR53ChangeInfoIdParameter!.parameterArn,
-            ],
-          }),
-          new iam.PolicyStatement({
-            actions: [
-              'route53:ListHostedZonesByName',
-              'route53:GetChange',
-            ],
-            effect: iam.Effect.ALLOW,
-            resources: ['*'],
-          }),
-        ],
-      }),
+      isCompleteHandler: isCompleteHandlerFunc,
       queryInterval: Duration.seconds(5),
-      onEventHandler: new NodejsFunction(this, 'on-event-handler', {
-        runtime: lambda.Runtime.NODEJS_18_X,
-        timeout: Duration.seconds(160), // 2m40s
-        logRetention: 3,
-        initialPolicy: [
-          new iam.PolicyStatement({
-            actions: [
-              'ssm:GetParameter',
-            ],
-            effect: iam.Effect.ALLOW,
-            resources: [
-              props.hostedZoneSSMParameter.parameterArn,
-            ],
-          }),
-          new iam.PolicyStatement({
-            actions: [
-              'ssm:PutParameter',
-            ],
-            effect: iam.Effect.ALLOW,
-            resources: [
-              props.autoWireR53ChangeInfoIdParameter!.parameterArn,
-            ],
-          }),
-          new iam.PolicyStatement({
-            actions: [
-              'route53:ListHostedZonesByName',
-              'route53:GetChange',
-            ],
-            effect: iam.Effect.ALLOW,
-            resources: ['*'],
-          }),
-          new iam.PolicyStatement({
-            actions: [
-              'route53:ListResourceRecordSets',
-              'route53:ChangeResourceRecordSets',
-            ],
-            effect: iam.Effect.ALLOW,
-            resources: [
-              // arn:aws:route53:::hostedzone/H12345
-              // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
-              Arn.format({
-                partition: 'aws',
-                service: 'route53',
-                region: '',
-                account: '',
-                resource: 'hostedzone',
-                arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-                resourceName: props.autowireDNSOnAWSParentHostedZoneId,
-              }),
-            ],
-          }),
-        ],
-        environment: {},
-      }),
+      onEventHandler: onEventHandlerFunc,
     });
   };
 }

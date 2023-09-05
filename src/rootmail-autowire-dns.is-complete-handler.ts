@@ -26,9 +26,14 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       log('waiting for DNS to propagate');
       const res = await route53.waitFor('resourceRecordSetsChanged', {
         Id: recordSetCreationResponseChangeInfoId,
+        // Note: the default is 30s delay and 60 attempts
+        $waiter: {
+          delay: 2,
+          maxAttempts: 1,
+        },
       }).promise();
 
-      if (!res.ChangeInfo.Status || res.ChangeInfo.Status !== 'INSYNC') {
+      if (res.ChangeInfo.Status !== 'INSYNC') {
         log(`DNS propagation not in sync yet. Has status ${res.ChangeInfo.Status}`);
         return { IsComplete: false };
       }
