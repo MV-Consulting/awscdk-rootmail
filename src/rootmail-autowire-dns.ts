@@ -96,6 +96,7 @@ export class RootmailAutowireDns extends Construct {
         ],
       }));
 
+    // TODO as polling CR
     const autowireDNSEventRule = new events.Rule(this, 'AutowireDNSEventRule', {
       schedule: events.Schedule.rate(Duration.minutes(3)),
     });

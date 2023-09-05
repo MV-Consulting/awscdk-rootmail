@@ -2,9 +2,11 @@ import {
   Fn,
   Duration,
   aws_route53 as r53,
+  aws_ssm as ssm,
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { HostedZoneDKIMAndVerificationRecords } from './hosted-zone-dkim-verification-records';
+import { RootmailAutowireDns } from './rootmail-autowire-dns';
 
 export interface HostedZoneDkimProps {
   /**
@@ -23,6 +25,14 @@ export interface HostedZoneDkimProps {
    * The hosted zone of the <domain>, which has to be in the same AWS account.
    */
   readonly hostedZone: r53.IHostedZone;
+
+  /**
+   * The ID of the hosted zone of the <domain>, which has to be in the same AWS account.
+   *
+   * @default undefined
+   */
+  readonly autowireDNSOnAWSParentHostedZoneId?: string;
+  readonly hostedZoneSSMParameter: ssm.StringListParameter;
 }
 
 export class HostedZoneDkim extends Construct {
@@ -32,13 +42,17 @@ export class HostedZoneDkim extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain ?? 'aws';
     const hostedZone = props.hostedZone;
+    const autowireDNSOnAWSParentHostedZoneId = props.autowireDNSOnAWSParentHostedZoneId ?? '';
+    const hostedZoneSSMParameter = props.hostedZoneSSMParameter;
 
+    // 1: trigger SNS DKIM verification
     const hostedZoneDKIMAndVerificationRecords = new HostedZoneDKIMAndVerificationRecords(this, 'HostedZoneDKIMAndVerificationRecords', {
       domain: `${subdomain}.${domain}`,
     });
 
     const hostedZoneDKIMTokens = hostedZoneDKIMAndVerificationRecords.dkimTokens;
 
+    // 2: set the records in the hosted zone
     new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord0', {
       deleteExisting: false,
       zone: hostedZone,
@@ -85,5 +99,19 @@ export class HostedZoneDkim extends Construct {
       deleteExisting: false,
       ttl: Duration.seconds(60),
     });
+
+    // 3: do autowire of manual DNS records entry. Wait until DNS is propagated
+    if (isAutowireDNSOnAWSParentHostedZoneIdSet(autowireDNSOnAWSParentHostedZoneId)) {
+      new RootmailAutowireDns(this, 'RootmailAutowireDns', {
+        domain: domain,
+        subdomain: subdomain,
+        autowireDNSOnAWSParentHostedZoneId: autowireDNSOnAWSParentHostedZoneId,
+        hostedZoneSSMParameter: hostedZoneSSMParameter,
+      });
+    }
   }
+}
+
+function isAutowireDNSOnAWSParentHostedZoneIdSet(autowireDNSOnAWSParentHostedZoneId: string): boolean {
+  return autowireDNSOnAWSParentHostedZoneId !== undefined && autowireDNSOnAWSParentHostedZoneId !== '';
 }

@@ -112,6 +112,8 @@ export class Rootmail extends Stack {
       domain: domain,
       subdomain: subdomain,
       hostedZone: hostedZone,
+      autowireDNSOnAWSParentHostedZoneId: autowireDNSOnAWSParentHostedZoneId,
+      hostedZoneSSMParameter: hostedZoneSSMParameter,
     });
 
     let autowireDNSEventRuleName: string = '';

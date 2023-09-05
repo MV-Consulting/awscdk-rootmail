@@ -53,10 +53,6 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
     super(scope, id);
 
     this.provider = new cr.Provider(this, 'hosted-zone-dkim-verification-records-provider', {
-      isCompleteHandler: new NodejsFunction(this, 'is-complete-handler', {
-        runtime: lambda.Runtime.NODEJS_18_X,
-        logRetention: 3, // TODO
-      }),
       onEventHandler: new NodejsFunction(this, 'on-event-handler', {
         runtime: lambda.Runtime.NODEJS_18_X,
         logRetention: 3,
