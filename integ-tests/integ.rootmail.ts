@@ -127,8 +127,8 @@ const cleanupHandler = new NodejsFunction(stackUnderTest, 'cleanup-handler', {
         Arn.format({
           partition: 'aws',
           service: 'logs',
-          region: '',
-          account: '',
+          region: '*',
+          account: '*',
           resource: 'log-group',
           arnFormat: ArnFormat.COLON_RESOURCE_NAME,
           resourceName: `/aws/lambda/${stackUnderTestName}*`,
@@ -136,8 +136,8 @@ const cleanupHandler = new NodejsFunction(stackUnderTest, 'cleanup-handler', {
         Arn.format({
           partition: 'aws',
           service: 'logs',
-          region: '',
-          account: '',
+          region: '*',
+          account: '*',
           resource: 'log-group',
           arnFormat: ArnFormat.COLON_RESOURCE_NAME,
           resourceName: `/aws/lambda/${integStackName}*`,

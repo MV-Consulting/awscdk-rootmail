@@ -21,9 +21,9 @@ export const handler = async (event: any) => {
   });
 
   try {
-    await deleteLogGroups(cwl, logGroupNamePrefixes);
     await emptyS3Bucket(s3, emailBucketName || '');
     await deleteRecords(route53, parentHostedZoneId || '', `${subdomain}.${domain}`, 'NS');
+    await deleteLogGroups(cwl, logGroupNamePrefixes);
     return { success: 200 };
   } catch (err) {
     console.log(`Error cleaning up: ${err}`);
