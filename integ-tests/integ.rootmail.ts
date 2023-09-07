@@ -181,7 +181,7 @@ rootmail.emailBucket.grantDelete(cleanupHandler);
  * Assertion:
  * The application should parse a dummy email, store it in S3 and set create an OPS item.
  */
-const id = `test-id-${Math.floor(Math.random() * 100000)}`;
+const id = 'test-id-1';
 const message = 'This is a mail body';
 
 const sendTestEmailAssertion = integ.assertions
