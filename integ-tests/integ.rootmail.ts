@@ -205,68 +205,16 @@ const sendTestEmailAssertion = integ.assertions
   ),
   );
 
+
 const validateOpsItemAssertion = integ.assertions
-  .awsApiCall('SSM', 'getOpsSummary', {
-    Filters: [
-      {
-        Key: 'AWS:OpsItem.Title',
-        Values: [id],
-        Type: 'Equal',
-      },
-      {
-        Key: 'AWS:OpsItem.Status',
-        Values: ['Open'],
-        Type: 'Equal',
-      },
-    ],
-  })
-  /**
-   * Expect the ops item to be created and returned.
-   */
-  .expect(
-    ExpectedResult.objectLike({
-      Entities: [
-        {
-          Data: {
-            'AWS:OpsItem': {
-              Content: [
-                {
-                  Title: id,
-                  Source: `root+${id}@${fullDomain}`,
-                  Description: `${message}\n`,
-                },
-              ],
-            },
-          },
-        },
-      ],
-    }),
-  )
-  /**
-   * Timeout and interval check for assertion to be true.
-   * Note - Data may take some time to be parsed and the OPS item to be created.
-   * Iteratively executes API call at specified interval.
-   */
-  .waitForAssertions({
-    totalTimeout: Duration.minutes(3),
-    interval: Duration.seconds(10),
-  });
-
-validateOpsItemAssertion.provider.addToRolePolicy({
-  Effect: 'Allow',
-  Action: [
-    'ssm:GetOpsSummary',
-  ],
-  Resource: ['*'],
-});
-
-const updateOpsItemAssertion = integ.assertions
   .invokeFunction({
     functionName: closeOpsItemHandler.functionName,
     logType: LogType.TAIL,
     invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
     payload: JSON.stringify({
       title: id,
+      source: `root+${id}@${fullDomain}`,
+      description: `${message}\n`,
     }),
   }).expect(ExpectedResult.objectLike(
     // as the object 'return { closeStatusCode: 200 };' is wrapped in a Payload object with other properties
@@ -276,7 +224,11 @@ const updateOpsItemAssertion = integ.assertions
       },
     },
   ),
-  );
+  )
+  .waitForAssertions({
+    totalTimeout: Duration.minutes(2),
+    interval: Duration.seconds(10),
+  });
 
 const cleanupAssertion = integ.assertions
   .invokeFunction({
@@ -323,9 +275,7 @@ const getHostedZoneParametersAssertion = integ.assertions
 getHostedZoneParametersAssertion
   // Send a test email
   .next(sendTestEmailAssertion)
-  // Validate an OPS item was created.
+  // Validate and close the OPS item that was created.
   .next(validateOpsItemAssertion)
-  // Close the OPS item that was created.
-  .next(updateOpsItemAssertion)
   // call teardown lambda
   .next(cleanupAssertion);
