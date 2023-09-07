@@ -181,6 +181,7 @@ const cleanupHandler = new NodejsFunction(stackUnderTest, 'cleanup-handler', {
   },
 });
 
+rootmail.emailBucket.grantRead(cleanupHandler);
 rootmail.emailBucket.grantDelete(cleanupHandler);
 
 /**
