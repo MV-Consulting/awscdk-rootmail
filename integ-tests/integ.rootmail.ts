@@ -32,7 +32,8 @@ const stackUnderTest = new Stack(app, stackUnderTestName, {
     "This stack includes the application's resources for integration testing.",
 });
 
-const subdomain = 'integ-test-auto';
+const randomTestId = Math.floor(Math.random() * 100000);
+const subdomain = `integ-test-${randomTestId}`; // TODO randomize
 const domain = 'mavogel.xyz';
 const parentHostedZoneId = 'Z02503291YUXLE3C4727T'; // mavogel.xyz
 
@@ -181,7 +182,7 @@ rootmail.emailBucket.grantDelete(cleanupHandler);
  * Assertion:
  * The application should parse a dummy email, store it in S3 and set create an OPS item.
  */
-const id = `test-id-${Math.floor(Math.random() * 100000)}`;
+const id = `test-id-${randomTestId}`;
 const message = 'This is a mail body';
 
 const sendTestEmailAssertion = integ.assertions
