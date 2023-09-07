@@ -225,11 +225,11 @@ const validateOpsItemAssertion = integ.assertions
     },
   ),
   );
-  // NOTE: this is not working as expected
-  // .waitForAssertions({
-  //   totalTimeout: Duration.minutes(2),
-  //   interval: Duration.seconds(10),
-  // });
+// NOTE: this is not working as expected
+// .waitForAssertions({
+//   totalTimeout: Duration.minutes(2),
+//   interval: Duration.seconds(10),
+// });
 
 const cleanupAssertion = integ.assertions
   .invokeFunction({
@@ -277,6 +277,6 @@ getHostedZoneParametersAssertion
   // Send a test email
   .next(sendTestEmailAssertion)
   // Validate and close the OPS item that was created.
-  .next(validateOpsItemAssertion)
-  // call teardown lambda
-  .next(cleanupAssertion);
+  .next(validateOpsItemAssertion);
+// call teardown lambda // TODO check for race condition
+// .next(cleanupAssertion);
