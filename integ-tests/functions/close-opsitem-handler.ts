@@ -3,8 +3,8 @@ import * as AWS from 'aws-sdk';
 const SSM = new AWS.SSM();
 
 async function getOpsItem(title: string): Promise<AWS.SSM.OpsEntity | undefined> {
-  // get opsItem 10 times with 5s interval
-  for (let i = 1; i <= 10; i++) {
+  // get opsItem n times with 5s interval
+  for (let i = 1; i <= 30; i++) {
     log({
       message: `Getting opsItem with title ${title} at try ${i}`,
       title: title,
@@ -74,6 +74,7 @@ export const handler = async (event: any) => {
 
   log({
     message: 'Closing opsItem',
+    event: event,
     title: title,
     source: source,
     description: description,

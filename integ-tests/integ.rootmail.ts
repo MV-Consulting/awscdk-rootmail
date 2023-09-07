@@ -95,7 +95,7 @@ const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-ha
   entry: path.join(__dirname, 'functions', 'close-opsitem-handler.ts'),
   runtime: lambda.Runtime.NODEJS_18_X,
   logRetention: 1,
-  timeout: Duration.seconds(120),
+  timeout: Duration.seconds(180),
   initialPolicy: [
     new iam.PolicyStatement({
       actions: [
