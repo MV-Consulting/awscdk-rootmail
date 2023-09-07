@@ -14,8 +14,8 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
 
   switch (event.RequestType) {
     case 'Create':
-      const ready = await internalHandler(domain);
-      return { IsComplete: ready };
+      const isReady = await internalHandler(domain);
+      return { IsComplete: isReady };
     case 'Update':
     case 'Delete':
       return {
