@@ -56,16 +56,32 @@ export class HostedZoneDkim extends Construct {
     const hostedZoneDKIMTokens = hostedZoneDKIMAndVerificationRecords.dkimTokens;
 
     // 2: set the records in the hosted zone
-    for (let i = 0; i < hostedZoneDKIMTokens.length; i++) {
-      new r53.RecordSet(this, `HostedZoneDKIMTokenRecord${i}`, {
-        deleteExisting: false,
-        zone: hostedZone,
-        target: r53.RecordTarget.fromValues(`${Fn.select(i, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
-        recordName: `${Fn.select(i, hostedZoneDKIMTokens)}._domainkey.${subdomain}.${domain}`,
-        ttl: Duration.seconds(60),
-        recordType: r53.RecordType.CNAME,
-      });
-    }
+    new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord0', {
+      deleteExisting: false,
+      zone: hostedZone,
+      target: r53.RecordTarget.fromValues(`${Fn.select(0, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
+      recordName: `${Fn.select(0, hostedZoneDKIMTokens)}._domainkey.${subdomain}.${domain}`,
+      ttl: Duration.seconds(60),
+      recordType: r53.RecordType.CNAME,
+    });
+
+    new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord1', {
+      deleteExisting: false,
+      zone: hostedZone,
+      target: r53.RecordTarget.fromValues(`${Fn.select(1, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
+      recordName: `${Fn.select(1, hostedZoneDKIMTokens)}._domainkey.${subdomain}.${domain}`,
+      ttl: Duration.seconds(60),
+      recordType: r53.RecordType.CNAME,
+    });
+
+    new r53.RecordSet(this, 'HostedZoneDKIMTokenRecord2', {
+      deleteExisting: false,
+      zone: hostedZone,
+      target: r53.RecordTarget.fromValues(`${Fn.select(2, hostedZoneDKIMTokens)}.dkim.amazonses.com`),
+      recordName: `${Fn.select(2, hostedZoneDKIMTokens)}._domainkey.${subdomain}.${domain}`,
+      ttl: Duration.seconds(60),
+      recordType: r53.RecordType.CNAME,
+    });
 
     new r53.MxRecord(this, 'HostedZoneMXRecord', {
       zone: hostedZone,
