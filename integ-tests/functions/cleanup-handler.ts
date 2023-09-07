@@ -5,12 +5,13 @@ const route53 = new AWS.Route53();
 const s3 = new AWS.S3();
 
 export const handler = async (event: any) => {
-  const emailBucketName = process.env.S3_EMAIL_BUCKET_NAME;
-  const parentHostedZoneId = process.env.PARENT_HOSTED_ZONE_ID;
-  const domain = process.env.DOMAIN;
-  const subdomain = process.env.SUBDOMAIN;
-  const logGroupNamePrefixesString = process.env.LOG_GROUP_NAME_PREFIXES;
+  const emailBucketName = event.s3EmailBucketName;
+  const parentHostedZoneId = event.parentHostedZoneId;
+  const domain = event.domain;
+  const subdomain = event.subdomain;
+  const logGroupNamePrefixesString = event.logGroupNamePrefixes;
   const logGroupNamePrefixes = logGroupNamePrefixesString?.split(',') || [];
+
   console.log({
     msg: 'Cleanup handler called',
     emailBucketName: emailBucketName,

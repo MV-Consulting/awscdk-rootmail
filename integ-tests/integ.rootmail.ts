@@ -172,13 +172,6 @@ const cleanupHandler = new NodejsFunction(stackUnderTest, 'cleanup-handler', {
       ],
     }),
   ],
-  environment: {
-    S3_EMAIL_BUCKET_NAME: rootmail.emailBucket.bucketName,
-    PARENT_HOSTED_ZONE_ID: parentHostedZoneId,
-    DOMAIN: domain,
-    SUBDOMAIN: subdomain,
-    LOG_GROUP_NAME_PREFIXES: `/aws/lambda/${stackUnderTestName},/aws/lambda/${integStackName}`,
-  },
 });
 
 rootmail.emailBucket.grantRead(cleanupHandler);
@@ -291,7 +284,11 @@ const cleanupAssertion = integ.assertions
     logType: LogType.TAIL,
     invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
     payload: JSON.stringify({
-      title: id,
+      s3EmailBucketName: rootmail.emailBucket.bucketName,
+      parentHostedZoneId: parentHostedZoneId,
+      domain: domain,
+      subdomain: subdomain,
+      logGroupNamePrefixes: `/aws/lambda/${stackUnderTestName},/aws/lambda/${integStackName}`,
     }),
   }).expect(ExpectedResult.objectLike(
     // as the object 'return { success: 200 };' is wrapped in a Payload object with other properties
