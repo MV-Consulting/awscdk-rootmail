@@ -82,9 +82,9 @@ export class HostedZoneDkim extends Construct {
 
     new r53.TxtRecord(this, 'HostedZoneVerificationTokenRecord', {
       zone: hostedZone,
-      // Note: needs to be wrapped in quotes
+      // Note: quotes by itself
       values: [
-        `"${hostedZoneDKIMAndVerificationRecords.verificationToken}"`,
+        hostedZoneDKIMAndVerificationRecords.verificationToken,
       ],
       deleteExisting: false,
       recordName: `_amazonses.${subdomain}.${domain}`,
