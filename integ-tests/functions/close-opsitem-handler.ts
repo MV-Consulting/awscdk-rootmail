@@ -34,9 +34,9 @@ async function getOpsItem(title: string): Promise<AWS.SSM.OpsEntity | undefined>
       return undefined;
     }
 
-    if (!res.Entities) {
+    if (res.Entities === undefined || res.Entities.length === 0) {
       log({
-        message: 'No opsItem entities',
+        message: 'No opsItem entities. Next try in 5s',
         title: title,
         res: res,
       });
@@ -83,6 +83,9 @@ export const handler = async (event: any) => {
     // 1 get opsItem
     const opsEntity = await getOpsItem(title);
     if (opsEntity === undefined) {
+      log({
+        message: 'opsItem undefined',
+      });
       return { closeStatusCode: 500 };
     }
     log({
