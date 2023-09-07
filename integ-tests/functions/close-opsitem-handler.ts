@@ -2,20 +2,14 @@ import * as AWS from 'aws-sdk';
 
 const SSM = new AWS.SSM();
 
-export const handler = async (event: any) => {
-  const title = event.title || 'test';
-  const source = event.source || 'source';
-  const description = event.description || 'description';
+async function getOpsItem(title: string): Promise<AWS.SSM.OpsEntity | undefined> {
+  // get opsItem 10 times with 5s interval
+  for (let i = 1; i <= 10; i++) {
+    log({
+      message: `Getting opsItem with title ${title} at try ${i}`,
+      title: title,
+    });
 
-  log({
-    message: 'Closing opsItem',
-    title: title,
-    source: source,
-    description: description,
-  });
-
-  try {
-    // 1 get opsItem
     const res = await SSM.getOpsSummary({
       Filters: [
         {
@@ -37,30 +31,71 @@ export const handler = async (event: any) => {
         err: res.$response.error,
       });
 
-      return { closeStatusCode: 500, err: res.$response.error };
+      return undefined;
     }
-    // validate
-    if (!res.Entities || res.Entities.length !== 1) {
+
+    if (!res.Entities) {
       log({
-        message: `No or too many opsItems: ${res.Entities!.length}`,
+        message: 'No opsItem entities',
         title: title,
         res: res,
       });
-      return { closeStatusCode: 500 };
+
+      // delay 5s and try again
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      continue;
     }
 
+
+    if (res.Entities.length > 1) {
+      log({
+        message: `Too many opsItems: ${res.Entities!.length}`,
+        title: title,
+        res: res,
+      });
+      return undefined;
+    }
+
+    // 1 ops item found
+    return res.Entities[0];
+  }
+
+  log({
+    message: 'No opsItem entities at all',
+    title: title,
+  });
+  return undefined;
+}
+
+export const handler = async (event: any) => {
+  const title = event.title || 'test';
+  const source = event.source || 'source';
+  const description = event.description || 'description';
+
+  log({
+    message: 'Closing opsItem',
+    title: title,
+    source: source,
+    description: description,
+  });
+
+  try {
+    // 1 get opsItem
+    const opsEntity = await getOpsItem(title);
+    if (opsEntity === undefined) {
+      return { closeStatusCode: 500 };
+    }
     log({
       message: 'Got opsItem',
       title: title,
-      res: res,
     });
 
 
-    const opsItemId = res.Entities![0].Id!;
-    const opsItem = res.Entities![0].Data!['AWS:OpsItem'].Content![0];
-    const opsItemTitle = opsItem.Title;
-    const opsItemSource = opsItem.Source;
-    const opsItemDescription = opsItem.Description;
+    const opsItemId = opsEntity!.Id!;
+    const opsItemContent = opsEntity!.Data!['AWS:OpsItem'].Content![0];
+    const opsItemTitle = opsItemContent.Title;
+    const opsItemSource = opsItemContent.Source;
+    const opsItemDescription = opsItemContent.Description;
 
     if (
       opsItemTitle !== title ||
@@ -85,10 +120,10 @@ export const handler = async (event: any) => {
       log({
         message: 'Error updateOpsItem',
         title: title,
-        err: res.$response.error,
+        err: resUpdate.$response.error,
       });
 
-      return { closeStatusCode: 500, err: res.$response.error };
+      return { closeStatusCode: 500, err: resUpdate.$response.error };
     }
 
     log({

@@ -95,7 +95,7 @@ const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-ha
   entry: path.join(__dirname, 'functions', 'close-opsitem-handler.ts'),
   runtime: lambda.Runtime.NODEJS_18_X,
   logRetention: 1,
-  timeout: Duration.seconds(30),
+  timeout: Duration.seconds(120),
   initialPolicy: [
     new iam.PolicyStatement({
       actions: [
@@ -224,11 +224,12 @@ const validateOpsItemAssertion = integ.assertions
       },
     },
   ),
-  )
-  .waitForAssertions({
-    totalTimeout: Duration.minutes(2),
-    interval: Duration.seconds(10),
-  });
+  );
+  // NOTE: this is not working as expected
+  // .waitForAssertions({
+  //   totalTimeout: Duration.minutes(2),
+  //   interval: Duration.seconds(10),
+  // });
 
 const cleanupAssertion = integ.assertions
   .invokeFunction({
