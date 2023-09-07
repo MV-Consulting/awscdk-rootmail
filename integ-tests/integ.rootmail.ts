@@ -3,6 +3,8 @@ import * as path from 'path';
 import { IntegTest, ExpectedResult, LogType, InvocationType } from '@aws-cdk/integ-tests-alpha';
 import {
   App,
+  Arn,
+  ArnFormat,
   Duration,
   // Duration,
   // Aspects,
@@ -20,31 +22,34 @@ const app = new App();
 // see https://aws.amazon.com/de/blogs/devops/manage-application-security-and-compliance-with-the-aws-cloud-development-kit-and-cdk-nag/
 // Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }));
 // Stack under test
-const stackUnderTest = new Stack(app, 'RootmailTestStack', {
+const stackUnderTestName = 'RootmailTestStack';
+const stackUnderTest = new Stack(app, stackUnderTestName, {
   // env: {
   // region: 'eu-central-1',
   // account: '1234',
   // },
   description:
-  "This stack includes the application's resources for integration testing.",
+    "This stack includes the application's resources for integration testing.",
 });
 
 const subdomain = 'integ-test-auto';
 const domain = 'mavogel.xyz';
+const parentHostedZoneId = 'Z02503291YUXLE3C4727T'; // mavogel.xyz
 
 const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   subdomain: subdomain,
   domain: domain,
   // tests took on average 15-20 minutes , but we leave some buffer
   totalTimeToWireDNS: Duration.minutes(40),
-  autowireDNSOnAWSParentHostedZoneId: 'Z02503291YUXLE3C4727T', // mavogel.xyz
-  setDestroyPolicyToAllResources: false,
+  autowireDNSOnAWSParentHostedZoneId: parentHostedZoneId,
+  setDestroyPolicyToAllResources: true,
 });
 
 const fullDomain = `${subdomain}.${domain}`;
 
 // Initialize Integ Test construct
-const integ = new IntegTest(app, 'SetupTest', {
+const integStackName = 'SetupTest';
+const integ = new IntegTest(app, integStackName, {
   testCases: [stackUnderTest], // Define a list of cases for this test
   cdkCommandOptions: {
     // Customize the integ-runner parameters
@@ -101,6 +106,82 @@ const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-ha
     }),
   ],
 });
+
+const cleanupHandler = new NodejsFunction(stackUnderTest, 'cleanup-handler', {
+  entry: path.join(__dirname, 'functions', 'cleanup-handler.ts'),
+  runtime: lambda.Runtime.NODEJS_18_X,
+  logRetention: 1,
+  timeout: Duration.seconds(60),
+  initialPolicy: [
+    new iam.PolicyStatement({
+      actions: [
+        'logs:DescribeLogGroups',
+      ],
+      resources: ['*'],
+    }),
+    new iam.PolicyStatement({
+      actions: [
+        'logs:DeleteLogGroup',
+      ],
+      resources: [
+        Arn.format({
+          partition: 'aws',
+          service: 'logs',
+          region: '',
+          account: '',
+          resource: 'log-group',
+          arnFormat: ArnFormat.COLON_RESOURCE_NAME,
+          resourceName: `/aws/lambda/${stackUnderTestName}*`,
+        }),
+        Arn.format({
+          partition: 'aws',
+          service: 'logs',
+          region: '',
+          account: '',
+          resource: 'log-group',
+          arnFormat: ArnFormat.COLON_RESOURCE_NAME,
+          resourceName: `/aws/lambda/${integStackName}*`,
+        }),
+      ],
+    }),
+    new iam.PolicyStatement({
+      actions: [
+        'route53:ListHostedZonesByName',
+      ],
+      effect: iam.Effect.ALLOW,
+      resources: ['*'],
+    }),
+    new iam.PolicyStatement({
+      actions: [
+        'route53:ListResourceRecordSets',
+        'route53:ChangeResourceRecordSets',
+      ],
+      effect: iam.Effect.ALLOW,
+      resources: [
+        // arn:aws:route53:::hostedzone/H12345
+        // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
+        Arn.format({
+          partition: 'aws',
+          service: 'route53',
+          region: '',
+          account: '',
+          resource: 'hostedzone',
+          arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+          resourceName: parentHostedZoneId,
+        }),
+      ],
+    }),
+  ],
+  environment: {
+    S3_EMAIL_BUCKET_NAME: rootmail.emailBucket.bucketName,
+    PARENT_HOSTED_ZONE_ID: parentHostedZoneId,
+    DOMAIN: domain,
+    SUBDOMAIN: subdomain,
+    LOG_GROUP_NAME_PREFIXES: `/aws/lambda/${stackUnderTestName},/aws/lambda/${integStackName}`,
+  },
+});
+
+rootmail.emailBucket.grantDelete(cleanupHandler);
 
 /**
  * Assertion:
@@ -203,6 +284,24 @@ const updateOpsItemAssertion = integ.assertions
   ),
   );
 
+const cleanupAssertion = integ.assertions
+  .invokeFunction({
+    functionName: cleanupHandler.functionName,
+    logType: LogType.TAIL,
+    invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
+    payload: JSON.stringify({
+      title: id,
+    }),
+  }).expect(ExpectedResult.objectLike(
+    // as the object 'return { success: 200 };' is wrapped in a Payload object with other properties
+    {
+      Payload: {
+        success: 200,
+      },
+    },
+  ),
+  );
+
 const getHostedZoneParametersAssertion = integ.assertions
   /**
   * Check that parameter are present
@@ -229,11 +328,6 @@ getHostedZoneParametersAssertion
   // Validate an OPS item was created.
   .next(validateOpsItemAssertion)
   // Close the OPS item that was created.
-  .next(updateOpsItemAssertion);
-
-// TODO call teardown lambda
-// - s3 rootmail bucket (empty only) -> removal policy?
-// - main domain ns records for `aws` subdomain HZ or CR?
-// - cw log groups prefixed with -> removal policy?
-//   - '/aws/lambda/RootmailTestStack*' in the region
-//   - '/aws/lambda/SetupTest in eu-central-1
+  .next(updateOpsItemAssertion)
+  // call teardown lambda
+  .next(cleanupAssertion);
