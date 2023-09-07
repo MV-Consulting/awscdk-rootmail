@@ -19,27 +19,36 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
   }).promise();
   const recordSetCreationResponseChangeInfoId = recordSetCreationResponseChangeInfoIdParam.Parameter?.Value as string;
 
-  log(`got R53 change info id: ${recordSetCreationResponseChangeInfoId}`);
+  log(`got R53 change info id: ${recordSetCreationResponseChangeInfoId} for event type ${event.RequestType}`);
+  log({
+    msg: 'event',
+    event,
+  });
 
   switch (event.RequestType) {
     case 'Create':
       log('waiting for DNS to propagate');
-      const res = await route53.waitFor('resourceRecordSetsChanged', {
-        Id: recordSetCreationResponseChangeInfoId,
-        // Note: the default is 30s delay and 60 attempts
-        $waiter: {
-          delay: 2,
-          maxAttempts: 1,
-        },
-      }).promise();
+      try {
+        const res = await route53.waitFor('resourceRecordSetsChanged', {
+          Id: recordSetCreationResponseChangeInfoId,
+          // Note: the default is 30s delay and 60 attempts
+          $waiter: {
+            delay: 2,
+            maxAttempts: 1,
+          },
+        }).promise();
 
-      if (res.ChangeInfo.Status !== 'INSYNC') {
-        log(`DNS propagation not in sync yet. Has status ${res.ChangeInfo.Status}`);
+        if (res.ChangeInfo.Status !== 'INSYNC') {
+          log(`DNS propagation not in sync yet. Has status ${res.ChangeInfo.Status}`);
+          return { IsComplete: false };
+        }
+
+        log(`DNS propagated with status ${res.ChangeInfo.Status}`);
+        return { IsComplete: true };
+      } catch (e) {
+        log(`DNS propagation errored. Has message ${e}`);
         return { IsComplete: false };
       }
-
-      log(`DNS propagated with status ${res.ChangeInfo.Status}`);
-      return { IsComplete: true };
     case 'Update':
     case 'Delete':
       return {

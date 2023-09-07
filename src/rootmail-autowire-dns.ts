@@ -155,6 +155,7 @@ class RootmailAutowireDnsProvider extends Construct {
     this.provider = new cr.Provider(this, 'rootmail-autowire-dns-provider', {
       isCompleteHandler: isCompleteHandlerFunc,
       queryInterval: Duration.seconds(5),
+      totalTimeout: Duration.minutes(20),
       onEventHandler: onEventHandlerFunc,
     });
   };
