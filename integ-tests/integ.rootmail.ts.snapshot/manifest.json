@@ -17,7 +17,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/d2ea2d0ee6b98044ea0caeb1d6cde08d82e9182c8f58d7d8981c2f08646ed0a0.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/05106b4e120700d6db9e92f1e23f3c8322bd01a414c4e98b7392efa6f1ad5999.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -537,30 +537,6 @@
             "data": "closeopsitemhandlerLogRetentionFD7FC04E"
           }
         ],
-        "/RootmailTestStack/cleanup-handler/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "cleanuphandlerServiceRole75DDF28E"
-          }
-        ],
-        "/RootmailTestStack/cleanup-handler/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "cleanuphandlerServiceRoleDefaultPolicyC2446EB9"
-          }
-        ],
-        "/RootmailTestStack/cleanup-handler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "cleanuphandler9FC988D3"
-          }
-        ],
-        "/RootmailTestStack/cleanup-handler/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "cleanuphandlerLogRetention096ADE92"
-          }
-        ],
         "/RootmailTestStack/Exports/Output{\"Ref\":\"sendemailhandler05B16DE5\"}": [
           {
             "type": "aws:cdk:logicalId",
@@ -584,6 +560,42 @@
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
+        ],
+        "cleanuphandlerServiceRole75DDF28E": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cleanuphandlerServiceRole75DDF28E",
+            "trace": [
+              "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
+            ]
+          }
+        ],
+        "cleanuphandlerServiceRoleDefaultPolicyC2446EB9": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cleanuphandlerServiceRoleDefaultPolicyC2446EB9",
+            "trace": [
+              "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
+            ]
+          }
+        ],
+        "cleanuphandler9FC988D3": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cleanuphandler9FC988D3",
+            "trace": [
+              "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
+            ]
+          }
+        ],
+        "cleanuphandlerLogRetention096ADE92": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cleanuphandlerLogRetention096ADE92",
+            "trace": [
+              "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
+            ]
+          }
         ]
       },
       "displayName": "RootmailTestStack"
@@ -604,7 +616,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/b9f8e1f95fe4e095dee0667aada565036a2e3a5eb251568eb0fb5d129ca07fa1.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/d1198b9984cc57c98a39d939a13a594f7d203d28920fbb8e63b346b41ddb9be5.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [

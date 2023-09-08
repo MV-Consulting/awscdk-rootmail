@@ -11,7 +11,7 @@
         ]
       },
       "regions": [
-        "${Token[AWS.Region.11]}"
+        "${Token[AWS.Region.9]}"
       ],
       "cdkCommandOptions": {
         "deploy": {
