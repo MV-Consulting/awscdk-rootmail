@@ -3,8 +3,6 @@ import * as path from 'path';
 import { IntegTest, ExpectedResult, LogType, InvocationType } from '@aws-cdk/integ-tests-alpha';
 import {
   App,
-  Arn,
-  ArnFormat,
   Duration,
   // Duration,
   // Aspects,
@@ -108,76 +106,6 @@ const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-ha
   ],
 });
 
-const cleanupHandler = new NodejsFunction(stackUnderTest, 'cleanup-handler', {
-  entry: path.join(__dirname, 'functions', 'cleanup-handler.ts'),
-  runtime: lambda.Runtime.NODEJS_18_X,
-  logRetention: 1,
-  timeout: Duration.seconds(60),
-  initialPolicy: [
-    new iam.PolicyStatement({
-      actions: [
-        'logs:DescribeLogGroups',
-      ],
-      resources: ['*'],
-    }),
-    new iam.PolicyStatement({
-      actions: [
-        'logs:DeleteLogGroup',
-      ],
-      resources: [
-        Arn.format({
-          partition: 'aws',
-          service: 'logs',
-          region: '*',
-          account: '*',
-          resource: 'log-group',
-          arnFormat: ArnFormat.COLON_RESOURCE_NAME,
-          resourceName: `/aws/lambda/${stackUnderTestName}*`,
-        }),
-        Arn.format({
-          partition: 'aws',
-          service: 'logs',
-          region: '*',
-          account: '*',
-          resource: 'log-group',
-          arnFormat: ArnFormat.COLON_RESOURCE_NAME,
-          resourceName: `/aws/lambda/${integStackName}*`,
-        }),
-      ],
-    }),
-    new iam.PolicyStatement({
-      actions: [
-        'route53:ListHostedZonesByName',
-      ],
-      effect: iam.Effect.ALLOW,
-      resources: ['*'],
-    }),
-    new iam.PolicyStatement({
-      actions: [
-        'route53:ListResourceRecordSets',
-        'route53:ChangeResourceRecordSets',
-      ],
-      effect: iam.Effect.ALLOW,
-      resources: [
-        // arn:aws:route53:::hostedzone/H12345
-        // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
-        Arn.format({
-          partition: 'aws',
-          service: 'route53',
-          region: '',
-          account: '',
-          resource: 'hostedzone',
-          arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-          resourceName: parentHostedZoneId,
-        }),
-      ],
-    }),
-  ],
-});
-
-rootmail.emailBucket.grantRead(cleanupHandler);
-rootmail.emailBucket.grantDelete(cleanupHandler);
-
 /**
  * Assertion:
  * The application should parse a dummy email, store it in S3 and set create an OPS item.
@@ -232,28 +160,6 @@ const validateOpsItemAssertion = integ.assertions
 //   interval: Duration.seconds(10),
 // });
 
-// const cleanupAssertion = integ.assertions
-//   .invokeFunction({
-//     functionName: cleanupHandler.functionName,
-//     logType: LogType.TAIL,
-//     invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
-//     payload: JSON.stringify({
-//       s3EmailBucketName: rootmail.emailBucket.bucketName,
-//       parentHostedZoneId: parentHostedZoneId,
-//       domain: domain,
-//       subdomain: subdomain,
-//       logGroupNamePrefixes: `/aws/lambda/${stackUnderTestName},/aws/lambda/${integStackName}`,
-//     }),
-//   }).expect(ExpectedResult.objectLike(
-//     // as the object 'return { success: 200 };' is wrapped in a Payload object with other properties
-//     {
-//       Payload: {
-//         success: 200,
-//       },
-//     },
-//   ),
-//   );
-
 const getHostedZoneParametersAssertion = integ.assertions
   /**
   * Check that parameter are present
@@ -279,5 +185,3 @@ getHostedZoneParametersAssertion
   .next(sendTestEmailAssertion)
   // Validate and close the OPS item that was created.
   .next(validateOpsItemAssertion);
-// call teardown lambda // TODO check for race condition
-// .next(cleanupAssertion);
