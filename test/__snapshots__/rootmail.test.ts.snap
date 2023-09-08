@@ -518,7 +518,7 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "d79be825803328e8aaa0c1bf8bf22e8d655d8532d8193d2d92a68ab30b37e710.zip",
+          "S3Key": "ac7759fb8b7ad00397de0f0c7c268bc0aca616e08b3bc25969b24f554d70264c.zip",
         },
         "Environment": {
           "Variables": {
@@ -956,7 +956,7 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "ce7c24d7d7dc8a3eb511c6460f2be9cd5998b9a1e15b9d6973c7e9f8de041535.zip",
+          "S3Key": "1685e520cff887a57171e3bdfc9c7ed58b17edc9aef338172cedd745bc887948.zip",
         },
         "Environment": {
           "Variables": {
@@ -1486,7 +1486,7 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "754488fc1ff3b6a1e10fd52845ec8f013f81516d8cac000cb5cbe369c6990d6b.zip",
+          "S3Key": "989ec721cbfae3a478944bedc8f9a5785f1824e1fd953f3285874b57ee20a034.zip",
         },
         "Environment": {
           "Variables": {
@@ -1615,7 +1615,7 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "bba9f8e3ccdec73d26ea0f2afea4b0d5ecfafbd7776532eb15d6a18d60d9da58.zip",
+          "S3Key": "f09d8ad2a12ba86d51dd3e1b6d5cf57e72eded3a2b85c9c7a4e5570ddf7ac0a1.zip",
         },
         "Environment": {
           "Variables": {
@@ -1773,7 +1773,7 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
           "Fn::Join": [
             "",
             [
-              "{"StartAt":"framework-isComplete-task","States":{"framework-isComplete-task":{"End":true,"Retry":[{"ErrorEquals":["States.ALL"],"IntervalSeconds":5,"MaxAttempts":360,"BackoffRate":1}],"Catch":[{"ErrorEquals":["States.ALL"],"Next":"framework-onTimeout-task"}],"Type":"Task","Resource":"",
+              "{"StartAt":"framework-isComplete-task","States":{"framework-isComplete-task":{"End":true,"Retry":[{"ErrorEquals":["States.ALL"],"IntervalSeconds":5,"MaxAttempts":240,"BackoffRate":1}],"Catch":[{"ErrorEquals":["States.ALL"],"Next":"framework-onTimeout-task"}],"Type":"Task","Resource":"",
               {
                 "Fn::GetAtt": [
                   "superwerkerrootmailautowirednsproviderframeworkisComplete38FC88AC",
@@ -2134,7 +2134,6 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
             },
           ],
         },
-        "BucketName": "1234-rootmail-bucket",
         "PublicAccessBlockConfiguration": {
           "BlockPublicAcls": true,
           "BlockPublicPolicy": true,
@@ -2270,6 +2269,106 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       },
       "Type": "AWS::Route53::RecordSet",
     },
+    "testRootmailHostedZoneDkimHostedZoneDKIMTokenRecord135221F6A": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "testRootmailHostedZone6DFD3C9C",
+        },
+        "Name": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Fn::Select": [
+                  1,
+                  {
+                    "Fn::GetAtt": [
+                      "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
+                      "DkimTokens",
+                    ],
+                  },
+                ],
+              },
+              "._domainkey.aws.example.com.",
+            ],
+          ],
+        },
+        "ResourceRecords": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::GetAtt": [
+                        "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
+                        "DkimTokens",
+                      ],
+                    },
+                  ],
+                },
+                ".dkim.amazonses.com",
+              ],
+            ],
+          },
+        ],
+        "TTL": "60",
+        "Type": "CNAME",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "testRootmailHostedZoneDkimHostedZoneDKIMTokenRecord2175A1558": {
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "testRootmailHostedZone6DFD3C9C",
+        },
+        "Name": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Fn::Select": [
+                  2,
+                  {
+                    "Fn::GetAtt": [
+                      "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
+                      "DkimTokens",
+                    ],
+                  },
+                ],
+              },
+              "._domainkey.aws.example.com.",
+            ],
+          ],
+        },
+        "ResourceRecords": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    2,
+                    {
+                      "Fn::GetAtt": [
+                        "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
+                        "DkimTokens",
+                      ],
+                    },
+                  ],
+                },
+                ".dkim.amazonses.com",
+              ],
+            ],
+          },
+        ],
+        "TTL": "60",
+        "Type": "CNAME",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
     "testRootmailHostedZoneDkimHostedZoneMXRecord4446D9D3": {
       "Properties": {
         "HostedZoneId": {
@@ -2277,7 +2376,7 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
         },
         "Name": "aws.example.com.",
         "ResourceRecords": [
-          "10 inbound-smtp.eu-west-1.amazonaws.com",
+          "10 inbound-smtp.us-east-1.amazonaws.com",
         ],
         "TTL": "60",
         "Type": "MX",
@@ -2295,14 +2394,14 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
             "Fn::Join": [
               "",
               [
-                ""\\"",
+                """,
                 {
                   "Fn::GetAtt": [
                     "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2",
                     "VerificationToken",
                   ],
                 },
-                "\\""",
+                """,
               ],
             ],
           },
@@ -2316,7 +2415,7 @@ exports[`rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Name": "/superwerker/auto_wire_r53_changeinfo_id",
         "Type": "String",
-        "Value": "",
+        "Value": "dummy",
       },
       "Type": "AWS::SSM::Parameter",
     },

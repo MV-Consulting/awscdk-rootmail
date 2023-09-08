@@ -422,7 +422,6 @@ const rootmailProps: RootmailProps = { ... }
 | --- | --- | --- |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.autowireDNSOnAWSParentHostedZoneId">autowireDNSOnAWSParentHostedZoneId</a></code> | <code>string</code> | The ID of the hosted zone of the <domain>, which has to be in the same AWS account. |
-| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.emailBucketName">emailBucketName</a></code> | <code>string</code> | The name of the S3 bucket that will be used to store the emails for 'root@<subdomain>.<domain>'. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.totalTimeToWireDNS">totalTimeToWireDNS</a></code> | <code>aws-cdk-lib.Duration</code> | The total time to wait for the DNS records to be available/wired. |
@@ -453,19 +452,6 @@ public readonly autowireDNSOnAWSParentHostedZoneId: string;
 - *Default:* undefined
 
 The ID of the hosted zone of the <domain>, which has to be in the same AWS account.
-
----
-
-##### `emailBucketName`<sup>Optional</sup> <a name="emailBucketName" id="@mavogel/awscdk-rootmail.RootmailProps.property.emailBucketName"></a>
-
-```typescript
-public readonly emailBucketName: string;
-```
-
-- *Type:* string
-- *Default:* '<accountId>-rootmail-bucket'
-
-The name of the S3 bucket that will be used to store the emails for 'root@<subdomain>.<domain>'.
 
 ---
 
