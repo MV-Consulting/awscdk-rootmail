@@ -32,8 +32,8 @@ const stackUnderTest = new Stack(app, stackUnderTestName, {
     "This stack includes the application's resources for integration testing.",
 });
 
-const randomTestId = Math.floor(Math.random() * 100000);
-const subdomain = `integ-test-${randomTestId}`; // TODO randomize
+const randomTestId = 1234;
+const subdomain = `integ-test-${randomTestId}`;
 const domain = 'mavogel.xyz';
 const parentHostedZoneId = 'Z02503291YUXLE3C4727T'; // mavogel.xyz
 
