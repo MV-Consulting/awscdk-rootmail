@@ -96,7 +96,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       }
 
       log(`NS record for Name '${subdomain}.${domain}' and type NS does not exist. Creating.`);
-      // in the HZ of the domain we create the NS record for the subdomain
+      // in the HZ of the domain (parentHostedZone) we create the NS record for the subdomain
       const recordSetCreationResponse = await route53.changeResourceRecordSets({
         HostedZoneId: hostedZoneId,
         ChangeBatch: {
@@ -132,8 +132,52 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       };
 
     case 'Update':
+      log(`Skipping update for NS record for Name '${subdomain}.${domain}'`);
+      return {};
     case 'Delete':
-      // TODO add deletion of NS records
+      log(`Deleting NS record for Name '${subdomain}.${domain}'`);
+      const recordName = `${subdomain}.${domain}`;
+      try {
+        let nextRecordName: string | undefined;
+        let isRecordDeleted = false;
+        do {
+          const recordsResponse = await route53.listResourceRecordSets({
+            HostedZoneId: parentHostedZoneId,
+            StartRecordName: nextRecordName,
+          }).promise();
+
+          for (const recordSet of recordsResponse.ResourceRecordSets || []) {
+            // Note the trainling dot in the name at the end
+            if (recordSet.Name === `${recordName}.` && recordSet.Type === 'NS') {
+              console.log(`Deleting record: ${recordSet.Name} ${recordSet.Type}`);
+              await route53.changeResourceRecordSets({
+                HostedZoneId: parentHostedZoneId,
+                ChangeBatch: {
+                  Changes: [
+                    {
+                      Action: 'DELETE',
+                      ResourceRecordSet: recordSet,
+                    },
+                  ],
+                },
+              }).promise();
+              console.log(`Deleted record: ${recordSet.Name} ${recordSet.Type}. Stopping here.`);
+              isRecordDeleted = true;
+              // we exit here as there should be only one record with the given name and type
+              break;
+            }
+          }
+
+          nextRecordName = recordsResponse.NextRecordName;
+          if (isRecordDeleted) {
+            console.log(`Record deleted: ${recordName} type 'NS'. Quitting.`);
+            break;
+          }
+        } while (nextRecordName);
+      } catch (err) {
+        console.log(`Error deleting records: ${err}`);
+        throw err;
+      }
       return {};
   }
 };

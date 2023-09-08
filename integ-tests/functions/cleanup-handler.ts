@@ -23,61 +23,11 @@ export const handler = async (event: any) => {
 
   try {
     await emptyS3Bucket(s3, emailBucketName || '');
-    await deleteRecords(route53, parentHostedZoneId || '', `${subdomain}.${domain}`, 'NS');
     // await deleteLogGroups(cwl, logGroupNamePrefixes);
     return { success: 200 };
   } catch (err) {
     console.log(`Error cleaning up: ${err}`);
     return { success: 500, err: err };
-  }
-};
-
-const deleteRecords = async (route53Handler: AWS.Route53, hostedZoneId: string, recordName: string, recordType: string) => {
-  log({
-    msg: 'Deleting records',
-    hostedZoneId: hostedZoneId,
-    recordName: recordName,
-    recordType: recordType,
-  });
-  try {
-    let nextRecordName: string | undefined;
-    let isRecordDeleted = false;
-    do {
-      const recordsResponse = await route53Handler.listResourceRecordSets({
-        HostedZoneId: hostedZoneId,
-        StartRecordName: nextRecordName,
-      }).promise();
-
-      for (const recordSet of recordsResponse.ResourceRecordSets || []) {
-        // Note the trainling dot in the name at the end
-        if (recordSet.Name === `${recordName}.` && recordSet.Type === recordType) {
-          console.log(`Deleting record: ${recordSet.Name} ${recordSet.Type}`);
-          await route53Handler.changeResourceRecordSets({
-            HostedZoneId: hostedZoneId,
-            ChangeBatch: {
-              Changes: [
-                {
-                  Action: 'DELETE',
-                  ResourceRecordSet: recordSet,
-                },
-              ],
-            },
-          }).promise();
-          console.log(`Deleted record: ${recordSet.Name} ${recordSet.Type}. Stopping here.`);
-          isRecordDeleted = true;
-          // we exit here as there should be only one record with the given name and type
-          break;
-        }
-      }
-
-      nextRecordName = recordsResponse.NextRecordName;
-      if (isRecordDeleted) {
-        console.log(`Record deleted: ${recordName} ${recordType}. Quitting.`);
-        break;
-      }
-    } while (nextRecordName);
-  } catch (err) {
-    console.log(`Error deleting records: ${err}`);
   }
 };
 
