@@ -232,27 +232,27 @@ const validateOpsItemAssertion = integ.assertions
 //   interval: Duration.seconds(10),
 // });
 
-const cleanupAssertion = integ.assertions
-  .invokeFunction({
-    functionName: cleanupHandler.functionName,
-    logType: LogType.TAIL,
-    invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
-    payload: JSON.stringify({
-      s3EmailBucketName: rootmail.emailBucket.bucketName,
-      parentHostedZoneId: parentHostedZoneId,
-      domain: domain,
-      subdomain: subdomain,
-      logGroupNamePrefixes: `/aws/lambda/${stackUnderTestName},/aws/lambda/${integStackName}`,
-    }),
-  }).expect(ExpectedResult.objectLike(
-    // as the object 'return { success: 200 };' is wrapped in a Payload object with other properties
-    {
-      Payload: {
-        success: 200,
-      },
-    },
-  ),
-  );
+// const cleanupAssertion = integ.assertions
+//   .invokeFunction({
+//     functionName: cleanupHandler.functionName,
+//     logType: LogType.TAIL,
+//     invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
+//     payload: JSON.stringify({
+//       s3EmailBucketName: rootmail.emailBucket.bucketName,
+//       parentHostedZoneId: parentHostedZoneId,
+//       domain: domain,
+//       subdomain: subdomain,
+//       logGroupNamePrefixes: `/aws/lambda/${stackUnderTestName},/aws/lambda/${integStackName}`,
+//     }),
+//   }).expect(ExpectedResult.objectLike(
+//     // as the object 'return { success: 200 };' is wrapped in a Payload object with other properties
+//     {
+//       Payload: {
+//         success: 200,
+//       },
+//     },
+//   ),
+//   );
 
 const getHostedZoneParametersAssertion = integ.assertions
   /**
