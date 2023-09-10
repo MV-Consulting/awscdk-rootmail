@@ -10,6 +10,7 @@ A single rootmail box for all your AWS accounts. The cdk implementation of the [
     - [Verify](#verify)
   - [Solution design: Version 2 - Domain in the same AWS account](#solution-design-version-2---domain-in-the-same-aws-account)
     - [Setup v2](#setup-v2)
+  - [Uninstall](#uninstall)
   - [Known issues](#known-issues)
   - [Related projects](#related-projects)
 
@@ -67,25 +68,12 @@ export class MyStack extends Stack {
 
     const domain = 'mycompany.test'; // a domain you need to own
     const subdomain = 'aws'; // subdomain which will be created
-    const rootMailDeployRegion = 'eu-central-1';
     
     const rootmail = new Rootmail(this, 'rootmail-stack', {
       domain: domain,
       subdomain: subdomain,
       env: {
-        region: rootMailDeployRegion,
-      },
-    });
-
-    new SESReceiveStack(this, 'ses-receive-stack', {
-      domain: domain,
-      subdomain: subdomain,
-      emailbucket: rootmail.emailBucket,
-      rootMailDeployRegion: rootMailDeployRegion,
-      // SES only supports receiving in certain regions
-      // https://docs.aws.amazon.com/ses/latest/dg/regions.html#region-receive-email
-      env: {
-        region: 'eu-west-1',
+        region: 'eu-west-1', // or us-east-1, us-west-2
       },
     });
   }
@@ -93,14 +81,14 @@ export class MyStack extends Stack {
 ```
 2. run on your commandline
 ```sh
-docker ps # need to be running to build lambdas with esbuild
-npm run deploy -- --all
+docker ps # need to be running to build lambdas or you have 'esbuild' installed
+npm run deploy
 ```
-3. watch our for the [cfn wait condition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waitcondition.html)
-![wait-condition](docs/img/1-wait-condition-min.png) By default you have **8 hours** to wire the DNS!
-4. Then create the NS record in your domain `mycompany.test` for the subdomain `aws.mycompany.test`. Here for Route53 in AWS:
+1. watch out for the hosted zone  `aws.mycompany.test` to be created
+![subdomain-hosted-zone](docs/img/1-use-ns-from-hz-min.png) By default you have **2 hours** to wire the DNS!
+1. Then create the NS record in your domain `mycompany.test` for the subdomain `aws.mycompany.test`. Here for Route53 in AWS:
 ![create-ns-records](docs/img/2-create-ns-records-min.png)
-5. The `rootmail-ready-handler` Lambda function checks every **5 minutes** if the DNS records for the subdomain are propagated. 
+
 
 ### Verify
 You can test it yourself via
@@ -141,30 +129,15 @@ export class MyStack extends Stack {
 
     const domain = 'mycompany.test'; // a domain you need to own
     const subdomain = 'aws'; // subdomain which will be created
-    const rootMailDeployRegion = 'eu-central-1';
     
     const rootmail = new Rootmail(this, 'rootmail-stack', {
       domain: domain,
       subdomain: subdomain,
-      // NEW start (compared to v1)
-      totalTimeToWireDNS: Duration.minutes(40),                    // <- NEW: time can be reduced
-      autowireDNSOnAWSEnabled: true,                               // <- NEW: enable autowire
+      // NEW compared to v1
       autowireDNSOnAWSParentHostedZoneId: 'Z09999999TESTE1A2B3C4D', // <- NEW the id for 'mycompany.test'
       // NEW end
       env: {
-        region: rootMailDeployRegion,
-      },
-    });
-
-    new SESReceiveStack(this, 'ses-receive-stack', {
-      domain: domain,
-      subdomain: subdomain,
-      emailbucket: rootmail.emailBucket,
-      rootMailDeployRegion: rootMailDeployRegion,
-      // SES only supports receiving in certain regions
-      // https://docs.aws.amazon.com/ses/latest/dg/regions.html#region-receive-email
-      env: {
-        region: 'eu-west-1',
+        region: 'eu-west-1', // or us-east-1, us-west-2
       },
     });
   }
@@ -173,12 +146,17 @@ export class MyStack extends Stack {
 2. run on your commandline
 ```sh
 docker ps # need to be running to build lambdas with esbuild
-npm run deploy -- --all
+npm run deploy
 ```
-1. No need to do anything when you see the [cfn wait condition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waitcondition.html). The NS records are **automatically** propagated!
-![wait-condition](docs/img/1-wait-condition-automatically-min.png)
-1. The `rootmail-ready-handler` Lambda function checks every 5 minutes if the DNS for the subdomain is propagated. 
+1. No need to do anything, the NS records are **automatically** propagated as the parent Hosted Zone is in the same account!
+2. The `hosted-zone-dkim-propagation-provider.is-complete-handler` Lambda function checks every 10 seconds if the DNS for the subdomain is propagated. Details are in the Cloudwatch log group.
 
+## Uninstall
+1. Delete the stack, the custom resources will delete most resources
+2. And by design you need to manually delete the S3 Bucket containing the mails. This is to prevent accidental deletion of the mails. You can find the bucket name in the stack output.
+![s3-bucket](docs/img/4-s3-bucket-min.png)
+3. Furthermore, the cloudwatch log groups are not deleted, since they might contain valuable information. You can delete them manually.
+![log-groups](docs/img/5-log-groups-min.png)
 ## Known issues
 - [jsii/2071](https://github.com/aws/jsii/issues/2071): so adding  `compilerOptions."esModuleInterop": true,` in `tsconfig.json` is not possible. See aws-cdk usage with[typescript](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/#Usage_with_TypeScript). So we needed to change import from `import AWS from 'aws-sdk';` -> `import * as AWS from 'aws-sdk';` to be able to compile.
 
