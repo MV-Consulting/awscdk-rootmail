@@ -28,7 +28,11 @@ This is why you only need 1 mailing list for the AWS Management (formerly *root*
     - Set up the AWS CLI with IAM access credentials. See [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
     - Node.js version 10.13.0 or later
     - AWS CDK version 2.90.0 or later. For installation instructions see [Getting Started with the AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_install)
-    - Docker version 20.10.x or later
+    - Docker version 20.10.x or later **OR** [esbuild](https://esbuild.github.io/)
+
+```sh
+brew install aws-cli node@18 esbuild # on Mac
+```
 
 ## Solution design: Version 1 - external DNS provider
 ![rootmail-solution-diagram-v1](docs/img/awscdk-rootmail-v1-min.png)

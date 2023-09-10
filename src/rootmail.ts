@@ -59,7 +59,7 @@ export class Rootmail extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain ?? 'aws';
     const totalTimeToWireDNS = props.totalTimeToWireDNS ?? Duration.hours(2);
-    const autowireDNSOnAWSParentHostedZoneId = props.autowireDNSOnAWSParentHostedZoneId ?? '';
+    const autowireDNSOnAWSParentHostedZoneId = props.autowireDNSOnAWSParentHostedZoneId;
 
     if (autowireDNSOnAWSParentHostedZoneId !== undefined && autowireDNSOnAWSParentHostedZoneId === '') {
       throw new Error('autowireDNSOnAWSParentHostedZoneId is set but empty');
@@ -80,10 +80,13 @@ export class Rootmail extends Construct {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.S3_MANAGED,
     });
-    NagSuppressions.addResourceSuppressions(this.emailBucket, [
+    NagSuppressions.addResourceSuppressions([
+      this.emailBucket,
+    ], [
       { id: 'AwsSolutions-S1', reason: 'no server access logs needed' },
-    ]);
-
+      { id: 'AwsSolutions-S10', reason: 'no SSL access needed' },
+      // { id: 'AwsSolutions-S10', reason: 'no SSL access needed', appliesTo: [{ regex: '/EmailBucket/g' }] },
+    ], true);
     this.emailBucket.grantPut(new iam.ServicePrincipal('ses.amazonaws.com'), 'RootMail/*');
 
     /**

@@ -7,6 +7,7 @@ import {
 } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cr from 'aws-cdk-lib/custom-resources';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct, Node } from 'constructs';
 import { PROP_DOMAIN } from './hosted-zone-dkim-propagation.on-event-handler';
 
@@ -69,12 +70,19 @@ class HostedZoneDKIMPropagationProvider extends Construct {
         resources: ['*'],
       }),
     );
+    NagSuppressions.addResourceSuppressions(isCompleteHandlerFunc, [
+      { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the ses mail verification' },
+    ], true);
 
     const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
       runtime: lambda.Runtime.NODEJS_18_X,
       logRetention: 3,
       timeout: Duration.seconds(10),
     });
+    NagSuppressions.addResourceSuppressions(onEventHandlerFunc, [
+      { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
+      { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok as the function by itself does nothing' },
+    ], true);
 
     this.provider = new cr.Provider(this, 'hosted-zone-dkim-propagation-provider', {
       isCompleteHandler: isCompleteHandlerFunc,
@@ -82,6 +90,10 @@ class HostedZoneDKIMPropagationProvider extends Construct {
       totalTimeout: props.totalTimeToWireDNS,
       onEventHandler: onEventHandlerFunc,
     });
+    NagSuppressions.addResourceSuppressions(this.provider, [
+      { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
+      { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the provider as the function has restrictions' },
+    ], true);
   };
 }
 

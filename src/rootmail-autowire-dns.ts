@@ -10,6 +10,7 @@ import {
 } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cr from 'aws-cdk-lib/custom-resources';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct, Node } from 'constructs';
 import {
   PROP_DOMAIN,
@@ -158,5 +159,9 @@ class RootmailAutowireDnsProvider extends Construct {
       totalTimeout: Duration.minutes(20),
       onEventHandler: onEventHandlerFunc,
     });
+    NagSuppressions.addResourceSuppressions(this.provider, [
+      { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
+      { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the provider as the function has restrictions' },
+    ], true);
   };
 }

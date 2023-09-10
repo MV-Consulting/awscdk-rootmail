@@ -12,6 +12,7 @@ import {
   aws_s3 as s3,
 } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct, IConstruct } from 'constructs';
 import { SESReceiptRuleSetActivation } from './ses-receipt-ruleset-activation';
 
@@ -109,6 +110,10 @@ export class SESReceive extends Construct {
         }),
       },
     });
+    NagSuppressions.addResourceSuppressions(opsSantaFunctionRole, [
+      { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
+      { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok as we allow every opsitem to be created' },
+    ], true);
 
     const opsSantaFunction = new NodejsFunction(this, 'ops-santa-handler', {
       handler: 'handler',

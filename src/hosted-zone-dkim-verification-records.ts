@@ -7,6 +7,7 @@ import {
 } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cr from 'aws-cdk-lib/custom-resources';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct, Node } from 'constructs';
 import { ATTR_VERIFICATION_TOKEN, ATTR_DKIM_TOKENS, PROP_DOMAIN } from './hosted-zone-dkim-verification-records.on-event-handler';
 
@@ -73,5 +74,9 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
       onEventHandler: onEventHandlerFunc,
       logRetention: 3,
     });
+    NagSuppressions.addResourceSuppressions(this.provider, [
+      { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
+      { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the provider as the function has restrictions' },
+    ], true);
   };
 }
