@@ -27,6 +27,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   bundledDeps: [
     'aws-sdk',
     'axios',
+    'cdk-nag',
     'mailparser',
     'uuid',
   ],
@@ -41,7 +42,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@aws-cdk/integ-tests-alpha@^2.90.0-alpha.0',
     '@commitlint/cli',
     '@commitlint/config-conventional',
-    'cdk-nag',
     'husky',
     'jsonfile',
   ],

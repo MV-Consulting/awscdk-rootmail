@@ -10,6 +10,7 @@ import {
   RemovalPolicy,
   Aspects,
 } from 'aws-cdk-lib';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct, IConstruct } from 'constructs';
 import { HostedZoneDkim } from './hosted-zone-dkim';
 import { SESReceive } from './ses-receive';
@@ -79,6 +80,9 @@ export class Rootmail extends Construct {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.S3_MANAGED,
     });
+    NagSuppressions.addResourceSuppressions(this.emailBucket, [
+      { id: 'AwsSolutions-S1', reason: 'no server access logs needed' },
+    ]);
 
     this.emailBucket.grantPut(new iam.ServicePrincipal('ses.amazonaws.com'), 'RootMail/*');
 
