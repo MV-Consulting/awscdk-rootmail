@@ -4,28 +4,17 @@ import { IntegTest, ExpectedResult, LogType, InvocationType } from '@aws-cdk/int
 import {
   App,
   Duration,
-  // Duration,
-  // Aspects,
   Stack,
   aws_iam as iam,
   aws_lambda as lambda,
 } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-// eslint-disable-next-line import/no-extraneous-dependencies
-// import { AwsSolutionsChecks } from 'cdk-nag';
 import { Rootmail } from '../src/rootmail';
 // CDK App for Integration Tests
 const app = new App();
-// Add the cdk-nag AwsSolutions Pack with extra verbose logging enabled.
-// see https://aws.amazon.com/de/blogs/devops/manage-application-security-and-compliance-with-the-aws-cloud-development-kit-and-cdk-nag/
-// Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }));
 // Stack under test
 const stackUnderTestName = 'RootmailTestStack';
 const stackUnderTest = new Stack(app, stackUnderTestName, {
-  // env: {
-  // region: 'eu-central-1',
-  // account: '1234',
-  // },
   description:
     "This stack includes the application's resources for integration testing.",
 });
@@ -33,13 +22,13 @@ const stackUnderTest = new Stack(app, stackUnderTestName, {
 const randomTestId = 1234;
 const subdomain = `integ-test-${randomTestId}`;
 const domain = 'mavogel.xyz';
-const parentHostedZoneId = 'Z02503291YUXLE3C4727T'; // mavogel.xyz
+const parentHostedZoneId = 'Z02503291YUXLE3C4727T'; // mavogel.xyz  // TODO from lookup
 
 const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   subdomain: subdomain,
   domain: domain,
-  // tests took on average 15-20 minutes , but we leave some buffer
-  totalTimeToWireDNS: Duration.minutes(40),
+  // tests took on average 10-15 minutes , but we leave some buffer
+  totalTimeToWireDNS: Duration.minutes(20),
   autowireDNSOnAWSParentHostedZoneId: parentHostedZoneId,
   setDestroyPolicyToAllResources: false,
 });
