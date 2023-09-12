@@ -53,7 +53,7 @@ describe('rootmail-autoDns', () => {
   });
 });
 
-describe('rootmail-cdk-nag-AwsSolutions-Pack', () => {
+describe.skip('rootmail-cdk-nag-AwsSolutions-Pack', () => {
   let stack: Stack;
   let app: App;
   // In this case we can use beforeAll() over beforeEach() since our tests

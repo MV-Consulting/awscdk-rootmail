@@ -163,6 +163,20 @@ exports[`ses-receive-stack-create 1`] = `
         "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF",
         "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
       ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
@@ -192,6 +206,20 @@ exports[`ses-receive-stack-create 1`] = `
       "Type": "AWS::Lambda::Function",
     },
     "superwerkersesreceiptrulesetactivationproviderframeworkonEventLogRetentionABE68CA2": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
       "Properties": {
         "LogGroupName": {
           "Fn::Join": [
@@ -215,6 +243,20 @@ exports[`ses-receive-stack-create 1`] = `
       "Type": "Custom::LogRetention",
     },
     "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -246,6 +288,20 @@ exports[`ses-receive-stack-create 1`] = `
       "Type": "AWS::IAM::Role",
     },
     "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -338,6 +394,20 @@ exports[`ses-receive-stack-create 1`] = `
       "Type": "Custom::LogRetention",
     },
     "testSesReceiveOpsSantaFunctionRoleE4ADD3F6": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok as we allow every opsitem to be created",
+            },
+          ],
+        },
+      },
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
