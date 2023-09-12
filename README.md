@@ -5,11 +5,12 @@ A single rootmail box for all your AWS accounts. The cdk implementation of the [
 - [awscdk-rootmail](#awscdk-rootmail)
   - [TL;DR](#tldr)
   - [Prerequisites](#prerequisites)
-  - [Solution design: Version 1 - external DNS provider](#solution-design-version-1---external-dns-provider)
-    - [Setup v1](#setup-v1)
+  - [Solution design: Version 1 - Domain in the same AWS account](#solution-design-version-1---domain-in-the-same-aws-account)
+    - [Setup](#setup)
     - [Verify](#verify)
-  - [Solution design: Version 2 - Domain in the same AWS account](#solution-design-version-2---domain-in-the-same-aws-account)
-    - [Setup v2](#setup-v2)
+  - [Solution design: Version 2 - external DNS provider](#solution-design-version-2---external-dns-provider)
+    - [Setup](#setup-1)
+    - [Verify](#verify-1)
   - [Uninstall](#uninstall)
   - [Known issues](#known-issues)
   - [Related projects](#related-projects)
@@ -35,7 +36,59 @@ This is why you only need 1 mailing list for the AWS Management (formerly *root*
 brew install aws-cli node@18 esbuild # on Mac
 ```
 
-## Solution design: Version 1 - external DNS provider
+## Solution design: Version 1 - Domain in the same AWS account
+![rootmail-solution-diagram-v2](docs/img/awscdk-rootmail-v2-min.png)
+
+1. You own a domain, e.g., `mycompany.test`, registered via `Route53` in the **same** AWS account.
+2. The stack creates a `Route53` public Hosted Zone for the subdomain, e.g., `aws.mycompany.test`. It also automatically adds the TXT and CNAME records for verifying the domain towards SES **and** adds the NS server entries automatically to the main domain `mycompany.test`. (**NOTE:** you can still do this manually if desired, as described in `v1` above)
+3. items 3-7 are the same as in `v1`
+
+### Setup
+1. To start a new project we recommend using [projen](https://projen.io/).
+   1. Create a new projen project
+   ```sh
+   npx projen new awscdk-app-ts
+   ```
+   2. Add `@mavogel/awscdk-rootmail` as a dependency to your project in the `.projenrc.ts` file
+   3. Run `npm run projen` to install it
+2. In you `main.ts` file add the following
+```ts
+import { App, Stack, StackProps, Duration } from 'aws-cdk-lib';
+import { Rootmail, SESReceiveStack } from 'awscdk-rootmail';
+import { Construct } from 'constructs';
+
+export class MyStack extends Stack {
+  constructor(scope: Construct, id: string, props: StackProps = {}) {
+    super(scope, id, props);
+
+    const domain = 'mycompany.test'; // a domain you need to own
+    const subdomain = 'aws'; // subdomain which will be created
+    
+    const rootmail = new Rootmail(this, 'rootmail-stack', {
+      domain: domain,
+      subdomain: subdomain,
+      // NEW compared to v1
+      autowireDNSOnAWSParentHostedZoneId: 'Z09999999TESTE1A2B3C4D', // <- NEW the id for 'mycompany.test'
+      // NEW end
+      env: {
+        region: 'eu-west-1', // or us-east-1, us-west-2
+      },
+    });
+  }
+}
+```
+2. run on your commandline
+```sh
+docker ps # need to be running to build lambdas with esbuild
+npm run deploy
+```
+1. No need to do anything, the NS records are **automatically** propagated as the parent Hosted Zone is in the same account!
+2. The `hosted-zone-dkim-propagation-provider.is-complete-handler` Lambda function checks every 10 seconds if the DNS for the subdomain is propagated. Details are in the Cloudwatch log group.
+
+### Verify
+Nothing to do, the verification is done automatically.
+
+## Solution design: Version 2 - external DNS provider
 ![rootmail-solution-diagram-v1](docs/img/awscdk-rootmail-v1-min.png)
 
 1. You own a domain, e.g., `mycompany.test`. It can be at any registrar such as `godaddy`, also `Route53` itself in another AWS account.
@@ -48,7 +101,7 @@ brew install aws-cli node@18 esbuild # on Mac
 4. The SSM parameter store for password reset links.
 5. The OpsItem which is created. It is open and shall be further processed either in the OpsCenter or any other issue tracker.
 
-### Setup v1
+### Setup
 1. To start a new project we recommend using [projen](https://projen.io/).
    1. Create a new projen project
    ```sh
@@ -101,55 +154,6 @@ ns-33.your-dns-provider-04.com.
 ns-444.your-dns-provider-12.net.
 ```
 and also by sending an EMail, e.g. from Gmail to `root@aws.mycompany.test`
-
-## Solution design: Version 2 - Domain in the same AWS account
-![rootmail-solution-diagram-v2](docs/img/awscdk-rootmail-v2-min.png)
-
-1. You own a domain, e.g., `mycompany.test`, registered via `Route53` in the **same** AWS account.
-2. The stack creates a `Route53` public Hosted Zone for the subdomain, e.g., `aws.mycompany.test`. It also automatically adds the TXT and CNAME records for verifying the domain towards SES **and** adds the NS server entries automatically to the main domain `mycompany.test`. (**NOTE:** you can still do this manually if desired, as described in `v1` above)
-3. items 3-7 are the same as in `v1`
-
-### Setup v2
-1. To start a new project we recommend using [projen](https://projen.io/).
-   1. Create a new projen project
-   ```sh
-   npx projen new awscdk-app-ts
-   ```
-   2. Add `@mavogel/awscdk-rootmail` as a dependency to your project in the `.projenrc.ts` file
-   3. Run `npm run projen` to install it
-2. In you `main.ts` file add the following
-```ts
-import { App, Stack, StackProps, Duration } from 'aws-cdk-lib';
-import { Rootmail, SESReceiveStack } from 'awscdk-rootmail';
-import { Construct } from 'constructs';
-
-export class MyStack extends Stack {
-  constructor(scope: Construct, id: string, props: StackProps = {}) {
-    super(scope, id, props);
-
-    const domain = 'mycompany.test'; // a domain you need to own
-    const subdomain = 'aws'; // subdomain which will be created
-    
-    const rootmail = new Rootmail(this, 'rootmail-stack', {
-      domain: domain,
-      subdomain: subdomain,
-      // NEW compared to v1
-      autowireDNSOnAWSParentHostedZoneId: 'Z09999999TESTE1A2B3C4D', // <- NEW the id for 'mycompany.test'
-      // NEW end
-      env: {
-        region: 'eu-west-1', // or us-east-1, us-west-2
-      },
-    });
-  }
-}
-```
-2. run on your commandline
-```sh
-docker ps # need to be running to build lambdas with esbuild
-npm run deploy
-```
-1. No need to do anything, the NS records are **automatically** propagated as the parent Hosted Zone is in the same account!
-2. The `hosted-zone-dkim-propagation-provider.is-complete-handler` Lambda function checks every 10 seconds if the DNS for the subdomain is propagated. Details are in the Cloudwatch log group.
 
 ## Uninstall
 1. Delete the stack, the custom resources will delete most resources
