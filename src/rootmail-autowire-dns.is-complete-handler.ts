@@ -2,7 +2,7 @@
 import * as AWSCDKAsyncCustomResource from 'aws-cdk-lib/custom-resources/lib/provider-framework/types';
 import { Route53, SSM } from 'aws-sdk';
 export const PROP_DOMAIN = 'Domain';
-export const PROP_R53_HANGEINFO_ID_PARAMETER_NAME = 'R53ChangeInfoIdParameterName'; // TODO DRY
+export const PROP_R53_HANGEINFO_ID_PARAMETER_NAME = 'R53ChangeInfoIdParameterName'; // TODO DRY with interface
 
 const route53 = new Route53();
 const ssm = new SSM();

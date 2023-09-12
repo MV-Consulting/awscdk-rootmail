@@ -33,7 +33,14 @@ export interface RootmailAutowireDnsProps {
    */
   readonly subdomain?: string;
 
+  /**
+   * The ID of the hosted zone of the <domain>, which has to be in the same AWS account.
+   */
   readonly autowireDNSOnAWSParentHostedZoneId: string;
+
+  /**
+   * The Hosted Zone SSM Parameter Name for the NS records.
+   */
   readonly hostedZoneSSMParameter: ssm.StringListParameter;
   readonly autoWireR53ChangeInfoIdParameter?: ssm.StringParameter; // TODO make internal
 }
