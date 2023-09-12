@@ -45,7 +45,7 @@ Looking at the existing issues is a great way to find something to contribute on
 
 
 ## Code of Conduct
-See the [Code of Conduct](CODE_OF_CONDUCT) file or contact `info@superluminar.io` with any additional questions or comments.
+See the [Code of Conduct](CODE_OF_CONDUCT) file or contact `info@manuel-vogel.de` with any additional questions or comments.
 
 
 ## Security issue notifications

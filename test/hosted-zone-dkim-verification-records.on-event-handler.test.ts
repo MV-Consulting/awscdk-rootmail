@@ -37,7 +37,7 @@ describe('hosted-zone-dkim-verification-records', () => {
       {
         RequestType: 'Create',
         ResourceProperties: {
-          Domain: 'aws.superluminar.io',
+          Domain: 'aws.manuel-vogel.de',
         },
       } as unknown as OnEventRequest,
     );
@@ -66,7 +66,7 @@ describe('hosted-zone-dkim-verification-records', () => {
       {
         RequestType: 'Delete',
         ResourceProperties: {
-          Domain: 'aws.superluminar.io',
+          Domain: 'aws.manuel-vogel.de',
         },
       } as unknown as OnEventRequest,
     );

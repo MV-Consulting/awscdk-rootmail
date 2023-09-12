@@ -47,7 +47,7 @@ describe('ses-receipt-ruleset-activation', () => {
       {
         RequestType: 'Create',
         ResourceProperties: {
-          Domain: 'superluminar.io',
+          Domain: 'manuel-vogel.de',
           Subdomain: 'aws',
           EmailBucket: 'email-bucket',
           OpsSantaFunctionArn: 'func-arn',
@@ -83,7 +83,7 @@ describe('ses-receipt-ruleset-activation', () => {
       {
         RequestType: 'Update',
         ResourceProperties: {
-          Domain: 'superluminar.io',
+          Domain: 'manuel-vogel.de',
           Subdomain: 'aws',
           EmailBucket: 'email-bucket',
           OpsSantaFunctionArn: 'func-arn',
@@ -120,7 +120,7 @@ describe('ses-receipt-ruleset-activation', () => {
       {
         RequestType: 'Delete',
         ResourceProperties: {
-          Domain: 'superluminar.io',
+          Domain: 'manuel-vogel.de',
           Subdomain: 'aws',
           EmailBucket: 'email-bucket',
           OpsSantaFunctionArn: 'func-arn',

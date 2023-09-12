@@ -77,7 +77,7 @@ describe('wire-rootmail-dns', () => {
       {
         RequestType: 'Create',
         ResourceProperties: {
-          Domain: 'superluminar.io',
+          Domain: 'manuel-vogel.de',
           Subdomain: 'aws',
           HostedZoneParameterName: '/superwerker/dns_name_servers',
           R53ChangeInfoIdParameterName: '/superwerker/auto_wire_r53_changeinfo_id',
@@ -119,7 +119,7 @@ describe('wire-rootmail-dns', () => {
         return Promise.resolve({
           ResourceRecordSets: [
             // record already exist
-            { Name: 'aws.superluminar.io.', Type: 'NS' },
+            { Name: 'aws.manuel-vogel.de.', Type: 'NS' },
           ],
         });
       },
@@ -129,7 +129,7 @@ describe('wire-rootmail-dns', () => {
       {
         RequestType: 'Create',
         ResourceProperties: {
-          Domain: 'superluminar.io',
+          Domain: 'manuel-vogel.de',
           Subdomain: 'aws',
           HostedZoneParameterName: '/superwerker/dns_name_servers',
           R53ChangeInfoIdParameterName: '/superwerker/auto_wire_r53_changeinfo_id',

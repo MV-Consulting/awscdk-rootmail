@@ -45,7 +45,7 @@ describe('wire-rootmail-dns-completion', () => {
       {
         RequestType: 'Create',
         ResourceProperties: {
-          Domain: 'superluminar.io',
+          Domain: 'manuel-vogel.de',
           Subdomain: 'aws',
           HostedZoneParameterName: '/superwerker/dns_name_servers',
           R53ChangeInfoIdParameterName: '/superwerker/auto_wire_r53_changeinfo_id',
