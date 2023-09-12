@@ -67,17 +67,12 @@ export class MyStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
     super(scope, id, props);
 
-    const domain = 'mycompany.test'; // a domain you need to own
-    const subdomain = 'aws'; // subdomain which will be created
-    
     const rootmail = new Rootmail(this, 'rootmail-stack', {
-      domain: domain,
-      subdomain: subdomain,
-      // NEW compared to v1
-      autowireDNSOnAWSParentHostedZoneId: 'Z09999999TESTE1A2B3C4D', // <- NEW the id for 'mycompany.test'
-      // NEW end
+      domain: 'mycompany.test'; // a domain you need to own,
+      subdomain: 'aws'; // subdomain which will be created,
+      autowireDNSOnAWSParentHostedZoneId: 'Z09999999TESTE1A2B3C4D', // the Hosted Zone Id of the parent domain, e.g. mycompany.test
       env: {
-        region: 'eu-west-1', // or us-east-1, us-west-2
+        region: 'eu-west-1', // or any region SES is available
       },
     });
   }
@@ -120,14 +115,11 @@ export class MyStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
     super(scope, id, props);
 
-    const domain = 'mycompany.test'; // a domain you need to own
-    const subdomain = 'aws'; // subdomain which will be created
-    
     const rootmail = new Rootmail(this, 'rootmail-stack', {
-      domain: domain,
-      subdomain: subdomain,
+      domain: 'mycompany.test'; // a domain you need to own,
+      subdomain: 'aws'; // subdomain which will be created,
       env: {
-        region: 'eu-west-1', // or us-east-1, us-west-2
+        region: 'eu-west-1', // or any region SES is available
       },
     });
   }
