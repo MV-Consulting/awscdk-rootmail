@@ -160,7 +160,7 @@ export const handler = async (event: SESEventRecordsToLambda) => {
       }
       const description = msg.html;
       const pw_reset_link = description.match(/https:\/\/signin.aws.amazon.com\/resetpassword(.*?)(?=<br>)/)?.[0] || 'no passsord reset link';
-      const rootmail_identifier = `/superwerker/rootmail/pw_reset_link/${source.split('@')[0].split('root+')[1]}`;
+      const rootmail_identifier = `/rootmail/pw_reset_link/${source.split('@')[0].split('root+')[1]}`;
       await ssm.putParameter(
         {
           Name: rootmail_identifier,

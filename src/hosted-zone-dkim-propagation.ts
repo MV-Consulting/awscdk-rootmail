@@ -41,7 +41,7 @@ class HostedZoneDKIMPropagationProvider extends Construct {
    */
   public static getOrCreate(scope: Construct, props: HostedZoneDKIMPropagationProviderProps) {
     const stack = Stack.of(scope);
-    const id = 'superwerker.hosted-zone-dkim-propagation-provider';
+    const id = 'rootmail.hosted-zone-dkim-propagation-provider';
     const x = Node.of(stack).tryFindChild(id) as HostedZoneDKIMPropagationProvider
       || new HostedZoneDKIMPropagationProvider(stack, id, props);
     return x.provider.serviceToken;

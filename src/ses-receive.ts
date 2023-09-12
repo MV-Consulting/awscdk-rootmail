@@ -18,12 +18,12 @@ import { SESReceiptRuleSetActivation } from './ses-receipt-ruleset-activation';
 
 export interface SESReceiveProps {
   /**
-   * Domain used for root mail feature. Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+   * Domain used for root mail feature.
    */
   readonly domain: string;
 
   /**
-   * Subdomain used for root mail feature. Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+   * Subdomain used for root mail feature.
    */
   readonly subdomain: string;
 
@@ -92,7 +92,7 @@ export class SESReceive extends Construct {
                 'ssm:PutParameter',
               ],
               resources: [
-                // arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/superwerker/*
+                // arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/rootmail/*
                 // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
                 Arn.format({
                   partition: Stack.of(this).partition,
@@ -101,7 +101,7 @@ export class SESReceive extends Construct {
                   account: Stack.of(this).account,
                   resource: 'parameter',
                   arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-                  resourceName: 'superwerker/*',
+                  resourceName: 'rootmail/*',
                 }, Stack.of(this)),
               ],
             }),

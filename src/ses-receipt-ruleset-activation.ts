@@ -55,7 +55,7 @@ class SESReceiptRuleSetActivationProvider extends Construct {
    */
   public static getOrCreate(scope: Construct, props: SESReceiptRuleSetActivationProviderProps) {
     const stack = Stack.of(scope);
-    const id = 'superwerker.ses-receipt-ruleset-activation-provider';
+    const id = 'rootmail.ses-receipt-ruleset-activation-provider';
     const x = Node.of(stack).tryFindChild(id) as SESReceiptRuleSetActivationProvider
       || new SESReceiptRuleSetActivationProvider(stack, id, props);
     return x.provider.serviceToken;

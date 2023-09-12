@@ -22,12 +22,12 @@ import {
 
 export interface RootmailAutowireDnsProps {
   /**
-   * Domain used for root mail feature. Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+   * Domain used for root mail feature.
    */
   readonly domain: string;
 
   /**
-   * Subdomain used for root mail feature. Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+   * Subdomain used for root mail feature.
    *
    * @default 'aws'
    */
@@ -44,7 +44,7 @@ export class RootmailAutowireDns extends Construct {
     super(scope, id);
 
     const subdomain = props.subdomain ?? 'aws';
-    const autoWireR53ChangeInfoIdParameterName = '/superwerker/auto_wire_r53_changeinfo_id';
+    const autoWireR53ChangeInfoIdParameterName = '/rootmail/auto_wire_r53_changeinfo_id';
 
     const autoWireR53ChangeInfoId = new ssm.StringParameter(this, 'AutoWireR53ChangeInfoId', {
       parameterName: autoWireR53ChangeInfoIdParameterName,
@@ -75,7 +75,7 @@ class RootmailAutowireDnsProvider extends Construct {
    */
   public static getOrCreate(scope: Construct, props: RootmailAutowireDnsProps) {
     const stack = Stack.of(scope);
-    const id = 'superwerker.rootmail-autowire-dns-provider';
+    const id = 'rootmail.autowire-dns-provider';
     const x = Node.of(stack).tryFindChild(id) as RootmailAutowireDnsProvider
       || new RootmailAutowireDnsProvider(stack, id, props);
     return x.provider.serviceToken;

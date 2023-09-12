@@ -42,7 +42,7 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
    */
   public static getOrCreate(scope: Construct) {
     const stack = Stack.of(scope);
-    const id = 'superwerker.hosted-zone-dkim-verification-records-provider';
+    const id = 'rootmail.hosted-zone-dkim-verification-records-provider';
     const x = Node.of(stack).tryFindChild(id) as HostedZoneDKIMAndVerificationRecordsProvider
       || new HostedZoneDKIMAndVerificationRecordsProvider(stack, id);
     return x.provider.serviceToken;

@@ -47,8 +47,8 @@ describe('wire-rootmail-dns-completion', () => {
         ResourceProperties: {
           Domain: 'manuel-vogel.de',
           Subdomain: 'aws',
-          HostedZoneParameterName: '/superwerker/dns_name_servers',
-          R53ChangeInfoIdParameterName: '/superwerker/auto_wire_r53_changeinfo_id',
+          HostedZoneParameterName: '/rootmail/dns_name_servers',
+          R53ChangeInfoIdParameterName: '/rootmail/auto_wire_r53_changeinfo_id',
           ParentHostedZoneId: 'Z1234567890CC2',
         },
       } as unknown as OnEventRequest,

@@ -12,12 +12,12 @@ import { RootmailAutowireDns } from './rootmail-autowire-dns';
 
 export interface HostedZoneDkimProps {
   /**
-   * Domain used for root mail feature. Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+   * Domain used for root mail feature.
    */
   readonly domain: string;
 
   /**
-   * Subdomain used for root mail feature. Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+   * Subdomain used for root mail feature.
    *
    * @default 'aws'
    */

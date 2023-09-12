@@ -17,12 +17,12 @@ import { SESReceive } from './ses-receive';
 
 export interface RootmailProps {
   /**
-   * Domain used for root mail feature. Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+   * Domain used for root mail feature.
    */
   readonly domain: string;
 
   /**
-   * Subdomain used for root mail feature. Please see https://github.com/superwerker/superwerker/blob/main/README.md#technical-faq for more information
+   * Subdomain used for root mail feature.
    *
    * @default 'aws'
    */
@@ -54,7 +54,7 @@ export class Rootmail extends Construct {
 
   constructor(scope: Construct, id: string, props: RootmailProps) {
     super(scope, id);
-    this.hostedZoneParameterName = '/superwerker/domain_name_servers';
+    this.hostedZoneParameterName = '/rootmail/domain_name_servers';
 
     const domain = props.domain;
     const subdomain = props.subdomain ?? 'aws';
