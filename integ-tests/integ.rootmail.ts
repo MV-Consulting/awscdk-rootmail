@@ -22,14 +22,13 @@ const stackUnderTest = new Stack(app, stackUnderTestName, {
 const randomTestId = 1234;
 const subdomain = `integ-test-${randomTestId}`;
 const domain = 'mavogel.xyz';
-const parentHostedZoneId = 'Z02503291YUXLE3C4727T'; // mavogel.xyz  // TODO from lookup
 
 const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   subdomain: subdomain,
   domain: domain,
   // tests took on average 10-15 minutes , but we leave some buffer
   totalTimeToWireDNS: Duration.minutes(20),
-  autowireDNSOnAWSParentHostedZoneId: parentHostedZoneId,
+  enableAutowireDNS: true,
   setDestroyPolicyToAllResources: false,
 });
 

@@ -29,11 +29,12 @@ export interface HostedZoneDkimProps {
   readonly hostedZone: r53.IHostedZone;
 
   /**
-   * The ID of the hosted zone of the <domain>, which has to be in the same AWS account.
+   * Whether to enable autowiring of the DNS records on the AWS parent hosted zone,
+   * which has to be in the same account.
    *
-   * @default undefined
+   * @default false
    */
-  readonly autowireDNSOnAWSParentHostedZoneId?: string;
+  readonly enableAutowireDNS?: boolean;
   readonly hostedZoneSSMParameter: ssm.StringListParameter;
   readonly totalTimeToWireDNS?: Duration;
 }
@@ -45,7 +46,7 @@ export class HostedZoneDkim extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain ?? 'aws';
     const hostedZone = props.hostedZone;
-    const autowireDNSOnAWSParentHostedZoneId = props.autowireDNSOnAWSParentHostedZoneId ?? '';
+    const enableAutowireDNS = props.enableAutowireDNS ?? false;
     const hostedZoneSSMParameter = props.hostedZoneSSMParameter;
 
     // 1: trigger SNS DKIM verification
@@ -108,11 +109,11 @@ export class HostedZoneDkim extends Construct {
     });
 
     // 3: do autowire of manual DNS records entry. Wait until DNS is propagated
-    if (isAutowireDNSOnAWSParentHostedZoneIdSet(autowireDNSOnAWSParentHostedZoneId)) {
+    if (enableAutowireDNS) {
       new RootmailAutowireDns(this, 'RootmailAutowireDns', {
         domain: domain,
         subdomain: subdomain,
-        autowireDNSOnAWSParentHostedZoneId: autowireDNSOnAWSParentHostedZoneId,
+        enableAutowireDNS: enableAutowireDNS,
         hostedZoneSSMParameter: hostedZoneSSMParameter,
       });
     }
@@ -122,8 +123,4 @@ export class HostedZoneDkim extends Construct {
       domain: `${subdomain}.${domain}`,
     });
   }
-}
-
-function isAutowireDNSOnAWSParentHostedZoneIdSet(autowireDNSOnAWSParentHostedZoneId: string): boolean {
-  return autowireDNSOnAWSParentHostedZoneId !== undefined && autowireDNSOnAWSParentHostedZoneId !== '';
 }

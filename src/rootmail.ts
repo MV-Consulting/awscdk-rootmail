@@ -36,11 +36,12 @@ export interface RootmailProps {
   readonly totalTimeToWireDNS?: Duration;
 
   /**
-   * The ID of the hosted zone of the <domain>, which has to be in the same AWS account.
+   * Whether to enable autowiring of the DNS records on the AWS parent hosted zone,
+   * which has to be in the same account.
    *
-   * @default undefined
+   * @default false
    */
-  readonly autowireDNSOnAWSParentHostedZoneId?: string;
+  readonly enableAutowireDNS?: boolean;
 
   /**
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
@@ -59,11 +60,7 @@ export class Rootmail extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain ?? 'aws';
     const totalTimeToWireDNS = props.totalTimeToWireDNS ?? Duration.hours(2);
-    const autowireDNSOnAWSParentHostedZoneId = props.autowireDNSOnAWSParentHostedZoneId;
-
-    if (autowireDNSOnAWSParentHostedZoneId !== undefined && autowireDNSOnAWSParentHostedZoneId === '') {
-      throw new Error('autowireDNSOnAWSParentHostedZoneId is set but empty');
-    }
+    const enableAutowireDNS = props.enableAutowireDNS ?? false;
 
     const deployRegion = Stack.of(this).region;
     console.log(`Deploy region is ${deployRegion}`);
@@ -105,7 +102,7 @@ export class Rootmail extends Construct {
       domain: domain,
       subdomain: subdomain,
       hostedZone: hostedZone,
-      autowireDNSOnAWSParentHostedZoneId: autowireDNSOnAWSParentHostedZoneId,
+      enableAutowireDNS: enableAutowireDNS,
       hostedZoneSSMParameter: hostedZoneSSMParameter,
       totalTimeToWireDNS: totalTimeToWireDNS,
     });

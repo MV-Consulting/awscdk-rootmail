@@ -5,6 +5,7 @@ import {
   Duration,
   aws_iam as iam,
   aws_lambda as lambda,
+  aws_route53 as r53,
   aws_ssm as ssm,
   Stack,
 } from 'aws-cdk-lib';
@@ -34,15 +35,17 @@ export interface RootmailAutowireDnsProps {
   readonly subdomain?: string;
 
   /**
-   * The ID of the hosted zone of the <domain>, which has to be in the same AWS account.
+   * Whether to enable autowiring of the DNS records on the AWS parent hosted zone,
+   * which has to be in the same account.
+   *
+   * @default false
    */
-  readonly autowireDNSOnAWSParentHostedZoneId: string;
+  readonly enableAutowireDNS?: boolean;
 
   /**
    * The Hosted Zone SSM Parameter Name for the NS records.
    */
   readonly hostedZoneSSMParameter: ssm.StringListParameter;
-  readonly autoWireR53ChangeInfoIdParameter?: ssm.StringParameter; // TODO make internal
 }
 
 export class RootmailAutowireDns extends Construct {
@@ -53,6 +56,10 @@ export class RootmailAutowireDns extends Construct {
     const subdomain = props.subdomain ?? 'aws';
     const autoWireR53ChangeInfoIdParameterName = '/rootmail/auto_wire_r53_changeinfo_id';
 
+    const autowireDNSOnAWSParentHostedZone = r53.HostedZone.fromLookup(this, 'ParentHostedZone', {
+      domainName: props.domain,
+    });
+
     const autoWireR53ChangeInfoId = new ssm.StringParameter(this, 'AutoWireR53ChangeInfoId', {
       parameterName: autoWireR53ChangeInfoIdParameterName,
       stringValue: 'dummy',
@@ -61,6 +68,7 @@ export class RootmailAutowireDns extends Construct {
     new CustomResource(this, 'Resource', {
       serviceToken: RootmailAutowireDnsProvider.getOrCreate(this, {
         autoWireR53ChangeInfoIdParameter: autoWireR53ChangeInfoId,
+        autowireDNSOnAWSParentHostedZone: autowireDNSOnAWSParentHostedZone,
         ...props,
       }),
       resourceType: 'Custom::RootmailAutowireDnsProvider',
@@ -68,7 +76,7 @@ export class RootmailAutowireDns extends Construct {
         [PROP_DOMAIN]: props.domain,
         [PROP_SUB_DOMAIN]: subdomain,
         [PROP_HOSTED_ZONE_PARAMETER_NAME]: props.hostedZoneSSMParameter.parameterName,
-        [PROP_PARENT_HOSTED_ZONE_ID]: props.autowireDNSOnAWSParentHostedZoneId,
+        [PROP_PARENT_HOSTED_ZONE_ID]: autowireDNSOnAWSParentHostedZone.hostedZoneId,
         [PROP_R53_CHANGEINFO_ID_PARAMETER_NAME]: autoWireR53ChangeInfoId.parameterName,
       },
     });
@@ -76,11 +84,16 @@ export class RootmailAutowireDns extends Construct {
   }
 }
 
+interface RootmailAutowireDnsProviderProps extends RootmailAutowireDnsProps {
+  readonly autoWireR53ChangeInfoIdParameter: ssm.StringParameter;
+  readonly autowireDNSOnAWSParentHostedZone: r53.IHostedZone;
+}
+
 class RootmailAutowireDnsProvider extends Construct {
   /**
    * Returns the singleton provider.
    */
-  public static getOrCreate(scope: Construct, props: RootmailAutowireDnsProps) {
+  public static getOrCreate(scope: Construct, props: RootmailAutowireDnsProviderProps) {
     const stack = Stack.of(scope);
     const id = 'rootmail.autowire-dns-provider';
     const x = Node.of(stack).tryFindChild(id) as RootmailAutowireDnsProvider
@@ -90,7 +103,7 @@ class RootmailAutowireDnsProvider extends Construct {
 
   private readonly provider: cr.Provider;
 
-  constructor(scope: Construct, id: string, props: RootmailAutowireDnsProps) {
+  constructor(scope: Construct, id: string, props: RootmailAutowireDnsProviderProps) {
     super(scope, id);
 
     const isCompleteHandlerFunc = new NodejsFunction(this, 'is-complete-handler', {
@@ -154,7 +167,7 @@ class RootmailAutowireDnsProvider extends Construct {
             account: '',
             resource: 'hostedzone',
             arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-            resourceName: props.autowireDNSOnAWSParentHostedZoneId,
+            resourceName: props.autowireDNSOnAWSParentHostedZone.hostedZoneId,
           }),
         ],
       }),

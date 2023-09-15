@@ -8,7 +8,7 @@ import { AwsSolutionsChecks } from 'cdk-nag';
 import { Rootmail, RootmailProps } from '../src';
 
 describe('rootmail-autoDns', () => {
-  test('rootmail-fails-to-create-with-autoDNSEnable', () => {
+  test('rootmail-no-autoDNSEnable', () => {
     const app = new App();
     const stack = new Stack(app, 'testStack', {
       env: {
@@ -19,17 +19,12 @@ describe('rootmail-autoDns', () => {
 
     const testProps: RootmailProps = {
       domain: 'example.com',
-      autowireDNSOnAWSParentHostedZoneId: '',
     };
 
-    try {
-      new Rootmail(stack, 'testRootmail', testProps);
-    } catch (e) {
-      expect(e).toBeInstanceOf(Error);
-      return;
-    }
+    new Rootmail(stack, 'testRootmail', testProps);
 
-    fail('Should have thrown an error');
+    const template = Template.fromStack(stack);
+    expect(template.toJSON()).toMatchSnapshot();
   });
 
   test('rootmail-create-with-autoDNSEnable', () => {
@@ -43,7 +38,7 @@ describe('rootmail-autoDns', () => {
 
     const testProps: RootmailProps = {
       domain: 'example.com',
-      autowireDNSOnAWSParentHostedZoneId: 'randomHZId',
+      enableAutowireDNS: true,
     };
 
     new Rootmail(stack, 'testRootmail', testProps);

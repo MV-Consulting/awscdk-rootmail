@@ -100,7 +100,7 @@ exports[`ses-receive-stack-create 1`] = `
       },
       "Type": "AWS::IAM::Policy",
     },
-    "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6": {
+    "rootmailsesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleA5C4F5B4": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -131,7 +131,7 @@ exports[`ses-receive-stack-create 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy7EDC581F": {
+    "rootmailsesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy92E90A6D": {
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -149,19 +149,19 @@ exports[`ses-receive-stack-create 1`] = `
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy7EDC581F",
+        "PolicyName": "rootmailsesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy92E90A6D",
         "Roles": [
           {
-            "Ref": "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6",
+            "Ref": "rootmailsesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleA5C4F5B4",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528": {
+    "rootmailsesreceiptrulesetactivationproviderframeworkonEventC514B5CD": {
       "DependsOn": [
-        "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF",
-        "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
+        "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy11FA01A0",
+        "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleB5050EE6",
       ],
       "Metadata": {
         "cdk_nag": {
@@ -182,12 +182,12 @@ exports[`ses-receive-stack-create 1`] = `
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
           "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
         },
-        "Description": "AWS CDK resource provider framework - onEvent (testStack/superwerker.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
+        "Description": "AWS CDK resource provider framework - onEvent (testStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
         "Environment": {
           "Variables": {
             "USER_ON_EVENT_FUNCTION_ARN": {
               "Fn::GetAtt": [
-                "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+                "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
                 "Arn",
               ],
             },
@@ -196,7 +196,7 @@ exports[`ses-receive-stack-create 1`] = `
         "Handler": "framework.onEvent",
         "Role": {
           "Fn::GetAtt": [
-            "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
+            "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleB5050EE6",
             "Arn",
           ],
         },
@@ -205,7 +205,7 @@ exports[`ses-receive-stack-create 1`] = `
       },
       "Type": "AWS::Lambda::Function",
     },
-    "superwerkersesreceiptrulesetactivationproviderframeworkonEventLogRetentionABE68CA2": {
+    "rootmailsesreceiptrulesetactivationproviderframeworkonEventLogRetentionA6742D46": {
       "Metadata": {
         "cdk_nag": {
           "rules_to_suppress": [
@@ -227,7 +227,7 @@ exports[`ses-receive-stack-create 1`] = `
             [
               "/aws/lambda/",
               {
-                "Ref": "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528",
+                "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkonEventC514B5CD",
               },
             ],
           ],
@@ -242,7 +242,7 @@ exports[`ses-receive-stack-create 1`] = `
       },
       "Type": "Custom::LogRetention",
     },
-    "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79": {
+    "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleB5050EE6": {
       "Metadata": {
         "cdk_nag": {
           "rules_to_suppress": [
@@ -287,7 +287,7 @@ exports[`ses-receive-stack-create 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF": {
+    "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy11FA01A0": {
       "Metadata": {
         "cdk_nag": {
           "rules_to_suppress": [
@@ -311,7 +311,7 @@ exports[`ses-receive-stack-create 1`] = `
               "Resource": [
                 {
                   "Fn::GetAtt": [
-                    "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+                    "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
                     "Arn",
                   ],
                 },
@@ -321,7 +321,7 @@ exports[`ses-receive-stack-create 1`] = `
                     [
                       {
                         "Fn::GetAtt": [
-                          "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+                          "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
                           "Arn",
                         ],
                       },
@@ -334,19 +334,19 @@ exports[`ses-receive-stack-create 1`] = `
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy2BA0AECF",
+        "PolicyName": "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy11FA01A0",
         "Roles": [
           {
-            "Ref": "superwerkersesreceiptrulesetactivationproviderframeworkonEventServiceRoleA4FA4B79",
+            "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleB5050EE6",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571": {
+    "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877": {
       "DependsOn": [
-        "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy7EDC581F",
-        "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6",
+        "rootmailsesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy92E90A6D",
+        "rootmailsesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleA5C4F5B4",
       ],
       "Properties": {
         "Code": {
@@ -361,7 +361,7 @@ exports[`ses-receive-stack-create 1`] = `
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
-            "superwerkersesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRole3C8743C6",
+            "rootmailsesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleA5C4F5B4",
             "Arn",
           ],
         },
@@ -370,7 +370,7 @@ exports[`ses-receive-stack-create 1`] = `
       },
       "Type": "AWS::Lambda::Function",
     },
-    "superwerkersesreceiptrulesetactivationprovideroneventhandlerLogRetention4030C654": {
+    "rootmailsesreceiptrulesetactivationprovideroneventhandlerLogRetentionFD6A9185": {
       "Properties": {
         "LogGroupName": {
           "Fn::Join": [
@@ -378,7 +378,7 @@ exports[`ses-receive-stack-create 1`] = `
             [
               "/aws/lambda/",
               {
-                "Ref": "superwerkersesreceiptrulesetactivationprovideroneventhandler4B6BF571",
+                "Ref": "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
               },
             ],
           ],
@@ -473,7 +473,7 @@ exports[`ses-receive-stack-create 1`] = `
                         {
                           "Ref": "AWS::Partition",
                         },
-                        ":ssm:eu-west-1:1234:parameter/superwerker/*",
+                        ":ssm:eu-west-1:1234:parameter/rootmail/*",
                       ],
                     ],
                   },
@@ -503,7 +503,7 @@ exports[`ses-receive-stack-create 1`] = `
         "RulesetSettleTimeSeconds": 120,
         "ServiceToken": {
           "Fn::GetAtt": [
-            "superwerkersesreceiptrulesetactivationproviderframeworkonEventAEEF5528",
+            "rootmailsesreceiptrulesetactivationproviderframeworkonEventC514B5CD",
             "Arn",
           ],
         },
@@ -519,7 +519,7 @@ exports[`ses-receive-stack-create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
-          "S3Key": "26caa3dcf91fb0925a0d4b2da8aec28d4ace1938bc847ad47802fb3782a8c883.zip",
+          "S3Key": "b3b33796ee8d3dc57c9d8e179db8f397efebfe1f888b4d5fa86706ef69072ec9.zip",
         },
         "Environment": {
           "Variables": {
