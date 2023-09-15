@@ -12,30 +12,33 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Rootmail } from '../src/rootmail';
 // CDK App for Integration Tests
 const app = new App();
+// Parameters TODO
+const testDomain = process.env.TEST_DOMAIN ?? 'mavogel.xyz';
+const testAccount = process.env.TEST_ACCOUNT ?? '935897259846';
+const testRegion = 'eu-west-1';
 // Stack under test
 const stackUnderTestName = 'RootmailTestStack';
 const stackUnderTest = new Stack(app, stackUnderTestName, {
   description: "This stack includes the application's resources for integration testing.",
   env: {
-    account: '935897259846',
-    region: 'eu-west-1',
+    account: testAccount,
+    region: testRegion,
   },
 });
 
 const randomTestId = 1234;
-const subdomain = `integ-test-${randomTestId}`;
-const domain = 'mavogel.xyz';
+const testSubdomain = `integ-test-${randomTestId}`;
 
 const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
-  subdomain: subdomain,
-  domain: domain,
+  subdomain: testSubdomain,
+  domain: testDomain,
   // tests took on average 10-15 minutes , but we leave some buffer
   totalTimeToWireDNS: Duration.minutes(20),
   enableAutowireDNS: true,
   setDestroyPolicyToAllResources: false,
 });
 
-const fullDomain = `${subdomain}.${domain}`;
+const fullDomain = `${testSubdomain}.${testDomain}`;
 
 // Initialize Integ Test construct
 const integStackName = 'SetupTest';
