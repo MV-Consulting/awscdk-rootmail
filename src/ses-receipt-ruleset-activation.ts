@@ -70,7 +70,6 @@ class SESReceiptRuleSetActivationProvider extends Construct {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
     });
 
-    // onEventHandlerFuncRole.grantAssumeRole(new iam.ServicePrincipal('lambda.amazonaws.com')); // TODO: is this needed?
     onEventHandlerFuncRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'));
     onEventHandlerFuncRole.addToPolicy(
       new iam.PolicyStatement({
