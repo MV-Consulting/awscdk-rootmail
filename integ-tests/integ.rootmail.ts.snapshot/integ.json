@@ -1,0 +1,33 @@
+{
+  "version": "33.0.0",
+  "testCases": {
+    "SetupTest/DefaultTest": {
+      "stacks": [
+        "RootmailTestStack"
+      ],
+      "hooks": {
+        "postDestroy": [
+          "echo \"All resources have been destroyed.\""
+        ]
+      },
+      "regions": [
+        "${Token[AWS.Region.13]}"
+      ],
+      "cdkCommandOptions": {
+        "deploy": {
+          "args": {
+            "stacks": [],
+            "all": true
+          }
+        },
+        "destroy": {
+          "args": {
+            "force": true
+          }
+        }
+      },
+      "assertionStack": "SetupTest/DefaultTest/DeployAssert",
+      "assertionStackName": "SetupTestDefaultTestDeployAssert8633B62F"
+    }
+  }
+}
