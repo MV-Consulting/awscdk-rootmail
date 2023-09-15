@@ -14,6 +14,7 @@ import {
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct, IConstruct } from 'constructs';
+import { isSESEnabledRegion, sesEnabledRegions } from './common';
 import { SESReceiptRuleSetActivation } from './ses-receipt-ruleset-activation';
 
 export interface SESReceiveProps {
@@ -55,9 +56,7 @@ export class SESReceive extends Construct {
     const rulesetSettleTimeSeconds = props.rulesetSettleTimeSeconds ?? 120;
 
     const deployRegion = Stack.of(this).region;
-    const integTestWildcard = '${Token[AWS.Region';
-    const sesEnabledRegions = ['us-east-1', 'us-west-2', 'eu-west-1'];
-    if (!sesEnabledRegions.includes(deployRegion) && !deployRegion.startsWith(integTestWildcard)) {
+    if (!isSESEnabledRegion(deployRegion)) {
       throw new Error(`SES is not available in region ${deployRegion}. Use one of the following regions: ${sesEnabledRegions.join(', ')}`);
     }
 

@@ -12,6 +12,7 @@ import {
 } from 'aws-cdk-lib';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct, IConstruct } from 'constructs';
+import { isSESEnabledRegion, sesEnabledRegions } from './common';
 import { HostedZoneDkim } from './hosted-zone-dkim';
 import { SESReceive } from './ses-receive';
 
@@ -64,9 +65,7 @@ export class Rootmail extends Construct {
 
     const deployRegion = Stack.of(this).region;
     console.log(`Deploy region is ${deployRegion}`);
-    const integTestWildcard = '${Token[AWS.Region';
-    const sesEnabledRegions = ['us-east-1', 'us-west-2', 'eu-west-1'];
-    if (!sesEnabledRegions.includes(deployRegion) && !deployRegion.startsWith(integTestWildcard)) {
+    if (!isSESEnabledRegion(deployRegion)) {
       throw new Error(`SES is not available in region ${deployRegion}. Use one of the following regions: ${sesEnabledRegions.join(', ')}`);
     }
 
