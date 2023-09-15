@@ -274,18 +274,7 @@
     },
     "Name": "integ-test-1234.mavogel.xyz.",
     "ResourceRecords": [
-     {
-      "Fn::Join": [
-       "",
-       [
-        "10 inbound-smtp.",
-        {
-         "Ref": "AWS::Region"
-        },
-        ".amazonaws.com"
-       ]
-      ]
-     }
+     "10 inbound-smtp.eu-west-1.amazonaws.com"
     ],
     "TTL": "60",
     "Type": "MX"
@@ -422,26 +411,7 @@
         {
          "Action": "ssm:PutParameter",
          "Effect": "Allow",
-         "Resource": {
-          "Fn::Join": [
-           "",
-           [
-            "arn:",
-            {
-             "Ref": "AWS::Partition"
-            },
-            ":ssm:",
-            {
-             "Ref": "AWS::Region"
-            },
-            ":",
-            {
-             "Ref": "AWS::AccountId"
-            },
-            ":parameter/rootmail/*"
-           ]
-          ]
-         }
+         "Resource": "arn:aws:ssm:eu-west-1:935897259846:parameter/rootmail/*"
         }
        ],
        "Version": "2012-10-17"
@@ -469,9 +439,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "b3b33796ee8d3dc57c9d8e179db8f397efebfe1f888b4d5fa86706ef69072ec9.zip"
     },
     "Environment": {
@@ -485,9 +453,7 @@
         "Arn"
        ]
       },
-      "ROOTMAIL_DEPLOY_REGION": {
-       "Ref": "AWS::Region"
-      },
+      "ROOTMAIL_DEPLOY_REGION": "eu-west-1",
       "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
      }
     },
@@ -539,9 +505,7 @@
      ]
     },
     "Principal": "ses.amazonaws.com",
-    "SourceAccount": {
-     "Ref": "AWS::AccountId"
-    }
+    "SourceAccount": "935897259846"
    }
   },
   "testRootmailSESReceiveSESReceiptRuleSetActivation75911DB8": {
@@ -629,9 +593,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "1685e520cff887a57171e3bdfc9c7ed58b17edc9aef338172cedd745bc887948.zip"
     },
     "Environment": {
@@ -782,9 +744,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
     },
     "Description": "AWS CDK resource provider framework - onEvent (RootmailTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider)",
@@ -925,9 +885,7 @@
     "Handler": "index.handler",
     "Runtime": "nodejs18.x",
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip"
     },
     "Role": {
@@ -998,19 +956,7 @@
         "Fn::Join": [
          "",
          [
-          "arn:",
-          {
-           "Ref": "AWS::Partition"
-          },
-          ":ssm:",
-          {
-           "Ref": "AWS::Region"
-          },
-          ":",
-          {
-           "Ref": "AWS::AccountId"
-          },
-          ":parameter",
+          "arn:aws:ssm:eu-west-1:935897259846:parameter",
           {
            "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7"
           }
@@ -1033,9 +979,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "989ec721cbfae3a478944bedc8f9a5785f1824e1fd953f3285874b57ee20a034.zip"
     },
     "Environment": {
@@ -1129,19 +1073,7 @@
         "Fn::Join": [
          "",
          [
-          "arn:",
-          {
-           "Ref": "AWS::Partition"
-          },
-          ":ssm:",
-          {
-           "Ref": "AWS::Region"
-          },
-          ":",
-          {
-           "Ref": "AWS::AccountId"
-          },
-          ":parameter",
+          "arn:aws:ssm:eu-west-1:935897259846:parameter",
           {
            "Ref": "testRootmailHostedZoneSSMParameter574DA41C"
           }
@@ -1156,19 +1088,7 @@
         "Fn::Join": [
          "",
          [
-          "arn:",
-          {
-           "Ref": "AWS::Partition"
-          },
-          ":ssm:",
-          {
-           "Ref": "AWS::Region"
-          },
-          ":",
-          {
-           "Ref": "AWS::AccountId"
-          },
-          ":parameter",
+          "arn:aws:ssm:eu-west-1:935897259846:parameter",
           {
            "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7"
           }
@@ -1207,9 +1127,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "f09d8ad2a12ba86d51dd3e1b6d5cf57e72eded3a2b85c9c7a4e5570ddf7ac0a1.zip"
     },
     "Environment": {
@@ -1387,9 +1305,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
     },
     "Description": "AWS CDK resource provider framework - onEvent (RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
@@ -1566,9 +1482,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
     },
     "Description": "AWS CDK resource provider framework - isComplete (RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
@@ -1742,9 +1656,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
     },
     "Description": "AWS CDK resource provider framework - onTimeout (RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
@@ -2032,9 +1944,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "ac7759fb8b7ad00397de0f0c7c268bc0aca616e08b3bc25969b24f554d70264c.zip"
     },
     "Environment": {
@@ -2149,9 +2059,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "341ab8a922d711f6fc42cf2c54bd01447bd095ed6a68d6226c4efc65696ebd04.zip"
     },
     "Environment": {
@@ -2356,9 +2264,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
     },
     "Description": "AWS CDK resource provider framework - onEvent (RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
@@ -2535,9 +2441,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
     },
     "Description": "AWS CDK resource provider framework - isComplete (RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
@@ -2711,9 +2615,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
     },
     "Description": "AWS CDK resource provider framework - onTimeout (RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
@@ -2982,9 +2884,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "cf2176897764b1fc368bd19b396ab7672e64078c6b5c363db8dd9bf980650037.zip"
     },
     "Environment": {
@@ -3135,9 +3035,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
     },
     "Description": "AWS CDK resource provider framework - onEvent (RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
@@ -3276,9 +3174,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "97c071852a0c39e71b47e767a7f2103572beb3fca053efcaac1dba03b30bc4ec.zip"
     },
     "Environment": {
@@ -3286,6 +3182,7 @@
       "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
      }
     },
+    "FunctionName": "send-email-handler",
     "Handler": "index.handler",
     "Role": {
      "Fn::GetAtt": [
@@ -3383,9 +3280,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
      "S3Key": "d4632d43df5710e08815435776b890bcb21d1139443b9679844be25908a36a27.zip"
     },
     "Environment": {
@@ -3393,6 +3288,7 @@
       "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
      }
     },
+    "FunctionName": "close-opsitem-handler",
     "Handler": "index.handler",
     "Role": {
      "Fn::GetAtt": [
@@ -3429,24 +3325,6 @@
      ]
     },
     "RetentionInDays": 1
-   }
-  }
- },
- "Outputs": {
-  "ExportsOutputRefsendemailhandler05B16DE5F96FA757": {
-   "Value": {
-    "Ref": "sendemailhandler05B16DE5"
-   },
-   "Export": {
-    "Name": "RootmailTestStack:ExportsOutputRefsendemailhandler05B16DE5F96FA757"
-   }
-  },
-  "ExportsOutputRefcloseopsitemhandler2F03D32CCD4ECFB2": {
-   "Value": {
-    "Ref": "closeopsitemhandler2F03D32C"
-   },
-   "Export": {
-    "Name": "RootmailTestStack:ExportsOutputRefcloseopsitemhandler2F03D32CCD4ECFB2"
    }
   }
  },

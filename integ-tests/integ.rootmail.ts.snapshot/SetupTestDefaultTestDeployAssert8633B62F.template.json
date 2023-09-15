@@ -1,6 +1,6 @@
 {
  "Resources": {
-  "LambdaInvokefbad352ca8433f672a44abb49a3e1fd3": {
+  "LambdaInvoke33a8b69ed7727a36f2caee91643dedb6": {
    "Type": "Custom::DeployAssert@SdkCallLambdainvoke",
    "Properties": {
     "ServiceToken": {
@@ -13,24 +13,13 @@
     "api": "invoke",
     "expected": "{\"$ObjectLike\":{\"Payload\":{\"sendStatusCode\":200}}}",
     "parameters": {
-     "FunctionName": {
-      "Fn::Join": [
-       "",
-       [
-        "\"",
-        {
-         "Fn::ImportValue": "RootmailTestStack:ExportsOutputRefsendemailhandler05B16DE5F96FA757"
-        },
-        "\""
-       ]
-      ]
-     },
+     "FunctionName": "\"send-email-handler\"",
      "InvocationType": "\"RequestResponse\"",
      "LogType": "\"Tail\"",
      "Payload": "\"{\\\"id\\\":\\\"test-id-1234\\\",\\\"text\\\":\\\"This is a mail body\\\",\\\"sourceMail\\\":\\\"test@integ-test-1234.mavogel.xyz\\\",\\\"toMail\\\":\\\"root+test-id-1234@integ-test-1234.mavogel.xyz\\\"}\""
     },
     "flattenResponse": "false",
-    "salt": "1694749654044"
+    "salt": "1694755152529"
    },
    "DependsOn": [
     "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b"
@@ -38,13 +27,11 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   },
-  "LambdaInvokefbad352ca8433f672a44abb49a3e1fd3Invoke34F4A7CC": {
+  "LambdaInvoke33a8b69ed7727a36f2caee91643dedb6InvokeD65C4B37": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
-    "FunctionName": {
-     "Fn::ImportValue": "RootmailTestStack:ExportsOutputRefsendemailhandler05B16DE5F96FA757"
-    },
+    "FunctionName": "send-email-handler",
     "Principal": {
      "Fn::GetAtt": [
       "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73",
@@ -113,10 +100,7 @@
              {
               "Ref": "AWS::AccountId"
              },
-             ":function:",
-             {
-              "Fn::ImportValue": "RootmailTestStack:ExportsOutputRefsendemailhandler05B16DE5F96FA757"
-             }
+             ":function:send-email-handler"
             ]
            ]
           }
@@ -153,10 +137,7 @@
              {
               "Ref": "AWS::AccountId"
              },
-             ":function:",
-             {
-              "Fn::ImportValue": "RootmailTestStack:ExportsOutputRefcloseopsitemhandler2F03D32CCD4ECFB2"
-             }
+             ":function:close-opsitem-handler"
             ]
            ]
           }
@@ -197,7 +178,7 @@
     }
    }
   },
-  "LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3": {
+  "LambdaInvoke34d53142709572ecacb44ae4e97fc224": {
    "Type": "Custom::DeployAssert@SdkCallLambdainvoke",
    "Properties": {
     "ServiceToken": {
@@ -210,39 +191,26 @@
     "api": "invoke",
     "expected": "{\"$ObjectLike\":{\"Payload\":{\"closeStatusCode\":200}}}",
     "parameters": {
-     "FunctionName": {
-      "Fn::Join": [
-       "",
-       [
-        "\"",
-        {
-         "Fn::ImportValue": "RootmailTestStack:ExportsOutputRefcloseopsitemhandler2F03D32CCD4ECFB2"
-        },
-        "\""
-       ]
-      ]
-     },
+     "FunctionName": "\"close-opsitem-handler\"",
      "InvocationType": "\"RequestResponse\"",
      "LogType": "\"Tail\"",
      "Payload": "\"{\\\"title\\\":\\\"test-id-1234\\\",\\\"source\\\":\\\"root+test-id-1234@integ-test-1234.mavogel.xyz\\\",\\\"description\\\":\\\"This is a mail body\\\\n\\\"}\""
     },
     "flattenResponse": "false",
-    "salt": "1694749654045"
+    "salt": "1694755152530"
    },
    "DependsOn": [
-    "LambdaInvokefbad352ca8433f672a44abb49a3e1fd3",
-    "LambdaInvokefbad352ca8433f672a44abb49a3e1fd3Invoke34F4A7CC"
+    "LambdaInvoke33a8b69ed7727a36f2caee91643dedb6",
+    "LambdaInvoke33a8b69ed7727a36f2caee91643dedb6InvokeD65C4B37"
    ],
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   },
-  "LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3Invoke354E0FD7": {
+  "LambdaInvoke34d53142709572ecacb44ae4e97fc224Invoke39B3105E": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
-    "FunctionName": {
-     "Fn::ImportValue": "RootmailTestStack:ExportsOutputRefcloseopsitemhandler2F03D32CCD4ECFB2"
-    },
+    "FunctionName": "close-opsitem-handler",
     "Principal": {
      "Fn::GetAtt": [
       "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73",
@@ -251,8 +219,8 @@
     }
    },
    "DependsOn": [
-    "LambdaInvokefbad352ca8433f672a44abb49a3e1fd3",
-    "LambdaInvokefbad352ca8433f672a44abb49a3e1fd3Invoke34F4A7CC"
+    "LambdaInvoke33a8b69ed7727a36f2caee91643dedb6",
+    "LambdaInvoke33a8b69ed7727a36f2caee91643dedb6InvokeD65C4B37"
    ]
   },
   "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b": {
@@ -271,25 +239,25 @@
      "Name": "\"/rootmail/domain_name_servers\""
     },
     "flattenResponse": "false",
-    "salt": "1694749654046"
+    "salt": "1694755152530"
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   }
  },
  "Outputs": {
-  "AssertionResultsLambdaInvokefbad352ca8433f672a44abb49a3e1fd3": {
+  "AssertionResultsLambdaInvoke33a8b69ed7727a36f2caee91643dedb6": {
    "Value": {
     "Fn::GetAtt": [
-     "LambdaInvokefbad352ca8433f672a44abb49a3e1fd3",
+     "LambdaInvoke33a8b69ed7727a36f2caee91643dedb6",
      "assertion"
     ]
    }
   },
-  "AssertionResultsLambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3": {
+  "AssertionResultsLambdaInvoke34d53142709572ecacb44ae4e97fc224": {
    "Value": {
     "Fn::GetAtt": [
-     "LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3",
+     "LambdaInvoke34d53142709572ecacb44ae4e97fc224",
      "assertion"
     ]
    }

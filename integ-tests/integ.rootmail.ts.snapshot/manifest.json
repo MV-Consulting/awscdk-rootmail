@@ -11,20 +11,20 @@
     },
     "RootmailTestStack": {
       "type": "aws:cloudformation:stack",
-      "environment": "aws://unknown-account/unknown-region",
+      "environment": "aws://935897259846/eu-west-1",
       "properties": {
         "templateFile": "RootmailTestStack.template.json",
         "validateOnSynth": false,
-        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
-        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e187f5d2ce79ba3926050e5f86ee8569eb95ead39fa1e56b5eb4d549d60d7186.json",
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::935897259846:role/cdk-hnb659fds-deploy-role-935897259846-eu-west-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::935897259846:role/cdk-hnb659fds-cfn-exec-role-935897259846-eu-west-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-935897259846-eu-west-1/2415dc1f43c7c915c5a0f8ae45b051ad674c29f2c91264f32776c14bec0bff4d.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
           "RootmailTestStack.assets"
         ],
         "lookupRole": {
-          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "arn": "arn:${AWS::Partition}:iam::935897259846:role/cdk-hnb659fds-lookup-role-935897259846-eu-west-1",
           "requiresBootstrapStackVersion": 8,
           "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
         }
@@ -537,18 +537,6 @@
             "data": "closeopsitemhandlerLogRetentionFD7FC04E"
           }
         ],
-        "/RootmailTestStack/Exports/Output{\"Ref\":\"sendemailhandler05B16DE5\"}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExportsOutputRefsendemailhandler05B16DE5F96FA757"
-          }
-        ],
-        "/RootmailTestStack/Exports/Output{\"Ref\":\"closeopsitemhandler2F03D32C\"}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExportsOutputRefcloseopsitemhandler2F03D32CCD4ECFB2"
-          }
-        ],
         "/RootmailTestStack/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
@@ -580,7 +568,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/02dbd49b6c635941029fa085ae8ed4a257a36c308d4cc273b9f283416ee2831c.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2ed8f553e6f0066e35ee2dd3b2b2104b5150e5f969e3715b665cfd9fde59bbb9.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -593,26 +581,25 @@
         }
       },
       "dependencies": [
-        "RootmailTestStack",
         "SetupTestDefaultTestDeployAssert8633B62F.assets"
       ],
       "metadata": {
-        "/SetupTest/DefaultTest/DeployAssert/LambdaInvokefbad352ca8433f672a44abb49a3e1fd3/Default/Default": [
+        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoke33a8b69ed7727a36f2caee91643dedb6/Default/Default": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "LambdaInvokefbad352ca8433f672a44abb49a3e1fd3"
+            "data": "LambdaInvoke33a8b69ed7727a36f2caee91643dedb6"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/LambdaInvokefbad352ca8433f672a44abb49a3e1fd3/Invoke": [
+        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoke33a8b69ed7727a36f2caee91643dedb6/Invoke": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "LambdaInvokefbad352ca8433f672a44abb49a3e1fd3Invoke34F4A7CC"
+            "data": "LambdaInvoke33a8b69ed7727a36f2caee91643dedb6InvokeD65C4B37"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/LambdaInvokefbad352ca8433f672a44abb49a3e1fd3/AssertionResults": [
+        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoke33a8b69ed7727a36f2caee91643dedb6/AssertionResults": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AssertionResultsLambdaInvokefbad352ca8433f672a44abb49a3e1fd3"
+            "data": "AssertionResultsLambdaInvoke33a8b69ed7727a36f2caee91643dedb6"
           }
         ],
         "/SetupTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role": [
@@ -627,22 +614,22 @@
             "data": "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3/Default/Default": [
+        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoke34d53142709572ecacb44ae4e97fc224/Default/Default": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3"
+            "data": "LambdaInvoke34d53142709572ecacb44ae4e97fc224"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3/Invoke": [
+        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoke34d53142709572ecacb44ae4e97fc224/Invoke": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3Invoke354E0FD7"
+            "data": "LambdaInvoke34d53142709572ecacb44ae4e97fc224Invoke39B3105E"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3/AssertionResults": [
+        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoke34d53142709572ecacb44ae4e97fc224/AssertionResults": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AssertionResultsLambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3"
+            "data": "AssertionResultsLambdaInvoke34d53142709572ecacb44ae4e97fc224"
           }
         ],
         "/SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b/Default/Default": [
