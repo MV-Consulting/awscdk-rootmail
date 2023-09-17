@@ -13,9 +13,13 @@ import { Rootmail } from '../src/rootmail';
 // CDK App for Integration Tests
 const app = new App();
 // Parameters TODO
-const testDomain = process.env.TEST_DOMAIN ?? 'mavogel.xyz';
-const testAccount = process.env.TEST_ACCOUNT ?? '935897259846';
+const testDomain = process.env.TEST_DOMAIN ?? '';
+const testAccount = process.env.TEST_ACCOUNT_ID ?? process.env.CDK_DEFAULT_ACCOUNT ?? '';
 const testRegion = 'eu-west-1';
+console.log(`Running integration tests in region '${testRegion}' and account '${testAccount}' for domain '${testDomain}'`);
+if (testDomain === '' || testAccount === '') {
+  throw new Error(`TEST_DOMAIN and TEST_ACCOUNT_ID environment variables must be set. Were TEST_DOMAIN='${testDomain}' and TEST_ACCOUNT_ID='${testAccount}'`);
+}
 // Stack under test
 const stackUnderTestName = 'RootmailTestStack';
 const stackUnderTest = new Stack(app, stackUnderTestName, {
@@ -69,7 +73,7 @@ const integ = new IntegTest(app, integStackName, {
 });
 
 const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler', {
-  functionName: 'send-email-handler',
+  functionName: `${stackUnderTestName}-send-email-handler`, // TODO
   entry: path.join(__dirname, 'functions', 'send-email-handler.ts'),
   runtime: lambda.Runtime.NODEJS_18_X,
   logRetention: 1,
@@ -86,7 +90,7 @@ const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler'
 });
 
 const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-handler', {
-  functionName: 'close-opsitem-handler',
+  functionName: `${stackUnderTestName}-close-opsitem-handler`, // TOOD
   entry: path.join(__dirname, 'functions', 'close-opsitem-handler.ts'),
   runtime: lambda.Runtime.NODEJS_18_X,
   logRetention: 1,

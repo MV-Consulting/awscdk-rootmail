@@ -31,10 +31,20 @@ To send us a pull request, please:
 
 1. Fork the repository.
 2. Modify the source; please focus on the specific change you are contributing. If you also reformat all the code, it will be hard for us to focus on your change.
-3. Ensure local tests pass.
-4. Commit to your fork using clear commit messages.
-5. Send us a pull request, answering any default questions in the pull request interface.
-6. Pay attention to any automated CI failures reported in the pull request, and stay involved in the conversation.
+3. Ensure local tests pass -> `npm run test`
+4. Ensure integ tests pass in your own aws account
+```sh
+# set the environment first
+export TEST_DOMAIN='yourdomain.com'  # in you AWS account
+export TEST_ACCOUNT_ID=$(aws sts get-caller-identity --no-cli-pager --query Account --output text
+)  # your AWS account ID
+# run the tests
+npm run integ-test
+```
+5. Build the project -> `npm run build` to also update the `API.md` file.
+6. Commit to your fork using clear commit messages.
+7. Send us a pull request, answering any default questions in the pull request interface.
+8. Pay attention to any automated CI failures reported in the pull request, and stay involved in the conversation.
 
 GitHub provides additional document on [forking a repository](https://help.github.com/articles/fork-a-repo/) and
 [creating a pull request](https://help.github.com/articles/creating-a-pull-request/).
