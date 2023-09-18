@@ -3182,7 +3182,7 @@
       "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
      }
     },
-    "FunctionName": "send-email-handler",
+    "FunctionName": "RootmailTestStack-send-email-handler",
     "Handler": "index.handler",
     "Role": {
      "Fn::GetAtt": [
@@ -3288,7 +3288,7 @@
       "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
      }
     },
-    "FunctionName": "close-opsitem-handler",
+    "FunctionName": "RootmailTestStack-close-opsitem-handler",
     "Handler": "index.handler",
     "Role": {
      "Fn::GetAtt": [

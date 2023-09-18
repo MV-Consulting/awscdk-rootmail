@@ -155,7 +155,7 @@
         }
       }
     },
-    "2415dc1f43c7c915c5a0f8ae45b051ad674c29f2c91264f32776c14bec0bff4d": {
+    "796d462bd04b307d12361de663cbb938c7058ea87e585a3aeb6466f0b5d9038a": {
       "source": {
         "path": "RootmailTestStack.template.json",
         "packaging": "file"
@@ -163,7 +163,7 @@
       "destinations": {
         "935897259846-eu-west-1": {
           "bucketName": "cdk-hnb659fds-assets-935897259846-eu-west-1",
-          "objectKey": "2415dc1f43c7c915c5a0f8ae45b051ad674c29f2c91264f32776c14bec0bff4d.json",
+          "objectKey": "796d462bd04b307d12361de663cbb938c7058ea87e585a3aeb6466f0b5d9038a.json",
           "region": "eu-west-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::935897259846:role/cdk-hnb659fds-file-publishing-role-935897259846-eu-west-1"
         }

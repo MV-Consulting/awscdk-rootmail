@@ -4419,7 +4419,7 @@
                         "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
                       }
                     },
-                    "functionName": "send-email-handler",
+                    "functionName": "RootmailTestStack-send-email-handler",
                     "handler": "index.handler",
                     "role": {
                       "Fn::GetAtt": [
@@ -4612,7 +4612,7 @@
                         "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
                       }
                     },
-                    "functionName": "close-opsitem-handler",
+                    "functionName": "RootmailTestStack-close-opsitem-handler",
                     "handler": "index.handler",
                     "role": {
                       "Fn::GetAtt": [
@@ -4703,17 +4703,17 @@
                 "id": "DeployAssert",
                 "path": "SetupTest/DefaultTest/DeployAssert",
                 "children": {
-                  "LambdaInvoke33a8b69ed7727a36f2caee91643dedb6": {
-                    "id": "LambdaInvoke33a8b69ed7727a36f2caee91643dedb6",
-                    "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke33a8b69ed7727a36f2caee91643dedb6",
+                  "LambdaInvoked843bbff2de951750dff72b6a545b523": {
+                    "id": "LambdaInvoked843bbff2de951750dff72b6a545b523",
+                    "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523",
                     "children": {
                       "SdkProvider": {
                         "id": "SdkProvider",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke33a8b69ed7727a36f2caee91643dedb6/SdkProvider",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/SdkProvider",
                         "children": {
                           "AssertionsProvider": {
                             "id": "AssertionsProvider",
-                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke33a8b69ed7727a36f2caee91643dedb6/SdkProvider/AssertionsProvider",
+                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/SdkProvider/AssertionsProvider",
                             "constructInfo": {
                               "fqn": "constructs.Construct",
                               "version": "10.0.5"
@@ -4727,11 +4727,11 @@
                       },
                       "Default": {
                         "id": "Default",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke33a8b69ed7727a36f2caee91643dedb6/Default",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/Default",
                         "children": {
                           "Default": {
                             "id": "Default",
-                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke33a8b69ed7727a36f2caee91643dedb6/Default/Default",
+                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/Default/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
                               "version": "2.90.0"
@@ -4745,7 +4745,7 @@
                       },
                       "Invoke": {
                         "id": "Invoke",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke33a8b69ed7727a36f2caee91643dedb6/Invoke",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/Invoke",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
                           "version": "2.90.0"
@@ -4753,7 +4753,7 @@
                       },
                       "AssertionResults": {
                         "id": "AssertionResults",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke33a8b69ed7727a36f2caee91643dedb6/AssertionResults",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/AssertionResults",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnOutput",
                           "version": "2.90.0"
@@ -4799,17 +4799,17 @@
                       "version": "10.0.5"
                     }
                   },
-                  "LambdaInvoke34d53142709572ecacb44ae4e97fc224": {
-                    "id": "LambdaInvoke34d53142709572ecacb44ae4e97fc224",
-                    "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke34d53142709572ecacb44ae4e97fc224",
+                  "LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c": {
+                    "id": "LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c",
+                    "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c",
                     "children": {
                       "SdkProvider": {
                         "id": "SdkProvider",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke34d53142709572ecacb44ae4e97fc224/SdkProvider",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/SdkProvider",
                         "children": {
                           "AssertionsProvider": {
                             "id": "AssertionsProvider",
-                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke34d53142709572ecacb44ae4e97fc224/SdkProvider/AssertionsProvider",
+                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/SdkProvider/AssertionsProvider",
                             "constructInfo": {
                               "fqn": "constructs.Construct",
                               "version": "10.0.5"
@@ -4823,11 +4823,11 @@
                       },
                       "Default": {
                         "id": "Default",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke34d53142709572ecacb44ae4e97fc224/Default",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/Default",
                         "children": {
                           "Default": {
                             "id": "Default",
-                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke34d53142709572ecacb44ae4e97fc224/Default/Default",
+                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/Default/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
                               "version": "2.90.0"
@@ -4841,7 +4841,7 @@
                       },
                       "Invoke": {
                         "id": "Invoke",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke34d53142709572ecacb44ae4e97fc224/Invoke",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/Invoke",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
                           "version": "2.90.0"
@@ -4849,7 +4849,7 @@
                       },
                       "AssertionResults": {
                         "id": "AssertionResults",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke34d53142709572ecacb44ae4e97fc224/AssertionResults",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/AssertionResults",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnOutput",
                           "version": "2.90.0"

@@ -73,7 +73,7 @@ const integ = new IntegTest(app, integStackName, {
 });
 
 const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler', {
-  functionName: `${stackUnderTestName}-send-email-handler`, // TODO
+  functionName: `${stackUnderTestName}-send-email-handler`,
   entry: path.join(__dirname, 'functions', 'send-email-handler.ts'),
   runtime: lambda.Runtime.NODEJS_18_X,
   logRetention: 1,
@@ -90,7 +90,7 @@ const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler'
 });
 
 const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-handler', {
-  functionName: `${stackUnderTestName}-close-opsitem-handler`, // TOOD
+  functionName: `${stackUnderTestName}-close-opsitem-handler`,
   entry: path.join(__dirname, 'functions', 'close-opsitem-handler.ts'),
   runtime: lambda.Runtime.NODEJS_18_X,
   logRetention: 1,
