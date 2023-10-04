@@ -81,9 +81,14 @@ export class Rootmail extends Construct {
     ], [
       { id: 'AwsSolutions-S1', reason: 'no server access logs needed' },
       { id: 'AwsSolutions-S10', reason: 'no SSL access needed' },
-      // { id: 'AwsSolutions-S10', reason: 'no SSL access needed', appliesTo: [{ regex: '/EmailBucket/g' }] },
     ], true);
     this.emailBucket.grantPut(new iam.ServicePrincipal('ses.amazonaws.com'), 'RootMail/*');
+
+    NagSuppressions.addResourceSuppressions([
+      this.emailBucket.policy!,
+    ], [
+      { id: 'AwsSolutions-S10', reason: 'no SSL access needed' },
+    ], true);
 
     /**
      * HOSTED ZONE
