@@ -71,6 +71,7 @@ class HostedZoneDKIMPropagationProvider extends Construct {
       }),
     );
     NagSuppressions.addResourceSuppressions(isCompleteHandlerFunc, [
+      { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
       { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the ses mail verification' },
     ], true);
 

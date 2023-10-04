@@ -98,9 +98,14 @@ class SESReceiptRuleSetActivationProvider extends Construct {
       onEventHandler: onEventHandlerFunc,
       logRetention: 3,
     });
-    NagSuppressions.addResourceSuppressions(this.provider, [
-      { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
-      { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the provider as the function has restrictions' },
-    ], true);
+    NagSuppressions.addResourceSuppressions(
+      [
+        this.provider,
+        this.provider.onEventHandler,
+      ],
+      [
+        { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
+        { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the provider as the function has restrictions' },
+      ], true);
   }
 }
