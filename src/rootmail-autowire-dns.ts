@@ -182,7 +182,6 @@ class RootmailAutowireDnsProvider extends Construct {
     NagSuppressions.addResourceSuppressions(
       [
         this.provider,
-        // this.provider.onEventHandler.role!,
         this.provider.isCompleteHandler!,
       ],
       [

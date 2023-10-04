@@ -102,6 +102,7 @@ class SESReceiptRuleSetActivationProvider extends Construct {
       [
         this.provider,
         this.provider.onEventHandler,
+        this.provider.onEventHandler.role!,
       ],
       [
         { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
