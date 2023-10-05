@@ -64,10 +64,13 @@ export class MyStack extends Stack {
     super(scope, id, props);
 
     const rootmail = new Rootmail(this, 'rootmail-stack', {
-      // a domain you own, registered via Route53 in the same account
+      // 1. a domain you own, registered via Route53 in the same account
       domain: 'mycompany.test';
+      // 2. so the subdomain will be aws.mycompany.test and
+      //    wired / delegated  automatically
+      enableAutowireDNS: true,
       env: {
-        // or any other region SES is available
+      // 3. or any other region SES is available
         region: 'eu-west-1',
       },
     });
@@ -102,6 +105,19 @@ npm run deploy
   <summary>open for details</summary>
 
 ![rootmail-solution-diagram-v2](docs/img/awscdk-rootmail-v2-min.png)
+
+```ts
+const rootmail = new Rootmail(this, 'rootmail-stack', {
+  // 1. a domain you own, registered via Route53 in the same account
+  domain: 'mycompany.test';
+  // 2. false is the default, so you can also remove it
+  enableAutowireDNS: false,
+  env: {
+  // 3. or any other region SES is available
+    region: 'eu-west-1',
+  },
+});
+```
 
 1. You own a domain, e.g., `mycompany.test`. It can be at any registrar such as `godaddy`, also `Route53` itself in another AWS account.
 2. The stack creates a `Route53` public Hosted Zone for the subdomain, e.g., `aws.mycompany.test`. It also automatically adds the TXT and CNAME records (for DKIM etc.) for verifying the domain towards SES. **NOTE:** You must now add the NS server entries into the Domain provider which owns the main domain `mycompany.test`. 
