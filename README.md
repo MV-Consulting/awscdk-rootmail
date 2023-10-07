@@ -19,7 +19,7 @@ Each AWS account needs one unique email address (the so-called "AWS account root
 Access to these email addresses must be adequately secured since they provide privileged access to AWS accounts, such as account deletion procedures.
 
 This is why you only need 1 mailing list for the AWS Management (formerly *root*) account, 
-we recommend `aws-roots+<uuid>@mycompany.test` 
+we recommend the following pattern `aws-roots+<uuid>@mycompany.test` 
 
 > [!NOTE]
 > Maximum **64** characters are allowed for the whole address. 
@@ -30,7 +30,7 @@ And as you own the domain `mycompany.test` you can add a subdomain, e.g. `aws`, 
 ### Dependencies
 Administrative access to an AWS account and the following tools:
 ```sh
-brew install aws-cli node@18 esbuild # on Mac
+brew install aws-cli node@18 esbuild
 ```
 
 <details>
@@ -64,7 +64,7 @@ export class MyStack extends Stack {
     super(scope, id, props);
 
     const rootmail = new Rootmail(this, 'rootmail-stack', {
-      // 1. a domain you own, registered via Route53 in the same account
+      // 1. a domain you own, registered via Route53 in the SAME account
       domain: 'mycompany.test';
       // 2. so the subdomain will be aws.mycompany.test and
       //    wired / delegated  automatically
@@ -92,9 +92,11 @@ npm run deploy
 3. When the subdomain `aws.mycompany.test` is successfully propagated, the stack creates a verified Domain in AWS SES and adds a recipient rule for `root@aws.mycompany.test`. On a successful propagation you will get a mail as follows to the root Email address of the account you are installing the stack 👇
 ![domain-verification](docs/img/3-domain-verification-min.png)
 4. Now, any mail going to `root+<any-string>@aws.mycompany.test` will be processed by OpsSanta 🎅🏽 Lambda function and also stored in the rootmail S3 bucket 🪣.
-5. The OpsSanta function verifies the verdicts (DKIM etc.) of the sender, also skips AWS Account welcome EMails, and processes all other EMails. If it is a password reset link EMail it stores the link in the parameter store (and does *not* create an OpsItem for now). For all other mails, which are not skipped an OpsItem is created to have a central location for all items. Note: you can also connect your Jira to the OpsCenter.
+5. The OpsSanta function verifies the verdicts (DKIM etc.) of the sender, also skips AWS Account welcome EMails, and processes all other EMails. If it is a password reset link EMail it stores the link in the parameter store (and does *not* create an OpsItem for now). For all other mails, which are not skipped an OpsItem is created to have a central location for all items. 
+> [!NOTE]
+> You can also connect your Jira to the OpsCenter.
 6. The bucket where all mail to `root@aws.mycompany.test` are stored.
-7. The SSM parameter store for password reset links.
+7. The [SSM parameter store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) for the password reset links.
 8. The OpsItem which is created. It is open and shall be further processed either in the OpsCenter or any other issue tracker.
 
 > [!NOTE]

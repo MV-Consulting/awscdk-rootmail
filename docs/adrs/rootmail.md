@@ -38,8 +38,21 @@ The `awscdk-rootmail` secure setup includes the following considerations:
 
 ### Mail Receiving
 
-- Receiving emails with SES **was** only available in the following [regions](https://docs.aws.amazon.com/ses/latest/dg/regions.html) `eu-west-1`, `us-east-1` and `us-west-2`, however has expanded in [09/2023](https://aws.amazon.com/de/about-aws/whats-new/2023/09/amazon-ses-email-service-7-regions/): Asia Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Singapore), Europe (Frankfurt), Europe (London), Canada (Central), and US East (Ohio). Still not all regions, but a progress.
-- OpsItems will be created in the configured region for receiving emails.
+- Receiving emails with SES **was** only available in the following [regions](https://docs.aws.amazon.com/ses/latest/dg/regions.html) `eu-west-1`, `us-east-1` and `us-west-2`, however has expanded in [09/2023](https://aws.amazon.com/de/about-aws/whats-new/2023/09/amazon-ses-email-service-7-regions/): Asia Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Singapore), Europe (Frankfurt), Europe (London), Canada (Central), and US East (Ohio). Still not all regions, but a progress. This results  in the following options:
+```ts
+'us-east-1', // US East (N. Virginia),
+'eu-west-1', // Europe (Ireland),
+'us-west-2', // US West (Oregon),
+// new regions since 2023-09
+'eu-central-1', // Europe (Frankfurt),
+'eu-west-2', // Europe (London),
+'us-east-2', // US East (Ohio),
+'ca-central-1', // Canada (Central),
+'ap-northeast-1', // Asia Pacific (Tokyo),
+'ap-southeast-1', // Asia Pacific (Singapore),
+'ap-southeast-2', // Asia Pacific (Sydney),
+```
+- An [OpsItems](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-create-OpsItems.html) will be created in the configured region for receiving emails.
 
 ## Consequences
 
