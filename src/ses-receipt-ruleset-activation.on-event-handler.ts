@@ -57,6 +57,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       // Which is usually the time between the
       // AMAZON_SES_SETUP_NOTIFICATION mail in the S3 bucket
       // and the test run the setup being complete.
+      // TODO wrap this into isComplete() function
       await new Promise((resolve) => setTimeout(resolve, ruleSetActivationSettletimeSeconds * 1000));
       break;
 
