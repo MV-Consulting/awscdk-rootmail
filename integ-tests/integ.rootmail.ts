@@ -66,7 +66,10 @@ const integ = new IntegTest(app, integStackName, {
   },
   hooks: {
     postDestroy: [
-      'echo "All resources have been destroyed."',
+      'echo "Post hook"',
+      // TOOD: needs to be verified
+      // `echo "Deleting S3 bucket '${rootmail.emailBucket.bucketName}'`,
+      // `python3 cleanup/empty-and-delete-s3-bucket.py ${rootmail.emailBucket.bucketName}`,
     ],
   },
   regions: [stackUnderTest.region],
