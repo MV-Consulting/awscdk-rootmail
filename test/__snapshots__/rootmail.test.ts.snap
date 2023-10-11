@@ -108,7 +108,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "6d67d1b6ec843f20d9d6db5ec5cb893f3a80f3fe46757bca7cd07890b3932b23.zip",
+          "S3Key": "01f8b2b173ee9e036a5f7bd4228660deaf5dc0dcecaf508413331e8ceb8ed7ab.zip",
         },
         "Environment": {
           "Variables": {
@@ -279,7 +279,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "e19bec50de6f4e52f37c0af03edbeb724db5dccb21c8d6dd6428ada617d3a64f.zip",
+          "S3Key": "a40545cebfaa3571f6af4892c1d7afb222f16ead74ea03fb0c935bac3f55ca04.zip",
         },
         "Environment": {
           "Variables": {
@@ -1713,7 +1713,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "96d5b837132e97f61c474de819b8a9f3e7ac5fbe53da5cd2b69aac64e458e6b0.zip",
+          "S3Key": "6a3480d2c6ddd5b9fde8960e70eb11fe76e80c685e1143813fddd72fa92be345.zip",
         },
         "Environment": {
           "Variables": {
@@ -2347,7 +2347,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "7f8110e5f9c0dacb614687bbec56d033633341093057e8b0434743ddfca0fa40.zip",
+          "S3Key": "55180427cbd55cf474c0f5eff556dba2b326934df514c3126524c5a31d45fde2.zip",
         },
         "Environment": {
           "Variables": {
@@ -2780,7 +2780,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "357b6a674ab91baace60b4785679a13c77277f985ee79cfa05e173dbe0dcb49c.zip",
+          "S3Key": "1052bd60612c9577e6cfd5f8130fe1b536bcef6ea2948c0521f50719dff69d71.zip",
         },
         "Environment": {
           "Variables": {
@@ -3323,7 +3323,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "5f4a5f3cddab45072294175eb78e1d34e5343e71a7f220beb2ba6517ad643962.zip",
+          "S3Key": "f2be111227ab6326154ef758b35f291fa9a5f46c8eb46a398146390cf78fc6f7.zip",
         },
         "Environment": {
           "Variables": {
@@ -4078,7 +4078,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "96d5b837132e97f61c474de819b8a9f3e7ac5fbe53da5cd2b69aac64e458e6b0.zip",
+          "S3Key": "6a3480d2c6ddd5b9fde8960e70eb11fe76e80c685e1143813fddd72fa92be345.zip",
         },
         "Environment": {
           "Variables": {
@@ -4712,7 +4712,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "7f8110e5f9c0dacb614687bbec56d033633341093057e8b0434743ddfca0fa40.zip",
+          "S3Key": "55180427cbd55cf474c0f5eff556dba2b326934df514c3126524c5a31d45fde2.zip",
         },
         "Environment": {
           "Variables": {
@@ -5145,7 +5145,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "357b6a674ab91baace60b4785679a13c77277f985ee79cfa05e173dbe0dcb49c.zip",
+          "S3Key": "1052bd60612c9577e6cfd5f8130fe1b536bcef6ea2948c0521f50719dff69d71.zip",
         },
         "Environment": {
           "Variables": {
@@ -5658,7 +5658,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "5f4a5f3cddab45072294175eb78e1d34e5343e71a7f220beb2ba6517ad643962.zip",
+          "S3Key": "f2be111227ab6326154ef758b35f291fa9a5f46c8eb46a398146390cf78fc6f7.zip",
         },
         "Environment": {
           "Variables": {
