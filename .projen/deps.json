@@ -19,6 +19,10 @@
       "type": "build"
     },
     {
+      "name": "@types/async-retry",
+      "type": "build"
+    },
+    {
       "name": "@types/aws-lambda",
       "type": "build"
     },
@@ -55,6 +59,14 @@
     {
       "name": "@typescript-eslint/parser",
       "version": "^6",
+      "type": "build"
+    },
+    {
+      "name": "async-retry",
+      "type": "build"
+    },
+    {
+      "name": "cdk-assets",
       "type": "build"
     },
     {
