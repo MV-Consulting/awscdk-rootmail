@@ -62,6 +62,7 @@ export class Rootmail extends Construct {
     const subdomain = props.subdomain ?? 'aws';
     const totalTimeToWireDNS = props.totalTimeToWireDNS ?? Duration.hours(2);
     const enableAutowireDNS = props.enableAutowireDNS ?? false;
+    const setDestroyPolicyToAllResources = props.setDestroyPolicyToAllResources ?? false;
 
     const deployRegion = Stack.of(this).region;
     console.log(`Deploy region is ${deployRegion}`);
@@ -118,7 +119,7 @@ export class Rootmail extends Construct {
     });
 
     // If Destroy Policy Aspect is present:
-    if (props.setDestroyPolicyToAllResources) {
+    if (setDestroyPolicyToAllResources) {
       Aspects.of(this).add(new ApplyDestroyPolicyAspect());
     }
   }
