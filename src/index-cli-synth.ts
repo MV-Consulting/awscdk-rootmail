@@ -56,7 +56,7 @@ class RootmailStack extends Stack {
       domain: domain.valueAsString,
       subdomain: subdomain.valueAsString,
       totalTimeToWireDNS: Duration.minutes(totalTimeToWireDNS.valueAsNumber),
-      enableAutowireDNS: enableAutowireDNS.valueAsString == 'Yes',
+      enableAutowireDNS: enableAutowireDNS.valueAsString.toLowerCase().trim() === 'yes',
     });
   }
 }
@@ -64,7 +64,7 @@ class RootmailStack extends Stack {
 new RootmailStack(app, 'RootmailStack', {
   version: rootmailVersion,
   synthesizer: new CliCredentialsStackSynthesizer({
-    fileAssetsBucketName: 'mvc-assets-production-${AWS::Region}',
+    fileAssetsBucketName: 'mvc-test4-bucket-${AWS::Region}',
     bucketPrefix: `rootmail/${rootmailVersion}/`,
   }),
 });
