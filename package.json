@@ -53,7 +53,6 @@
     "@types/uuid": "^9.0.5",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
-    "async-retry": "^1.3.3",
     "aws-cdk-lib": "2.90.0",
     "cdk-assets": "^2.101.0",
     "constructs": "10.0.5",
@@ -82,6 +81,7 @@
     "constructs": "^10.0.5"
   },
   "dependencies": {
+    "async-retry": "^1.3.3",
     "aws-sdk": "^2.1473.0",
     "axios": "^1.5.1",
     "cdk-nag": "^2.27.162",
@@ -89,6 +89,7 @@
     "uuid": "^9.0.1"
   },
   "bundledDependencies": [
+    "async-retry",
     "aws-sdk",
     "axios",
     "cdk-nag",

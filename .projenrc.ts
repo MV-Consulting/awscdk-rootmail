@@ -25,6 +25,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
 
   bundledDeps: [
+    'async-retry',
     'aws-sdk',
     'axios',
     'cdk-nag',
@@ -43,7 +44,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@aws-cdk/integ-tests-alpha@^2.90.0-alpha.0',
     '@commitlint/cli',
     '@commitlint/config-conventional',
-    'async-retry',
     'cdk-assets',
     'husky',
     'jsonfile',

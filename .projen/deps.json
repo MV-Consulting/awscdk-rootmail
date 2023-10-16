@@ -62,10 +62,6 @@
       "type": "build"
     },
     {
-      "name": "async-retry",
-      "type": "build"
-    },
-    {
       "name": "cdk-assets",
       "type": "build"
     },
@@ -150,6 +146,10 @@
     {
       "name": "typescript",
       "type": "build"
+    },
+    {
+      "name": "async-retry",
+      "type": "bundled"
     },
     {
       "name": "aws-sdk",
