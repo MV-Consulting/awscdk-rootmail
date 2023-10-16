@@ -17,7 +17,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/bb567c4c5d4d3039fe5bfba69bf126a63a484cd4d26746452f0ad52e89cca0a7.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/d175a4c5d40af269543f3aa2d37a8af974c05a16ccd31021b9f604078b0642bf.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -132,10 +132,7 @@
         "/RootmailTestStack/testRootmail/SESReceive/ops-santa-handler/OpsSantaFunctionSESPermissions": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "testRootmailSESReceiveopssantahandlerOpsSantaFunctionSESPermissionsEAD3AD06",
-            "trace": [
-              "!!DESTRUCTIVE_CHANGES: WILL_REPLACE"
-            ]
+            "data": "testRootmailSESReceiveopssantahandlerOpsSantaFunctionSESPermissionsEAD3AD06"
           }
         ],
         "/RootmailTestStack/testRootmail/SESReceive/SESReceiptRuleSetActivation/Resource/Default": [
@@ -583,7 +580,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/5210ff678261ce763edea8904102c81cca677cef8650e401bf2fbf55542750e7.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/27553c06bbc713fd77f2496979dee90a9afa4c94212112e2ea3af48a207b925d.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
