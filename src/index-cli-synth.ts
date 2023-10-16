@@ -11,7 +11,7 @@ import { Rootmail } from './rootmail';
 
 const app = new App();
 
-const rootmailVersion = process.env.ROOTMAIL_VERSION || '0.0.0-DEVELOPMENT';
+const rootmailVersion = process.env.ROOTMAIL_VERSION || '0.0.2-DEVELOPMENT';
 
 interface RootmailStackProps extends StackProps {
   readonly version?: string;
@@ -56,7 +56,7 @@ class RootmailStack extends Stack {
       domain: domain.valueAsString,
       subdomain: subdomain.valueAsString,
       totalTimeToWireDNS: Duration.minutes(totalTimeToWireDNS.valueAsNumber),
-      enableAutowireDNS: enableAutowireDNS.valueAsString.toLowerCase().trim() === 'yes',
+      enableAutowireDNS: enableAutowireDNS.valueAsString.toLowerCase().includes('yes') ? true : false,
     });
   }
 }
