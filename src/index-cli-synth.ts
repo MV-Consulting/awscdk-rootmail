@@ -11,7 +11,7 @@ import { Rootmail } from './rootmail';
 
 const app = new App();
 
-const rootmailVersion = process.env.ROOTMAIL_VERSION || '0.0.3-DEVELOPMENT';
+const rootmailVersion = process.env.ROOTMAIL_VERSION || '0.0.4-DEVELOPMENT';
 
 interface RootmailStackProps extends StackProps {
   readonly version?: string;
@@ -21,7 +21,7 @@ class RootmailStack extends Stack {
   constructor(scope: Construct, id: string, props: RootmailStackProps) {
     super(scope, id, props);
 
-    Stack.of(this).templateOptions.description = 'TBD';
+    Stack.of(this).templateOptions.description = 'The rootmail feature. All EMail in one AWS Account';
     Stack.of(this).templateOptions.metadata = {
       RootmailVersion: props.version,
     };
@@ -47,7 +47,7 @@ class RootmailStack extends Stack {
 
     const autowireDNSParentHostedZoneID = new CfnParameter(this, 'AutowireDNSParentHostedZone', {
       type: 'String',
-      description: 'Automatically wire the DNS. Your domain must be in the SAME AWS Account for this to work.',
+      description: 'Add HostedZoneID from the domain (SAME AWS Account) to autowire the DNS. Leave blank of you domain is at an external DNS provider',
       default: '',
     });
 
