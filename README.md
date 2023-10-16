@@ -2,16 +2,17 @@
 
 A single rootmail box for all your AWS accounts. The cdk implementation and **adaption** of the [superwerker](https://superwerker.cloud/) rootmail feature. See [here](docs/adrs/rootmail.md) for a detailed Architectural Decision Record ([ADR](https://adr.github.io/))
 
-- [awscdk-rootmail](#awscdk-rootmail)
-  - [TL;DR](#tldr)
-  - [Usage](#usage)
-    - [Dependencies](#dependencies)
-    - [Deploy](#deploy)
-  - [Solution design: Version 1 - Domain in the same AWS account](#solution-design-version-1---domain-in-the-same-aws-account)
-  - [Solution design: Version 2 - external DNS provider](#solution-design-version-2---external-dns-provider)
-  - [Uninstall](#uninstall)
-  - [Known issues](#known-issues)
-  - [Related projects](#related-projects)
+- [TL;DR](#tldr)
+- [Usage](#usage)
+  - [Dependencies](#dependencies)
+  - [Deploy](#deploy)
+    - [CDK](#cdk)
+    - [Cloudformation](#cloudformation)
+- [Solution design: Version 1 - Domain in the same AWS account](#solution-design-version-1---domain-in-the-same-aws-account)
+- [Solution design: Version 2 - external DNS provider](#solution-design-version-2---external-dns-provider)
+- [Uninstall](#uninstall)
+- [Known issues](#known-issues)
+- [Related projects](#related-projects)
 
 ## TL;DR
 Each AWS account needs one unique email address (the so-called "AWS account root user email address").
@@ -75,7 +76,7 @@ export class MyStack extends Stack {
       // 3. or any other region SES is available
         region: 'eu-west-1',
       },
-    });
+    }); 
   }
 }
 ```
@@ -106,10 +107,12 @@ TBD
 > You can also connect your Jira to the OpsCenter.
 6. The bucket where all mail to `root@aws.mycompany.test` are stored.
 7. The [SSM parameter store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) for the password reset links.
+![ssm-pw-reset-link](docs/img/4-ssm-pw-reset-link-min.png)
 8. The OpsItem which is created. It is open and shall be further processed either in the OpsCenter or any other issue tracker.
+![opts-item](docs/img/4-opts-items-min.png)
 
 > [!NOTE]
-> SES support alias, so mail to `root+random-string@aws.mycompany.test` will also be catched and forwared.
+> SES support alias, so mail to `root+random-string@aws.mycompany.test` will also be catched and forwarded.
 
 ## Solution design: Version 2 - external DNS provider
 <details>
