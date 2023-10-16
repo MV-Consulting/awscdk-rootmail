@@ -4,10 +4,10 @@ import {
   CliCredentialsStackSynthesizer,
   Duration,
   Stack,
-  StackProps
+  StackProps,
 } from 'aws-cdk-lib';
-import { Rootmail } from './rootmail';
 import { Construct } from 'constructs';
+import { Rootmail } from './rootmail';
 
 const app = new App();
 
@@ -36,7 +36,7 @@ class RootmailStack extends Stack {
       description: 'Subdomain used for root mail feature.',
       default: 'aws',
     });
-    
+
     const totalTimeToWireDNS = new CfnParameter(this, 'TotalTimeToWireDNS', {
       type: 'String',
       description: 'Total time in MINUTES to wire the DNS.',
@@ -44,7 +44,7 @@ class RootmailStack extends Stack {
       minValue: 5,
       maxValue: 120,
     });
-    
+
     const enableAutowireDNS = new CfnParameter(this, 'EnableAutowireDNS', {
       type: 'String',
       description: 'Automatically wire the DNS. Your domain must be in the SAME AWS Account for this to work.',
@@ -56,8 +56,8 @@ class RootmailStack extends Stack {
       domain: domain.valueAsString,
       subdomain: subdomain.valueAsString,
       totalTimeToWireDNS: Duration.minutes(totalTimeToWireDNS.valueAsNumber),
-      enableAutowireDNS: enableAutowireDNS.valueAsString == 'Yes'
-    })
+      enableAutowireDNS: enableAutowireDNS.valueAsString == 'Yes',
+    });
   }
 }
 
