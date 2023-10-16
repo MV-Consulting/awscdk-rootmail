@@ -30,7 +30,7 @@
     "projen": "npx projen",
     "prepare": "husky install",
     "integ-test": "integ-runner --directory ./integ-tests --parallel-regions eu-west-1 --update-on-failed",
-    "synth": "cdk synth -a src/index-cli-synth.ts"
+    "synth": "cdk synth -q"
   },
   "author": {
     "name": "Manuel Vogel",

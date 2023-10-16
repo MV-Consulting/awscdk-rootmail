@@ -38,9 +38,9 @@ class RootmailStack extends Stack {
     });
 
     const totalTimeToWireDNS = new CfnParameter(this, 'TotalTimeToWireDNS', {
-      type: 'String',
+      type: 'Number',
       description: 'Total time in MINUTES to wire the DNS.',
-      default: '120',
+      default: 120,
       minValue: 5,
       maxValue: 120,
     });

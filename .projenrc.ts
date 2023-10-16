@@ -47,10 +47,11 @@ const project = new awscdk.AwsCdkConstructLibrary({
   ],
   gitignore: [
     'venv',
+    'cdk.out',
   ],
 });
 
 project.package.setScript('prepare', 'husky install');
 project.package.setScript('integ-test', 'integ-runner --directory ./integ-tests --parallel-regions eu-west-1 --update-on-failed');
-project.package.setScript('synth', 'cdk synth -a src/index-cli-synth.ts');
+project.package.setScript('synth', 'cdk synth -q');
 project.synth();
