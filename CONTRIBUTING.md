@@ -32,12 +32,14 @@ To send us a pull request, please:
 1. Fork the repository.
 2. Modify the source; please focus on the specific change you are contributing. If you also reformat all the code, it will be hard for us to focus on your change.
 3. Ensure local tests pass -> `npm run test`
-4. Ensure integ tests pass in your own aws account
-```sh
+4. Ensure integ tests pass in your own aws account (see also the [integ-tests/README](integ/tests/README.md)) for more details
+```bash
 # set the environment first
-export TEST_DOMAIN='yourdomain.com'  # in you AWS account
+## in you AWS account
+export TEST_DOMAIN='yourdomain.com'
+## your AWS account ID in which the domain is registered
 export TEST_ACCOUNT_ID=$(aws sts get-caller-identity --no-cli-pager --query Account --output text
-)  # your AWS account ID
+) 
 # run the tests
 npm run integ-test
 ```

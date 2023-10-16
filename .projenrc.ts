@@ -45,6 +45,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'husky',
     'jsonfile',
   ],
+  gitignore: [
+    'venv',
+  ],
 });
 
 project.package.setScript('prepare', 'husky install');

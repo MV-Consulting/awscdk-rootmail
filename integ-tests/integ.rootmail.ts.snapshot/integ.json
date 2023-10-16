@@ -7,7 +7,7 @@
       ],
       "hooks": {
         "postDestroy": [
-          "echo \"All resources have been destroyed.\""
+          "echo \"Post hook\""
         ]
       },
       "regions": [
