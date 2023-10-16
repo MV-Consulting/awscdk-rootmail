@@ -46,6 +46,8 @@ brew install aws-cli node@18 esbuild
 </details>
 
 ### Deploy
+You can chose via embedding the construct in your cdk-app or use is directly via Cloudformation.
+#### CDK
 1. To start a new project we recommend using [projen](https://projen.io/).
    1. Create a new projen project
    ```sh
@@ -68,7 +70,7 @@ export class MyStack extends Stack {
       domain: 'mycompany.test';
       // 2. so the subdomain will be aws.mycompany.test and
       //    wired / delegated  automatically
-      enableAutowireDNS: true,
+      autowireDNSParentHostedZoneID: 'Z1212RFFDFE',
       env: {
       // 3. or any other region SES is available
         region: 'eu-west-1',
@@ -83,6 +85,13 @@ npm run deploy
 ```
 1. No need to do anything, the NS records are **automatically** propagated as the parent Hosted Zone is in the same account!
 2. The `hosted-zone-dkim-propagation-provider.is-complete-handler` Lambda function checks every 10 seconds if the DNS for the subdomain is propagated. Details are in the Cloudwatch log group.
+
+#### Cloudformation
+TBD
+
+<details>
+  <summary>... click to expand</summary>
+</details>
 
 ## Solution design: Version 1 - Domain in the same AWS account
 ![rootmail-solution-diagram-v1](docs/img/awscdk-rootmail-v1-min.png)
@@ -112,8 +121,8 @@ npm run deploy
 const rootmail = new Rootmail(this, 'rootmail-stack', {
   // 1. a domain you own, registered via Route53 in the same account
   domain: 'mycompany.test';
-  // 2. false is the default, so you can also remove it
-  enableAutowireDNS: false,
+  // 2. '' is the default, so you can also remove it
+  // autowireDNSParentHostedZoneID: '',
   env: {
   // 3. or any other region SES is available
     region: 'eu-west-1',
