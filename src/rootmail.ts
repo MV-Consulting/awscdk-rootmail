@@ -39,7 +39,7 @@ export interface RootmailProps {
   /**
    * Set the HostedZone ID of the domain above from Route53 (in the same AWS account)
    * to enable autowiring of the DNS records.
-   * 
+   *
    * Leave empty if you have your domain at an external DNS provider!
    *
    * @default ''
@@ -48,7 +48,7 @@ export interface RootmailProps {
 
   /**
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
-   * 
+   *
    * @default false
    */
   readonly setDestroyPolicyToAllResources?: boolean;

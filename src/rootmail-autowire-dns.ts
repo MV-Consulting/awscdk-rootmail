@@ -5,7 +5,6 @@ import {
   Duration,
   aws_iam as iam,
   aws_lambda as lambda,
-  aws_route53 as r53,
   aws_ssm as ssm,
   Stack,
 } from 'aws-cdk-lib';
@@ -37,7 +36,7 @@ export interface RootmailAutowireDnsProps {
   /**
    * Set the HostedZone ID of the domain above from Route53 (in the same AWS account)
    * to enable autowiring of the DNS records.
-   * 
+   *
    * Leave empty if you have your domain at an external DNS provider!
    *
    * @default ''
@@ -58,8 +57,7 @@ export class RootmailAutowireDns extends Construct {
     const subdomain = props.subdomain ?? 'aws';
     const autoWireR53ChangeInfoIdParameterName = '/rootmail/auto_wire_r53_changeinfo_id';
 
-    const autowireDNSOnAWSParentHostedZone = r53.HostedZone.fromHostedZoneId(this, 'ParentHostedZone', props.autowireDNSParentHostedZoneID)
-    
+
     const autoWireR53ChangeInfoId = new ssm.StringParameter(this, 'AutoWireR53ChangeInfoId', {
       parameterName: autoWireR53ChangeInfoIdParameterName,
       stringValue: 'dummy',
@@ -68,7 +66,7 @@ export class RootmailAutowireDns extends Construct {
     new CustomResource(this, 'Resource', {
       serviceToken: RootmailAutowireDnsProvider.getOrCreate(this, {
         autoWireR53ChangeInfoIdParameter: autoWireR53ChangeInfoId,
-        autowireDNSOnAWSParentHostedZone: autowireDNSOnAWSParentHostedZone,
+        autowireDNSParentHostedZoneID: props.autowireDNSParentHostedZoneID,
         ...props,
       }),
       resourceType: 'Custom::RootmailAutowireDnsProvider',
@@ -76,7 +74,7 @@ export class RootmailAutowireDns extends Construct {
         [PROP_DOMAIN]: props.domain,
         [PROP_SUB_DOMAIN]: subdomain,
         [PROP_HOSTED_ZONE_PARAMETER_NAME]: props.hostedZoneSSMParameter.parameterName,
-        [PROP_PARENT_HOSTED_ZONE_ID]: autowireDNSOnAWSParentHostedZone.hostedZoneId,
+        [PROP_PARENT_HOSTED_ZONE_ID]: props.autowireDNSParentHostedZoneID,
         [PROP_R53_CHANGEINFO_ID_PARAMETER_NAME]: autoWireR53ChangeInfoId.parameterName,
       },
     });
@@ -86,7 +84,7 @@ export class RootmailAutowireDns extends Construct {
 
 interface RootmailAutowireDnsProviderProps extends RootmailAutowireDnsProps {
   readonly autoWireR53ChangeInfoIdParameter: ssm.StringParameter;
-  readonly autowireDNSOnAWSParentHostedZone: r53.IHostedZone;
+  readonly autowireDNSParentHostedZoneID?: string;
 }
 
 class RootmailAutowireDnsProvider extends Construct {
@@ -150,28 +148,30 @@ class RootmailAutowireDnsProvider extends Construct {
       }),
     );
 
-    onEventHandlerFunc.addToRolePolicy(
-      new iam.PolicyStatement({
-        actions: [
-          'route53:ListResourceRecordSets',
-          'route53:ChangeResourceRecordSets',
-        ],
-        effect: iam.Effect.ALLOW,
-        resources: [
-          // arn:aws:route53:::hostedzone/H12345
-          // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
-          Arn.format({
-            partition: 'aws',
-            service: 'route53',
-            region: '',
-            account: '',
-            resource: 'hostedzone',
-            arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-            resourceName: props.autowireDNSOnAWSParentHostedZone.hostedZoneId,
-          }),
-        ],
-      }),
-    );
+    if (props.autowireDNSParentHostedZoneID !== undefined && props.autowireDNSParentHostedZoneID !== '') {
+      onEventHandlerFunc.addToRolePolicy(
+        new iam.PolicyStatement({
+          actions: [
+            'route53:ListResourceRecordSets',
+            'route53:ChangeResourceRecordSets',
+          ],
+          effect: iam.Effect.ALLOW,
+          resources: [
+            // arn:aws:route53:::hostedzone/H12345
+            // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
+            Arn.format({
+              partition: 'aws',
+              service: 'route53',
+              region: '',
+              account: '',
+              resource: 'hostedzone',
+              arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+              resourceName: props.autowireDNSParentHostedZoneID,
+            }),
+          ],
+        }),
+      );
+    }
 
     this.provider = new cr.Provider(this, 'rootmail-autowire-dns-provider', {
       isCompleteHandler: isCompleteHandlerFunc,

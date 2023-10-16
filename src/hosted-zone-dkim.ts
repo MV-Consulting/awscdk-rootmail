@@ -31,7 +31,7 @@ export interface HostedZoneDkimProps {
   /**
    * Set the HostedZone ID of the domain above from Route53 (in the same AWS account)
    * to enable autowiring of the DNS records.
-   * 
+   *
    * Leave empty if you have your domain at an external DNS provider!
    *
    * @default ''
