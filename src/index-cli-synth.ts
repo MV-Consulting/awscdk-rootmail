@@ -11,7 +11,7 @@ import { Rootmail } from './rootmail';
 
 const app = new App();
 
-const rootmailVersion = process.env.ROOTMAIL_VERSION || '0.0.2-DEVELOPMENT';
+const rootmailVersion = process.env.ROOTMAIL_VERSION || '0.0.3-DEVELOPMENT';
 
 interface RootmailStackProps extends StackProps {
   readonly version?: string;
@@ -45,18 +45,17 @@ class RootmailStack extends Stack {
       maxValue: 120,
     });
 
-    const enableAutowireDNS = new CfnParameter(this, 'EnableAutowireDNS', {
+    const autowireDNSParentHostedZone = new CfnParameter(this, 'AutowireDNSParentHostedZone', {
       type: 'String',
       description: 'Automatically wire the DNS. Your domain must be in the SAME AWS Account for this to work.',
-      allowedValues: ['Yes', 'No'],
-      default: 'Yes',
+      default: '',
     });
 
     new Rootmail(this, 'Rootmail', {
       domain: domain.valueAsString,
       subdomain: subdomain.valueAsString,
       totalTimeToWireDNS: Duration.minutes(totalTimeToWireDNS.valueAsNumber),
-      enableAutowireDNS: enableAutowireDNS.valueAsString.toLowerCase().includes('yes') ? true : false,
+      autowireDNSParentHostedZone: autowireDNSParentHostedZone.valueAsString,
     });
   }
 }
@@ -64,6 +63,7 @@ class RootmailStack extends Stack {
 new RootmailStack(app, 'RootmailStack', {
   version: rootmailVersion,
   synthesizer: new CliCredentialsStackSynthesizer({
+    // TODO: https://www.simplified.guide/aws/s3/create-public-bucket
     fileAssetsBucketName: 'mvc-test4-bucket-${AWS::Region}',
     bucketPrefix: `rootmail/${rootmailVersion}/`,
   }),

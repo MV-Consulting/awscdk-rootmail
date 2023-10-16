@@ -12,33 +12,28 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Rootmail } from '../src/rootmail';
 // CDK App for Integration Tests
 const app = new App();
-// Parameters TODO
 const testDomain = process.env.TEST_DOMAIN ?? '';
-const testAccount = process.env.TEST_ACCOUNT_ID ?? process.env.CDK_DEFAULT_ACCOUNT ?? '';
+const testParentHostedZoneId = process.env.TEST_PARENT_HOSTED_ZONE_ID ?? '';
 const testRegion = 'eu-west-1';
-console.log(`Running integration tests in region '${testRegion}' and account '${testAccount}' for domain '${testDomain}'`);
-if (testDomain === '' || testAccount === '') {
-  throw new Error(`TEST_DOMAIN and TEST_ACCOUNT_ID environment variables must be set. Were TEST_DOMAIN='${testDomain}' and TEST_ACCOUNT_ID='${testAccount}'`);
+console.log(`Running integration tests in region '${testRegion}' and account '${testParentHostedZoneId}' for domain '${testDomain}'`);
+if (testDomain === '' || testParentHostedZoneId === '') {
+  throw new Error(`TEST_DOMAIN and TEST_PARENT_HOSTED_ZONE_ID environment variables must be set. Were TEST_DOMAIN='${testDomain}' and TEST_PARENT_HOSTED_ZONE_ID='${testParentHostedZoneId}'`);
 }
 // Stack under test
 const stackUnderTestName = 'RootmailTestStack';
 const stackUnderTest = new Stack(app, stackUnderTestName, {
   description: "This stack includes the application's resources for integration testing.",
-  env: {
-    account: testAccount,
-    region: testRegion,
-  },
 });
 
 const randomTestId = 1234;
 const testSubdomain = `integ-test-${randomTestId}`;
 
 const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
-  subdomain: testSubdomain,
   domain: testDomain,
+  subdomain: testSubdomain,
   // tests took on average 10-15 minutes , but we leave some buffer
   totalTimeToWireDNS: Duration.minutes(20),
-  enableAutowireDNS: true,
+  autowireDNSParentHostedZone: testParentHostedZoneId,
   setDestroyPolicyToAllResources: false,
 });
 

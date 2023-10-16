@@ -5,7 +5,7 @@
 # on which we create the 'integ-test-1234' test subdomain
 export TEST_DOMAIN=your-test-domain.com
 # the aws account ID the test domain is registered in
-export TEST_ACCOUNT_ID=123456789012
+export TEST_PARENT_HOSTED_ZONE_ID=Z1234343YUSDL
 # from the root of the project start the tests
 npm run integ-test
 ```

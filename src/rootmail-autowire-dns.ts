@@ -35,12 +35,14 @@ export interface RootmailAutowireDnsProps {
   readonly subdomain?: string;
 
   /**
-   * Whether to enable autowiring of the DNS records on the AWS parent hosted zone,
-   * which has to be in the same account.
+   * Set the HostedZone ID of the domain above from Route53 (in the same AWS account)
+   * to enable autowiring of the DNS records.
+   * 
+   * Leave empty if you have your domain at an external DNS provider!
    *
-   * @default false
+   * @default ''
    */
-  readonly enableAutowireDNS?: boolean;
+  readonly autowireDNSParentHostedZone?: string;
 
   /**
    * The Hosted Zone SSM Parameter Name for the NS records.
@@ -56,10 +58,8 @@ export class RootmailAutowireDns extends Construct {
     const subdomain = props.subdomain ?? 'aws';
     const autoWireR53ChangeInfoIdParameterName = '/rootmail/auto_wire_r53_changeinfo_id';
 
-    const autowireDNSOnAWSParentHostedZone = r53.HostedZone.fromLookup(this, 'ParentHostedZone', {
-      domainName: props.domain,
-    });
-
+    const autowireDNSOnAWSParentHostedZone = r53.HostedZone.fromHostedZoneId(this, 'ParentHostedZone', props.autowireDNSParentHostedZone)
+    
     const autoWireR53ChangeInfoId = new ssm.StringParameter(this, 'AutoWireR53ChangeInfoId', {
       parameterName: autoWireR53ChangeInfoIdParameterName,
       stringValue: 'dummy',
