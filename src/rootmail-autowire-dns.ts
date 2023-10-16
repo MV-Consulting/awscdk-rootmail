@@ -42,7 +42,7 @@ export interface RootmailAutowireDnsProps {
    *
    * @default ''
    */
-  readonly autowireDNSParentHostedZone?: string;
+  readonly autowireDNSParentHostedZoneID?: string;
 
   /**
    * The Hosted Zone SSM Parameter Name for the NS records.
@@ -58,7 +58,7 @@ export class RootmailAutowireDns extends Construct {
     const subdomain = props.subdomain ?? 'aws';
     const autoWireR53ChangeInfoIdParameterName = '/rootmail/auto_wire_r53_changeinfo_id';
 
-    const autowireDNSOnAWSParentHostedZone = r53.HostedZone.fromHostedZoneId(this, 'ParentHostedZone', props.autowireDNSParentHostedZone)
+    const autowireDNSOnAWSParentHostedZone = r53.HostedZone.fromHostedZoneId(this, 'ParentHostedZone', props.autowireDNSParentHostedZoneID)
     
     const autoWireR53ChangeInfoId = new ssm.StringParameter(this, 'AutoWireR53ChangeInfoId', {
       parameterName: autoWireR53ChangeInfoIdParameterName,

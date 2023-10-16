@@ -36,7 +36,7 @@ export interface HostedZoneDkimProps {
    *
    * @default ''
    */
-  readonly autowireDNSParentHostedZone?: string;
+  readonly autowireDNSParentHostedZoneID?: string;
   readonly hostedZoneSSMParameter: ssm.StringListParameter;
   readonly totalTimeToWireDNS?: Duration;
 }
@@ -48,7 +48,7 @@ export class HostedZoneDkim extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain ?? 'aws';
     const hostedZone = props.hostedZone;
-    const autowireDNSParentHostedZone = props.autowireDNSParentHostedZone ?? '';
+    const autowireDNSParentHostedZoneID = props.autowireDNSParentHostedZoneID ?? '';
     const hostedZoneSSMParameter = props.hostedZoneSSMParameter;
 
     // 1: trigger SNS DKIM verification
@@ -114,7 +114,7 @@ export class HostedZoneDkim extends Construct {
     new RootmailAutowireDns(this, 'RootmailAutowireDns', {
       domain: domain,
       subdomain: subdomain,
-      autowireDNSParentHostedZone: autowireDNSParentHostedZone,
+      autowireDNSParentHostedZoneID: autowireDNSParentHostedZoneID,
       hostedZoneSSMParameter: hostedZoneSSMParameter,
     });
 

@@ -44,7 +44,7 @@ export interface RootmailProps {
    *
    * @default ''
    */
-  readonly autowireDNSParentHostedZone?: string;
+  readonly autowireDNSParentHostedZoneID?: string;
 
   /**
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
@@ -65,7 +65,7 @@ export class Rootmail extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain ?? 'aws';
     const totalTimeToWireDNS = props.totalTimeToWireDNS ?? Duration.hours(2);
-    const autowireDNSParentHostedZone = props.autowireDNSParentHostedZone ?? '';
+    const autowireDNSParentHostedZoneID = props.autowireDNSParentHostedZoneID ?? '';
     const setDestroyPolicyToAllResources = props.setDestroyPolicyToAllResources ?? false;
 
     const deployRegion = Stack.of(this).region;
@@ -111,7 +111,7 @@ export class Rootmail extends Construct {
       domain: domain,
       subdomain: subdomain,
       hostedZone: hostedZone,
-      autowireDNSParentHostedZone: autowireDNSParentHostedZone,
+      autowireDNSParentHostedZoneID: autowireDNSParentHostedZoneID,
       hostedZoneSSMParameter: hostedZoneSSMParameter,
       totalTimeToWireDNS: totalTimeToWireDNS,
     });

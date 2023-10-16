@@ -45,7 +45,7 @@ class RootmailStack extends Stack {
       maxValue: 120,
     });
 
-    const autowireDNSParentHostedZone = new CfnParameter(this, 'AutowireDNSParentHostedZone', {
+    const autowireDNSParentHostedZoneID = new CfnParameter(this, 'AutowireDNSParentHostedZone', {
       type: 'String',
       description: 'Automatically wire the DNS. Your domain must be in the SAME AWS Account for this to work.',
       default: '',
@@ -55,7 +55,7 @@ class RootmailStack extends Stack {
       domain: domain.valueAsString,
       subdomain: subdomain.valueAsString,
       totalTimeToWireDNS: Duration.minutes(totalTimeToWireDNS.valueAsNumber),
-      autowireDNSParentHostedZone: autowireDNSParentHostedZone.valueAsString,
+      autowireDNSParentHostedZoneID: autowireDNSParentHostedZoneID.valueAsString,
     });
   }
 }

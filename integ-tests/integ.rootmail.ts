@@ -33,7 +33,7 @@ const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   subdomain: testSubdomain,
   // tests took on average 10-15 minutes , but we leave some buffer
   totalTimeToWireDNS: Duration.minutes(20),
-  autowireDNSParentHostedZone: testParentHostedZoneId,
+  autowireDNSParentHostedZoneID: testParentHostedZoneId,
   setDestroyPolicyToAllResources: false,
 });
 
