@@ -398,7 +398,7 @@ const rootmailProps: RootmailProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
-| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.enableAutowireDNS">enableAutowireDNS</a></code> | <code>boolean</code> | Whether to enable autowiring of the DNS records on the AWS parent hosted zone, which has to be in the same account. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.autowireDNSParentHostedZoneID">autowireDNSParentHostedZoneID</a></code> | <code>string</code> | Set the HostedZone ID of the domain above from Route53 (in the same AWS account) to enable autowiring of the DNS records. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.totalTimeToWireDNS">totalTimeToWireDNS</a></code> | <code>aws-cdk-lib.Duration</code> | The total time to wait for the DNS records to be available/wired. |
@@ -417,16 +417,18 @@ Domain used for root mail feature.
 
 ---
 
-##### `enableAutowireDNS`<sup>Optional</sup> <a name="enableAutowireDNS" id="@mavogel/awscdk-rootmail.RootmailProps.property.enableAutowireDNS"></a>
+##### `autowireDNSParentHostedZoneID`<sup>Optional</sup> <a name="autowireDNSParentHostedZoneID" id="@mavogel/awscdk-rootmail.RootmailProps.property.autowireDNSParentHostedZoneID"></a>
 
 ```typescript
-public readonly enableAutowireDNS: boolean;
+public readonly autowireDNSParentHostedZoneID: string;
 ```
 
-- *Type:* boolean
-- *Default:* false
+- *Type:* string
+- *Default:* ''
 
-Whether to enable autowiring of the DNS records on the AWS parent hosted zone, which has to be in the same account.
+Set the HostedZone ID of the domain above from Route53 (in the same AWS account) to enable autowiring of the DNS records.
+
+Leave empty if you have your domain at an external DNS provider!
 
 ---
 
@@ -437,6 +439,7 @@ public readonly setDestroyPolicyToAllResources: boolean;
 ```
 
 - *Type:* boolean
+- *Default:* false
 
 Whether to set all removal policies to DESTROY.
 
