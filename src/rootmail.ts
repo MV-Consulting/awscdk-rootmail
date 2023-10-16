@@ -46,6 +46,8 @@ export interface RootmailProps {
 
   /**
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
+   * 
+   * @default false
    */
   readonly setDestroyPolicyToAllResources?: boolean;
 }
