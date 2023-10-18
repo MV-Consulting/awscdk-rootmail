@@ -21,7 +21,6 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
 
   switch (event.RequestType) {
     case 'Create':
-    case 'Update':
       await ses.createReceiptRuleSet({ RuleSetName: ruleSetName }).promise();
 
       await ses.createReceiptRule({
@@ -53,6 +52,9 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       await ses.setActiveReceiptRuleSet({ RuleSetName: ruleSetName }).promise();
       break;
 
+    case 'Update':
+      console.log('Updating SES ReceiptRuleSet, doing nothing');
+      return;
     case 'Delete':
       console.log('Deactivating SES ReceiptRuleSet:', logicalResourceId);
 

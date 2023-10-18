@@ -11,7 +11,7 @@
         ]
       },
       "regions": [
-        "${Token[AWS.Region.12]}"
+        "eu-west-1"
       ],
       "cdkCommandOptions": {
         "deploy": {
