@@ -92,9 +92,9 @@ describe('ses-receipt-ruleset-activation', () => {
       } as unknown as OnEventRequest,
     );
 
-    expect(spyCreateReceiptRuleSet).toHaveBeenCalledTimes(1);
-    expect(spyCreateReceiptRule).toHaveBeenCalledTimes(1);
-    expect(spySetActiveReceiptRuleSet).toHaveBeenCalledTimes(1);
+    expect(spyCreateReceiptRuleSet).not.toHaveBeenCalled();
+    expect(spyCreateReceiptRule).not.toHaveBeenCalled();
+    expect(spySetActiveReceiptRuleSet).not.toHaveBeenCalled();
   });
 
   it('delete: ses receipt ruleset activation', async () => {

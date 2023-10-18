@@ -25,6 +25,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
 
   bundledDeps: [
+    'async-retry',
     'aws-sdk',
     'axios',
     'cdk-nag',
@@ -33,6 +34,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   ],
   description: 'An opinionated way to secure root email addresses for AWS accounts.',
   devDeps: [
+    '@types/async-retry',
     '@types/aws-lambda',
     '@types/axios',
     '@types/jsonfile',
@@ -42,14 +44,18 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@aws-cdk/integ-tests-alpha@^2.90.0-alpha.0',
     '@commitlint/cli',
     '@commitlint/config-conventional',
+    'cdk-assets',
     'husky',
     'jsonfile',
   ],
   gitignore: [
     'venv',
+    'cdk.out',
   ],
 });
 
 project.package.setScript('prepare', 'husky install');
 project.package.setScript('integ-test', 'integ-runner --directory ./integ-tests --parallel-regions eu-west-1 --update-on-failed');
+project.package.setScript('synth', 'cdk synth -q');
+project.package.setScript('publish-assets', 'npx ts-node -P tsconfig.json --prefer-ts-exts src/scripts/publish-assets.ts');
 project.synth();

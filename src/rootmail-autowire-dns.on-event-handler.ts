@@ -17,11 +17,18 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
 
   switch (event.RequestType) {
     case 'Create':
-      const hostedZoneParameterResponse = await ssm.getParameter({
+      if (parentHostedZoneId === undefined || parentHostedZoneId === '') {
+        log(`Skipping autoDNS wiring on CREATE for domain '${subdomain}.${domain}' as no parentHostedZoneId is given!`);
+        return {
+          PhysicalResourceId: event.PhysicalResourceId,
+        };
+      }
+
+      const hostedZoneNameServerParameterResponse = await ssm.getParameter({
         Name: hostedZoneParameterName,
       }).promise();
 
-      const hostedZoneNameServersAsString = hostedZoneParameterResponse.Parameter?.Value;
+      const hostedZoneNameServersAsString = hostedZoneNameServerParameterResponse.Parameter?.Value;
       log({
         event: hostedZoneNameServersAsString,
         level: 'debug',
@@ -135,6 +142,12 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       log(`Skipping update for NS record for Name '${subdomain}.${domain}'`);
       return {};
     case 'Delete':
+      if (parentHostedZoneId === undefined || parentHostedZoneId === '') {
+        log(`Skipping autoDNS wiring on DELETE for domain '${subdomain}.${domain}' as no parentHostedZoneId is given!`);
+        return {};
+      }
+
+
       log(`Deleting NS record for Name '${subdomain}.${domain}'`);
       const recordName = `${subdomain}.${domain}`;
       try {

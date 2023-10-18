@@ -179,6 +179,12 @@ export const handler = async (event: SESEventRecordsToLambda) => {
           ]),
         },
       ).promise();
+      log({
+        id: id,
+        key: key,
+        level: 'info',
+        msg: `created ssm param store entry '${rootmail_identifier}' for password assistance email`,
+      });
       return; // no ops item for now
     }
 
@@ -226,6 +232,12 @@ export const handler = async (event: SESEventRecordsToLambda) => {
         Title: title,
       },
     ).promise();
+    log({
+      id: id,
+      key: key,
+      level: 'info',
+      msg: `created ops item with title '${title}'`,
+    });
   }
 };
 

@@ -37,9 +37,8 @@ To send us a pull request, please:
 # set the environment first
 ## in you AWS account
 export TEST_DOMAIN='yourdomain.com'
-## your AWS account ID in which the domain is registered
-export TEST_ACCOUNT_ID=$(aws sts get-caller-identity --no-cli-pager --query Account --output text
-) 
+## the ID of the hosted zone the domain $TEST_DOMAIN, mentioned above has
+export TEST_PARENT_HOSTED_ZONE_ID=Z1234343YUSDL
 # run the tests
 npm run integ-test
 ```

@@ -420,7 +420,18 @@
                             },
                             "name": "integ-test-1234.mavogel.xyz.",
                             "resourceRecords": [
-                              "10 inbound-smtp.eu-west-1.amazonaws.com"
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "10 inbound-smtp.",
+                                    {
+                                      "Ref": "AWS::Region"
+                                    },
+                                    ".amazonaws.com"
+                                  ]
+                                ]
+                              }
                             ],
                             "ttl": "60",
                             "type": "MX"
@@ -487,14 +498,6 @@
                     "id": "RootmailAutowireDns",
                     "path": "RootmailTestStack/testRootmail/HostedZoneDkim/RootmailAutowireDns",
                     "children": {
-                      "ParentHostedZone": {
-                        "id": "ParentHostedZone",
-                        "path": "RootmailTestStack/testRootmail/HostedZoneDkim/RootmailAutowireDns/ParentHostedZone",
-                        "constructInfo": {
-                          "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
-                        }
-                      },
                       "AutoWireR53ChangeInfoId": {
                         "id": "AutoWireR53ChangeInfoId",
                         "path": "RootmailTestStack/testRootmail/HostedZoneDkim/RootmailAutowireDns/AutoWireR53ChangeInfoId",
@@ -658,7 +661,26 @@
                                     {
                                       "Action": "ssm:PutParameter",
                                       "Effect": "Allow",
-                                      "Resource": "arn:aws:ssm:eu-west-1:935897259846:parameter/rootmail/*"
+                                      "Resource": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":ssm:",
+                                            {
+                                              "Ref": "AWS::Region"
+                                            },
+                                            ":",
+                                            {
+                                              "Ref": "AWS::AccountId"
+                                            },
+                                            ":parameter/rootmail/*"
+                                          ]
+                                        ]
+                                      }
                                     }
                                   ],
                                   "Version": "2012-10-17"
@@ -715,8 +737,10 @@
                           "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                           "aws:cdk:cloudformation:props": {
                             "code": {
-                              "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
-                              "s3Key": "27655f2fad7f1156307d5cb1c800d53fa7247794c88ce33e929f8257add0eb43.zip"
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                              },
+                              "s3Key": "a341a2369054f0a8f37e5414dab68b9be7a763b411cd53d84dff14426575982d.zip"
                             },
                             "environment": {
                               "variables": {
@@ -729,7 +753,9 @@
                                     "Arn"
                                   ]
                                 },
-                                "ROOTMAIL_DEPLOY_REGION": "eu-west-1",
+                                "ROOTMAIL_DEPLOY_REGION": {
+                                  "Ref": "AWS::Region"
+                                },
                                 "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
                               }
                             },
@@ -789,7 +815,9 @@
                               ]
                             },
                             "principal": "ses.amazonaws.com",
-                            "sourceAccount": "935897259846"
+                            "sourceAccount": {
+                              "Ref": "AWS::AccountId"
+                            }
                           }
                         },
                         "constructInfo": {
@@ -984,7 +1012,9 @@
                       "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                       "aws:cdk:cloudformation:props": {
                         "code": {
-                          "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
                           "s3Key": "e929c247e138215c1a78c3ff76fa6f9a14c270d801bed4a81e2cd7d040df8fc6.zip"
                         },
                         "environment": {
@@ -1198,7 +1228,9 @@
                           "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                           "aws:cdk:cloudformation:props": {
                             "code": {
-                              "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                              },
                               "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
                             },
                             "description": "AWS CDK resource provider framework - onEvent (RootmailTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider)",
@@ -1506,7 +1538,19 @@
                                         "Fn::Join": [
                                           "",
                                           [
-                                            "arn:aws:ssm:eu-west-1:935897259846:parameter",
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":ssm:",
+                                            {
+                                              "Ref": "AWS::Region"
+                                            },
+                                            ":",
+                                            {
+                                              "Ref": "AWS::AccountId"
+                                            },
+                                            ":parameter",
                                             {
                                               "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7"
                                             }
@@ -1575,8 +1619,10 @@
                       "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                       "aws:cdk:cloudformation:props": {
                         "code": {
-                          "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
-                          "s3Key": "94de976cf122238fa380d37e4d1586ab34b133115fbdbb31afaf147fdc4d3a56.zip"
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
+                          "s3Key": "9c1932e033544af517d719a6b8d0bfaf9c0e17b0db3a799adfa9d9306b806b4c.zip"
                         },
                         "environment": {
                           "variables": {
@@ -1710,7 +1756,19 @@
                                         "Fn::Join": [
                                           "",
                                           [
-                                            "arn:aws:ssm:eu-west-1:935897259846:parameter",
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":ssm:",
+                                            {
+                                              "Ref": "AWS::Region"
+                                            },
+                                            ":",
+                                            {
+                                              "Ref": "AWS::AccountId"
+                                            },
+                                            ":parameter",
                                             {
                                               "Ref": "testRootmailHostedZoneSSMParameter574DA41C"
                                             }
@@ -1725,7 +1783,19 @@
                                         "Fn::Join": [
                                           "",
                                           [
-                                            "arn:aws:ssm:eu-west-1:935897259846:parameter",
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":ssm:",
+                                            {
+                                              "Ref": "AWS::Region"
+                                            },
+                                            ":",
+                                            {
+                                              "Ref": "AWS::AccountId"
+                                            },
+                                            ":parameter",
                                             {
                                               "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7"
                                             }
@@ -1810,8 +1880,10 @@
                       "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                       "aws:cdk:cloudformation:props": {
                         "code": {
-                          "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
-                          "s3Key": "72ddc44d17d893dffd13ede2e360ef53aa3e96db7494a6c16aa00cf3dbaa52f6.zip"
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
+                          "s3Key": "5383e7a7ecccc34d70bb13a329743aa0b203c10babb8b10a6e0ef782adb97ccd.zip"
                         },
                         "environment": {
                           "variables": {
@@ -2051,7 +2123,9 @@
                           "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                           "aws:cdk:cloudformation:props": {
                             "code": {
-                              "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                              },
                               "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
                             },
                             "description": "AWS CDK resource provider framework - onEvent (RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
@@ -2270,7 +2344,9 @@
                           "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                           "aws:cdk:cloudformation:props": {
                             "code": {
-                              "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                              },
                               "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
                             },
                             "description": "AWS CDK resource provider framework - isComplete (RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
@@ -2486,7 +2562,9 @@
                           "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                           "aws:cdk:cloudformation:props": {
                             "code": {
-                              "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                              },
                               "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
                             },
                             "description": "AWS CDK resource provider framework - onTimeout (RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
@@ -2823,7 +2901,9 @@
                       "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                       "aws:cdk:cloudformation:props": {
                         "code": {
-                          "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
                           "s3Key": "5a419318191e41bab962744e2bb2f07c923fcf2938be509f3dbf8be427b37db3.zip"
                         },
                         "environment": {
@@ -2973,7 +3053,9 @@
                       "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                       "aws:cdk:cloudformation:props": {
                         "code": {
-                          "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
                           "s3Key": "341ab8a922d711f6fc42cf2c54bd01447bd095ed6a68d6226c4efc65696ebd04.zip"
                         },
                         "environment": {
@@ -3214,7 +3296,9 @@
                           "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                           "aws:cdk:cloudformation:props": {
                             "code": {
-                              "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                              },
                               "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
                             },
                             "description": "AWS CDK resource provider framework - onEvent (RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
@@ -3433,7 +3517,9 @@
                           "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                           "aws:cdk:cloudformation:props": {
                             "code": {
-                              "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                              },
                               "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
                             },
                             "description": "AWS CDK resource provider framework - isComplete (RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
@@ -3649,7 +3735,9 @@
                           "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                           "aws:cdk:cloudformation:props": {
                             "code": {
-                              "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                              },
                               "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
                             },
                             "description": "AWS CDK resource provider framework - onTimeout (RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
@@ -3987,8 +4075,10 @@
                       "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                       "aws:cdk:cloudformation:props": {
                         "code": {
-                          "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
-                          "s3Key": "ec8dfb47837c6d50746cc226aa991bba6004191dd88894a3b162de35f292ed59.zip"
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
+                          "s3Key": "48e88e3767f6280fcc3c3b1626981dc95224feb760a0eb6cf422f963dd99d41e.zip"
                         },
                         "environment": {
                           "variables": {
@@ -4003,7 +4093,7 @@
                           ]
                         },
                         "runtime": "nodejs18.x",
-                        "timeout": 150
+                        "timeout": 30
                       }
                     },
                     "constructInfo": {
@@ -4032,6 +4122,222 @@
                   "LogGroup": {
                     "id": "LogGroup",
                     "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/on-event-handler/LogGroup",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.90.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+                  "version": "2.90.0"
+                }
+              },
+              "is-complete-handler": {
+                "id": "is-complete-handler",
+                "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "s3:GetBucket*",
+                                        "s3:GetObject*",
+                                        "s3:List*"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "testRootmailEmailBucket2A470446",
+                                            "Arn"
+                                          ]
+                                        },
+                                        {
+                                          "Fn::Join": [
+                                            "",
+                                            [
+                                              {
+                                                "Fn::GetAtt": [
+                                                  "testRootmailEmailBucket2A470446",
+                                                  "Arn"
+                                                ]
+                                              },
+                                              "/RootMail/*"
+                                            ]
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRoleDefaultPolicyFB99DF60",
+                                "roles": [
+                                  {
+                                    "Ref": "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRole9D6CAFC0"
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Policy",
+                          "version": "2.90.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.90.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.90.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.90.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
+                          "s3Key": "2174085e1fb1d52187cba205387ad57afebb2e26bc9e02ef0d315887cae985d2.zip"
+                        },
+                        "environment": {
+                          "variables": {
+                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+                          }
+                        },
+                        "handler": "index.handler",
+                        "role": {
+                          "Fn::GetAtt": [
+                            "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRole9D6CAFC0",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs18.x",
+                        "timeout": 30
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.90.0"
+                    }
+                  },
+                  "LogRetention": {
+                    "id": "LogRetention",
+                    "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/LogRetention",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/LogRetention/Resource",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.90.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_logs.LogRetention",
+                      "version": "2.90.0"
+                    }
+                  },
+                  "LogGroup": {
+                    "id": "LogGroup",
+                    "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/LogGroup",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.90.0"
@@ -4120,8 +4426,28 @@
                                           "Resource": [
                                             {
                                               "Fn::GetAtt": [
+                                                "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                                                "Arn"
+                                              ]
+                                            },
+                                            {
+                                              "Fn::GetAtt": [
                                                 "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
                                                 "Arn"
+                                              ]
+                                            },
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  {
+                                                    "Fn::GetAtt": [
+                                                      "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                                                      "Arn"
+                                                    ]
+                                                  },
+                                                  ":*"
+                                                ]
                                               ]
                                             },
                                             {
@@ -4139,6 +4465,13 @@
                                               ]
                                             }
                                           ]
+                                        },
+                                        {
+                                          "Action": "states:StartExecution",
+                                          "Effect": "Allow",
+                                          "Resource": {
+                                            "Ref": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachine93794458"
+                                          }
                                         }
                                       ],
                                       "Version": "2012-10-17"
@@ -4201,7 +4534,9 @@
                           "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                           "aws:cdk:cloudformation:props": {
                             "code": {
-                              "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                              },
                               "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
                             },
                             "description": "AWS CDK resource provider framework - onEvent (RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
@@ -4212,6 +4547,15 @@
                                     "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
                                     "Arn"
                                   ]
+                                },
+                                "USER_IS_COMPLETE_FUNCTION_ARN": {
+                                  "Fn::GetAtt": [
+                                    "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                                    "Arn"
+                                  ]
+                                },
+                                "WAITER_STATE_MACHINE_ARN": {
+                                  "Ref": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachine93794458"
                                 }
                               }
                             },
@@ -4261,6 +4605,635 @@
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.Function",
                       "version": "2.90.0"
+                    }
+                  },
+                  "framework-isComplete": {
+                    "id": "framework-isComplete",
+                    "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete",
+                    "children": {
+                      "ServiceRole": {
+                        "id": "ServiceRole",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/ServiceRole",
+                        "children": {
+                          "ImportServiceRole": {
+                            "id": "ImportServiceRole",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/ServiceRole/ImportServiceRole",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.Resource",
+                              "version": "2.90.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/ServiceRole/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                              "aws:cdk:cloudformation:props": {
+                                "assumeRolePolicyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "sts:AssumeRole",
+                                      "Effect": "Allow",
+                                      "Principal": {
+                                        "Service": "lambda.amazonaws.com"
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "managedPolicyArns": [
+                                  {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                              "version": "2.90.0"
+                            }
+                          },
+                          "DefaultPolicy": {
+                            "id": "DefaultPolicy",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/ServiceRole/DefaultPolicy",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/ServiceRole/DefaultPolicy/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                                  "aws:cdk:cloudformation:props": {
+                                    "policyDocument": {
+                                      "Statement": [
+                                        {
+                                          "Action": "lambda:InvokeFunction",
+                                          "Effect": "Allow",
+                                          "Resource": [
+                                            {
+                                              "Fn::GetAtt": [
+                                                "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                                                "Arn"
+                                              ]
+                                            },
+                                            {
+                                              "Fn::GetAtt": [
+                                                "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                                                "Arn"
+                                              ]
+                                            },
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  {
+                                                    "Fn::GetAtt": [
+                                                      "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                                                      "Arn"
+                                                    ]
+                                                  },
+                                                  ":*"
+                                                ]
+                                              ]
+                                            },
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  {
+                                                    "Fn::GetAtt": [
+                                                      "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                                                      "Arn"
+                                                    ]
+                                                  },
+                                                  ":*"
+                                                ]
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "Version": "2012-10-17"
+                                    },
+                                    "policyName": "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleDefaultPolicy8A8828E7",
+                                    "roles": [
+                                      {
+                                        "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleCFD6EE46"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                                  "version": "2.90.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.Policy",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Role",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "Code": {
+                        "id": "Code",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/Code",
+                        "children": {
+                          "Stage": {
+                            "id": "Stage",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/Code/Stage",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.AssetStaging",
+                              "version": "2.90.0"
+                            }
+                          },
+                          "AssetBucket": {
+                            "id": "AssetBucket",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/Code/AssetBucket",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                          "aws:cdk:cloudformation:props": {
+                            "code": {
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                              },
+                              "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                            },
+                            "description": "AWS CDK resource provider framework - isComplete (RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
+                            "environment": {
+                              "variables": {
+                                "USER_ON_EVENT_FUNCTION_ARN": {
+                                  "Fn::GetAtt": [
+                                    "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                                    "Arn"
+                                  ]
+                                },
+                                "USER_IS_COMPLETE_FUNCTION_ARN": {
+                                  "Fn::GetAtt": [
+                                    "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                                    "Arn"
+                                  ]
+                                }
+                              }
+                            },
+                            "handler": "framework.isComplete",
+                            "role": {
+                              "Fn::GetAtt": [
+                                "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleCFD6EE46",
+                                "Arn"
+                              ]
+                            },
+                            "runtime": "nodejs18.x",
+                            "timeout": 900
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "LogRetention": {
+                        "id": "LogRetention",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/LogRetention",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/LogRetention/Resource",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogRetention",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/LogGroup",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.90.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.Function",
+                      "version": "2.90.0"
+                    }
+                  },
+                  "framework-onTimeout": {
+                    "id": "framework-onTimeout",
+                    "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout",
+                    "children": {
+                      "ServiceRole": {
+                        "id": "ServiceRole",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/ServiceRole",
+                        "children": {
+                          "ImportServiceRole": {
+                            "id": "ImportServiceRole",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/ServiceRole/ImportServiceRole",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.Resource",
+                              "version": "2.90.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/ServiceRole/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                              "aws:cdk:cloudformation:props": {
+                                "assumeRolePolicyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "sts:AssumeRole",
+                                      "Effect": "Allow",
+                                      "Principal": {
+                                        "Service": "lambda.amazonaws.com"
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "managedPolicyArns": [
+                                  {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:",
+                                        {
+                                          "Ref": "AWS::Partition"
+                                        },
+                                        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                              "version": "2.90.0"
+                            }
+                          },
+                          "DefaultPolicy": {
+                            "id": "DefaultPolicy",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/ServiceRole/DefaultPolicy",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/ServiceRole/DefaultPolicy/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                                  "aws:cdk:cloudformation:props": {
+                                    "policyDocument": {
+                                      "Statement": [
+                                        {
+                                          "Action": "lambda:InvokeFunction",
+                                          "Effect": "Allow",
+                                          "Resource": [
+                                            {
+                                              "Fn::GetAtt": [
+                                                "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                                                "Arn"
+                                              ]
+                                            },
+                                            {
+                                              "Fn::GetAtt": [
+                                                "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                                                "Arn"
+                                              ]
+                                            },
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  {
+                                                    "Fn::GetAtt": [
+                                                      "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                                                      "Arn"
+                                                    ]
+                                                  },
+                                                  ":*"
+                                                ]
+                                              ]
+                                            },
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  {
+                                                    "Fn::GetAtt": [
+                                                      "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                                                      "Arn"
+                                                    ]
+                                                  },
+                                                  ":*"
+                                                ]
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "Version": "2012-10-17"
+                                    },
+                                    "policyName": "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRoleDefaultPolicy8A4A1F2A",
+                                    "roles": [
+                                      {
+                                        "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRole845C2519"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                                  "version": "2.90.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.Policy",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Role",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "Code": {
+                        "id": "Code",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/Code",
+                        "children": {
+                          "Stage": {
+                            "id": "Stage",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/Code/Stage",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.AssetStaging",
+                              "version": "2.90.0"
+                            }
+                          },
+                          "AssetBucket": {
+                            "id": "AssetBucket",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/Code/AssetBucket",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                          "aws:cdk:cloudformation:props": {
+                            "code": {
+                              "s3Bucket": {
+                                "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                              },
+                              "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                            },
+                            "description": "AWS CDK resource provider framework - onTimeout (RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
+                            "environment": {
+                              "variables": {
+                                "USER_ON_EVENT_FUNCTION_ARN": {
+                                  "Fn::GetAtt": [
+                                    "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                                    "Arn"
+                                  ]
+                                },
+                                "USER_IS_COMPLETE_FUNCTION_ARN": {
+                                  "Fn::GetAtt": [
+                                    "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                                    "Arn"
+                                  ]
+                                }
+                              }
+                            },
+                            "handler": "framework.onTimeout",
+                            "role": {
+                              "Fn::GetAtt": [
+                                "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRole845C2519",
+                                "Arn"
+                              ]
+                            },
+                            "runtime": "nodejs18.x",
+                            "timeout": 900
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "LogRetention": {
+                        "id": "LogRetention",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/LogRetention",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/LogRetention/Resource",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogRetention",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/LogGroup",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.90.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.Function",
+                      "version": "2.90.0"
+                    }
+                  },
+                  "waiter-state-machine": {
+                    "id": "waiter-state-machine",
+                    "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine",
+                    "children": {
+                      "Role": {
+                        "id": "Role",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/Role",
+                        "children": {
+                          "ImportRole": {
+                            "id": "ImportRole",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/Role/ImportRole",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.Resource",
+                              "version": "2.90.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/Role/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                              "aws:cdk:cloudformation:props": {
+                                "assumeRolePolicyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": "sts:AssumeRole",
+                                      "Effect": "Allow",
+                                      "Principal": {
+                                        "Service": "states.amazonaws.com"
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                              "version": "2.90.0"
+                            }
+                          },
+                          "DefaultPolicy": {
+                            "id": "DefaultPolicy",
+                            "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/Role/DefaultPolicy",
+                            "children": {
+                              "Resource": {
+                                "id": "Resource",
+                                "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/Role/DefaultPolicy/Resource",
+                                "attributes": {
+                                  "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                                  "aws:cdk:cloudformation:props": {
+                                    "policyDocument": {
+                                      "Statement": [
+                                        {
+                                          "Action": "lambda:InvokeFunction",
+                                          "Effect": "Allow",
+                                          "Resource": [
+                                            {
+                                              "Fn::GetAtt": [
+                                                "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146",
+                                                "Arn"
+                                              ]
+                                            },
+                                            {
+                                              "Fn::GetAtt": [
+                                                "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9",
+                                                "Arn"
+                                              ]
+                                            },
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  {
+                                                    "Fn::GetAtt": [
+                                                      "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146",
+                                                      "Arn"
+                                                    ]
+                                                  },
+                                                  ":*"
+                                                ]
+                                              ]
+                                            },
+                                            {
+                                              "Fn::Join": [
+                                                "",
+                                                [
+                                                  {
+                                                    "Fn::GetAtt": [
+                                                      "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9",
+                                                      "Arn"
+                                                    ]
+                                                  },
+                                                  ":*"
+                                                ]
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "Version": "2012-10-17"
+                                    },
+                                    "policyName": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRoleDefaultPolicy64767BAC",
+                                    "roles": [
+                                      {
+                                        "Ref": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                                  "version": "2.90.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_iam.Policy",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.Role",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/Resource",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.90.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.0.5"
                     }
                   }
                 },
@@ -4411,7 +5384,9 @@
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                   "aws:cdk:cloudformation:props": {
                     "code": {
-                      "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
                       "s3Key": "174cc832ae179fe13c9cbf1cc967631ee1e8a38bf5aef76be78640271e24ebbe.zip"
                     },
                     "environment": {
@@ -4604,7 +5579,9 @@
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                   "aws:cdk:cloudformation:props": {
                     "code": {
-                      "s3Bucket": "cdk-hnb659fds-assets-935897259846-eu-west-1",
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
                       "s3Key": "3c65b304a8bbbabcbdb72691421cb670632d63b429c862bcfdcc52ff4b85facd.zip"
                     },
                     "environment": {
@@ -4661,6 +5638,32 @@
               "version": "2.90.0"
             }
           },
+          "Exports": {
+            "id": "Exports",
+            "path": "RootmailTestStack/Exports",
+            "children": {
+              "Output{\"Ref\":\"sendemailhandler05B16DE5\"}": {
+                "id": "Output{\"Ref\":\"sendemailhandler05B16DE5\"}",
+                "path": "RootmailTestStack/Exports/Output{\"Ref\":\"sendemailhandler05B16DE5\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.90.0"
+                }
+              },
+              "Output{\"Ref\":\"closeopsitemhandler2F03D32C\"}": {
+                "id": "Output{\"Ref\":\"closeopsitemhandler2F03D32C\"}",
+                "path": "RootmailTestStack/Exports/Output{\"Ref\":\"closeopsitemhandler2F03D32C\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.90.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.0.5"
+            }
+          },
           "BootstrapVersion": {
             "id": "BootstrapVersion",
             "path": "RootmailTestStack/BootstrapVersion",
@@ -4703,17 +5706,17 @@
                 "id": "DeployAssert",
                 "path": "SetupTest/DefaultTest/DeployAssert",
                 "children": {
-                  "LambdaInvoked843bbff2de951750dff72b6a545b523": {
-                    "id": "LambdaInvoked843bbff2de951750dff72b6a545b523",
-                    "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523",
+                  "LambdaInvokefbad352ca8433f672a44abb49a3e1fd3": {
+                    "id": "LambdaInvokefbad352ca8433f672a44abb49a3e1fd3",
+                    "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefbad352ca8433f672a44abb49a3e1fd3",
                     "children": {
                       "SdkProvider": {
                         "id": "SdkProvider",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/SdkProvider",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefbad352ca8433f672a44abb49a3e1fd3/SdkProvider",
                         "children": {
                           "AssertionsProvider": {
                             "id": "AssertionsProvider",
-                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/SdkProvider/AssertionsProvider",
+                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefbad352ca8433f672a44abb49a3e1fd3/SdkProvider/AssertionsProvider",
                             "constructInfo": {
                               "fqn": "constructs.Construct",
                               "version": "10.0.5"
@@ -4727,11 +5730,11 @@
                       },
                       "Default": {
                         "id": "Default",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/Default",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefbad352ca8433f672a44abb49a3e1fd3/Default",
                         "children": {
                           "Default": {
                             "id": "Default",
-                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/Default/Default",
+                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefbad352ca8433f672a44abb49a3e1fd3/Default/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
                               "version": "2.90.0"
@@ -4745,7 +5748,7 @@
                       },
                       "Invoke": {
                         "id": "Invoke",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/Invoke",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefbad352ca8433f672a44abb49a3e1fd3/Invoke",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
                           "version": "2.90.0"
@@ -4753,7 +5756,7 @@
                       },
                       "AssertionResults": {
                         "id": "AssertionResults",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/AssertionResults",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvokefbad352ca8433f672a44abb49a3e1fd3/AssertionResults",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnOutput",
                           "version": "2.90.0"
@@ -4799,17 +5802,17 @@
                       "version": "10.0.5"
                     }
                   },
-                  "LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c": {
-                    "id": "LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c",
-                    "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c",
+                  "LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3": {
+                    "id": "LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3",
+                    "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3",
                     "children": {
                       "SdkProvider": {
                         "id": "SdkProvider",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/SdkProvider",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3/SdkProvider",
                         "children": {
                           "AssertionsProvider": {
                             "id": "AssertionsProvider",
-                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/SdkProvider/AssertionsProvider",
+                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3/SdkProvider/AssertionsProvider",
                             "constructInfo": {
                               "fqn": "constructs.Construct",
                               "version": "10.0.5"
@@ -4823,11 +5826,11 @@
                       },
                       "Default": {
                         "id": "Default",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/Default",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3/Default",
                         "children": {
                           "Default": {
                             "id": "Default",
-                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/Default/Default",
+                            "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3/Default/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
                               "version": "2.90.0"
@@ -4841,7 +5844,7 @@
                       },
                       "Invoke": {
                         "id": "Invoke",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/Invoke",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3/Invoke",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
                           "version": "2.90.0"
@@ -4849,7 +5852,7 @@
                       },
                       "AssertionResults": {
                         "id": "AssertionResults",
-                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/AssertionResults",
+                        "path": "SetupTest/DefaultTest/DeployAssert/LambdaInvoke58d1a12b8843ce9f2fba2c178294f6c3/AssertionResults",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnOutput",
                           "version": "2.90.0"

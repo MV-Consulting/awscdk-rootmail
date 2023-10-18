@@ -34,17 +34,6 @@ export interface SESReceiveProps {
   readonly emailbucket: s3.Bucket;
 
   /**
-   * Time in seconds to wait for the SES receipt rule set to settle.
-   *
-   * The reason is that although the rule is active immediately, it takes some time for the rule to
-   * really forwards incoming mails to the S3 bucket and the Lambda function. During tests 120 seconds
-   * were enough to wait for the rule to settle. This propery is offered to lower it for testing purposes.
-   *
-   * @default 120
-   */
-  readonly rulesetSettleTimeSeconds?: number;
-
-  /**
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
    */
   readonly setDestroyPolicyToAllResources?: boolean;
@@ -53,7 +42,6 @@ export interface SESReceiveProps {
 export class SESReceive extends Construct {
   constructor(scope: Construct, id: string, props: SESReceiveProps) {
     super(scope, id);
-    const rulesetSettleTimeSeconds = props.rulesetSettleTimeSeconds ?? 120;
 
     const deployRegion = Stack.of(this).region;
     if (!isSESEnabledRegion(deployRegion)) {
@@ -141,9 +129,8 @@ export class SESReceive extends Construct {
     new SESReceiptRuleSetActivation(this, 'SESReceiptRuleSetActivation', {
       domain: props.domain,
       subdomain: props.subdomain,
-      emailbucketName: props.emailbucket.bucketName,
+      emailbucket: props.emailbucket,
       opsSantaFunctionArn: opsSantaFunction.functionArn,
-      rulesetSettleTimeSeconds: rulesetSettleTimeSeconds,
     });
 
     // If Destroy Policy Aspect is present:

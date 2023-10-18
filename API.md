@@ -2,16 +2,17 @@
 
 A single rootmail box for all your AWS accounts. The cdk implementation and **adaption** of the [superwerker](https://superwerker.cloud/) rootmail feature. See [here](docs/adrs/rootmail.md) for a detailed Architectural Decision Record ([ADR](https://adr.github.io/))
 
-- [awscdk-rootmail](#awscdk-rootmail)
-  - [TL;DR](#tldr)
-  - [Usage](#usage)
-    - [Dependencies](#dependencies)
-    - [Deploy](#deploy)
-  - [Solution design: Version 1 - Domain in the same AWS account](#solution-design-version-1---domain-in-the-same-aws-account)
-  - [Solution design: Version 2 - external DNS provider](#solution-design-version-2---external-dns-provider)
-  - [Uninstall](#uninstall)
-  - [Known issues](#known-issues)
-  - [Related projects](#related-projects)
+- [TL;DR](#tldr)
+- [Usage](#usage)
+  - [Dependencies](#dependencies)
+  - [Deploy](#deploy)
+    - [CDK](#cdk)
+    - [Cloudformation](#cloudformation)
+- [Solution design: Version 1 - Domain in the same AWS account](#solution-design-version-1---domain-in-the-same-aws-account)
+- [Solution design: Version 2 - external DNS provider](#solution-design-version-2---external-dns-provider)
+- [Uninstall](#uninstall)
+- [Known issues](#known-issues)
+- [Related projects](#related-projects)
 
 ## TL;DR
 Each AWS account needs one unique email address (the so-called "AWS account root user email address").
@@ -46,6 +47,8 @@ brew install aws-cli node@18 esbuild
 </details>
 
 ### Deploy
+You can chose via embedding the construct in your cdk-app or use is directly via Cloudformation.
+#### CDK
 1. To start a new project we recommend using [projen](https://projen.io/).
    1. Create a new projen project
    ```sh
@@ -68,7 +71,7 @@ export class MyStack extends Stack {
       domain: 'mycompany.test';
       // 2. so the subdomain will be aws.mycompany.test and
       //    wired / delegated  automatically
-      enableAutowireDNS: true,
+      autowireDNSParentHostedZoneID: 'Z1212RFFDFE',
       env: {
       // 3. or any other region SES is available
         region: 'eu-west-1',
@@ -84,6 +87,18 @@ npm run deploy
 1. No need to do anything, the NS records are **automatically** propagated as the parent Hosted Zone is in the same account!
 2. The `hosted-zone-dkim-propagation-provider.is-complete-handler` Lambda function checks every 10 seconds if the DNS for the subdomain is propagated. Details are in the Cloudwatch log group.
 
+#### Cloudformation
+or use it directly a Cloudformation template from the URL: https://mvc-test4-bucket-eu-west-1.s3.eu-west-1.amazonaws.com/rootmail/0.0.5-DEVELOPMENT/c8813b2aa55bf403f0c9dfdc3136b8f6f1b5139bd5438befc37835b5125a4850.json
+
+
+<details>
+  <summary>... click to expand</summary>
+
+and fill out the parameters
+![cloudformation-template](docs/img/cloudformation-tpl-min.png)
+
+</details>
+
 ## Solution design: Version 1 - Domain in the same AWS account
 ![rootmail-solution-diagram-v1](docs/img/awscdk-rootmail-v1-min.png)
 
@@ -97,10 +112,12 @@ npm run deploy
 > You can also connect your Jira to the OpsCenter.
 6. The bucket where all mail to `root@aws.mycompany.test` are stored.
 7. The [SSM parameter store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) for the password reset links.
+![ssm-pw-reset-link](docs/img/4-ssm-pw-reset-link-min.png)
 8. The OpsItem which is created. It is open and shall be further processed either in the OpsCenter or any other issue tracker.
+![opts-item](docs/img/4-opts-items-min.png)
 
 > [!NOTE]
-> SES support alias, so mail to `root+random-string@aws.mycompany.test` will also be catched and forwared.
+> SES support alias, so mail to `root+random-string@aws.mycompany.test` will also be catched and forwarded.
 
 ## Solution design: Version 2 - external DNS provider
 <details>
@@ -112,8 +129,8 @@ npm run deploy
 const rootmail = new Rootmail(this, 'rootmail-stack', {
   // 1. a domain you own, registered via Route53 in the same account
   domain: 'mycompany.test';
-  // 2. false is the default, so you can also remove it
-  enableAutowireDNS: false,
+  // 2. '' is the default, so you can also remove it
+  // autowireDNSParentHostedZoneID: '',
   env: {
   // 3. or any other region SES is available
     region: 'eu-west-1',
@@ -398,7 +415,7 @@ const rootmailProps: RootmailProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
-| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.enableAutowireDNS">enableAutowireDNS</a></code> | <code>boolean</code> | Whether to enable autowiring of the DNS records on the AWS parent hosted zone, which has to be in the same account. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.autowireDNSParentHostedZoneID">autowireDNSParentHostedZoneID</a></code> | <code>string</code> | Set the HostedZone ID of the domain above from Route53 (in the same AWS account) to enable autowiring of the DNS records. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.totalTimeToWireDNS">totalTimeToWireDNS</a></code> | <code>aws-cdk-lib.Duration</code> | The total time to wait for the DNS records to be available/wired. |
@@ -417,16 +434,18 @@ Domain used for root mail feature.
 
 ---
 
-##### `enableAutowireDNS`<sup>Optional</sup> <a name="enableAutowireDNS" id="@mavogel/awscdk-rootmail.RootmailProps.property.enableAutowireDNS"></a>
+##### `autowireDNSParentHostedZoneID`<sup>Optional</sup> <a name="autowireDNSParentHostedZoneID" id="@mavogel/awscdk-rootmail.RootmailProps.property.autowireDNSParentHostedZoneID"></a>
 
 ```typescript
-public readonly enableAutowireDNS: boolean;
+public readonly autowireDNSParentHostedZoneID: string;
 ```
 
-- *Type:* boolean
-- *Default:* false
+- *Type:* string
+- *Default:* ''
 
-Whether to enable autowiring of the DNS records on the AWS parent hosted zone, which has to be in the same account.
+Set the HostedZone ID of the domain above from Route53 (in the same AWS account) to enable autowiring of the DNS records.
+
+Leave empty if you have your domain at an external DNS provider!
 
 ---
 
@@ -437,6 +456,7 @@ public readonly setDestroyPolicyToAllResources: boolean;
 ```
 
 - *Type:* boolean
+- *Default:* false
 
 Whether to set all removal policies to DESTROY.
 
@@ -487,7 +507,6 @@ const sESReceiveProps: SESReceiveProps = { ... }
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.emailbucket">emailbucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | S3 bucket to store received emails. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
-| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.rulesetSettleTimeSeconds">rulesetSettleTimeSeconds</a></code> | <code>number</code> | Time in seconds to wait for the SES receipt rule set to settle. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 
 ---
@@ -525,23 +544,6 @@ public readonly subdomain: string;
 - *Type:* string
 
 Subdomain used for root mail feature.
-
----
-
-##### `rulesetSettleTimeSeconds`<sup>Optional</sup> <a name="rulesetSettleTimeSeconds" id="@mavogel/awscdk-rootmail.SESReceiveProps.property.rulesetSettleTimeSeconds"></a>
-
-```typescript
-public readonly rulesetSettleTimeSeconds: number;
-```
-
-- *Type:* number
-- *Default:* 120
-
-Time in seconds to wait for the SES receipt rule set to settle.
-
-The reason is that although the rule is active immediately, it takes some time for the rule to
-really forwards incoming mails to the S3 bucket and the Lambda function. During tests 120 seconds
-were enough to wait for the rule to settle. This propery is offered to lower it for testing purposes.
 
 ---
 
