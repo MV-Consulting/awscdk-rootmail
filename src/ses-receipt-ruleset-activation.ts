@@ -4,6 +4,7 @@ import {
   Stack,
   aws_iam as iam,
   aws_lambda as lambda,
+  aws_s3 as s3,
 } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as cr from 'aws-cdk-lib/custom-resources';
@@ -14,15 +15,13 @@ import {
   PROP_SUBDOMAIN,
   PROP_EMAILBUCKET_NAME,
   PROP_OPS_SANTA_FUNCTION_ARN,
-  PROP_RULESET_SETTLE_TIME_SECONDS,
 } from './ses-receipt-ruleset-activation.on-event-handler';
 
 export interface SESReceiptRuleSetActivationProps {
   readonly domain: string;
   readonly subdomain: string;
-  readonly emailbucketName: string;
+  readonly emailbucket: s3.Bucket;
   readonly opsSantaFunctionArn: string;
-  readonly rulesetSettleTimeSeconds: number;
 }
 
 export class SESReceiptRuleSetActivation extends Construct {
@@ -31,21 +30,20 @@ export class SESReceiptRuleSetActivation extends Construct {
     super(scope, id);
 
     new CustomResource(this, 'Resource', {
-      serviceToken: SESReceiptRuleSetActivationProvider.getOrCreate(this, { rulesetSettleTimeSeconds: props.rulesetSettleTimeSeconds }),
+      serviceToken: SESReceiptRuleSetActivationProvider.getOrCreate(this, { emailbucket: props.emailbucket }),
       resourceType: 'Custom::SESReceiptRuleSetActivation',
       properties: {
         [PROP_DOMAIN]: props.domain,
         [PROP_SUBDOMAIN]: props.subdomain,
-        [PROP_EMAILBUCKET_NAME]: props.emailbucketName,
+        [PROP_EMAILBUCKET_NAME]: props.emailbucket.bucketName,
         [PROP_OPS_SANTA_FUNCTION_ARN]: props.opsSantaFunctionArn,
-        [PROP_RULESET_SETTLE_TIME_SECONDS]: props.rulesetSettleTimeSeconds,
       },
     });
   }
 }
 
 interface SESReceiptRuleSetActivationProviderProps {
-  readonly rulesetSettleTimeSeconds: number;
+  readonly emailbucket: s3.Bucket;
 }
 
 class SESReceiptRuleSetActivationProvider extends Construct {
@@ -88,14 +86,25 @@ class SESReceiptRuleSetActivationProvider extends Construct {
       runtime: lambda.Runtime.NODEJS_18_X,
       logRetention: 3,
       role: onEventHandlerFuncRole,
-      // Note: inside we wait 'rulesetSettleTimeSeconds' seconds for the activation to settle
-      timeout: Duration.seconds(props.rulesetSettleTimeSeconds + 30),
+      timeout: Duration.seconds(30),
       //  Note: we use the resource properties from above as it is a CustomResource
       environment: {},
     });
 
+    const isCompleteHandlerFunc = new NodejsFunction(this, 'is-complete-handler', {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      logRetention: 3,
+      timeout: Duration.seconds(30),
+      //  Note: we use the resource properties from above as it is a CustomResource
+      environment: {},
+    });
+    props.emailbucket.grantRead(isCompleteHandlerFunc, 'RootMail/*');
+
     this.provider = new cr.Provider(this, 'ses-receipt-ruleset-activation-provider', {
       onEventHandler: onEventHandlerFunc,
+      isCompleteHandler: isCompleteHandlerFunc,
+      queryInterval: Duration.seconds(10),
+      totalTimeout: Duration.minutes(2), // TODO: make this configurable
       logRetention: 3,
     });
     NagSuppressions.addResourceSuppressions(
@@ -103,6 +112,8 @@ class SESReceiptRuleSetActivationProvider extends Construct {
         this.provider,
         this.provider.onEventHandler,
         this.provider.onEventHandler.role!,
+        this.provider.isCompleteHandler!,
+        this.provider.isCompleteHandler!.role!,
       ],
       [
         { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
