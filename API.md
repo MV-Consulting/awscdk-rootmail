@@ -502,7 +502,6 @@ const sESReceiveProps: SESReceiveProps = { ... }
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.emailbucket">emailbucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | S3 bucket to store received emails. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
-| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.rulesetSettleTimeSeconds">rulesetSettleTimeSeconds</a></code> | <code>number</code> | Time in seconds to wait for the SES receipt rule set to settle. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 
 ---
@@ -540,23 +539,6 @@ public readonly subdomain: string;
 - *Type:* string
 
 Subdomain used for root mail feature.
-
----
-
-##### `rulesetSettleTimeSeconds`<sup>Optional</sup> <a name="rulesetSettleTimeSeconds" id="@mavogel/awscdk-rootmail.SESReceiveProps.property.rulesetSettleTimeSeconds"></a>
-
-```typescript
-public readonly rulesetSettleTimeSeconds: number;
-```
-
-- *Type:* number
-- *Default:* 120
-
-Time in seconds to wait for the SES receipt rule set to settle.
-
-The reason is that although the rule is active immediately, it takes some time for the rule to
-really forwards incoming mails to the S3 bucket and the Lambda function. During tests 120 seconds
-were enough to wait for the rule to settle. This propery is offered to lower it for testing purposes.
 
 ---
 
