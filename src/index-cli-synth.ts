@@ -11,7 +11,7 @@ import { Rootmail } from './rootmail';
 
 const app = new App();
 
-const rootmailVersion = process.env.ROOTMAIL_VERSION || '0.0.4-DEVELOPMENT';
+const rootmailVersion = process.env.ROOTMAIL_VERSION || '0.0.5-DEVELOPMENT';
 
 interface RootmailStackProps extends StackProps {
   readonly version?: string;
