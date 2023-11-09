@@ -38,7 +38,7 @@ describe('rootmail-autoDns', () => {
 
     const testProps: RootmailProps = {
       domain: 'example.com',
-      autowireDNSParentHostedZoneID: 'Z122423HZ',
+      autowireDNS: true,
     };
 
     new Rootmail(stack, 'testRootmail', testProps);

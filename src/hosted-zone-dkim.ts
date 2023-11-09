@@ -29,14 +29,13 @@ export interface HostedZoneDkimProps {
   readonly hostedZone: r53.IHostedZone;
 
   /**
-   * Set the HostedZone ID of the domain above from Route53 (in the same AWS account)
+   * Set to true if the hosted zone of the domain is registered Route53 AND in the same AWS account
    * to enable autowiring of the DNS records.
    *
-   * Leave empty if you have your domain at an external DNS provider!
-   *
-   * @default ''
+   * @default false
    */
-  readonly autowireDNSParentHostedZoneID?: string;
+  readonly autowireDNS: boolean;
+  // TODO
   readonly hostedZoneSSMParameter: ssm.StringListParameter;
   readonly totalTimeToWireDNS?: Duration;
 }
@@ -48,7 +47,7 @@ export class HostedZoneDkim extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain ?? 'aws';
     const hostedZone = props.hostedZone;
-    const autowireDNSParentHostedZoneID = props.autowireDNSParentHostedZoneID ?? '';
+    const autowireDNS = props.autowireDNS ?? false;
     const hostedZoneSSMParameter = props.hostedZoneSSMParameter;
 
     // 1: trigger SNS DKIM verification
@@ -111,12 +110,13 @@ export class HostedZoneDkim extends Construct {
     });
 
     // 3: do autowire of manual DNS records entry. Wait until DNS is propagated
-    new RootmailAutowireDns(this, 'RootmailAutowireDns', {
-      domain: domain,
-      subdomain: subdomain,
-      autowireDNSParentHostedZoneID: autowireDNSParentHostedZoneID,
-      hostedZoneSSMParameter: hostedZoneSSMParameter,
-    });
+    if (autowireDNS) {
+      new RootmailAutowireDns(this, 'RootmailAutowireDns', {
+        domain: domain,
+        subdomain: subdomain,
+        hostedZoneSSMParameter: hostedZoneSSMParameter,
+      });
+    }
 
     // 4: trigger SES DKIM propagation polling
     new HostedZoneDKIMPropagation(this, 'HostedZoneDKIMPropagation', {

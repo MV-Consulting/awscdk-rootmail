@@ -13,11 +13,10 @@ import { Rootmail } from '../src/rootmail';
 // CDK App for Integration Tests
 const app = new App();
 const testDomain = process.env.TEST_DOMAIN ?? '';
-const testParentHostedZoneId = process.env.TEST_PARENT_HOSTED_ZONE_ID ?? '';
 const testRegion = 'eu-west-1';
-console.log(`Running integration tests in region '${testRegion}' and account '${testParentHostedZoneId}' for domain '${testDomain}'`);
-if (testDomain === '' || testParentHostedZoneId === '') {
-  throw new Error(`TEST_DOMAIN and TEST_PARENT_HOSTED_ZONE_ID environment variables must be set. Were TEST_DOMAIN='${testDomain}' and TEST_PARENT_HOSTED_ZONE_ID='${testParentHostedZoneId}'`);
+console.log(`Running integration tests in region '${testRegion}' and account for domain '${testDomain}'`);
+if (testDomain === '') {
+  throw new Error(`TEST_DOMAIN environment variables must be set: TEST_DOMAIN='${testDomain}'`);
 }
 // Stack under test
 const stackUnderTestName = 'RootmailTestStack';
@@ -33,7 +32,7 @@ const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   subdomain: testSubdomain,
   // tests took on average 10-15 minutes , but we leave some buffer
   totalTimeToWireDNS: Duration.minutes(20),
-  autowireDNSParentHostedZoneID: testParentHostedZoneId,
+  autowireDNS: true,
   setDestroyPolicyToAllResources: false,
 });
 

@@ -3,7 +3,6 @@ export const PROP_DOMAIN = 'Domain';
 export const PROP_SUB_DOMAIN = 'Subdomain';
 export const PROP_HOSTED_ZONE_PARAMETER_NAME = 'HostedZoneParameterName';
 export const PROP_R53_CHANGEINFO_ID_PARAMETER_NAME = 'R53ChangeInfoIdParameterName';
-export const PROP_PARENT_HOSTED_ZONE_ID = 'ParentHostedZoneId';
 
 const route53 = new Route53();
 const ssm = new SSM();
@@ -12,18 +11,25 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
   const domain = event.ResourceProperties[PROP_DOMAIN];
   const subdomain = event.ResourceProperties[PROP_SUB_DOMAIN];
   const hostedZoneParameterName = event.ResourceProperties[PROP_HOSTED_ZONE_PARAMETER_NAME];
-  const parentHostedZoneId = event.ResourceProperties[PROP_PARENT_HOSTED_ZONE_ID];
   const r53ChangeInfoIdParameterName = event.ResourceProperties[PROP_R53_CHANGEINFO_ID_PARAMETER_NAME];
+
+  const hostedZoneResponse = await route53.listHostedZonesByName({
+    DNSName: domain,
+  }).promise();
+
+  if (hostedZoneResponse.HostedZones === undefined || hostedZoneResponse.HostedZones?.length !== 1) {
+    log({
+      event: hostedZoneResponse,
+      level: 'debug',
+    });
+
+    throw new Error(`expected to find at exactly one hosted zone for ${domain}`);
+  }
+
+  const hostedZoneId = hostedZoneResponse.HostedZones[0].Id;
 
   switch (event.RequestType) {
     case 'Create':
-      if (parentHostedZoneId === undefined || parentHostedZoneId === '') {
-        log(`Skipping autoDNS wiring on CREATE for domain '${subdomain}.${domain}' as no parentHostedZoneId is given!`);
-        return {
-          PhysicalResourceId: event.PhysicalResourceId,
-        };
-      }
-
       const hostedZoneNameServerParameterResponse = await ssm.getParameter({
         Name: hostedZoneParameterName,
       }).promise();
@@ -42,35 +48,6 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       if (hostedZoneNameServers.length !== 4) {
         throw new Error(`expected exactly 4 hosted zone name servers for ${domain}. Got ${hostedZoneNameServers.length}: ${hostedZoneNameServers}`);
       }
-
-      const hostedZoneResponse = await route53.listHostedZonesByName({
-        DNSName: domain,
-      }).promise();
-
-      if (hostedZoneResponse.HostedZones === undefined || hostedZoneResponse.HostedZones?.length === 0) {
-        log({
-          event: hostedZoneResponse,
-          level: 'debug',
-        });
-
-        throw new Error(`expected to find at least one hosted zone for ${domain}`);
-      }
-
-      const filteredHostedZones = hostedZoneResponse.HostedZones?.filter((hostedZone) => {
-        // the response prefix is /hostedzone/ but the input parameter is without the prefix
-        return hostedZone.Id === `/hostedzone/${parentHostedZoneId}`;
-      });
-
-      if (filteredHostedZones.length !== 1) {
-        log({
-          event: hostedZoneResponse,
-          level: 'debug',
-        });
-
-        throw new Error(`expected to find & filter exactly 1 hosted zone for ${domain}. Got ${filteredHostedZones.length}`);
-      }
-
-      const hostedZoneId = filteredHostedZones[0].Id;
 
       // iterate over hosted zone records
       const listResourceRecordSetsResponse = await route53.listResourceRecordSets({
@@ -142,20 +119,15 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       log(`Skipping update for NS record for Name '${subdomain}.${domain}'`);
       return {};
     case 'Delete':
-      if (parentHostedZoneId === undefined || parentHostedZoneId === '') {
-        log(`Skipping autoDNS wiring on DELETE for domain '${subdomain}.${domain}' as no parentHostedZoneId is given!`);
-        return {};
-      }
-
-
       log(`Deleting NS record for Name '${subdomain}.${domain}'`);
       const recordName = `${subdomain}.${domain}`;
+
       try {
         let nextRecordName: string | undefined;
         let isRecordDeleted = false;
         do {
           const recordsResponse = await route53.listResourceRecordSets({
-            HostedZoneId: parentHostedZoneId,
+            HostedZoneId: hostedZoneId,
             StartRecordName: nextRecordName,
           }).promise();
 
@@ -164,7 +136,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
             if (recordSet.Name === `${recordName}.` && recordSet.Type === 'NS') {
               console.log(`Deleting record: ${recordSet.Name} ${recordSet.Type}`);
               await route53.changeResourceRecordSets({
-                HostedZoneId: parentHostedZoneId,
+                HostedZoneId: hostedZoneId,
                 ChangeBatch: {
                   Changes: [
                     {

@@ -11,7 +11,7 @@ import { Rootmail } from './rootmail';
 
 const app = new App();
 
-const rootmailVersion = process.env.ROOTMAIL_VERSION || '0.0.5-DEVELOPMENT';
+const rootmailVersion = process.env.ROOTMAIL_VERSION || '0.0.6-DEVELOPMENT';
 
 interface RootmailStackProps extends StackProps {
   readonly version?: string;
@@ -45,17 +45,18 @@ class RootmailStack extends Stack {
       maxValue: 120,
     });
 
-    const autowireDNSParentHostedZoneID = new CfnParameter(this, 'AutowireDNSParentHostedZone', {
+    const autowireDNS = new CfnParameter(this, 'AutowireDNS', {
       type: 'String',
-      description: 'Add HostedZoneID from the domain (SAME AWS Account) to autowire the DNS. Leave blank of you domain is at an external DNS provider',
-      default: '',
+      description: 'Set to true to autowire the DNS if HostedZone of the Domain is in the SAME AWS Account. Leave blank of you domain is at an external DNS provider',
+      default: 'false',
+      allowedValues: ['true', 'false'],
     });
 
     new Rootmail(this, 'Rootmail', {
       domain: domain.valueAsString,
       subdomain: subdomain.valueAsString,
       totalTimeToWireDNS: Duration.minutes(totalTimeToWireDNS.valueAsNumber),
-      autowireDNSParentHostedZoneID: autowireDNSParentHostedZoneID.valueAsString,
+      autowireDNS: autowireDNS.valueAsString.trim() === 'true' ? true : false,
     });
   }
 }
