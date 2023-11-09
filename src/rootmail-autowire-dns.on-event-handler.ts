@@ -1,6 +1,7 @@
 import { Route53, SSM } from 'aws-sdk';
 export const PROP_DOMAIN = 'Domain';
 export const PROP_SUB_DOMAIN = 'Subdomain';
+export const PROP_AUTOWIRE_DNS = 'AutoWireDNS';
 export const PROP_HOSTED_ZONE_PARAMETER_NAME = 'HostedZoneParameterName';
 export const PROP_R53_CHANGEINFO_ID_PARAMETER_NAME = 'R53ChangeInfoIdParameterName';
 
@@ -9,6 +10,16 @@ const ssm = new SSM();
 
 export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): Promise<AWSCDKAsyncCustomResource.OnEventResponse> {
   const domain = event.ResourceProperties[PROP_DOMAIN];
+  // NOTE: this has to happen here as if we do this around the whole CR
+  // it is not sythesized at all
+  const autowireDNS = event.ResourceProperties[PROP_AUTOWIRE_DNS];
+  if (!autowireDNS) {
+    log(`Autowire DNS is disabled for '${domain}'. Skipping.`);
+    return {
+      PhysicalResourceId: event.PhysicalResourceId,
+    };
+  }
+
   const subdomain = event.ResourceProperties[PROP_SUB_DOMAIN];
   const hostedZoneParameterName = event.ResourceProperties[PROP_HOSTED_ZONE_PARAMETER_NAME];
   const r53ChangeInfoIdParameterName = event.ResourceProperties[PROP_R53_CHANGEINFO_ID_PARAMETER_NAME];

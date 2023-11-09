@@ -17,6 +17,7 @@ import {
   PROP_SUB_DOMAIN,
   PROP_HOSTED_ZONE_PARAMETER_NAME,
   PROP_R53_CHANGEINFO_ID_PARAMETER_NAME,
+  PROP_AUTOWIRE_DNS,
 } from './rootmail-autowire-dns.on-event-handler';
 
 export interface RootmailAutowireDnsProps {
@@ -31,6 +32,14 @@ export interface RootmailAutowireDnsProps {
    * @default 'aws'
    */
   readonly subdomain?: string;
+
+  /**
+   * Set to true if the hosted zone of the domain is registered Route53 AND in the same AWS account
+   * to enable autowiring of the DNS records.
+   *
+   * @default false
+   */
+  readonly autowireDNS: boolean;
 
   /**
    * The Hosted Zone SSM Parameter Name for the NS records.
@@ -61,6 +70,7 @@ export class RootmailAutowireDns extends Construct {
       properties: {
         [PROP_DOMAIN]: props.domain,
         [PROP_SUB_DOMAIN]: subdomain,
+        [PROP_AUTOWIRE_DNS]: props.autowireDNS,
         [PROP_HOSTED_ZONE_PARAMETER_NAME]: props.hostedZoneSSMParameter.parameterName,
         [PROP_R53_CHANGEINFO_ID_PARAMETER_NAME]: autoWireR53ChangeInfoId.parameterName,
       },

@@ -110,13 +110,12 @@ export class HostedZoneDkim extends Construct {
     });
 
     // 3: do autowire of manual DNS records entry. Wait until DNS is propagated
-    if (autowireDNS) {
-      new RootmailAutowireDns(this, 'RootmailAutowireDns', {
-        domain: domain,
-        subdomain: subdomain,
-        hostedZoneSSMParameter: hostedZoneSSMParameter,
-      });
-    }
+    new RootmailAutowireDns(this, 'RootmailAutowireDns', {
+      domain: domain,
+      subdomain: subdomain,
+      autowireDNS: autowireDNS,
+      hostedZoneSSMParameter: hostedZoneSSMParameter,
+    });
 
     // 4: trigger SES DKIM propagation polling
     new HostedZoneDKIMPropagation(this, 'HostedZoneDKIMPropagation', {
