@@ -17,16 +17,26 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
     DNSName: domain,
   }).promise();
 
-  if (hostedZoneResponse.HostedZones === undefined || hostedZoneResponse.HostedZones?.length !== 1) {
+  if (hostedZoneResponse.HostedZones === undefined || hostedZoneResponse.HostedZones?.length === 0) {
     log({
       event: hostedZoneResponse,
       level: 'debug',
     });
 
-    throw new Error(`expected to find at exactly one hosted zone for ${domain}`);
+    throw new Error(`expected to find at least one hosted zone for '${domain}'`);
   }
 
-  const hostedZoneId = hostedZoneResponse.HostedZones[0].Id;
+  const rootHostedZone = hostedZoneResponse.HostedZones.filter((hz) => hz.Name === `${domain}.`);
+  if (rootHostedZone.length !== 1) {
+    log({
+      event: hostedZoneResponse,
+      level: 'debug',
+    });
+
+    throw new Error(`expected to find exaclty one hosted zone for the root of the '${domain}'`);
+  }
+
+  const hostedZoneId = rootHostedZone[0].Id;
 
   switch (event.RequestType) {
     case 'Create':
