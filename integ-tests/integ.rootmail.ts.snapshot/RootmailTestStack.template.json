@@ -348,6 +348,7 @@
     },
     "Domain": "mavogel.xyz",
     "Subdomain": "integ-test-1234",
+    "AutoWireDNS": true,
     "HostedZoneParameterName": {
      "Ref": "testRootmailHostedZoneSSMParameter574DA41C"
     },
@@ -1330,7 +1331,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "1c376ef846c47d89f6a84e5f76206efbec3d9486d8d240727a6b5973f7c2a2a3.zip"
+     "S3Key": "8c4c823670fe62a844b5209b9d80dc92504b9bb12a135b1801e1d07a7c1d321b.zip"
     },
     "Environment": {
      "Variables": {
