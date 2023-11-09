@@ -94,7 +94,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       const recordSetCreationResponse = await route53.changeResourceRecordSets({
         HostedZoneId: hostedZoneId,
         ChangeBatch: {
-          Comment: 'rootmail-integtest',
+          Comment: 'rootmail-autowire-dns',
           Changes: [
             {
               Action: 'CREATE',

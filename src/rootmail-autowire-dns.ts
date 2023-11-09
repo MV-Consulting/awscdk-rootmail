@@ -71,7 +71,6 @@ export class RootmailAutowireDns extends Construct {
 
 interface RootmailAutowireDnsProviderProps extends RootmailAutowireDnsProps {
   readonly autoWireR53ChangeInfoIdParameter: ssm.StringParameter;
-  readonly autowireDNSParentHostedZoneID?: string;
 }
 
 class RootmailAutowireDnsProvider extends Construct {
@@ -108,9 +107,7 @@ class RootmailAutowireDnsProvider extends Construct {
       }),
     );
 
-    if (props.autoWireR53ChangeInfoIdParameter !== undefined) {
-      props.autoWireR53ChangeInfoIdParameter.grantRead(isCompleteHandlerFunc);
-    }
+    props.autoWireR53ChangeInfoIdParameter.grantRead(isCompleteHandlerFunc);
 
     const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
       runtime: lambda.Runtime.NODEJS_18_X,
@@ -135,30 +132,28 @@ class RootmailAutowireDnsProvider extends Construct {
       }),
     );
 
-    if (props.autowireDNSParentHostedZoneID !== undefined && props.autowireDNSParentHostedZoneID !== '') {
-      onEventHandlerFunc.addToRolePolicy(
-        new iam.PolicyStatement({
-          actions: [
-            'route53:ListResourceRecordSets',
-            'route53:ChangeResourceRecordSets',
-          ],
-          effect: iam.Effect.ALLOW,
-          resources: [
-            // arn:aws:route53:::hostedzone/H12345
-            // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
-            Arn.format({
-              partition: 'aws',
-              service: 'route53',
-              region: '',
-              account: '',
-              resource: 'hostedzone',
-              arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-              resourceName: props.autowireDNSParentHostedZoneID,
-            }),
-          ],
-        }),
-      );
-    }
+    onEventHandlerFunc.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: [
+          'route53:ListResourceRecordSets',
+          'route53:ChangeResourceRecordSets',
+        ],
+        effect: iam.Effect.ALLOW,
+        resources: [
+          // arn:aws:route53:::hostedzone/H12345
+          // arn:{partition}:{service}:{region}:{account}:{resource}{sep}{resource-name}
+          Arn.format({
+            partition: 'aws',
+            service: 'route53',
+            region: '',
+            account: '',
+            resource: 'hostedzone',
+            arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+            resourceName: '*', // we need this as we determine the hosted zone id within the CR
+          }),
+        ],
+      }),
+    );
 
     this.provider = new cr.Provider(this, 'rootmail-autowire-dns-provider', {
       isCompleteHandler: isCompleteHandlerFunc,
