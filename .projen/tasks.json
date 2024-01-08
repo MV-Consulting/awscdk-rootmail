@@ -126,7 +126,8 @@
       "description": "Runs eslint against the codebase",
       "steps": [
         {
-          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern src test build-tools projenrc .projenrc.ts"
+          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern $@ src test build-tools projenrc .projenrc.ts",
+          "receiveArgs": true
         }
       ]
     },
@@ -262,16 +263,13 @@
       },
       "steps": [
         {
-          "exec": "yarn upgrade npm-check-updates"
-        },
-        {
-          "exec": "npm-check-updates --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-cdk/integ-runner,@aws-cdk/integ-tests-alpha,@commitlint/cli,@commitlint/config-conventional,@types/aws-lambda,@types/axios,@types/jest,@types/jsonfile,@types/mailparser,@types/node,@types/uuid,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-import-resolver-node,eslint-import-resolver-typescript,eslint-plugin-import,eslint,husky,jest,jest-junit,jsii-diff,jsii-docgen,jsii-pacmak,jsonfile,npm-check-updates,projen,standard-version,ts-jest,ts-node,typescript,aws-sdk,axios,cdk-nag,mailparser,uuid,aws-cdk-lib,constructs"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-cdk/integ-runner,@aws-cdk/integ-tests-alpha,@commitlint/cli,@commitlint/config-conventional,@types/aws-lambda,@types/axios,@types/jest,@types/jsonfile,@types/mailparser,@types/node,@types/uuid,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-import-resolver-typescript,eslint-plugin-import,eslint,husky,jest,jest-junit,jsii-diff,jsii-docgen,jsii-pacmak,jsonfile,projen,standard-version,ts-jest,ts-node,typescript,aws-sdk,axios,cdk-nag,mailparser,uuid,aws-cdk-lib,constructs"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @aws-cdk/integ-runner @aws-cdk/integ-tests-alpha @commitlint/cli @commitlint/config-conventional @types/aws-lambda @types/axios @types/jest @types/jsonfile @types/mailparser @types/node @types/uuid @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsonfile npm-check-updates projen standard-version ts-jest ts-node typescript aws-sdk axios cdk-nag mailparser uuid aws-cdk-lib constructs"
+          "exec": "yarn upgrade @aws-cdk/integ-runner @aws-cdk/integ-tests-alpha @commitlint/cli @commitlint/config-conventional @types/aws-lambda @types/axios @types/jest @types/jsonfile @types/mailparser @types/node @types/uuid @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-import-resolver-typescript eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsonfile projen standard-version ts-jest ts-node typescript aws-sdk axios cdk-nag mailparser uuid aws-cdk-lib constructs"
         },
         {
           "exec": "npx projen"
