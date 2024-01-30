@@ -29,12 +29,12 @@ export interface HostedZoneDkimProps {
   readonly hostedZone: r53.IHostedZone;
 
   /**
-   * Set to true if the hosted zone of the domain is registered Route53 AND in the same AWS account
+   * The hosted zone ID of the domain that is registered Route53 AND in the same AWS account
    * to enable autowiring of the DNS records.
    *
-   * @default false
+   * @default undefined
    */
-  readonly autowireDNS: boolean;
+  readonly wireDNSToHostedZoneID?: string;
   // TODO
   readonly hostedZoneSSMParameter: ssm.StringListParameter;
   readonly totalTimeToWireDNS?: Duration;
@@ -47,7 +47,7 @@ export class HostedZoneDkim extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain ?? 'aws';
     const hostedZone = props.hostedZone;
-    const autowireDNS = props.autowireDNS ?? false;
+    const wireDNSToHostedZoneID = props.wireDNSToHostedZoneID ?? undefined;
     const hostedZoneSSMParameter = props.hostedZoneSSMParameter;
 
     // 1: trigger SNS DKIM verification
@@ -113,7 +113,7 @@ export class HostedZoneDkim extends Construct {
     new RootmailAutowireDns(this, 'RootmailAutowireDns', {
       domain: domain,
       subdomain: subdomain,
-      autowireDNS: autowireDNS,
+      wireDNSToHostedZoneID: wireDNSToHostedZoneID,
       hostedZoneSSMParameter: hostedZoneSSMParameter,
     });
 

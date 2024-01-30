@@ -37,12 +37,12 @@ export interface RootmailProps {
   readonly totalTimeToWireDNS?: Duration;
 
   /**
-   * Set to true if the hosted zone of the domain is registered Route53 AND in the same AWS account
+   * The hosted zone ID of the domain that is registered Route53 AND in the same AWS account
    * to enable autowiring of the DNS records.
    *
-   * @default false
+   * @default undefined
    */
-  readonly autowireDNS?: boolean;
+  readonly wireDNSToHostedZoneID?: string;
 
   /**
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
@@ -63,7 +63,7 @@ export class Rootmail extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain ?? 'aws';
     const totalTimeToWireDNS = props.totalTimeToWireDNS ?? Duration.hours(2);
-    const autowireDNS = props.autowireDNS ?? false;
+    const wireDNSToHostedZoneID = props.wireDNSToHostedZoneID ?? undefined;
     const setDestroyPolicyToAllResources = props.setDestroyPolicyToAllResources ?? false;
 
     const deployRegion = Stack.of(this).region;
@@ -109,7 +109,7 @@ export class Rootmail extends Construct {
       domain: domain,
       subdomain: subdomain,
       hostedZone: hostedZone,
-      autowireDNS: autowireDNS,
+      wireDNSToHostedZoneID: wireDNSToHostedZoneID,
       hostedZoneSSMParameter: hostedZoneSSMParameter,
       totalTimeToWireDNS: totalTimeToWireDNS,
     });

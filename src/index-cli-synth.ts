@@ -45,18 +45,17 @@ class RootmailStack extends Stack {
       maxValue: 120,
     });
 
-    const autowireDNS = new CfnParameter(this, 'AutowireDNS', {
+    const wireDNSToHostedZoneID = new CfnParameter(this, 'WireDNSToHostedZoneID', {
       type: 'String',
-      description: 'Set to \'true\' to autowire the DNS if HostedZone of the Domain is in the SAME AWS Account. Leave blank of you domain is at an external DNS provider',
-      default: 'false',
-      allowedValues: ['true', 'false'],
+      description: 'Set to the ID of the HostedZone of the Domain is in the SAME AWS Account. Leave blank of you domain is at an external DNS provider',
+      default: '',
     });
 
     new Rootmail(this, 'Rootmail', {
       domain: domain.valueAsString,
       subdomain: subdomain.valueAsString,
       totalTimeToWireDNS: Duration.minutes(totalTimeToWireDNS.valueAsNumber),
-      autowireDNS: autowireDNS.valueAsString.trim().toLowerCase() === 'true',
+      wireDNSToHostedZoneID: wireDNSToHostedZoneID.valueAsString.trim(),
     });
   }
 }

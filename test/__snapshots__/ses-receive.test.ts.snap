@@ -869,7 +869,7 @@ exports[`ses-receive-stack-create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
-          "S3Key": "2174085e1fb1d52187cba205387ad57afebb2e26bc9e02ef0d315887cae985d2.zip",
+          "S3Key": "561c8a2342f08e13bd30c4ffbe9b4e32da42ac9508963bfc3be4e5a2e95062bc.zip",
         },
         "Environment": {
           "Variables": {
@@ -1052,7 +1052,7 @@ exports[`ses-receive-stack-create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
-          "S3Key": "48e88e3767f6280fcc3c3b1626981dc95224feb760a0eb6cf422f963dd99d41e.zip",
+          "S3Key": "eb42de9c99ea86504a99bbff4d4f411e3d28f1434087dae472f138a99035bde6.zip",
         },
         "Environment": {
           "Variables": {
@@ -1397,7 +1397,7 @@ exports[`ses-receive-stack-create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
-          "S3Key": "a341a2369054f0a8f37e5414dab68b9be7a763b411cd53d84dff14426575982d.zip",
+          "S3Key": "bf161135cfe178a197f3cb690169b89336ae4733cd9b095af42f4239e088a0fb.zip",
         },
         "Environment": {
           "Variables": {

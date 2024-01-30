@@ -1,7 +1,7 @@
 import { Route53, SSM } from 'aws-sdk';
 export const PROP_DOMAIN = 'Domain';
 export const PROP_SUB_DOMAIN = 'Subdomain';
-export const PROP_AUTOWIRE_DNS = 'AutoWireDNS';
+export const PROP_PARENT_HOSTED_ZONE_ID = 'ParentHostedZoneId';
 export const PROP_HOSTED_ZONE_PARAMETER_NAME = 'HostedZoneParameterName';
 export const PROP_R53_CHANGEINFO_ID_PARAMETER_NAME = 'R53ChangeInfoIdParameterName';
 
@@ -12,8 +12,8 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
   const domain = event.ResourceProperties[PROP_DOMAIN];
   // NOTE: this has to happen here as if we do this around the whole CR
   // it is not sythesized at all
-  const autowireDNS = event.ResourceProperties[PROP_AUTOWIRE_DNS];
-  if (!autowireDNS) {
+  const parentHostedZoneId = event.ResourceProperties[PROP_PARENT_HOSTED_ZONE_ID];
+  if (parentHostedZoneId === undefined || parentHostedZoneId.trim().length === 0) {
     log(`Autowire DNS is disabled for '${domain}'. Skipping.`);
     return {
       PhysicalResourceId: event.PhysicalResourceId,
@@ -24,33 +24,9 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
   const hostedZoneParameterName = event.ResourceProperties[PROP_HOSTED_ZONE_PARAMETER_NAME];
   const r53ChangeInfoIdParameterName = event.ResourceProperties[PROP_R53_CHANGEINFO_ID_PARAMETER_NAME];
 
-  const hostedZoneResponse = await route53.listHostedZonesByName({
-    DNSName: domain,
-  }).promise();
-
-  if (hostedZoneResponse.HostedZones === undefined || hostedZoneResponse.HostedZones?.length === 0) {
-    log({
-      event: hostedZoneResponse,
-      level: 'debug',
-    });
-
-    throw new Error(`expected to find at least one hosted zone for '${domain}'`);
-  }
-
-  const rootHostedZone = hostedZoneResponse.HostedZones.filter((hz) => hz.Name === `${domain}.`);
-  if (rootHostedZone.length !== 1) {
-    log({
-      event: hostedZoneResponse,
-      level: 'debug',
-    });
-
-    throw new Error(`expected to find exaclty one hosted zone for the root of the '${domain}'`);
-  }
-
-  const hostedZoneId = rootHostedZone[0].Id;
-
   switch (event.RequestType) {
     case 'Create':
+      // 1: check if the subdomain was created and get its NS records
       const hostedZoneNameServerParameterResponse = await ssm.getParameter({
         Name: hostedZoneParameterName,
       }).promise();
@@ -70,10 +46,41 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
         throw new Error(`expected exactly 4 hosted zone name servers for ${domain}. Got ${hostedZoneNameServers.length}: ${hostedZoneNameServers}`);
       }
 
+      // 2: check if the domain has a hosted zone in the same AWS Account
+      // which is a prerequisite for autowiring the DNS records
+      const hostedZoneResponse = await route53.listHostedZonesByName({
+        DNSName: domain,
+      }).promise();
+
+      if (hostedZoneResponse.HostedZones === undefined || hostedZoneResponse.HostedZones?.length === 0) {
+        log({
+          event: hostedZoneResponse,
+          level: 'debug',
+        });
+
+        throw new Error(`expected to find at least one hosted zone for ${domain}`);
+      }
+
+      const filteredHostedZones = hostedZoneResponse.HostedZones?.filter((hostedZone) => {
+        // the response prefix is /hostedzone/ but the input parameter is without the prefix
+        return hostedZone.Id === `/hostedzone/${parentHostedZoneId}`;
+      });
+
+      if (filteredHostedZones.length !== 1) {
+        log({
+          event: hostedZoneResponse,
+          level: 'debug',
+        });
+
+        throw new Error(`expected to find & filter exactly 1 hosted zone for ${domain}. Got ${filteredHostedZones.length}`);
+      }
+
+      // 3: now we continue with the given parent hosted zone ID
+
       // iterate over hosted zone records
       const listResourceRecordSetsResponse = await route53.listResourceRecordSets({
         // remove the prefix for using it as parameter
-        HostedZoneId: hostedZoneId.replace('/hostedzone/', ''),
+        HostedZoneId: parentHostedZoneId.replace('/hostedzone/', ''),
       }).promise();
 
       if (listResourceRecordSetsResponse.ResourceRecordSets === undefined) {
@@ -103,7 +110,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       log(`NS record for Name '${subdomain}.${domain}' and type NS does not exist. Creating.`);
       // in the HZ of the domain (parentHostedZone) we create the NS record for the subdomain
       const recordSetCreationResponse = await route53.changeResourceRecordSets({
-        HostedZoneId: hostedZoneId,
+        HostedZoneId: parentHostedZoneId,
         ChangeBatch: {
           Comment: 'rootmail-autowire-dns',
           Changes: [
@@ -140,7 +147,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       log(`Skipping update for NS record for Name '${subdomain}.${domain}'`);
       return {};
     case 'Delete':
-      log(`Deleting NS record for Name '${subdomain}.${domain}'`);
+      log(`Deleting NS record for Name '${subdomain}.${domain}' in the hosted zone with ID ${parentHostedZoneId}`);
       const recordName = `${subdomain}.${domain}`;
 
       try {
@@ -148,7 +155,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
         let isRecordDeleted = false;
         do {
           const recordsResponse = await route53.listResourceRecordSets({
-            HostedZoneId: hostedZoneId,
+            HostedZoneId: parentHostedZoneId,
             StartRecordName: nextRecordName,
           }).promise();
 
@@ -157,7 +164,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
             if (recordSet.Name === `${recordName}.` && recordSet.Type === 'NS') {
               console.log(`Deleting record: ${recordSet.Name} ${recordSet.Type}`);
               await route53.changeResourceRecordSets({
-                HostedZoneId: hostedZoneId,
+                HostedZoneId: parentHostedZoneId,
                 ChangeBatch: {
                   Changes: [
                     {
