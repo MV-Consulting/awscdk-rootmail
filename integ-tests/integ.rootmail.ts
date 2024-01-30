@@ -7,32 +7,38 @@ import {
   Stack,
   aws_iam as iam,
   aws_lambda as lambda,
+  aws_route53 as r53,
 } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Rootmail } from '../src/rootmail';
 // CDK App for Integration Tests
 const app = new App();
 const testDomain = process.env.TEST_DOMAIN ?? '';
-const testRegion = 'eu-west-1';
-console.log(`Running integration tests in region '${testRegion}' and account for domain '${testDomain}'`);
-if (testDomain === '') {
-  throw new Error(`TEST_DOMAIN environment variables must be set: TEST_DOMAIN='${testDomain}'`);
-}
+const testAccountId = process.env.TEST_ACCOUNT_ID ?? '';
 // Stack under test
+const testRegion = 'eu-west-1';
 const stackUnderTestName = 'RootmailTestStack';
 const stackUnderTest = new Stack(app, stackUnderTestName, {
   description: "This stack includes the application's resources for integration testing.",
+  env: {
+    region: testRegion,
+    account: testAccountId,
+  },
 });
 
 const randomTestId = 1234;
 const testSubdomain = `integ-test-${randomTestId}`;
+
+const hostedZone = r53.HostedZone.fromLookup(stackUnderTest, 'testHostedZone', {
+  domainName: testDomain,
+});
 
 const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   domain: testDomain,
   subdomain: testSubdomain,
   // tests took on average 10-15 minutes , but we leave some buffer
   totalTimeToWireDNS: Duration.minutes(20),
-  autowireDNS: true,
+  wireDNSToHostedZoneID: hostedZone.hostedZoneId,
   setDestroyPolicyToAllResources: false,
 });
 

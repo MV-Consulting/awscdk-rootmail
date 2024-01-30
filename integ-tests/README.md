@@ -4,10 +4,12 @@
 ```bash
 # on which we create the 'integ-test-1234' test subdomain
 export TEST_DOMAIN=your-test-domain.com
+export TEST_ACCOUNT_ID=123456789012
 # from the root of the project start the tests
 npm run integ-test
 ```
 ## clean up manually
+### s3 bucket
 ```bash
 # in 'awscdk-rootmail/integ-tests' folder
 virtualenv venv
@@ -23,3 +25,7 @@ python3 cleanup/empty-and-delete-s3-bucket.py rootmailteststack-testrootmailemai
 # see https://stackoverflow.com/questions/990754/how-to-leave-exit-deactivate-a-python-virtualenv
 deactivate
 ```
+
+### log groups from handlers
+- filter by `Test` with this [query](https://eu-west-1.console.aws.amazon.com/cloudwatch/home?region=eu-west-1#logsV2:log-groups$3FlogGroupNameFilter$3DTest)
+- delete all log groups matching
