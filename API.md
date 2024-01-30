@@ -415,10 +415,10 @@ const rootmailProps: RootmailProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
-| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.autowireDNSParentHostedZoneID">autowireDNSParentHostedZoneID</a></code> | <code>string</code> | Set the HostedZone ID of the domain above from Route53 (in the same AWS account) to enable autowiring of the DNS records. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.totalTimeToWireDNS">totalTimeToWireDNS</a></code> | <code>aws-cdk-lib.Duration</code> | The total time to wait for the DNS records to be available/wired. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.wireDNSToHostedZoneID">wireDNSToHostedZoneID</a></code> | <code>string</code> | The hosted zone ID of the domain that is registered Route53 AND in the same AWS account to enable autowiring of the DNS records. |
 
 ---
 
@@ -431,21 +431,6 @@ public readonly domain: string;
 - *Type:* string
 
 Domain used for root mail feature.
-
----
-
-##### `autowireDNSParentHostedZoneID`<sup>Optional</sup> <a name="autowireDNSParentHostedZoneID" id="@mavogel/awscdk-rootmail.RootmailProps.property.autowireDNSParentHostedZoneID"></a>
-
-```typescript
-public readonly autowireDNSParentHostedZoneID: string;
-```
-
-- *Type:* string
-- *Default:* ''
-
-Set the HostedZone ID of the domain above from Route53 (in the same AWS account) to enable autowiring of the DNS records.
-
-Leave empty if you have your domain at an external DNS provider!
 
 ---
 
@@ -487,6 +472,19 @@ public readonly totalTimeToWireDNS: Duration;
 - *Default:* Duration.hours(2)
 
 The total time to wait for the DNS records to be available/wired.
+
+---
+
+##### `wireDNSToHostedZoneID`<sup>Optional</sup> <a name="wireDNSToHostedZoneID" id="@mavogel/awscdk-rootmail.RootmailProps.property.wireDNSToHostedZoneID"></a>
+
+```typescript
+public readonly wireDNSToHostedZoneID: string;
+```
+
+- *Type:* string
+- *Default:* undefined
+
+The hosted zone ID of the domain that is registered Route53 AND in the same AWS account to enable autowiring of the DNS records.
 
 ---
 
