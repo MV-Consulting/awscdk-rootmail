@@ -1,6 +1,6 @@
 {
  "Resources": {
-  "LambdaInvoked843bbff2de951750dff72b6a545b523": {
+  "LambdaInvoke7e91468bc9196aa1a7cb22b5cf757edd": {
    "Type": "Custom::DeployAssert@SdkCallLambdainvoke",
    "Properties": {
     "ServiceToken": {
@@ -16,10 +16,10 @@
      "FunctionName": "\"RootmailTestStack-send-email-handler\"",
      "InvocationType": "\"RequestResponse\"",
      "LogType": "\"Tail\"",
-     "Payload": "\"{\\\"id\\\":\\\"test-id-1234\\\",\\\"text\\\":\\\"This is a mail body\\\",\\\"sourceMail\\\":\\\"test@integ-test-1234.mavogel.xyz\\\",\\\"toMail\\\":\\\"root+test-id-1234@integ-test-1234.mavogel.xyz\\\"}\""
+     "Payload": "\"{\\\"id\\\":\\\"test-id-a647df97\\\",\\\"text\\\":\\\"This is a mail body\\\",\\\"sourceMail\\\":\\\"test@a647df97.rootmail-test.mavogel.xyz\\\",\\\"toMail\\\":\\\"root+test-id-a647df97@a647df97.rootmail-test.mavogel.xyz\\\"}\""
     },
     "flattenResponse": "false",
-    "salt": "1697444062769"
+    "salt": "1706653408489"
    },
    "DependsOn": [
     "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b"
@@ -27,7 +27,7 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   },
-  "LambdaInvoked843bbff2de951750dff72b6a545b523Invoke46205988": {
+  "LambdaInvoke7e91468bc9196aa1a7cb22b5cf757eddInvokeE1438FFC": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -178,7 +178,7 @@
     }
    }
   },
-  "LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c": {
+  "LambdaInvokecc6e500d1400e67a7f5299194ab6c6fb": {
    "Type": "Custom::DeployAssert@SdkCallLambdainvoke",
    "Properties": {
     "ServiceToken": {
@@ -194,19 +194,19 @@
      "FunctionName": "\"RootmailTestStack-close-opsitem-handler\"",
      "InvocationType": "\"RequestResponse\"",
      "LogType": "\"Tail\"",
-     "Payload": "\"{\\\"title\\\":\\\"test-id-1234\\\",\\\"source\\\":\\\"root+test-id-1234@integ-test-1234.mavogel.xyz\\\",\\\"description\\\":\\\"This is a mail body\\\\n\\\"}\""
+     "Payload": "\"{\\\"title\\\":\\\"test-id-a647df97\\\",\\\"source\\\":\\\"root+test-id-a647df97@a647df97.rootmail-test.mavogel.xyz\\\",\\\"description\\\":\\\"This is a mail body\\\\n\\\"}\""
     },
     "flattenResponse": "false",
-    "salt": "1697444062770"
+    "salt": "1706653408489"
    },
    "DependsOn": [
-    "LambdaInvoked843bbff2de951750dff72b6a545b523",
-    "LambdaInvoked843bbff2de951750dff72b6a545b523Invoke46205988"
+    "LambdaInvoke7e91468bc9196aa1a7cb22b5cf757edd",
+    "LambdaInvoke7e91468bc9196aa1a7cb22b5cf757eddInvokeE1438FFC"
    ],
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   },
-  "LambdaInvoke98b2defee3e26ff5f77eef07919b8b9cInvoke217A1FF9": {
+  "LambdaInvokecc6e500d1400e67a7f5299194ab6c6fbInvokeDA76B084": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -219,8 +219,8 @@
     }
    },
    "DependsOn": [
-    "LambdaInvoked843bbff2de951750dff72b6a545b523",
-    "LambdaInvoked843bbff2de951750dff72b6a545b523Invoke46205988"
+    "LambdaInvoke7e91468bc9196aa1a7cb22b5cf757edd",
+    "LambdaInvoke7e91468bc9196aa1a7cb22b5cf757eddInvokeE1438FFC"
    ]
   },
   "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b": {
@@ -239,25 +239,25 @@
      "Name": "\"/rootmail/domain_name_servers\""
     },
     "flattenResponse": "false",
-    "salt": "1697444062770"
+    "salt": "1706653408489"
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   }
  },
  "Outputs": {
-  "AssertionResultsLambdaInvoked843bbff2de951750dff72b6a545b523": {
+  "AssertionResultsLambdaInvoke7e91468bc9196aa1a7cb22b5cf757edd": {
    "Value": {
     "Fn::GetAtt": [
-     "LambdaInvoked843bbff2de951750dff72b6a545b523",
+     "LambdaInvoke7e91468bc9196aa1a7cb22b5cf757edd",
      "assertion"
     ]
    }
   },
-  "AssertionResultsLambdaInvoke98b2defee3e26ff5f77eef07919b8b9c": {
+  "AssertionResultsLambdaInvokecc6e500d1400e67a7f5299194ab6c6fb": {
    "Value": {
     "Fn::GetAtt": [
-     "LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c",
+     "LambdaInvokecc6e500d1400e67a7f5299194ab6c6fb",
      "assertion"
     ]
    }

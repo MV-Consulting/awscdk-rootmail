@@ -26,8 +26,8 @@ const stackUnderTest = new Stack(app, stackUnderTestName, {
   },
 });
 
-const randomTestId = 1234;
-const testSubdomain = `integ-test-${randomTestId}`;
+const randomTestId = 'a647df97';
+const testSubdomain = `${randomTestId}`;
 
 const hostedZone = r53.HostedZone.fromLookup(stackUnderTest, 'testHostedZone', {
   domainName: testDomain,
