@@ -29,3 +29,10 @@ deactivate
 ### log groups from handlers
 - filter by `Test` with this [query](https://eu-west-1.console.aws.amazon.com/cloudwatch/home?region=eu-west-1#logsV2:log-groups$3FlogGroupNameFilter$3DTest)
 - delete all log groups matching
+
+## testing cloudformation templates
+- publish the version
+- create a cloudformation stack
+- test 2 times
+    1. with the Hosted Zone ID given
+    2. without the Hosted Zone ID, and add it by hand
