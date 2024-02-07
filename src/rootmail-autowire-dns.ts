@@ -57,6 +57,7 @@ export class RootmailAutowireDns extends Construct {
     const autoWireR53ChangeInfoIdParameterName = '/rootmail/auto_wire_r53_changeinfo_id';
 
 
+    // TODO: create it in the function to avoid the dummy value
     const autoWireR53ChangeInfoId = new ssm.StringParameter(this, 'AutoWireR53ChangeInfoId', {
       parameterName: autoWireR53ChangeInfoIdParameterName,
       stringValue: 'dummy',
