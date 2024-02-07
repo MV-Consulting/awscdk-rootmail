@@ -8,45 +8,35 @@ import {
   Stack,
   aws_iam as iam,
   aws_lambda as lambda,
-  aws_route53 as r53,
 } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Rootmail } from '../src/rootmail';
 // CDK App for Integration Tests
 const app = new App();
-const testDomain = process.env.TEST_DOMAIN ?? '';
-const testAccountId = process.env.TEST_ACCOUNT_ID ?? '';
 // Stack under test
-const testRegion = 'eu-west-1';
-const stackUnderTestName = 'RootmailTestStack';
+const stackUnderTestName = 'RootmailTestStackNew';
 const stackUnderTest = new Stack(app, stackUnderTestName, {
   description: "This stack includes the application's resources for integration testing.",
-  env: {
-    region: testRegion,
-    account: testAccountId,
-  },
 });
 
+const testDomain = 'rootmail-test.mavogel.xyz';
+const hostedZoneId = 'Z066250529JROZU7IIY3Q';
 const randomTestId = 'a647df97';
 const testSubdomain = `${randomTestId}`;
-
-const hostedZone = r53.HostedZone.fromLookup(stackUnderTest, 'testHostedZone', {
-  domainName: testDomain,
-});
 
 const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   domain: testDomain,
   subdomain: testSubdomain,
   // tests took on average 10-15 minutes , but we leave some buffer
   totalTimeToWireDNS: Duration.minutes(20),
-  wireDNSToHostedZoneID: hostedZone.hostedZoneId,
+  wireDNSToHostedZoneID: hostedZoneId,
   setDestroyPolicyToAllResources: false,
 });
 
 const fullDomain = `${testSubdomain}.${testDomain}`;
 
 // Initialize Integ Test construct
-const integStackName = 'SetupTest';
+const integStackName = 'SetupTestNew';
 const integ = new IntegTest(app, integStackName, {
   testCases: [stackUnderTest], // Define a list of cases for this test
   cdkCommandOptions: {
