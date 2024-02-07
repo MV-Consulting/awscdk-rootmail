@@ -7,7 +7,7 @@ brew install cfn-flip
 1. synth and publish
 ```bash
 npm run synth
-export ROOTMAIL_VERSION=v0.0.10
+export ROOTMAIL_VERSION="0.0.10-DEVELOPMENT"
 npm run publish-assets
 ```
 
