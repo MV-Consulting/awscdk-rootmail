@@ -14,7 +14,7 @@ import { Rootmail } from '../src/rootmail';
 // CDK App for Integration Tests
 const app = new App();
 // Stack under test
-const stackUnderTestName = 'RootmailTestStack';
+const stackUnderTestName = 'RootmailIntegTestStack';
 const stackUnderTest = new Stack(app, stackUnderTestName, {
   description: "This stack includes the application's resources for integration testing.",
 });
@@ -36,7 +36,7 @@ const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
 const fullDomain = `${testSubdomain}.${testDomain}`;
 
 // Initialize Integ Test construct
-const integStackName = 'SetupTest';
+const integStackName = 'SetupTestIntegStack';
 const integ = new IntegTest(app, integStackName, {
   testCases: [stackUnderTest], // Define a list of cases for this test
   cdkCommandOptions: {
