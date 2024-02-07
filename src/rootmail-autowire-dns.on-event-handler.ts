@@ -145,7 +145,9 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
 
     case 'Update':
       log(`Skipping update for NS record for Name '${subdomain}.${domain}'`);
-      return {};
+      return {
+        PhysicalResourceId: event.PhysicalResourceId,
+      };
     case 'Delete':
       log(`Deleting NS record for Name '${subdomain}.${domain}' in the hosted zone with ID ${parentHostedZoneId}`);
       const recordName = `${subdomain}.${domain}`;
@@ -191,7 +193,9 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
         console.log(`Error deleting records: ${err}`);
         throw err;
       }
-      return {};
+      return {
+        PhysicalResourceId: event.PhysicalResourceId,
+      };
   }
 };
 

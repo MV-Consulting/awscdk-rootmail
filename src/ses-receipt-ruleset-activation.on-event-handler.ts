@@ -9,7 +9,7 @@ export const PROP_RULESET_SETTLE_TIME_SECONDS = 'RulesetSettleTimeSeconds';
 
 const ses = new AWS.SES();
 
-export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): Promise<void> {
+export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): Promise<AWSCDKAsyncCustomResource.OnEventResponse> {
   const domain = event.ResourceProperties[PROP_DOMAIN];
   const subdomain = event.ResourceProperties[PROP_SUBDOMAIN];
   const emailBucketName = event.ResourceProperties[PROP_EMAILBUCKET_NAME];
@@ -50,11 +50,15 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       console.log('Activating SES ReceiptRuleSet:', logicalResourceId);
 
       await ses.setActiveReceiptRuleSet({ RuleSetName: ruleSetName }).promise();
-      break;
+      return {
+        PhysicalResourceId: event.PhysicalResourceId,
+      };
 
     case 'Update':
       console.log('Updating SES ReceiptRuleSet, doing nothing');
-      return;
+      return {
+        PhysicalResourceId: event.PhysicalResourceId,
+      };
     case 'Delete':
       console.log('Deactivating SES ReceiptRuleSet:', logicalResourceId);
 
@@ -66,5 +70,8 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       }).promise();
 
       await ses.deleteReceiptRuleSet({ RuleSetName: ruleSetName }).promise();
+      return {
+        PhysicalResourceId: event.PhysicalResourceId,
+      };
   }
 };
