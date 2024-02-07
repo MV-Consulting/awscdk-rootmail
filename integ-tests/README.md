@@ -1,11 +1,13 @@
 # integ-tests
 
-## setup
+## run
+1. do the changes in the `*.ts` files
+2. synth the project
 ```bash
-# on which we create the 'integ-test-1234' test subdomain
-export TEST_DOMAIN=your-test-domain.com
-export TEST_ACCOUNT_ID=123456789012
-# from the root of the project start the tests
+npm run prepare-integ-test
+```
+3. from the root of the project run
+```bash
 npm run integ-test
 ```
 ## clean up manually
