@@ -20,7 +20,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
   const parentHostedZoneId = event.ResourceProperties[PROP_PARENT_HOSTED_ZONE_ID];
 
   if (parentHostedZoneId === undefined || parentHostedZoneId === '') {
-    log(`Skipping autoDNS wiring on DELETE for domain '${subdomain}.${domain}' as no parentHostedZoneId is given!`);
+    log(`Skipping autoDNS wiring on '${event.RequestType}' for domain '${subdomain}.${domain}' as no parentHostedZoneId is given!`);
     return {
       IsComplete: true,
     };
