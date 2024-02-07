@@ -1,5 +1,4 @@
 // eslint-disable-next-line import/no-unresolved
-import { PhysicalResourceId } from 'aws-cdk-lib/custom-resources';
 import * as AWSCDKAsyncCustomResource from 'aws-cdk-lib/custom-resources/lib/provider-framework/types';
 import * as AWS from 'aws-sdk';
 export const PROP_DOMAIN = 'Domain';
