@@ -49,15 +49,6 @@ const integStackName = 'SetupTest';
 const integ = new IntegTest(app, integStackName, {
   testCases: [stackUnderTest], // Define a list of cases for this test
   cdkCommandOptions: {
-    // Customize the integ-runner parameters
-    deploy: {
-      args: {
-        // If I do not provide this argument it will fail with
-        // 'You must either specify a list of Stacks or the `--all` argument'
-        stacks: [],
-        all: true,
-      },
-    },
     destroy: {
       args: {
         force: true,
@@ -76,7 +67,6 @@ const integ = new IntegTest(app, integStackName, {
 });
 
 const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler', {
-  functionName: `${stackUnderTestName}-send-email-handler`,
   entry: path.join(__dirname, 'functions', 'send-email-handler.ts'),
   runtime: lambda.Runtime.NODEJS_18_X,
   logRetention: 1,
@@ -93,7 +83,6 @@ const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler'
 });
 
 const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-handler', {
-  functionName: `${stackUnderTestName}-close-opsitem-handler`,
   entry: path.join(__dirname, 'functions', 'close-opsitem-handler.ts'),
   runtime: lambda.Runtime.NODEJS_18_X,
   logRetention: 1,
