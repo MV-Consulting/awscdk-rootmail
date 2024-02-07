@@ -1,0 +1,27 @@
+{
+  "version": "33.0.0",
+  "testCases": {
+    "SetupTestIntegStack/DefaultTest": {
+      "stacks": [
+        "RootmailIntegTestStack"
+      ],
+      "hooks": {
+        "postDestroy": [
+          "echo \"Post hook\""
+        ]
+      },
+      "regions": [
+        "${Token[AWS.Region.8]}"
+      ],
+      "cdkCommandOptions": {
+        "destroy": {
+          "args": {
+            "force": true
+          }
+        }
+      },
+      "assertionStack": "SetupTestIntegStack/DefaultTest/DeployAssert",
+      "assertionStackName": "SetupTestIntegStackDefaultTestDeployAssert6EB6FF77"
+    }
+  }
+}
