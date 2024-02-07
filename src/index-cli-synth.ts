@@ -61,7 +61,7 @@ class RootmailStack extends Stack {
 if (!process.env.ROOTMAIL_VERSION || process.env.ROOTMAIL_VERSION === '') {
   throw new Error('ROOTMAIL_VERSION is not set or empty');
 }
-const rootmailVersion = process.env.ROOTMAIL_VERSION
+const rootmailVersion = process.env.ROOTMAIL_VERSION;
 
 
 new RootmailStack(app, 'RootmailStack', {
