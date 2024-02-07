@@ -12,7 +12,12 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
   switch (event.RequestType) {
     case 'Create':
     case 'Update':
-      console.log(`${event.RequestType}: Do Domain verification and DKIM records for ${event.LogicalResourceId} and domain '${domain}'`);
+      let physicalResourceId = event.PhysicalResourceId;
+      if (event.RequestType === 'Create') {
+        physicalResourceId = event.RequestId;
+      }
+
+      console.log(`${event.RequestType}: Do Domain verification and DKIM records for ${event.LogicalResourceId} and domain '${domain}' with PhysicalResourceId '${physicalResourceId}'`);
       const verifyDomainResponse = await SES.verifyDomainIdentity({ Domain: domain }).promise();
       const verificationToken = verifyDomainResponse.VerificationToken;
       console.log(`${event.RequestType}: Got verification token '${verificationToken}' for domain '${domain}'`);
@@ -21,15 +26,16 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       const dkimTokens = verifyDomainDkimResponse.DkimTokens;
       console.log(`${event.RequestType}: Got DKIM tokens '${dkimTokens}' for domain '${domain}'`);
 
+
       return {
-        PhysicalResourceId: event.PhysicalResourceId,
+        PhysicalResourceId: physicalResourceId,
         Data: {
           [ATTR_VERIFICATION_TOKEN]: verificationToken,
           [ATTR_DKIM_TOKENS]: dkimTokens,
         },
       };
     case 'Delete':
-      console.log(`Deleting Domain identity for domain '${domain}'`);
+      console.log(`Deleting Domain identity for domain '${domain}' with PhysicalResourceId '${event.PhysicalResourceId}'`);
       const deleteResponse = await SES.deleteIdentity({ Identity: domain }).promise();
       console.log(`Deleted Domain identity for domain '${domain}'`, deleteResponse);
       return {

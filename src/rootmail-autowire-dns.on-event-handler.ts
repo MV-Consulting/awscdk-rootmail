@@ -14,10 +14,19 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
   // it is not sythesized at all
   const parentHostedZoneId = event.ResourceProperties[PROP_PARENT_HOSTED_ZONE_ID];
   if (parentHostedZoneId === undefined || parentHostedZoneId.trim().length === 0) {
-    log(`Autowire DNS is disabled for '${domain}'. Skipping.`);
-    return {
-      PhysicalResourceId: event.PhysicalResourceId,
-    };
+    switch (event.RequestType) {
+      case 'Create':
+        log(`${event.RequestType}: Autowire DNS is disabled for '${domain}'. Skipping. PhysicalResourceId: ${event.RequestId}`);
+        return {
+          PhysicalResourceId: event.RequestId,
+        };
+      case 'Update':
+      case 'Delete':
+        log(`${event.RequestType}: Autowire DNS is disabled for '${domain}'. Skipping. PhysicalResourceId: ${event.PhysicalResourceId}`);
+        return {
+          PhysicalResourceId: event.PhysicalResourceId,
+        };
+    }
   }
 
   const subdomain = event.ResourceProperties[PROP_SUB_DOMAIN];
@@ -104,7 +113,9 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
         });
 
         log(`NS record for Name '${subdomain}.${domain}' and type NS already exists. Skipping.`);
-        return {};
+        return {
+          PhysicalResourceId: event.RequestId,
+        };
       }
 
       log(`NS record for Name '${subdomain}.${domain}' and type NS does not exist. Creating.`);
@@ -140,9 +151,8 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       }).promise();
 
       return {
-        PhysicalResourceId: event.PhysicalResourceId,
+        PhysicalResourceId: event.RequestId,
       };
-
     case 'Update':
       log(`Skipping update for NS record for Name '${subdomain}.${domain}'`);
       return {
@@ -193,6 +203,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
         console.log(`Error deleting records: ${err}`);
         throw err;
       }
+
       return {
         PhysicalResourceId: event.PhysicalResourceId,
       };

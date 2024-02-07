@@ -1,4 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
+import { PhysicalResourceId } from 'aws-cdk-lib/custom-resources';
 import * as AWSCDKAsyncCustomResource from 'aws-cdk-lib/custom-resources/lib/provider-framework/types';
 import * as AWS from 'aws-sdk';
 export const PROP_DOMAIN = 'Domain';
@@ -18,9 +19,11 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
 
   const ruleSetName = 'RootMail';
   const ruleName = 'Receive';
+  const rootmailBucketObjectKeyPrefix = 'RootMail';
 
   switch (event.RequestType) {
     case 'Create':
+      console.log(`${event.RequestType} SES ReceiptRuleSet. PhysicalResourceId: ${event.RequestId}`);
       await ses.createReceiptRuleSet({ RuleSetName: ruleSetName }).promise();
 
       await ses.createReceiptRule({
@@ -35,7 +38,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
             {
               S3Action: {
                 BucketName: emailBucketName,
-                ObjectKeyPrefix: 'RootMail',
+                ObjectKeyPrefix: rootmailBucketObjectKeyPrefix,
               },
             },
             {
@@ -51,11 +54,10 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
 
       await ses.setActiveReceiptRuleSet({ RuleSetName: ruleSetName }).promise();
       return {
-        PhysicalResourceId: event.PhysicalResourceId,
+        PhysicalResourceId: event.RequestId,
       };
-
     case 'Update':
-      console.log('Updating SES ReceiptRuleSet, doing nothing');
+      console.log(`${event.RequestType} SES ReceiptRuleSet. PhysicalResourceId: ${event.PhysicalResourceId}`);
       return {
         PhysicalResourceId: event.PhysicalResourceId,
       };
