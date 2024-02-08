@@ -30,7 +30,7 @@
      "Payload": "\"{\\\"id\\\":\\\"test-id-a647df97\\\",\\\"text\\\":\\\"This is a mail body\\\",\\\"sourceMail\\\":\\\"test@a647df97.rootmail-test.mavogel.xyz\\\",\\\"toMail\\\":\\\"root+test-id-a647df97@a647df97.rootmail-test.mavogel.xyz\\\"}\""
     },
     "flattenResponse": "false",
-    "salt": "1707323496537"
+    "salt": "1707411745606"
    },
    "DependsOn": [
     "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b"
@@ -227,7 +227,7 @@
      "Payload": "\"{\\\"title\\\":\\\"test-id-a647df97\\\",\\\"source\\\":\\\"root+test-id-a647df97@a647df97.rootmail-test.mavogel.xyz\\\",\\\"description\\\":\\\"This is a mail body\\\\n\\\"}\""
     },
     "flattenResponse": "false",
-    "salt": "1707323496537"
+    "salt": "1707411745607"
    },
    "DependsOn": [
     "LambdaInvoke039384452617e2bb3418392bbc41659f",
@@ -271,7 +271,7 @@
      "Name": "\"/rootmail/domain_name_servers\""
     },
     "flattenResponse": "false",
-    "salt": "1707323496537"
+    "salt": "1707411745607"
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
