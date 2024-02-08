@@ -8,7 +8,7 @@ npm run prepare-integ-test
 ```
 3. from the root of the project run
 ```bash
-AWS_REGION=eu-west-2 npm run integ-test -- --parallel-regions eu-west-2 --update-on-failed
+npm run integ-test
 ```
 ## clean up manually
 ### s3 bucket
@@ -19,10 +19,10 @@ source venv/bin/activate
 pip3 install -r requirements.tx
 
 # determine bucket name
-aws s3 ls | grep rootmailteststack
+aws s3 ls | grep rootmailinteg
 # empty and remove the bucket
-python3 cleanup/empty-and-delete-s3-bucket.py rootmailteststack-testrootmailemailbucket<suffix>
-# remove the log groups. generic or more specific with 'RootmailTestStack' and 'SetupTest'
+python3 cleanup/empty-and-delete-s3-bucket.py rootmailintegteststack-testrootmailemailbucket<suffix>
+# remove the log groups. generic or more specific with 'rootmailinteg' and 'SetupTest'
 AWS_REGION=eu-west-2 python3 cleanup/delete-log-groups.py Test
 
 # when your done deactive the virtual env via
