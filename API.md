@@ -58,7 +58,11 @@ You can chose via embedding the construct in your cdk-app or use is directly via
    3. Run `npm run projen` to install it
 2. In you `main.ts` file add the following
 ```ts
-import { App, Stack } from 'aws-cdk-lib';
+import {
+    App,
+    Stack,
+    aws_route53 as r53
+} from 'aws-cdk-lib';
 import { Rootmail, SESReceiveStack } from '@mavogel/awscdk-rootmail';
 import { Construct } from 'constructs';
 
@@ -66,12 +70,18 @@ export class MyStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
     super(scope, id, props);
 
+    const domain = 'mycompany.test'
+
+    const hostedZone = r53.HostedZone.fromLookup(this, 'rootmail-parent-hosted-zone', {
+      domainName: domain,
+    });
+
     const rootmail = new Rootmail(this, 'rootmail-stack', {
       // 1. a domain you own, registered via Route53 in the SAME account
-      domain: 'mycompany.test';
+      domain: domain;
       // 2. so the subdomain will be aws.mycompany.test and
       //    wired / delegated  automatically
-      autowireDNSParentHostedZoneID: 'Z1212RFFDFE',
+      autowireDNSParentHostedZoneID: hostedZone.hostedZoneId,
       env: {
       // 3. or any other region SES is available
         region: 'eu-west-1',
