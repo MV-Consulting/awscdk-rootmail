@@ -40,7 +40,7 @@
     },
     {
       "name": "@types/node",
-      "version": "^16",
+      "version": "^18",
       "type": "build"
     },
     {
@@ -55,10 +55,6 @@
     {
       "name": "@typescript-eslint/parser",
       "version": "^6",
-      "type": "build"
-    },
-    {
-      "name": "eslint-import-resolver-node",
       "type": "build"
     },
     {
@@ -111,11 +107,6 @@
     },
     {
       "name": "jsonfile",
-      "type": "build"
-    },
-    {
-      "name": "npm-check-updates",
-      "version": "^16",
       "type": "build"
     },
     {
