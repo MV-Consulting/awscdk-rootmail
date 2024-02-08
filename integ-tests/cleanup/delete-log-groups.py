@@ -1,9 +1,10 @@
 import boto3
+import os
 import sys
 
 def delele_log_groups(pattern):
-    # log clien in eu-west-1 region
-    logs = boto3.client('logs', region_name='eu-west-1')
+    # from env AWS_REGION
+    logs = boto3.client('logs', region_name=os.environ['AWS_REGION'])
     paginator = logs.get_paginator('describe_log_groups')
     for page in paginator.paginate():
         for log_group in page['logGroups']:
