@@ -23,7 +23,7 @@ aws s3 ls | grep rootmailteststack
 # empty and remove the bucket
 python3 cleanup/empty-and-delete-s3-bucket.py rootmailteststack-testrootmailemailbucket<suffix>
 # remove the log groups. generic or more specific with 'RootmailTestStack' and 'SetupTest'
-python3 cleanup/delete-log-groups.py Test
+AWS_REGION=eu-west-2 python3 cleanup/delete-log-groups.py Test
 
 # when your done deactive the virtual env via
 # see https://stackoverflow.com/questions/990754/how-to-leave-exit-deactivate-a-python-virtualenv
