@@ -8,7 +8,7 @@ npm run prepare-integ-test
 ```
 3. from the root of the project run
 ```bash
-npm run integ-test
+AWS_REGION=eu-west-2 npm run integ-test -- --parallel-regions eu-west-2 --update-on-failed
 ```
 ## clean up manually
 ### s3 bucket

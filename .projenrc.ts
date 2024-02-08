@@ -55,7 +55,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
 });
 
 project.package.setScript('prepare', 'husky install');
-project.package.setScript('integ-test', 'integ-runner --directory ./integ-tests --parallel-regions eu-west-1');
+project.package.setScript('integ-test', 'integ-runner --directory ./integ-tests');
 project.package.setScript('prepare-integ-test', 'rm -rf cdk.out && cdk synth -q');
 project.package.setScript('publish-assets', 'npx ts-node -P tsconfig.json --prefer-ts-exts src/scripts/publish-assets.ts');
 project.synth();
