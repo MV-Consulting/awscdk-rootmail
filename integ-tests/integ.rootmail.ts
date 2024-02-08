@@ -49,7 +49,7 @@ const integ = new IntegTest(app, integStackName, {
   hooks: {
     postDestroy: [
       'echo "Post hook"',
-      // TOOD: needs to be verified
+      // NOTE: as I do not see the hook called, we need to delete manually
       // `echo "Deleting S3 bucket '${rootmail.emailBucket.bucketName}'`,
       // `python3 cleanup/empty-and-delete-s3-bucket.py ${rootmail.emailBucket.bucketName}`,
     ],
