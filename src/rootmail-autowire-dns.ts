@@ -45,6 +45,11 @@ export interface RootmailAutowireDnsProps {
    * The Hosted Zone SSM Parameter Name for the NS records.
    */
   readonly hostedZoneSSMParameter: ssm.StringListParameter;
+
+  /**
+   * The total time to wait for the DNS records to be available/wired.
+   */
+  readonly totalTimeToWireDNS: Duration;
 }
 
 export class RootmailAutowireDns extends Construct {
@@ -173,7 +178,7 @@ class RootmailAutowireDnsProvider extends Construct {
     this.provider = new cr.Provider(this, 'rootmail-autowire-dns-provider', {
       isCompleteHandler: isCompleteHandlerFunc,
       queryInterval: Duration.seconds(5),
-      totalTimeout: Duration.minutes(20),
+      totalTimeout: props.totalTimeToWireDNS,
       onEventHandler: onEventHandlerFunc,
     });
     NagSuppressions.addResourceSuppressions(
