@@ -21,8 +21,9 @@ const stackUnderTest = new Stack(app, stackUnderTestName, {
 
 const testDomain = 'rootmail-test.mavogel.xyz';
 const hostedZoneId = 'Z066250529JROZU7IIY3Q';
-const randomTestId = 'a647df97';
-const testSubdomain = `${randomTestId}`;
+const randomTestId = 'b647df97';
+const testSubdomain = `${randomTestId}-${Stack.of(stackUnderTest).region}`;
+const fullDomain = `${testSubdomain}.${testDomain}`;
 
 const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   domain: testDomain,
@@ -33,7 +34,6 @@ const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
   setDestroyPolicyToAllResources: false,
 });
 
-const fullDomain = `${testSubdomain}.${testDomain}`;
 
 // Initialize Integ Test construct
 const integStackName = 'SetupTestIntegStack';
