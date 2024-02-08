@@ -4,6 +4,7 @@ import { IntegTest, ExpectedResult, LogType, InvocationType } from '@aws-cdk/int
 import {
   App,
   Duration,
+  PhysicalName,
   Stack,
   aws_iam as iam,
   aws_lambda as lambda,
@@ -12,52 +13,33 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Rootmail } from '../src/rootmail';
 // CDK App for Integration Tests
 const app = new App();
-// Parameters TODO
-const testDomain = process.env.TEST_DOMAIN ?? '';
-const testAccount = process.env.TEST_ACCOUNT_ID ?? process.env.CDK_DEFAULT_ACCOUNT ?? '';
-const testRegion = 'eu-west-1';
-console.log(`Running integration tests in region '${testRegion}' and account '${testAccount}' for domain '${testDomain}'`);
-if (testDomain === '' || testAccount === '') {
-  throw new Error(`TEST_DOMAIN and TEST_ACCOUNT_ID environment variables must be set. Were TEST_DOMAIN='${testDomain}' and TEST_ACCOUNT_ID='${testAccount}'`);
-}
 // Stack under test
-const stackUnderTestName = 'RootmailTestStack';
+const stackUnderTestName = 'RootmailIntegTestStack';
 const stackUnderTest = new Stack(app, stackUnderTestName, {
   description: "This stack includes the application's resources for integration testing.",
-  env: {
-    account: testAccount,
-    region: testRegion,
-  },
 });
 
-const randomTestId = 1234;
-const testSubdomain = `integ-test-${randomTestId}`;
+const testDomain = 'rootmail-test.mavogel.xyz';
+const hostedZoneId = 'Z066250529JROZU7IIY3Q';
+const randomTestId = 'a647df97';
+const testSubdomain = `${randomTestId}`;
 
 const rootmail = new Rootmail(stackUnderTest, 'testRootmail', {
-  subdomain: testSubdomain,
   domain: testDomain,
+  subdomain: testSubdomain,
   // tests took on average 10-15 minutes , but we leave some buffer
   totalTimeToWireDNS: Duration.minutes(20),
-  enableAutowireDNS: true,
+  wireDNSToHostedZoneID: hostedZoneId,
   setDestroyPolicyToAllResources: false,
 });
 
 const fullDomain = `${testSubdomain}.${testDomain}`;
 
 // Initialize Integ Test construct
-const integStackName = 'SetupTest';
+const integStackName = 'SetupTestIntegStack';
 const integ = new IntegTest(app, integStackName, {
   testCases: [stackUnderTest], // Define a list of cases for this test
   cdkCommandOptions: {
-    // Customize the integ-runner parameters
-    deploy: {
-      args: {
-        // If I do not provide this argument it will fail with
-        // 'You must either specify a list of Stacks or the `--all` argument'
-        stacks: [],
-        all: true,
-      },
-    },
     destroy: {
       args: {
         force: true,
@@ -76,7 +58,7 @@ const integ = new IntegTest(app, integStackName, {
 });
 
 const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler', {
-  functionName: `${stackUnderTestName}-send-email-handler`,
+  functionName: PhysicalName.GENERATE_IF_NEEDED,
   entry: path.join(__dirname, 'functions', 'send-email-handler.ts'),
   runtime: lambda.Runtime.NODEJS_18_X,
   logRetention: 1,
@@ -93,7 +75,7 @@ const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler'
 });
 
 const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-handler', {
-  functionName: `${stackUnderTestName}-close-opsitem-handler`,
+  functionName: PhysicalName.GENERATE_IF_NEEDED,
   entry: path.join(__dirname, 'functions', 'close-opsitem-handler.ts'),
   runtime: lambda.Runtime.NODEJS_18_X,
   logRetention: 1,

@@ -1,27 +1,46 @@
 import { Route53, SSM } from 'aws-sdk';
 export const PROP_DOMAIN = 'Domain';
 export const PROP_SUB_DOMAIN = 'Subdomain';
+export const PROP_PARENT_HOSTED_ZONE_ID = 'ParentHostedZoneId';
 export const PROP_HOSTED_ZONE_PARAMETER_NAME = 'HostedZoneParameterName';
 export const PROP_R53_CHANGEINFO_ID_PARAMETER_NAME = 'R53ChangeInfoIdParameterName';
-export const PROP_PARENT_HOSTED_ZONE_ID = 'ParentHostedZoneId';
 
 const route53 = new Route53();
 const ssm = new SSM();
 
 export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): Promise<AWSCDKAsyncCustomResource.OnEventResponse> {
   const domain = event.ResourceProperties[PROP_DOMAIN];
+  // NOTE: this has to happen here as if we do this around the whole CR
+  // it is not sythesized at all
+  const parentHostedZoneId = event.ResourceProperties[PROP_PARENT_HOSTED_ZONE_ID];
+  if (parentHostedZoneId === undefined || parentHostedZoneId.trim().length === 0) {
+    switch (event.RequestType) {
+      case 'Create':
+        log(`${event.RequestType}: Autowire DNS is disabled for '${domain}'. Skipping. PhysicalResourceId: ${event.RequestId}`);
+        return {
+          PhysicalResourceId: event.RequestId,
+        };
+      case 'Update':
+      case 'Delete':
+        log(`${event.RequestType}: Autowire DNS is disabled for '${domain}'. Skipping. PhysicalResourceId: ${event.PhysicalResourceId}`);
+        return {
+          PhysicalResourceId: event.PhysicalResourceId,
+        };
+    }
+  }
+
   const subdomain = event.ResourceProperties[PROP_SUB_DOMAIN];
   const hostedZoneParameterName = event.ResourceProperties[PROP_HOSTED_ZONE_PARAMETER_NAME];
-  const parentHostedZoneId = event.ResourceProperties[PROP_PARENT_HOSTED_ZONE_ID];
   const r53ChangeInfoIdParameterName = event.ResourceProperties[PROP_R53_CHANGEINFO_ID_PARAMETER_NAME];
 
   switch (event.RequestType) {
     case 'Create':
-      const hostedZoneParameterResponse = await ssm.getParameter({
+      // 1: check if the subdomain was created and get its NS records
+      const hostedZoneNameServerParameterResponse = await ssm.getParameter({
         Name: hostedZoneParameterName,
       }).promise();
 
-      const hostedZoneNameServersAsString = hostedZoneParameterResponse.Parameter?.Value;
+      const hostedZoneNameServersAsString = hostedZoneNameServerParameterResponse.Parameter?.Value;
       log({
         event: hostedZoneNameServersAsString,
         level: 'debug',
@@ -36,6 +55,8 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
         throw new Error(`expected exactly 4 hosted zone name servers for ${domain}. Got ${hostedZoneNameServers.length}: ${hostedZoneNameServers}`);
       }
 
+      // 2: check if the domain has a hosted zone in the same AWS Account
+      // which is a prerequisite for autowiring the DNS records
       const hostedZoneResponse = await route53.listHostedZonesByName({
         DNSName: domain,
       }).promise();
@@ -63,12 +84,12 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
         throw new Error(`expected to find & filter exactly 1 hosted zone for ${domain}. Got ${filteredHostedZones.length}`);
       }
 
-      const hostedZoneId = filteredHostedZones[0].Id;
+      // 3: now we continue with the given parent hosted zone ID
 
       // iterate over hosted zone records
       const listResourceRecordSetsResponse = await route53.listResourceRecordSets({
         // remove the prefix for using it as parameter
-        HostedZoneId: hostedZoneId.replace('/hostedzone/', ''),
+        HostedZoneId: parentHostedZoneId.replace('/hostedzone/', ''),
       }).promise();
 
       if (listResourceRecordSetsResponse.ResourceRecordSets === undefined) {
@@ -92,15 +113,17 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
         });
 
         log(`NS record for Name '${subdomain}.${domain}' and type NS already exists. Skipping.`);
-        return {};
+        return {
+          PhysicalResourceId: event.RequestId,
+        };
       }
 
       log(`NS record for Name '${subdomain}.${domain}' and type NS does not exist. Creating.`);
       // in the HZ of the domain (parentHostedZone) we create the NS record for the subdomain
       const recordSetCreationResponse = await route53.changeResourceRecordSets({
-        HostedZoneId: hostedZoneId,
+        HostedZoneId: parentHostedZoneId,
         ChangeBatch: {
-          Comment: 'rootmail-integtest',
+          Comment: 'rootmail-autowire-dns',
           Changes: [
             {
               Action: 'CREATE',
@@ -128,15 +151,17 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       }).promise();
 
       return {
-        PhysicalResourceId: event.PhysicalResourceId,
+        PhysicalResourceId: event.RequestId,
       };
-
     case 'Update':
       log(`Skipping update for NS record for Name '${subdomain}.${domain}'`);
-      return {};
+      return {
+        PhysicalResourceId: event.PhysicalResourceId,
+      };
     case 'Delete':
-      log(`Deleting NS record for Name '${subdomain}.${domain}'`);
+      log(`Deleting NS record for Name '${subdomain}.${domain}' in the hosted zone with ID ${parentHostedZoneId}`);
       const recordName = `${subdomain}.${domain}`;
+
       try {
         let nextRecordName: string | undefined;
         let isRecordDeleted = false;
@@ -178,7 +203,10 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
         console.log(`Error deleting records: ${err}`);
         throw err;
       }
-      return {};
+
+      return {
+        PhysicalResourceId: event.PhysicalResourceId,
+      };
   }
 };
 

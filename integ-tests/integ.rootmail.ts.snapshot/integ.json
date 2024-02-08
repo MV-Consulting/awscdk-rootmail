@@ -1,9 +1,9 @@
 {
   "version": "33.0.0",
   "testCases": {
-    "SetupTest/DefaultTest": {
+    "SetupTestIntegStack/DefaultTest": {
       "stacks": [
-        "RootmailTestStack"
+        "RootmailIntegTestStack"
       ],
       "hooks": {
         "postDestroy": [
@@ -11,23 +11,17 @@
         ]
       },
       "regions": [
-        "eu-west-1"
+        "${Token[AWS.Region.8]}"
       ],
       "cdkCommandOptions": {
-        "deploy": {
-          "args": {
-            "stacks": [],
-            "all": true
-          }
-        },
         "destroy": {
           "args": {
             "force": true
           }
         }
       },
-      "assertionStack": "SetupTest/DefaultTest/DeployAssert",
-      "assertionStackName": "SetupTestDefaultTestDeployAssert8633B62F"
+      "assertionStack": "SetupTestIntegStack/DefaultTest/DeployAssert",
+      "assertionStackName": "SetupTestIntegStackDefaultTestDeployAssert6EB6FF77"
     }
   }
 }

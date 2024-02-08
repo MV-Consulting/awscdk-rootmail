@@ -2,16 +2,17 @@
 
 A single rootmail box for all your AWS accounts. The cdk implementation and **adaption** of the [superwerker](https://superwerker.cloud/) rootmail feature. See [here](docs/adrs/rootmail.md) for a detailed Architectural Decision Record ([ADR](https://adr.github.io/))
 
-- [awscdk-rootmail](#awscdk-rootmail)
-  - [TL;DR](#tldr)
-  - [Usage](#usage)
-    - [Dependencies](#dependencies)
-    - [Deploy](#deploy)
-  - [Solution design: Version 1 - Domain in the same AWS account](#solution-design-version-1---domain-in-the-same-aws-account)
-  - [Solution design: Version 2 - external DNS provider](#solution-design-version-2---external-dns-provider)
-  - [Uninstall](#uninstall)
-  - [Known issues](#known-issues)
-  - [Related projects](#related-projects)
+- [TL;DR](#tldr)
+- [Usage](#usage)
+  - [Dependencies](#dependencies)
+  - [Deploy](#deploy)
+    - [CDK](#cdk)
+    - [Cloudformation](#cloudformation)
+- [Solution design: Version 1 - Domain in the same AWS account](#solution-design-version-1---domain-in-the-same-aws-account)
+- [Solution design: Version 2 - external DNS provider](#solution-design-version-2---external-dns-provider)
+- [Uninstall](#uninstall)
+- [Known issues](#known-issues)
+- [Related projects](#related-projects)
 
 ## TL;DR
 Each AWS account needs one unique email address (the so-called "AWS account root user email address").
@@ -46,6 +47,8 @@ brew install aws-cli node@18 esbuild
 </details>
 
 ### Deploy
+You can chose via embedding the construct in your cdk-app or use is directly via Cloudformation.
+#### CDK
 1. To start a new project we recommend using [projen](https://projen.io/).
    1. Create a new projen project
    ```sh
@@ -55,7 +58,11 @@ brew install aws-cli node@18 esbuild
    3. Run `npm run projen` to install it
 2. In you `main.ts` file add the following
 ```ts
-import { App, Stack } from 'aws-cdk-lib';
+import { 
+    App, 
+    Stack, 
+    aws_route53 as r53 
+} from 'aws-cdk-lib';
 import { Rootmail, SESReceiveStack } from '@mavogel/awscdk-rootmail';
 import { Construct } from 'constructs';
 
@@ -63,17 +70,23 @@ export class MyStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
     super(scope, id, props);
 
+    const domain = 'mycompany.test'
+
+    const hostedZone = r53.HostedZone.fromLookup(this, 'rootmail-parent-hosted-zone', {
+      domainName: domain,
+    });
+
     const rootmail = new Rootmail(this, 'rootmail-stack', {
       // 1. a domain you own, registered via Route53 in the SAME account
-      domain: 'mycompany.test';
+      domain: domain;
       // 2. so the subdomain will be aws.mycompany.test and
       //    wired / delegated  automatically
-      enableAutowireDNS: true,
+      autowireDNSParentHostedZoneID: hostedZone.hostedZoneId,
       env: {
       // 3. or any other region SES is available
         region: 'eu-west-1',
       },
-    });
+    }); 
   }
 }
 ```
@@ -83,6 +96,18 @@ npm run deploy
 ```
 1. No need to do anything, the NS records are **automatically** propagated as the parent Hosted Zone is in the same account!
 2. The `hosted-zone-dkim-propagation-provider.is-complete-handler` Lambda function checks every 10 seconds if the DNS for the subdomain is propagated. Details are in the Cloudwatch log group.
+
+#### Cloudformation
+or use it directly a Cloudformation template from the URL: https://mvc-test4-bucket-eu-west-1.s3.eu-west-1.amazonaws.com/rootmail/0.0.5-DEVELOPMENT/c8813b2aa55bf403f0c9dfdc3136b8f6f1b5139bd5438befc37835b5125a4850.json
+
+
+<details>
+  <summary>... click to expand</summary>
+
+and fill out the parameters
+![cloudformation-template](docs/img/cloudformation-tpl-min.png)
+
+</details>
 
 ## Solution design: Version 1 - Domain in the same AWS account
 ![rootmail-solution-diagram-v1](docs/img/awscdk-rootmail-v1-min.png)
@@ -97,10 +122,12 @@ npm run deploy
 > You can also connect your Jira to the OpsCenter.
 6. The bucket where all mail to `root@aws.mycompany.test` are stored.
 7. The [SSM parameter store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) for the password reset links.
+![ssm-pw-reset-link](docs/img/4-ssm-pw-reset-link-min.png)
 8. The OpsItem which is created. It is open and shall be further processed either in the OpsCenter or any other issue tracker.
+![opts-item](docs/img/4-opts-items-min.png)
 
 > [!NOTE]
-> SES support alias, so mail to `root+random-string@aws.mycompany.test` will also be catched and forwared.
+> SES support alias, so mail to `root+random-string@aws.mycompany.test` will also be catched and forwarded.
 
 ## Solution design: Version 2 - external DNS provider
 <details>
@@ -112,8 +139,8 @@ npm run deploy
 const rootmail = new Rootmail(this, 'rootmail-stack', {
   // 1. a domain you own, registered via Route53 in the same account
   domain: 'mycompany.test';
-  // 2. false is the default, so you can also remove it
-  enableAutowireDNS: false,
+  // 2. '' is the default, so you can also remove it
+  // autowireDNSParentHostedZoneID: '',
   env: {
   // 3. or any other region SES is available
     region: 'eu-west-1',

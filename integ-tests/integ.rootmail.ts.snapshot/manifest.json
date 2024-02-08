@@ -1,578 +1,27 @@
 {
   "version": "33.0.0",
   "artifacts": {
-    "RootmailTestStack.assets": {
+    "RootmailIntegTestStack.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "RootmailTestStack.assets.json",
+        "file": "RootmailIntegTestStack.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "RootmailTestStack": {
-      "type": "aws:cloudformation:stack",
-      "environment": "aws://935897259846/eu-west-1",
-      "properties": {
-        "templateFile": "RootmailTestStack.template.json",
-        "validateOnSynth": false,
-        "assumeRoleArn": "arn:${AWS::Partition}:iam::935897259846:role/cdk-hnb659fds-deploy-role-935897259846-eu-west-1",
-        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::935897259846:role/cdk-hnb659fds-cfn-exec-role-935897259846-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-935897259846-eu-west-1/6d51828004b720e4568dfc597d1ad0ad6ed12d316f8723555c6d9deeb38464ff.json",
-        "requiresBootstrapStackVersion": 6,
-        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
-        "additionalDependencies": [
-          "RootmailTestStack.assets"
-        ],
-        "lookupRole": {
-          "arn": "arn:${AWS::Partition}:iam::935897259846:role/cdk-hnb659fds-lookup-role-935897259846-eu-west-1",
-          "requiresBootstrapStackVersion": 8,
-          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
-        }
-      },
-      "dependencies": [
-        "RootmailTestStack.assets"
-      ],
-      "metadata": {
-        "/RootmailTestStack/testRootmail/EmailBucket/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailEmailBucket2A470446"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/EmailBucket/Policy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailEmailBucketPolicy5DA39984"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/HostedZone/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailHostedZone6DFD3C9C"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/HostedZoneSSMParameter/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailHostedZoneSSMParameter574DA41C"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/HostedZoneDkim/HostedZoneDKIMAndVerificationRecords/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/HostedZoneDkim/HostedZoneDKIMTokenRecord0/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailHostedZoneDkimHostedZoneDKIMTokenRecord07A3BA244"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/HostedZoneDkim/HostedZoneDKIMTokenRecord1/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailHostedZoneDkimHostedZoneDKIMTokenRecord135221F6A"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/HostedZoneDkim/HostedZoneDKIMTokenRecord2/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailHostedZoneDkimHostedZoneDKIMTokenRecord2175A1558"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/HostedZoneDkim/HostedZoneMXRecord/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailHostedZoneDkimHostedZoneMXRecord4446D9D3"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/HostedZoneDkim/HostedZoneVerificationTokenRecord/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailHostedZoneDkimHostedZoneVerificationTokenRecord80FAE944"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/HostedZoneDkim/RootmailAutowireDns/AutoWireR53ChangeInfoId/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/HostedZoneDkim/RootmailAutowireDns/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailHostedZoneDkimRootmailAutowireDnsE60E593E"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/HostedZoneDkim/HostedZoneDKIMPropagation/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailHostedZoneDkimHostedZoneDKIMPropagation1F03F92B"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/SESReceive/OpsSantaFunctionRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailSESReceiveOpsSantaFunctionRole82D7297F"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/SESReceive/ops-santa-handler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailSESReceiveopssantahandler9628381A"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/SESReceive/ops-santa-handler/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailSESReceiveopssantahandlerLogRetention23A4ECDE"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/SESReceive/ops-santa-handler/OpsSantaFunctionSESPermissions": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailSESReceiveopssantahandlerOpsSantaFunctionSESPermissionsEAD3AD06"
-          }
-        ],
-        "/RootmailTestStack/testRootmail/SESReceive/SESReceiptRuleSetActivation/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailSESReceiveSESReceiptRuleSetActivation75911DB8"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-verification-records-provider/on-event-handler/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimverificationrecordsprovideroneventhandlerServiceRole83E5B139"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-verification-records-provider/on-event-handler/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimverificationrecordsprovideroneventhandlerServiceRoleDefaultPolicy5C0E86C8"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-verification-records-provider/on-event-handler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimverificationrecordsprovideroneventhandlerADD3C0BE"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-verification-records-provider/on-event-handler/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimverificationrecordsprovideroneventhandlerLogRetentionCA165FC4"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleA09812EA"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleDefaultPolicy2775D1BA"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimverificationrecordsproviderframeworkonEvent801E57DE"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimverificationrecordsproviderframeworkonEventLogRetention64AEF97C"
-          }
-        ],
-        "/RootmailTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
-          }
-        ],
-        "/RootmailTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
-          }
-        ],
-        "/RootmailTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/is-complete-handler/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsprovideriscompletehandlerServiceRole35CABB06"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/is-complete-handler/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsprovideriscompletehandlerServiceRoleDefaultPolicy7DA8ECD2"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/is-complete-handler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsprovideriscompletehandlerBFD3F7F5"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/is-complete-handler/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsprovideriscompletehandlerLogRetention304C1822"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/on-event-handler/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsprovideroneventhandlerServiceRole6D9F81B0"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/on-event-handler/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsprovideroneventhandlerServiceRoleDefaultPolicy4A5BBAB1"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/on-event-handler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsprovideroneventhandler2ADE543F"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/on-event-handler/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsprovideroneventhandlerLogRetentionA4DB1AD5"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventServiceRoleECC96780"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventServiceRoleDefaultPolicy16D799D5"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventAA9D49B6"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteServiceRoleD15A96AC"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteServiceRoleDefaultPolicy5728F288"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutServiceRole4383D224"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutServiceRoleDefaultPolicy53D3B624"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutC714B95F"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/waiter-state-machine/Role/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRole258A7061"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/waiter-state-machine/Role/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRoleDefaultPolicy310226B4"
-          }
-        ],
-        "/RootmailTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/waiter-state-machine/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachine81102355"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/is-complete-handler/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationprovideriscompletehandlerServiceRoleDFD2C35E"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/is-complete-handler/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationprovideriscompletehandlerServiceRoleDefaultPolicy57D46916"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/is-complete-handler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationprovideriscompletehandlerB67C8E91"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/is-complete-handler/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationprovideriscompletehandlerLogRetentionA997105A"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/on-event-handler/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationprovideroneventhandlerServiceRole02FD73CE"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/on-event-handler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationprovideroneventhandlerC59BDC16"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/on-event-handler/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationprovideroneventhandlerLogRetentionD97E8A18"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationproviderframeworkonEventServiceRole5729BE95"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationproviderframeworkonEventServiceRoleDefaultPolicy68675555"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationproviderframeworkonEvent15357119"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationproviderframeworkisCompleteServiceRole9BABA5E5"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationproviderframeworkisCompleteServiceRoleDefaultPolicy02D0AEA6"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationproviderframeworkisComplete165FE163"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationproviderframeworkonTimeoutServiceRoleB169BF13"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationproviderframeworkonTimeoutServiceRoleDefaultPolicy2FF6168E"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationproviderframeworkonTimeout7D8A73CD"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/waiter-state-machine/Role/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationproviderwaiterstatemachineRole40906579"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/waiter-state-machine/Role/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationproviderwaiterstatemachineRoleDefaultPolicy70368CA0"
-          }
-        ],
-        "/RootmailTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/waiter-state-machine/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailhostedzonedkimpropagationproviderwaiterstatemachine2C629ADB"
-          }
-        ],
-        "/RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/SesReceiptRuleSetActivationCustomResourceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailsesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleA5C4F5B4"
-          }
-        ],
-        "/RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/SesReceiptRuleSetActivationCustomResourceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailsesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy92E90A6D"
-          }
-        ],
-        "/RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/on-event-handler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877"
-          }
-        ],
-        "/RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/on-event-handler/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailsesreceiptrulesetactivationprovideroneventhandlerLogRetentionFD6A9185"
-          }
-        ],
-        "/RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleB5050EE6"
-          }
-        ],
-        "/RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy11FA01A0"
-          }
-        ],
-        "/RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailsesreceiptrulesetactivationproviderframeworkonEventC514B5CD"
-          }
-        ],
-        "/RootmailTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "rootmailsesreceiptrulesetactivationproviderframeworkonEventLogRetentionA6742D46"
-          }
-        ],
-        "/RootmailTestStack/send-email-handler/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "sendemailhandlerServiceRole7A142BD3"
-          }
-        ],
-        "/RootmailTestStack/send-email-handler/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "sendemailhandlerServiceRoleDefaultPolicyEB76CF3B"
-          }
-        ],
-        "/RootmailTestStack/send-email-handler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "sendemailhandler05B16DE5"
-          }
-        ],
-        "/RootmailTestStack/send-email-handler/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "sendemailhandlerLogRetentionDBC033F7"
-          }
-        ],
-        "/RootmailTestStack/close-opsitem-handler/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "closeopsitemhandlerServiceRoleCB0A72D2"
-          }
-        ],
-        "/RootmailTestStack/close-opsitem-handler/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "closeopsitemhandlerServiceRoleDefaultPolicy6E097200"
-          }
-        ],
-        "/RootmailTestStack/close-opsitem-handler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "closeopsitemhandler2F03D32C"
-          }
-        ],
-        "/RootmailTestStack/close-opsitem-handler/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "closeopsitemhandlerLogRetentionFD7FC04E"
-          }
-        ],
-        "/RootmailTestStack/BootstrapVersion": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "BootstrapVersion"
-          }
-        ],
-        "/RootmailTestStack/CheckBootstrapVersion": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CheckBootstrapVersion"
-          }
-        ]
-      },
-      "displayName": "RootmailTestStack"
-    },
-    "SetupTestDefaultTestDeployAssert8633B62F.assets": {
-      "type": "cdk:asset-manifest",
-      "properties": {
-        "file": "SetupTestDefaultTestDeployAssert8633B62F.assets.json",
-        "requiresBootstrapStackVersion": 6,
-        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
-      }
-    },
-    "SetupTestDefaultTestDeployAssert8633B62F": {
+    "RootmailIntegTestStack": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://unknown-account/unknown-region",
       "properties": {
-        "templateFile": "SetupTestDefaultTestDeployAssert8633B62F.template.json",
+        "templateFile": "RootmailIntegTestStack.template.json",
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/037485a638f0d439e1049ca754be6ae97b3925f5fa152bdcac5f7e27c2872796.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dc98763f50b912676ad8fecdaebaa8ea36ba82d87ff9d34be32c465c80bf0f85.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "SetupTestDefaultTestDeployAssert8633B62F.assets"
+          "RootmailIntegTestStack.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
@@ -581,83 +30,737 @@
         }
       },
       "dependencies": [
-        "SetupTestDefaultTestDeployAssert8633B62F.assets"
+        "RootmailIntegTestStack.assets"
       ],
       "metadata": {
-        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/Default/Default": [
+        "/RootmailIntegTestStack/testRootmail/EmailBucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "LambdaInvoked843bbff2de951750dff72b6a545b523"
+            "data": "testRootmailEmailBucket2A470446"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/Invoke": [
+        "/RootmailIntegTestStack/testRootmail/EmailBucket/Policy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "LambdaInvoked843bbff2de951750dff72b6a545b523Invoke46205988"
+            "data": "testRootmailEmailBucketPolicy5DA39984"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoked843bbff2de951750dff72b6a545b523/AssertionResults": [
+        "/RootmailIntegTestStack/testRootmail/HostedZone/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AssertionResultsLambdaInvoked843bbff2de951750dff72b6a545b523"
+            "data": "testRootmailHostedZone6DFD3C9C"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role": [
+        "/RootmailIntegTestStack/testRootmail/HostedZoneSSMParameter/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73"
+            "data": "testRootmailHostedZoneSSMParameter574DA41C"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Handler": [
+        "/RootmailIntegTestStack/testRootmail/HostedZoneDkim/HostedZoneDKIMAndVerificationRecords/Resource/Default": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F"
+            "data": "testRootmailHostedZoneDkimHostedZoneDKIMAndVerificationRecords3C4650B2"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/Default/Default": [
+        "/RootmailIntegTestStack/testRootmail/HostedZoneDkim/HostedZoneDKIMTokenRecord0/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c"
+            "data": "testRootmailHostedZoneDkimHostedZoneDKIMTokenRecord07A3BA244"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/Invoke": [
+        "/RootmailIntegTestStack/testRootmail/HostedZoneDkim/HostedZoneDKIMTokenRecord1/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "LambdaInvoke98b2defee3e26ff5f77eef07919b8b9cInvoke217A1FF9"
+            "data": "testRootmailHostedZoneDkimHostedZoneDKIMTokenRecord135221F6A"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/LambdaInvoke98b2defee3e26ff5f77eef07919b8b9c/AssertionResults": [
+        "/RootmailIntegTestStack/testRootmail/HostedZoneDkim/HostedZoneDKIMTokenRecord2/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AssertionResultsLambdaInvoke98b2defee3e26ff5f77eef07919b8b9c"
+            "data": "testRootmailHostedZoneDkimHostedZoneDKIMTokenRecord2175A1558"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b/Default/Default": [
+        "/RootmailIntegTestStack/testRootmail/HostedZoneDkim/HostedZoneMXRecord/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b"
+            "data": "testRootmailHostedZoneDkimHostedZoneMXRecord4446D9D3"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b/AssertionResults": [
+        "/RootmailIntegTestStack/testRootmail/HostedZoneDkim/HostedZoneVerificationTokenRecord/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AssertionResultsAwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b"
+            "data": "testRootmailHostedZoneDkimHostedZoneVerificationTokenRecord80FAE944"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/BootstrapVersion": [
+        "/RootmailIntegTestStack/testRootmail/HostedZoneDkim/RootmailAutowireDns/AutoWireR53ChangeInfoId/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7"
+          }
+        ],
+        "/RootmailIntegTestStack/testRootmail/HostedZoneDkim/RootmailAutowireDns/Resource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailHostedZoneDkimRootmailAutowireDnsE60E593E"
+          }
+        ],
+        "/RootmailIntegTestStack/testRootmail/HostedZoneDkim/HostedZoneDKIMPropagation/Resource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailHostedZoneDkimHostedZoneDKIMPropagation1F03F92B"
+          }
+        ],
+        "/RootmailIntegTestStack/testRootmail/SESReceive/OpsSantaFunctionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailSESReceiveOpsSantaFunctionRole82D7297F"
+          }
+        ],
+        "/RootmailIntegTestStack/testRootmail/SESReceive/ops-santa-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailSESReceiveopssantahandler9628381A"
+          }
+        ],
+        "/RootmailIntegTestStack/testRootmail/SESReceive/ops-santa-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailSESReceiveopssantahandlerLogRetention23A4ECDE"
+          }
+        ],
+        "/RootmailIntegTestStack/testRootmail/SESReceive/ops-santa-handler/OpsSantaFunctionSESPermissions": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailSESReceiveopssantahandlerOpsSantaFunctionSESPermissionsEAD3AD06"
+          }
+        ],
+        "/RootmailIntegTestStack/testRootmail/SESReceive/SESReceiptRuleSetActivation/Resource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "testRootmailSESReceiveSESReceiptRuleSetActivation75911DB8"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/on-event-handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimverificationrecordsprovideroneventhandlerServiceRole83E5B139"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/on-event-handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimverificationrecordsprovideroneventhandlerServiceRoleDefaultPolicy5C0E86C8"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/on-event-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimverificationrecordsprovideroneventhandlerADD3C0BE"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/on-event-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimverificationrecordsprovideroneventhandlerLogRetentionCA165FC4"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleA09812EA"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimverificationrecordsproviderframeworkonEventServiceRoleDefaultPolicy2775D1BA"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimverificationrecordsproviderframeworkonEvent801E57DE"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimverificationrecordsproviderframeworkonEventLogRetention64AEF97C"
+          }
+        ],
+        "/RootmailIntegTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ],
+        "/RootmailIntegTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+          }
+        ],
+        "/RootmailIntegTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/is-complete-handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsprovideriscompletehandlerServiceRole35CABB06"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/is-complete-handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsprovideriscompletehandlerServiceRoleDefaultPolicy7DA8ECD2"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/is-complete-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsprovideriscompletehandlerBFD3F7F5"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/is-complete-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsprovideriscompletehandlerLogRetention304C1822"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/on-event-handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsprovideroneventhandlerServiceRole6D9F81B0"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/on-event-handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsprovideroneventhandlerServiceRoleDefaultPolicy4A5BBAB1"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/on-event-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsprovideroneventhandler2ADE543F"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/on-event-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsprovideroneventhandlerLogRetentionA4DB1AD5"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventServiceRoleECC96780"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventServiceRoleDefaultPolicy16D799D5"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventAA9D49B6"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteServiceRoleD15A96AC"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteServiceRoleDefaultPolicy5728F288"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutServiceRole4383D224"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutServiceRoleDefaultPolicy53D3B624"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutC714B95F"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/waiter-state-machine/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRole258A7061"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/waiter-state-machine/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRoleDefaultPolicy310226B4"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/waiter-state-machine/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachine81102355"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/is-complete-handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationprovideriscompletehandlerServiceRoleDFD2C35E"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/is-complete-handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationprovideriscompletehandlerServiceRoleDefaultPolicy57D46916"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/is-complete-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationprovideriscompletehandlerB67C8E91"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/is-complete-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationprovideriscompletehandlerLogRetentionA997105A"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/on-event-handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationprovideroneventhandlerServiceRole02FD73CE"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/on-event-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationprovideroneventhandlerC59BDC16"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/on-event-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationprovideroneventhandlerLogRetentionD97E8A18"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderframeworkonEventServiceRole5729BE95"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderframeworkonEventServiceRoleDefaultPolicy68675555"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderframeworkonEvent15357119"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderframeworkisCompleteServiceRole9BABA5E5"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderframeworkisCompleteServiceRoleDefaultPolicy02D0AEA6"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderframeworkisComplete165FE163"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderframeworkonTimeoutServiceRoleB169BF13"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderframeworkonTimeoutServiceRoleDefaultPolicy2FF6168E"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderframeworkonTimeout7D8A73CD"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/waiter-state-machine/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderwaiterstatemachineRole40906579"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/waiter-state-machine/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderwaiterstatemachineRoleDefaultPolicy70368CA0"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/waiter-state-machine/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderwaiterstatemachine2C629ADB"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/SesReceiptRuleSetActivationCustomResourceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleA5C4F5B4"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/SesReceiptRuleSetActivationCustomResourceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderSesReceiptRuleSetActivationCustomResourceRoleDefaultPolicy92E90A6D"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/on-event-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/on-event-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationprovideroneventhandlerLogRetentionFD6A9185"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRole9D6CAFC0"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRoleDefaultPolicyFB99DF60"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationprovideriscompletehandlerLogRetention03F74C63"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleB5050EE6"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy11FA01A0"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderframeworkonEventC514B5CD"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderframeworkonEventLogRetentionA6742D46"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleCFD6EE46"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleDefaultPolicy8A8828E7"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteLogRetention13DDD3A2"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRole845C2519"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRoleDefaultPolicy8A4A1F2A"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutLogRetention5763AF42"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRoleDefaultPolicy64767BAC"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachine93794458"
+          }
+        ],
+        "/RootmailIntegTestStack/send-email-handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "sendemailhandlerServiceRole7A142BD3"
+          }
+        ],
+        "/RootmailIntegTestStack/send-email-handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "sendemailhandlerServiceRoleDefaultPolicyEB76CF3B"
+          }
+        ],
+        "/RootmailIntegTestStack/send-email-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "sendemailhandler05B16DE5"
+          }
+        ],
+        "/RootmailIntegTestStack/send-email-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "sendemailhandlerLogRetentionDBC033F7"
+          }
+        ],
+        "/RootmailIntegTestStack/close-opsitem-handler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "closeopsitemhandlerServiceRoleCB0A72D2"
+          }
+        ],
+        "/RootmailIntegTestStack/close-opsitem-handler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "closeopsitemhandlerServiceRoleDefaultPolicy6E097200"
+          }
+        ],
+        "/RootmailIntegTestStack/close-opsitem-handler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "closeopsitemhandler2F03D32C"
+          }
+        ],
+        "/RootmailIntegTestStack/close-opsitem-handler/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "closeopsitemhandlerLogRetentionFD7FC04E"
+          }
+        ],
+        "/RootmailIntegTestStack/Exports/Output{\"Ref\":\"sendemailhandler05B16DE5\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefsendemailhandler05B16DE5F96FA757"
+          }
+        ],
+        "/RootmailIntegTestStack/Exports/Output{\"Ref\":\"closeopsitemhandler2F03D32C\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefcloseopsitemhandler2F03D32CCD4ECFB2"
+          }
+        ],
+        "/RootmailIntegTestStack/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "BootstrapVersion"
           }
         ],
-        "/SetupTest/DefaultTest/DeployAssert/CheckBootstrapVersion": [
+        "/RootmailIntegTestStack/CheckBootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
         ]
       },
-      "displayName": "SetupTest/DefaultTest/DeployAssert"
+      "displayName": "RootmailIntegTestStack"
+    },
+    "SetupTestIntegStackDefaultTestDeployAssert6EB6FF77.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SetupTestIntegStackDefaultTestDeployAssert6EB6FF77.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SetupTestIntegStackDefaultTestDeployAssert6EB6FF77": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "SetupTestIntegStackDefaultTestDeployAssert6EB6FF77.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/8c454bcd219a50d03b6f4ddbca0e0504f7ce62ee91a0eaca415a678f8db55ace.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SetupTestIntegStackDefaultTestDeployAssert6EB6FF77.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "RootmailIntegTestStack",
+        "SetupTestIntegStackDefaultTestDeployAssert6EB6FF77.assets"
+      ],
+      "metadata": {
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke039384452617e2bb3418392bbc41659f/Default/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaInvoke039384452617e2bb3418392bbc41659f"
+          }
+        ],
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke039384452617e2bb3418392bbc41659f/Invoke": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaInvoke039384452617e2bb3418392bbc41659fInvokeA91432B2"
+          }
+        ],
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke039384452617e2bb3418392bbc41659f/AssertionResults": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssertionResultsLambdaInvoke039384452617e2bb3418392bbc41659f"
+          }
+        ],
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73"
+          }
+        ],
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F"
+          }
+        ],
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokea002cff7dba8130aa0764349bff9de73/Default/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaInvokea002cff7dba8130aa0764349bff9de73"
+          }
+        ],
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokea002cff7dba8130aa0764349bff9de73/Invoke": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaInvokea002cff7dba8130aa0764349bff9de73Invoke700FD259"
+          }
+        ],
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokea002cff7dba8130aa0764349bff9de73/AssertionResults": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssertionResultsLambdaInvokea002cff7dba8130aa0764349bff9de73"
+          }
+        ],
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b/Default/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b"
+          }
+        ],
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b/AssertionResults": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssertionResultsAwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b"
+          }
+        ],
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SetupTestIntegStack/DefaultTest/DeployAssert"
     },
     "Tree": {
       "type": "cdk:tree",

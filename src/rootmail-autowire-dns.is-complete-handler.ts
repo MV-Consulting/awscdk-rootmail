@@ -2,7 +2,9 @@
 import * as AWSCDKAsyncCustomResource from 'aws-cdk-lib/custom-resources/lib/provider-framework/types';
 import { Route53, SSM } from 'aws-sdk';
 export const PROP_DOMAIN = 'Domain';
+export const PROP_SUB_DOMAIN = 'Subdomain';
 export const PROP_R53_HANGEINFO_ID_PARAMETER_NAME = 'R53ChangeInfoIdParameterName'; // TODO DRY with interface
+export const PROP_PARENT_HOSTED_ZONE_ID = 'ParentHostedZoneId';
 
 const route53 = new Route53();
 const ssm = new SSM();
@@ -12,7 +14,17 @@ export interface IsCompleteHandlerResponse {
 }
 
 export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): Promise<IsCompleteHandlerResponse> {
+  const domain = event.ResourceProperties[PROP_DOMAIN];
+  const subdomain = event.ResourceProperties[PROP_SUB_DOMAIN];
   const hostedZoneParameterName = event.ResourceProperties[PROP_R53_HANGEINFO_ID_PARAMETER_NAME];
+  const parentHostedZoneId = event.ResourceProperties[PROP_PARENT_HOSTED_ZONE_ID];
+
+  if (parentHostedZoneId === undefined || parentHostedZoneId === '') {
+    log(`Skipping autoDNS wiring on '${event.RequestType}' for domain '${subdomain}.${domain}' as no parentHostedZoneId is given!`);
+    return {
+      IsComplete: true,
+    };
+  }
 
   const recordSetCreationResponseChangeInfoIdParam = await ssm.getParameter({
     Name: hostedZoneParameterName,

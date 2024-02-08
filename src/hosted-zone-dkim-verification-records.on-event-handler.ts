@@ -11,30 +11,36 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
   const domain = event.ResourceProperties[PROP_DOMAIN];
   switch (event.RequestType) {
     case 'Create':
-      console.log(`Do Domain verification and DKIM records for ${event.LogicalResourceId} and domain '${domain}'`);
+    case 'Update':
+      let physicalResourceId = event.PhysicalResourceId;
+      if (event.RequestType === 'Create') {
+        physicalResourceId = event.RequestId;
+      }
+
+      console.log(`${event.RequestType}: Do Domain verification and DKIM records for ${event.LogicalResourceId} and domain '${domain}' with PhysicalResourceId '${physicalResourceId}'`);
       const verifyDomainResponse = await SES.verifyDomainIdentity({ Domain: domain }).promise();
       const verificationToken = verifyDomainResponse.VerificationToken;
-      console.log(`Got verification token '${verificationToken}' for domain '${domain}'`);
+      console.log(`${event.RequestType}: Got verification token '${verificationToken}' for domain '${domain}'`);
 
       const verifyDomainDkimResponse = await SES.verifyDomainDkim({ Domain: domain }).promise();
       const dkimTokens = verifyDomainDkimResponse.DkimTokens;
-      console.log(`Got DKIM tokens '${dkimTokens}' for domain '${domain}'`);
+      console.log(`${event.RequestType}: Got DKIM tokens '${dkimTokens}' for domain '${domain}'`);
+
 
       return {
-        PhysicalResourceId: event.PhysicalResourceId,
+        PhysicalResourceId: physicalResourceId,
         Data: {
           [ATTR_VERIFICATION_TOKEN]: verificationToken,
           [ATTR_DKIM_TOKENS]: dkimTokens,
         },
       };
-    case 'Update':
-      console.log('Updating DKIM verification, doing nothing');
-      return {};
     case 'Delete':
-      console.log(`Deleting Domain identity for domain '${domain}'`);
+      console.log(`Deleting Domain identity for domain '${domain}' with PhysicalResourceId '${event.PhysicalResourceId}'`);
       const deleteResponse = await SES.deleteIdentity({ Identity: domain }).promise();
       console.log(`Deleted Domain identity for domain '${domain}'`, deleteResponse);
-      return {};
+      return {
+        PhysicalResourceId: event.PhysicalResourceId,
+      };
   }
 }
 

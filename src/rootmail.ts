@@ -37,15 +37,17 @@ export interface RootmailProps {
   readonly totalTimeToWireDNS?: Duration;
 
   /**
-   * Whether to enable autowiring of the DNS records on the AWS parent hosted zone,
-   * which has to be in the same account.
+   * The hosted zone ID of the domain that is registered Route53 AND in the same AWS account
+   * to enable autowiring of the DNS records.
    *
-   * @default false
+   * @default undefined
    */
-  readonly enableAutowireDNS?: boolean;
+  readonly wireDNSToHostedZoneID?: string;
 
   /**
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
+   *
+   * @default false
    */
   readonly setDestroyPolicyToAllResources?: boolean;
 }
@@ -61,7 +63,8 @@ export class Rootmail extends Construct {
     const domain = props.domain;
     const subdomain = props.subdomain ?? 'aws';
     const totalTimeToWireDNS = props.totalTimeToWireDNS ?? Duration.hours(2);
-    const enableAutowireDNS = props.enableAutowireDNS ?? false;
+    const wireDNSToHostedZoneID = props.wireDNSToHostedZoneID ?? undefined;
+    const setDestroyPolicyToAllResources = props.setDestroyPolicyToAllResources ?? false;
 
     const deployRegion = Stack.of(this).region;
     console.log(`Deploy region is ${deployRegion}`);
@@ -106,7 +109,7 @@ export class Rootmail extends Construct {
       domain: domain,
       subdomain: subdomain,
       hostedZone: hostedZone,
-      enableAutowireDNS: enableAutowireDNS,
+      wireDNSToHostedZoneID: wireDNSToHostedZoneID,
       hostedZoneSSMParameter: hostedZoneSSMParameter,
       totalTimeToWireDNS: totalTimeToWireDNS,
     });
@@ -118,7 +121,7 @@ export class Rootmail extends Construct {
     });
 
     // If Destroy Policy Aspect is present:
-    if (props.setDestroyPolicyToAllResources) {
+    if (setDestroyPolicyToAllResources) {
       Aspects.of(this).add(new ApplyDestroyPolicyAspect());
     }
   }

@@ -1,0 +1,340 @@
+{
+ "Resources": {
+  "LambdaInvoke039384452617e2bb3418392bbc41659f": {
+   "Type": "Custom::DeployAssert@SdkCallLambdainvoke",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F",
+      "Arn"
+     ]
+    },
+    "service": "Lambda",
+    "api": "invoke",
+    "expected": "{\"$ObjectLike\":{\"Payload\":{\"sendStatusCode\":200}}}",
+    "parameters": {
+     "FunctionName": {
+      "Fn::Join": [
+       "",
+       [
+        "\"",
+        {
+         "Fn::ImportValue": "RootmailIntegTestStack:ExportsOutputRefsendemailhandler05B16DE5F96FA757"
+        },
+        "\""
+       ]
+      ]
+     },
+     "InvocationType": "\"RequestResponse\"",
+     "LogType": "\"Tail\"",
+     "Payload": "\"{\\\"id\\\":\\\"test-id-a647df97\\\",\\\"text\\\":\\\"This is a mail body\\\",\\\"sourceMail\\\":\\\"test@a647df97.rootmail-test.mavogel.xyz\\\",\\\"toMail\\\":\\\"root+test-id-a647df97@a647df97.rootmail-test.mavogel.xyz\\\"}\""
+    },
+    "flattenResponse": "false",
+    "salt": "1707323496537"
+   },
+   "DependsOn": [
+    "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "LambdaInvoke039384452617e2bb3418392bbc41659fInvokeA91432B2": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "RootmailIntegTestStack:ExportsOutputRefsendemailhandler05B16DE5F96FA757"
+    },
+    "Principal": {
+     "Fn::GetAtt": [
+      "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b"
+   ]
+  },
+  "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyName": "Inline",
+      "PolicyDocument": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Action": [
+          "lambda:Invoke"
+         ],
+         "Effect": "Allow",
+         "Resource": [
+          "*"
+         ]
+        },
+        {
+         "Action": [
+          "lambda:InvokeFunction"
+         ],
+         "Effect": "Allow",
+         "Resource": [
+          {
+           "Fn::Join": [
+            "",
+            [
+             "arn:",
+             {
+              "Ref": "AWS::Partition"
+             },
+             ":lambda:",
+             {
+              "Ref": "AWS::Region"
+             },
+             ":",
+             {
+              "Ref": "AWS::AccountId"
+             },
+             ":function:",
+             {
+              "Fn::ImportValue": "RootmailIntegTestStack:ExportsOutputRefsendemailhandler05B16DE5F96FA757"
+             }
+            ]
+           ]
+          }
+         ]
+        },
+        {
+         "Action": [
+          "lambda:Invoke"
+         ],
+         "Effect": "Allow",
+         "Resource": [
+          "*"
+         ]
+        },
+        {
+         "Action": [
+          "lambda:InvokeFunction"
+         ],
+         "Effect": "Allow",
+         "Resource": [
+          {
+           "Fn::Join": [
+            "",
+            [
+             "arn:",
+             {
+              "Ref": "AWS::Partition"
+             },
+             ":lambda:",
+             {
+              "Ref": "AWS::Region"
+             },
+             ":",
+             {
+              "Ref": "AWS::AccountId"
+             },
+             ":function:",
+             {
+              "Fn::ImportValue": "RootmailIntegTestStack:ExportsOutputRefcloseopsitemhandler2F03D32CCD4ECFB2"
+             }
+            ]
+           ]
+          }
+         ]
+        },
+        {
+         "Action": [
+          "ssm:GetParameter"
+         ],
+         "Effect": "Allow",
+         "Resource": [
+          "*"
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Runtime": "nodejs18.x",
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "53e8368959effe94a6e51bef9c7c5bf0eaf5c4d64eece81632ca62aa34517978.zip"
+    },
+    "Timeout": 120,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "LambdaInvokea002cff7dba8130aa0764349bff9de73": {
+   "Type": "Custom::DeployAssert@SdkCallLambdainvoke",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F",
+      "Arn"
+     ]
+    },
+    "service": "Lambda",
+    "api": "invoke",
+    "expected": "{\"$ObjectLike\":{\"Payload\":{\"closeStatusCode\":200}}}",
+    "parameters": {
+     "FunctionName": {
+      "Fn::Join": [
+       "",
+       [
+        "\"",
+        {
+         "Fn::ImportValue": "RootmailIntegTestStack:ExportsOutputRefcloseopsitemhandler2F03D32CCD4ECFB2"
+        },
+        "\""
+       ]
+      ]
+     },
+     "InvocationType": "\"RequestResponse\"",
+     "LogType": "\"Tail\"",
+     "Payload": "\"{\\\"title\\\":\\\"test-id-a647df97\\\",\\\"source\\\":\\\"root+test-id-a647df97@a647df97.rootmail-test.mavogel.xyz\\\",\\\"description\\\":\\\"This is a mail body\\\\n\\\"}\""
+    },
+    "flattenResponse": "false",
+    "salt": "1707323496537"
+   },
+   "DependsOn": [
+    "LambdaInvoke039384452617e2bb3418392bbc41659f",
+    "LambdaInvoke039384452617e2bb3418392bbc41659fInvokeA91432B2"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "LambdaInvokea002cff7dba8130aa0764349bff9de73Invoke700FD259": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "RootmailIntegTestStack:ExportsOutputRefcloseopsitemhandler2F03D32CCD4ECFB2"
+    },
+    "Principal": {
+     "Fn::GetAtt": [
+      "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "LambdaInvoke039384452617e2bb3418392bbc41659f",
+    "LambdaInvoke039384452617e2bb3418392bbc41659fInvokeA91432B2"
+   ]
+  },
+  "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b": {
+   "Type": "Custom::DeployAssert@SdkCallSSMgetParameter",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F",
+      "Arn"
+     ]
+    },
+    "service": "SSM",
+    "api": "getParameter",
+    "expected": "{\"$ObjectLike\":{\"Parameter\":{\"Name\":\"/rootmail/domain_name_servers\",\"Type\":\"StringList\"}}}",
+    "parameters": {
+     "Name": "\"/rootmail/domain_name_servers\""
+    },
+    "flattenResponse": "false",
+    "salt": "1707323496537"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  }
+ },
+ "Outputs": {
+  "AssertionResultsLambdaInvoke039384452617e2bb3418392bbc41659f": {
+   "Value": {
+    "Fn::GetAtt": [
+     "LambdaInvoke039384452617e2bb3418392bbc41659f",
+     "assertion"
+    ]
+   }
+  },
+  "AssertionResultsLambdaInvokea002cff7dba8130aa0764349bff9de73": {
+   "Value": {
+    "Fn::GetAtt": [
+     "LambdaInvokea002cff7dba8130aa0764349bff9de73",
+     "assertion"
+    ]
+   }
+  },
+  "AssertionResultsAwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b": {
+   "Value": {
+    "Fn::GetAtt": [
+     "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b",
+     "assertion"
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

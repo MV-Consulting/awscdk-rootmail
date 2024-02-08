@@ -4,9 +4,11 @@ const SSM = new AWS.SSM();
 
 async function getOpsItem(title: string): Promise<AWS.SSM.OpsEntity | undefined> {
   // get opsItem n times with 5s interval
-  for (let i = 1; i <= 30; i++) {
+  const maxRetries = 30;
+  const delaySeconds = 5;
+  for (let i = 1; i <= maxRetries; i++) {
     log({
-      message: `Getting opsItem with title ${title} at try ${i}`,
+      message: `Getting opsItem with title ${title} at try ${i}/${maxRetries} with delay ${delaySeconds}s`,
       title: title,
     });
 
@@ -36,13 +38,13 @@ async function getOpsItem(title: string): Promise<AWS.SSM.OpsEntity | undefined>
 
     if (res.Entities === undefined || res.Entities.length === 0) {
       log({
-        message: 'No opsItem entities. Next try in 5s',
+        message: `No opsItem entity for title. Next try in ${delaySeconds}s`,
         title: title,
         res: res,
       });
 
       // delay 5s and try again
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, delaySeconds * 1000));
       continue;
     }
 

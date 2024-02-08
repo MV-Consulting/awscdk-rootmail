@@ -108,7 +108,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "b3bdbdf2429161a8a071b626c900dbf99e93cb93c202735f41058c30798e82da.zip",
+          "S3Key": "fb356b4cf62799504c999c7bd42081864efdf4e086375ba639605c69424f5154.zip",
         },
         "Environment": {
           "Variables": {
@@ -279,7 +279,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "29db61ad9184b2481c5dca35d325c4d6b1e69887c9ba4ed9547e46f5e2754e6d.zip",
+          "S3Key": "29644354e45f7e9cfdebb0392f56717952e8822e5d60333762584baca8d43bdb.zip",
         },
         "Environment": {
           "Variables": {
@@ -413,7 +413,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                 "route53:ChangeResourceRecordSets",
               ],
               "Effect": "Allow",
-              "Resource": "arn:aws:route53:::hostedzone/DUMMY",
+              "Resource": "arn:aws:route53:::hostedzone/HZX1234",
             },
           ],
           "Version": "2012-10-17",
@@ -1713,7 +1713,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "68623ca8aa149e0af4cd35d050186448167ed6b57c35c9192ff804fd6d38a91d.zip",
+          "S3Key": "34cb60db1251f6eee5deb2d3ee40aa2f92458b00ec17e35b32ff1ee28bbb7b12.zip",
         },
         "Environment": {
           "Variables": {
@@ -1875,7 +1875,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "de8fee8012e6092014a03bb761ab15349ffc52f9a48a5bd71c222835c06d505f.zip",
+          "S3Key": "11768574bbd12c5ed10f463a68797423c366b61535ebc1b14951661b92657fa5.zip",
         },
         "Environment": {
           "Variables": {
@@ -2347,7 +2347,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "c45ebf232907ffa29542989151ef237fe434a889dd3669071661738816743bf9.zip",
+          "S3Key": "211740a57c17fb63355f2eef97c127c0eb92a96b3e17d59b94769b473a81bcf0.zip",
         },
         "Environment": {
           "Variables": {
@@ -2573,6 +2573,223 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       },
       "Type": "AWS::IAM::Policy",
     },
+    "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146": {
+      "DependsOn": [
+        "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleDefaultPolicy8A8828E7",
+        "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleCFD6EE46",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - isComplete (testStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.isComplete",
+        "Role": {
+          "Fn::GetAtt": [
+            "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleCFD6EE46",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteLogRetention13DDD3A2": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleCFD6EE46": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleDefaultPolicy8A8828E7": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleDefaultPolicy8A8828E7",
+        "Roles": [
+          {
+            "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleCFD6EE46",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "rootmailsesreceiptrulesetactivationproviderframeworkonEventC514B5CD": {
       "DependsOn": [
         "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy11FA01A0",
@@ -2600,11 +2817,20 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         "Description": "AWS CDK resource provider framework - onEvent (testStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
         "Environment": {
           "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                "Arn",
+              ],
+            },
             "USER_ON_EVENT_FUNCTION_ARN": {
               "Fn::GetAtt": [
                 "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
                 "Arn",
               ],
+            },
+            "WAITER_STATE_MACHINE_ARN": {
+              "Ref": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachine93794458",
             },
           },
         },
@@ -2746,6 +2972,39 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                 },
               ],
             },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachine93794458",
+              },
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -2753,6 +3012,406 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         "Roles": [
           {
             "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleB5050EE6",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9": {
+      "DependsOn": [
+        "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRoleDefaultPolicy8A4A1F2A",
+        "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRole845C2519",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onTimeout (testStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onTimeout",
+        "Role": {
+          "Fn::GetAtt": [
+            "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRole845C2519",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutLogRetention5763AF42": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRole845C2519": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRoleDefaultPolicy8A4A1F2A": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRoleDefaultPolicy8A4A1F2A",
+        "Roles": [
+          {
+            "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRole845C2519",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14": {
+      "DependsOn": [
+        "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRoleDefaultPolicyFB99DF60",
+        "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRole9D6CAFC0",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "d0c3ad3f8f3e92d913e437b2bcb2c515f10d08b48c9361fefdbdd7b6ef63a282.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRole9D6CAFC0",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 30,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "rootmailsesreceiptrulesetactivationprovideriscompletehandlerLogRetention03F74C63": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRole9D6CAFC0": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRoleDefaultPolicyFB99DF60": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "testRootmailEmailBucket2A470446",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "testRootmailEmailBucket2A470446",
+                          "Arn",
+                        ],
+                      },
+                      "/RootMail/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRoleDefaultPolicyFB99DF60",
+        "Roles": [
+          {
+            "Ref": "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRole9D6CAFC0",
           },
         ],
       },
@@ -2780,7 +3439,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "fcfca7594279702f550997e91a1931280ffb047c934c624abe4336997ec4a111.zip",
+          "S3Key": "8f709b65b5afd560327f0ea703c632522ec2e5bb21787ad070c3571fce2cb63e.zip",
         },
         "Environment": {
           "Variables": {
@@ -2795,7 +3454,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
           ],
         },
         "Runtime": "nodejs18.x",
-        "Timeout": 150,
+        "Timeout": 30,
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -2835,6 +3494,170 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         },
       },
       "Type": "Custom::LogRetention",
+    },
+    "rootmailsesreceiptrulesetactivationproviderwaiterstatemachine93794458": {
+      "DependsOn": [
+        "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRoleDefaultPolicy64767BAC",
+        "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "DefinitionString": {
+          "Fn::Join": [
+            "",
+            [
+              "{"StartAt":"framework-isComplete-task","States":{"framework-isComplete-task":{"End":true,"Retry":[{"ErrorEquals":["States.ALL"],"IntervalSeconds":10,"MaxAttempts":12,"BackoffRate":1}],"Catch":[{"ErrorEquals":["States.ALL"],"Next":"framework-onTimeout-task"}],"Type":"Task","Resource":"",
+              {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146",
+                  "Arn",
+                ],
+              },
+              ""},"framework-onTimeout-task":{"End":true,"Type":"Task","Resource":"",
+              {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9",
+                  "Arn",
+                ],
+              },
+              ""}}}",
+            ],
+          ],
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "states.us-east-1.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRoleDefaultPolicy64767BAC": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRoleDefaultPolicy64767BAC",
+        "Roles": [
+          {
+            "Ref": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "testRootmailEmailBucket2A470446": {
       "DeletionPolicy": "Retain",
@@ -3164,7 +3987,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         "HostedZoneParameterName": {
           "Ref": "testRootmailHostedZoneSSMParameter574DA41C",
         },
-        "ParentHostedZoneId": "DUMMY",
+        "ParentHostedZoneId": "HZX1234",
         "R53ChangeInfoIdParameterName": {
           "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7",
         },
@@ -3304,7 +4127,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "RulesetSettleTimeSeconds": 120,
         "ServiceToken": {
           "Fn::GetAtt": [
             "rootmailsesreceiptrulesetactivationproviderframeworkonEventC514B5CD",
@@ -3323,7 +4145,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "55f3e77a7497677aae1b3190d90497a1961f456d188a8a8c875090747bb60af1.zip",
+          "S3Key": "973bbad2e9126258f7f322ea08bc24b23341a80e878cbc700e32e872fae8212b.zip",
         },
         "Environment": {
           "Variables": {
@@ -3501,6 +4323,1053 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         "Roles": [
           {
             "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "rootmailautowirednsprovideriscompletehandlerBFD3F7F5": {
+      "DependsOn": [
+        "rootmailautowirednsprovideriscompletehandlerServiceRoleDefaultPolicy7DA8ECD2",
+        "rootmailautowirednsprovideriscompletehandlerServiceRole35CABB06",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "fb356b4cf62799504c999c7bd42081864efdf4e086375ba639605c69424f5154.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "rootmailautowirednsprovideriscompletehandlerServiceRole35CABB06",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "rootmailautowirednsprovideriscompletehandlerLogRetention304C1822": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "rootmailautowirednsprovideriscompletehandlerServiceRole35CABB06": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailautowirednsprovideriscompletehandlerServiceRoleDefaultPolicy7DA8ECD2": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "route53:ListHostedZonesByName",
+                "route53:GetChange",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "ssm:DescribeParameters",
+                "ssm:GetParameters",
+                "ssm:GetParameter",
+                "ssm:GetParameterHistory",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ssm:us-east-1:1234:parameter",
+                    {
+                      "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7",
+                    },
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailautowirednsprovideriscompletehandlerServiceRoleDefaultPolicy7DA8ECD2",
+        "Roles": [
+          {
+            "Ref": "rootmailautowirednsprovideriscompletehandlerServiceRole35CABB06",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "rootmailautowirednsprovideroneventhandler2ADE543F": {
+      "DependsOn": [
+        "rootmailautowirednsprovideroneventhandlerServiceRoleDefaultPolicy4A5BBAB1",
+        "rootmailautowirednsprovideroneventhandlerServiceRole6D9F81B0",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "29644354e45f7e9cfdebb0392f56717952e8822e5d60333762584baca8d43bdb.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "rootmailautowirednsprovideroneventhandlerServiceRole6D9F81B0",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 160,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "rootmailautowirednsprovideroneventhandlerLogRetentionA4DB1AD5": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailautowirednsprovideroneventhandler2ADE543F",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "rootmailautowirednsprovideroneventhandlerServiceRole6D9F81B0": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailautowirednsprovideroneventhandlerServiceRoleDefaultPolicy4A5BBAB1": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ssm:DescribeParameters",
+                "ssm:GetParameters",
+                "ssm:GetParameter",
+                "ssm:GetParameterHistory",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ssm:us-east-1:1234:parameter",
+                    {
+                      "Ref": "testRootmailHostedZoneSSMParameter574DA41C",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ssm:PutParameter",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ssm:us-east-1:1234:parameter",
+                    {
+                      "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7",
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "route53:ListHostedZonesByName",
+                "route53:GetChange",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailautowirednsprovideroneventhandlerServiceRoleDefaultPolicy4A5BBAB1",
+        "Roles": [
+          {
+            "Ref": "rootmailautowirednsprovideroneventhandlerServiceRole6D9F81B0",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2": {
+      "DependsOn": [
+        "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteServiceRoleDefaultPolicy5728F288",
+        "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteServiceRoleD15A96AC",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - isComplete (testStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailautowirednsprovideroneventhandler2ADE543F",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.isComplete",
+        "Role": {
+          "Fn::GetAtt": [
+            "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteServiceRoleD15A96AC",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteServiceRoleD15A96AC": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteServiceRoleDefaultPolicy5728F288": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailautowirednsprovideroneventhandler2ADE543F",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailautowirednsprovideroneventhandler2ADE543F",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteServiceRoleDefaultPolicy5728F288",
+        "Roles": [
+          {
+            "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteServiceRoleD15A96AC",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventAA9D49B6": {
+      "DependsOn": [
+        "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventServiceRoleDefaultPolicy16D799D5",
+        "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventServiceRoleECC96780",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onEvent (testStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailautowirednsprovideroneventhandler2ADE543F",
+                "Arn",
+              ],
+            },
+            "WAITER_STATE_MACHINE_ARN": {
+              "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachine81102355",
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "Role": {
+          "Fn::GetAtt": [
+            "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventServiceRoleECC96780",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventServiceRoleDefaultPolicy16D799D5": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailautowirednsprovideroneventhandler2ADE543F",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailautowirednsprovideroneventhandler2ADE543F",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachine81102355",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventServiceRoleDefaultPolicy16D799D5",
+        "Roles": [
+          {
+            "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventServiceRoleECC96780",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventServiceRoleECC96780": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutC714B95F": {
+      "DependsOn": [
+        "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutServiceRoleDefaultPolicy53D3B624",
+        "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutServiceRole4383D224",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onTimeout (testStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailautowirednsprovideroneventhandler2ADE543F",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onTimeout",
+        "Role": {
+          "Fn::GetAtt": [
+            "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutServiceRole4383D224",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutServiceRole4383D224": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutServiceRoleDefaultPolicy53D3B624": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailautowirednsprovideroneventhandler2ADE543F",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailautowirednsprovideroneventhandler2ADE543F",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutServiceRoleDefaultPolicy53D3B624",
+        "Roles": [
+          {
+            "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutServiceRole4383D224",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachine81102355": {
+      "DependsOn": [
+        "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRoleDefaultPolicy310226B4",
+        "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRole258A7061",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "DefinitionString": {
+          "Fn::Join": [
+            "",
+            [
+              "{"StartAt":"framework-isComplete-task","States":{"framework-isComplete-task":{"End":true,"Retry":[{"ErrorEquals":["States.ALL"],"IntervalSeconds":5,"MaxAttempts":240,"BackoffRate":1}],"Catch":[{"ErrorEquals":["States.ALL"],"Next":"framework-onTimeout-task"}],"Type":"Task","Resource":"",
+              {
+                "Fn::GetAtt": [
+                  "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2",
+                  "Arn",
+                ],
+              },
+              ""},"framework-onTimeout-task":{"End":true,"Type":"Task","Resource":"",
+              {
+                "Fn::GetAtt": [
+                  "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutC714B95F",
+                  "Arn",
+                ],
+              },
+              ""}}}",
+            ],
+          ],
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRole258A7061",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRole258A7061": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "states.us-east-1.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRoleDefaultPolicy310226B4": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutC714B95F",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutC714B95F",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRoleDefaultPolicy310226B4",
+        "Roles": [
+          {
+            "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRole258A7061",
           },
         ],
       },
@@ -4078,7 +5947,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "68623ca8aa149e0af4cd35d050186448167ed6b57c35c9192ff804fd6d38a91d.zip",
+          "S3Key": "34cb60db1251f6eee5deb2d3ee40aa2f92458b00ec17e35b32ff1ee28bbb7b12.zip",
         },
         "Environment": {
           "Variables": {
@@ -4240,7 +6109,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "de8fee8012e6092014a03bb761ab15349ffc52f9a48a5bd71c222835c06d505f.zip",
+          "S3Key": "11768574bbd12c5ed10f463a68797423c366b61535ebc1b14951661b92657fa5.zip",
         },
         "Environment": {
           "Variables": {
@@ -4712,7 +6581,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "c45ebf232907ffa29542989151ef237fe434a889dd3669071661738816743bf9.zip",
+          "S3Key": "211740a57c17fb63355f2eef97c127c0eb92a96b3e17d59b94769b473a81bcf0.zip",
         },
         "Environment": {
           "Variables": {
@@ -4938,6 +6807,223 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       },
       "Type": "AWS::IAM::Policy",
     },
+    "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146": {
+      "DependsOn": [
+        "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleDefaultPolicy8A8828E7",
+        "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleCFD6EE46",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - isComplete (testStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.isComplete",
+        "Role": {
+          "Fn::GetAtt": [
+            "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleCFD6EE46",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteLogRetention13DDD3A2": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleCFD6EE46": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleDefaultPolicy8A8828E7": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleDefaultPolicy8A8828E7",
+        "Roles": [
+          {
+            "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkisCompleteServiceRoleCFD6EE46",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "rootmailsesreceiptrulesetactivationproviderframeworkonEventC514B5CD": {
       "DependsOn": [
         "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleDefaultPolicy11FA01A0",
@@ -4965,11 +7051,20 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         "Description": "AWS CDK resource provider framework - onEvent (testStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
         "Environment": {
           "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                "Arn",
+              ],
+            },
             "USER_ON_EVENT_FUNCTION_ARN": {
               "Fn::GetAtt": [
                 "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
                 "Arn",
               ],
+            },
+            "WAITER_STATE_MACHINE_ARN": {
+              "Ref": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachine93794458",
             },
           },
         },
@@ -5111,6 +7206,39 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                 },
               ],
             },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachine93794458",
+              },
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -5118,6 +7246,406 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         "Roles": [
           {
             "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkonEventServiceRoleB5050EE6",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9": {
+      "DependsOn": [
+        "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRoleDefaultPolicy8A4A1F2A",
+        "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRole845C2519",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onTimeout (testStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
+        "Environment": {
+          "Variables": {
+            "USER_IS_COMPLETE_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                "Arn",
+              ],
+            },
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onTimeout",
+        "Role": {
+          "Fn::GetAtt": [
+            "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRole845C2519",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutLogRetention5763AF42": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRole845C2519": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRoleDefaultPolicy8A4A1F2A": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRoleDefaultPolicy8A4A1F2A",
+        "Roles": [
+          {
+            "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkonTimeoutServiceRole845C2519",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14": {
+      "DependsOn": [
+        "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRoleDefaultPolicyFB99DF60",
+        "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRole9D6CAFC0",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
+          "S3Key": "d0c3ad3f8f3e92d913e437b2bcb2c515f10d08b48c9361fefdbdd7b6ef63a282.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRole9D6CAFC0",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 30,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "rootmailsesreceiptrulesetactivationprovideriscompletehandlerLogRetention03F74C63": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 3,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRole9D6CAFC0": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRoleDefaultPolicyFB99DF60": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "testRootmailEmailBucket2A470446",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "testRootmailEmailBucket2A470446",
+                          "Arn",
+                        ],
+                      },
+                      "/RootMail/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRoleDefaultPolicyFB99DF60",
+        "Roles": [
+          {
+            "Ref": "rootmailsesreceiptrulesetactivationprovideriscompletehandlerServiceRole9D6CAFC0",
           },
         ],
       },
@@ -5145,7 +7673,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "fcfca7594279702f550997e91a1931280ffb047c934c624abe4336997ec4a111.zip",
+          "S3Key": "8f709b65b5afd560327f0ea703c632522ec2e5bb21787ad070c3571fce2cb63e.zip",
         },
         "Environment": {
           "Variables": {
@@ -5160,7 +7688,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
           ],
         },
         "Runtime": "nodejs18.x",
-        "Timeout": 150,
+        "Timeout": 30,
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -5200,6 +7728,170 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         },
       },
       "Type": "Custom::LogRetention",
+    },
+    "rootmailsesreceiptrulesetactivationproviderwaiterstatemachine93794458": {
+      "DependsOn": [
+        "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRoleDefaultPolicy64767BAC",
+        "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "DefinitionString": {
+          "Fn::Join": [
+            "",
+            [
+              "{"StartAt":"framework-isComplete-task","States":{"framework-isComplete-task":{"End":true,"Retry":[{"ErrorEquals":["States.ALL"],"IntervalSeconds":10,"MaxAttempts":12,"BackoffRate":1}],"Catch":[{"ErrorEquals":["States.ALL"],"Next":"framework-onTimeout-task"}],"Type":"Task","Resource":"",
+              {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146",
+                  "Arn",
+                ],
+              },
+              ""},"framework-onTimeout-task":{"End":true,"Type":"Task","Resource":"",
+              {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9",
+                  "Arn",
+                ],
+              },
+              ""}}}",
+            ],
+          ],
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "states.us-east-1.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRoleDefaultPolicy64767BAC": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRoleDefaultPolicy64767BAC",
+        "Roles": [
+          {
+            "Ref": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "testRootmailEmailBucket2A470446": {
       "DeletionPolicy": "Retain",
@@ -5514,6 +8206,35 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       },
       "Type": "AWS::Route53::RecordSet",
     },
+    "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7": {
+      "Properties": {
+        "Name": "/rootmail/auto_wire_r53_changeinfo_id",
+        "Type": "String",
+        "Value": "dummy",
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "testRootmailHostedZoneDkimRootmailAutowireDnsE60E593E": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Domain": "example.com",
+        "HostedZoneParameterName": {
+          "Ref": "testRootmailHostedZoneSSMParameter574DA41C",
+        },
+        "R53ChangeInfoIdParameterName": {
+          "Ref": "testRootmailHostedZoneDkimRootmailAutowireDnsAutoWireR53ChangeInfoId609129D7",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventAA9D49B6",
+            "Arn",
+          ],
+        },
+        "Subdomain": "aws",
+      },
+      "Type": "Custom::RootmailAutowireDnsProvider",
+      "UpdateReplacePolicy": "Delete",
+    },
     "testRootmailHostedZoneSSMParameter574DA41C": {
       "Properties": {
         "Name": "/rootmail/domain_name_servers",
@@ -5639,7 +8360,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "RulesetSettleTimeSeconds": 120,
         "ServiceToken": {
           "Fn::GetAtt": [
             "rootmailsesreceiptrulesetactivationproviderframeworkonEventC514B5CD",
@@ -5658,7 +8378,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "55f3e77a7497677aae1b3190d90497a1961f456d188a8a8c875090747bb60af1.zip",
+          "S3Key": "973bbad2e9126258f7f322ea08bc24b23341a80e878cbc700e32e872fae8212b.zip",
         },
         "Environment": {
           "Variables": {
