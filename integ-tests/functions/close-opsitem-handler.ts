@@ -103,10 +103,11 @@ export const handler = async (event: any) => {
     const opsItemSource = opsItemContent.Source;
     const opsItemDescription = opsItemContent.Description;
 
+    // as truncate the title and source to 1020 and 60 characters
     if (
-      opsItemTitle !== title ||
-      opsItemSource !== source ||
-      opsItemDescription !== description
+      opsItemTitle !== title.substring(0, 1020) + (title.length > 1020 ? ' ...' : '') ||
+      opsItemSource !== source.substring(0, 60) + (source.length > 60 ? ' ...' : ''),
+      opsItemDescription !== description.substring(0, 1020) + (description.length > 1020 ? ' ...' : '')
     ) {
       log({
         message: 'OpsItem did not match',
