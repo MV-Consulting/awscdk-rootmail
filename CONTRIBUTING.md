@@ -32,16 +32,7 @@ To send us a pull request, please:
 1. Fork the repository.
 2. Modify the source; please focus on the specific change you are contributing. If you also reformat all the code, it will be hard for us to focus on your change.
 3. Ensure local tests pass -> `npm run test`
-4. Ensure integ tests pass in your own aws account (see also the [integ-tests/README](integ/tests/README.md)) for more details
-```bash
-# set the environment first
-## in you AWS account
-export TEST_DOMAIN='yourdomain.com'
-## the ID of the hosted zone the domain $TEST_DOMAIN, mentioned above has
-export TEST_PARENT_HOSTED_ZONE_ID=Z1234343YUSDL
-# run the tests
-npm run integ-test
-```
+4. Ensure integ tests pass in your own aws account (see also the [integ-tests/README](integ/tests/README.md)) for details
 5. Build the project -> `npm run build` to also update the `API.md` file.
 6. Commit to your fork using clear commit messages.
 7. Send us a pull request, answering any default questions in the pull request interface.

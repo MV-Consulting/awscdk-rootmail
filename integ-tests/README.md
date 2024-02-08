@@ -2,12 +2,11 @@
 
 ## run
 1. do the changes in the `*.ts` files
-2. synth the project
+2. from the root of the project run
 ```bash
-npm run prepare-integ-test
-```
-3. from the root of the project run
-```bash
+# run the dry-run to see changes if they are destructive
+npm run integ-test -- --dry-run
+# run the tests
 npm run integ-test
 ```
 ## clean up manually
