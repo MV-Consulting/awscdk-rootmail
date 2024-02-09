@@ -11,7 +11,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
   const domain = event.ResourceProperties[PROP_DOMAIN];
   switch (event.RequestType) {
     case 'Create':
-    case 'Update':
+    case 'Update': // TODO check for double creation
       let physicalResourceId = event.PhysicalResourceId;
       if (event.RequestType === 'Create') {
         physicalResourceId = event.RequestId;
