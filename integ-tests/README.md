@@ -6,6 +6,8 @@
 ```bash
 # run the dry-run to see changes if they are destructive
 npm run integ-test -- --dry-run
+# NOTE: undo the changes in the integ.snapshot so the next call
+# will really run the tests with the update
 # run the tests
 npm run integ-test
 ```
