@@ -89,6 +89,7 @@ export class RootmailAutowireDns extends Construct {
 interface RootmailAutowireDnsProviderProps extends RootmailAutowireDnsProps {
   readonly autoWireR53ChangeInfoIdParameter: ssm.StringParameter;
   readonly wireDNSToHostedZoneID?: string;
+  readonly totalTimeToWireDNS: Duration;
 }
 
 class RootmailAutowireDnsProvider extends Construct {
@@ -178,7 +179,7 @@ class RootmailAutowireDnsProvider extends Construct {
     this.provider = new cr.Provider(this, 'rootmail-autowire-dns-provider', {
       isCompleteHandler: isCompleteHandlerFunc,
       queryInterval: Duration.seconds(5),
-      totalTimeout: props.totalTimeToWireDNS,
+      totalTimeout: Duration.hours(2), // props.totalTimeToWireDNS, TODO does not work
       onEventHandler: onEventHandlerFunc,
     });
     NagSuppressions.addResourceSuppressions(
