@@ -11,13 +11,13 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
   const domain = event.ResourceProperties[PROP_DOMAIN];
   switch (event.RequestType) {
     case 'Create':
-    case 'Update': // TODO check for double creation
+    case 'Update':
       let physicalResourceId = event.PhysicalResourceId;
       if (event.RequestType === 'Create') {
         physicalResourceId = event.RequestId;
       }
 
-      console.log(`${event.RequestType}: DUMMY Do Domain verification and DKIM records for ${event.LogicalResourceId} and domain '${domain}' with PhysicalResourceId '${physicalResourceId}'`);
+      console.log(`${event.RequestType}: Do Domain verification and DKIM records for ${event.LogicalResourceId} and domain '${domain}' with PhysicalResourceId '${physicalResourceId}'`);
       const verifyDomainResponse = await SES.verifyDomainIdentity({ Domain: domain }).promise();
       const verificationToken = verifyDomainResponse.VerificationToken;
       console.log(`${event.RequestType}: Got verification token '${verificationToken}' for domain '${domain}'`);
@@ -25,7 +25,6 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       const verifyDomainDkimResponse = await SES.verifyDomainDkim({ Domain: domain }).promise();
       const dkimTokens = verifyDomainDkimResponse.DkimTokens;
       console.log(`${event.RequestType}: Got DKIM tokens '${dkimTokens}' for domain '${domain}'`);
-      console.log(`${event.RequestType}: DUMMY log`);
 
       return {
         PhysicalResourceId: physicalResourceId,
