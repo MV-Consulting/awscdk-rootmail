@@ -2,12 +2,13 @@
 
 ## run
 1. do the changes in the `*.ts` files
-2. synth the project
+2. from the root of the project run
 ```bash
-npm run prepare-integ-test
-```
-3. from the root of the project run
-```bash
+# run the dry-run to see changes if they are destructive
+npm run integ-test -- --dry-run
+# NOTE: undo the changes in the integ.snapshot so the next call
+# will really run the tests with the update
+# run the tests
 npm run integ-test
 ```
 ## clean up manually
@@ -19,11 +20,11 @@ source venv/bin/activate
 pip3 install -r requirements.tx
 
 # determine bucket name
-aws s3 ls | grep rootmailteststack
+aws s3 ls | grep rootmailinteg
 # empty and remove the bucket
-python3 cleanup/empty-and-delete-s3-bucket.py rootmailteststack-testrootmailemailbucket<suffix>
-# remove the log groups. generic or more specific with 'RootmailTestStack' and 'SetupTest'
-python3 cleanup/delete-log-groups.py Test
+python3 cleanup/empty-and-delete-s3-bucket.py rootmailintegteststack-testrootmailemailbucket<suffix>
+# remove the log groups. generic or more specific with 'rootmailinteg' and 'SetupTest'
+python3 cleanup/delete-log-groups.py IntegTest eu-west-2
 
 # when your done deactive the virtual env via
 # see https://stackoverflow.com/questions/990754/how-to-leave-exit-deactivate-a-python-virtualenv

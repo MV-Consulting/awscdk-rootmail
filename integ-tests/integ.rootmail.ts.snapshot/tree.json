@@ -119,7 +119,18 @@
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::Route53::HostedZone",
                       "aws:cdk:cloudformation:props": {
-                        "name": "a647df97.rootmail-test.mavogel.xyz."
+                        "name": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "b647df97-",
+                              {
+                                "Ref": "AWS::Region"
+                              },
+                              ".rootmail-test.mavogel.xyz."
+                            ]
+                          ]
+                        }
                       }
                     },
                     "constructInfo": {
@@ -229,7 +240,11 @@
                                       }
                                     ]
                                   },
-                                  "._domainkey.a647df97.rootmail-test.mavogel.xyz."
+                                  "._domainkey.b647df97-",
+                                  {
+                                    "Ref": "AWS::Region"
+                                  },
+                                  ".rootmail-test.mavogel.xyz."
                                 ]
                               ]
                             },
@@ -297,7 +312,11 @@
                                       }
                                     ]
                                   },
-                                  "._domainkey.a647df97.rootmail-test.mavogel.xyz."
+                                  "._domainkey.b647df97-",
+                                  {
+                                    "Ref": "AWS::Region"
+                                  },
+                                  ".rootmail-test.mavogel.xyz."
                                 ]
                               ]
                             },
@@ -365,7 +384,11 @@
                                       }
                                     ]
                                   },
-                                  "._domainkey.a647df97.rootmail-test.mavogel.xyz."
+                                  "._domainkey.b647df97-",
+                                  {
+                                    "Ref": "AWS::Region"
+                                  },
+                                  ".rootmail-test.mavogel.xyz."
                                 ]
                               ]
                             },
@@ -418,7 +441,18 @@
                             "hostedZoneId": {
                               "Ref": "testRootmailHostedZone6DFD3C9C"
                             },
-                            "name": "a647df97.rootmail-test.mavogel.xyz.",
+                            "name": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "b647df97-",
+                                  {
+                                    "Ref": "AWS::Region"
+                                  },
+                                  ".rootmail-test.mavogel.xyz."
+                                ]
+                              ]
+                            },
                             "resourceRecords": [
                               {
                                 "Fn::Join": [
@@ -461,7 +495,18 @@
                             "hostedZoneId": {
                               "Ref": "testRootmailHostedZone6DFD3C9C"
                             },
-                            "name": "_amazonses.a647df97.rootmail-test.mavogel.xyz.",
+                            "name": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "_amazonses.b647df97-",
+                                  {
+                                    "Ref": "AWS::Region"
+                                  },
+                                  ".rootmail-test.mavogel.xyz."
+                                ]
+                              ]
+                            },
                             "resourceRecords": [
                               {
                                 "Fn::Join": [
@@ -740,7 +785,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "93f248c0d906f32e25d0bd38725b66ad57f9261397088e15966d26fea87d2de0.zip"
+                              "s3Key": "d743f551cbc5887508238844bf8235dc31c07ccbdfafcabc0d920397a26502c3.zip"
                             },
                             "environment": {
                               "variables": {
@@ -1015,7 +1060,7 @@
                           "s3Bucket": {
                             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                           },
-                          "s3Key": "0d7c7a7383bd188507edd1418c134d29b0792efd1ccbba0da75311002020e65d.zip"
+                          "s3Key": "78feee95e82ef361d9d27f66f2b9be1a91ff5ec2afcb2e1f35f121aa3f902c1a.zip"
                         },
                         "environment": {
                           "variables": {
@@ -1622,7 +1667,7 @@
                           "s3Bucket": {
                             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                           },
-                          "s3Key": "fb84360f7467923a0658a669f4d3ee04bf136a74f97d873be2abadb4bcab711e.zip"
+                          "s3Key": "d4cadbcd34a7190b2e8cdb99918ac4dfb6f159dc7329660db6940bbcca3ec8f2.zip"
                         },
                         "environment": {
                           "variables": {
@@ -1883,7 +1928,7 @@
                           "s3Bucket": {
                             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                           },
-                          "s3Key": "b98430399e05a4d6daed4e2d6cec716645bf79ac334561c2f38b9efede570e23.zip"
+                          "s3Key": "40792594eb6b226b515b669e95c0687ecc740adf225fdb9ad2841b217c070f76.zip"
                         },
                         "environment": {
                           "variables": {
@@ -2904,7 +2949,7 @@
                           "s3Bucket": {
                             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                           },
-                          "s3Key": "33ac6a02ced9e72a70fce1b803f62512c513a125854f78cb153829678f6990c3.zip"
+                          "s3Key": "bc282d8aa82302eec594bc3f486c7c5a52ed8a5335b728970760e8b68e201037.zip"
                         },
                         "environment": {
                           "variables": {
@@ -4078,7 +4123,7 @@
                           "s3Bucket": {
                             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                           },
-                          "s3Key": "bdbd19752d7324326841494d68ece6350ceb3a5e56735547d431ef5bfe0a3199.zip"
+                          "s3Key": "ff373a1476ac715751c8365e785fb10df2d9314294bdae4cf52dbbe3d1f3daa8.zip"
                         },
                         "environment": {
                           "variables": {
@@ -4294,7 +4339,7 @@
                           "s3Bucket": {
                             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                           },
-                          "s3Key": "61fab78d8315be84fb5ddcd593f0411773aaf262b84ec59f2dcab0568de73698.zip"
+                          "s3Key": "bdddcd5dc9deea1e8548896bbc66f3c77095a83cf03dce262f1021dc5084b434.zip"
                         },
                         "environment": {
                           "variables": {
@@ -5387,7 +5432,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "2622827c68651f3e047bc6c261ad6d8e213a1a2ff80d570d1a757746c25787f4.zip"
+                      "s3Key": "e1af3b308bce8549a83727689853cc1bcc322a2f2f99bab1417667050c14792b.zip"
                     },
                     "environment": {
                       "variables": {
@@ -5581,7 +5626,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "54be26a6d7b1da3c05a111d3350351623166b8de03c9edb60405509800b9547b.zip"
+                      "s3Key": "398c1494ee7aa450b48095240fc626fdac5a8ea4662a27b64162e61949c6f3b9.zip"
                     },
                     "environment": {
                       "variables": {
@@ -5704,17 +5749,17 @@
                 "id": "DeployAssert",
                 "path": "SetupTestIntegStack/DefaultTest/DeployAssert",
                 "children": {
-                  "LambdaInvoke039384452617e2bb3418392bbc41659f": {
-                    "id": "LambdaInvoke039384452617e2bb3418392bbc41659f",
-                    "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke039384452617e2bb3418392bbc41659f",
+                  "LambdaInvoke683c845d9bea165a967a76b79d7da1c1": {
+                    "id": "LambdaInvoke683c845d9bea165a967a76b79d7da1c1",
+                    "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1",
                     "children": {
                       "SdkProvider": {
                         "id": "SdkProvider",
-                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke039384452617e2bb3418392bbc41659f/SdkProvider",
+                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1/SdkProvider",
                         "children": {
                           "AssertionsProvider": {
                             "id": "AssertionsProvider",
-                            "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke039384452617e2bb3418392bbc41659f/SdkProvider/AssertionsProvider",
+                            "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1/SdkProvider/AssertionsProvider",
                             "constructInfo": {
                               "fqn": "constructs.Construct",
                               "version": "10.0.5"
@@ -5728,11 +5773,11 @@
                       },
                       "Default": {
                         "id": "Default",
-                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke039384452617e2bb3418392bbc41659f/Default",
+                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1/Default",
                         "children": {
                           "Default": {
                             "id": "Default",
-                            "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke039384452617e2bb3418392bbc41659f/Default/Default",
+                            "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1/Default/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
                               "version": "2.90.0"
@@ -5746,7 +5791,7 @@
                       },
                       "Invoke": {
                         "id": "Invoke",
-                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke039384452617e2bb3418392bbc41659f/Invoke",
+                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1/Invoke",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
                           "version": "2.90.0"
@@ -5754,7 +5799,7 @@
                       },
                       "AssertionResults": {
                         "id": "AssertionResults",
-                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke039384452617e2bb3418392bbc41659f/AssertionResults",
+                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1/AssertionResults",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnOutput",
                           "version": "2.90.0"
@@ -5800,17 +5845,17 @@
                       "version": "10.0.5"
                     }
                   },
-                  "LambdaInvokea002cff7dba8130aa0764349bff9de73": {
-                    "id": "LambdaInvokea002cff7dba8130aa0764349bff9de73",
-                    "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokea002cff7dba8130aa0764349bff9de73",
+                  "LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72": {
+                    "id": "LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72",
+                    "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72",
                     "children": {
                       "SdkProvider": {
                         "id": "SdkProvider",
-                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokea002cff7dba8130aa0764349bff9de73/SdkProvider",
+                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72/SdkProvider",
                         "children": {
                           "AssertionsProvider": {
                             "id": "AssertionsProvider",
-                            "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokea002cff7dba8130aa0764349bff9de73/SdkProvider/AssertionsProvider",
+                            "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72/SdkProvider/AssertionsProvider",
                             "constructInfo": {
                               "fqn": "constructs.Construct",
                               "version": "10.0.5"
@@ -5824,11 +5869,11 @@
                       },
                       "Default": {
                         "id": "Default",
-                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokea002cff7dba8130aa0764349bff9de73/Default",
+                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72/Default",
                         "children": {
                           "Default": {
                             "id": "Default",
-                            "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokea002cff7dba8130aa0764349bff9de73/Default/Default",
+                            "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72/Default/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
                               "version": "2.90.0"
@@ -5842,7 +5887,7 @@
                       },
                       "Invoke": {
                         "id": "Invoke",
-                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokea002cff7dba8130aa0764349bff9de73/Invoke",
+                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72/Invoke",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
                           "version": "2.90.0"
@@ -5850,7 +5895,7 @@
                       },
                       "AssertionResults": {
                         "id": "AssertionResults",
-                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokea002cff7dba8130aa0764349bff9de73/AssertionResults",
+                        "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72/AssertionResults",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnOutput",
                           "version": "2.90.0"

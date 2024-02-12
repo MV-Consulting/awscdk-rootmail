@@ -26,7 +26,6 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       const dkimTokens = verifyDomainDkimResponse.DkimTokens;
       console.log(`${event.RequestType}: Got DKIM tokens '${dkimTokens}' for domain '${domain}'`);
 
-
       return {
         PhysicalResourceId: physicalResourceId,
         Data: {
@@ -34,6 +33,8 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
           [ATTR_DKIM_TOKENS]: dkimTokens,
         },
       };
+    // TODO check if delete should do nothing: https://github.com/superwerker/superwerker/blob/main/templates/rootmail.yaml#L170
+    // we store in Parameter Store as well
     case 'Delete':
       console.log(`Deleting Domain identity for domain '${domain}' with PhysicalResourceId '${event.PhysicalResourceId}'`);
       const deleteResponse = await SES.deleteIdentity({ Identity: domain }).promise();

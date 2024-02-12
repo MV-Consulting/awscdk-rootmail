@@ -29,7 +29,7 @@
     "watch": "npx projen watch",
     "projen": "npx projen",
     "prepare": "husky install",
-    "integ-test": "integ-runner --directory ./integ-tests --parallel-regions eu-west-1",
+    "integ-test": "integ-runner --directory ./integ-tests --parallel-regions eu-west-2 --update-on-failed",
     "prepare-integ-test": "rm -rf cdk.out && cdk synth -q",
     "publish-assets": "npx ts-node -P tsconfig.json --prefer-ts-exts src/scripts/publish-assets.ts"
   },

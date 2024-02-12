@@ -1,6 +1,6 @@
 {
  "Resources": {
-  "LambdaInvoke039384452617e2bb3418392bbc41659f": {
+  "LambdaInvoke683c845d9bea165a967a76b79d7da1c1": {
    "Type": "Custom::DeployAssert@SdkCallLambdainvoke",
    "Properties": {
     "ServiceToken": {
@@ -27,10 +27,25 @@
      },
      "InvocationType": "\"RequestResponse\"",
      "LogType": "\"Tail\"",
-     "Payload": "\"{\\\"id\\\":\\\"test-id-a647df97\\\",\\\"text\\\":\\\"This is a mail body\\\",\\\"sourceMail\\\":\\\"test@a647df97.rootmail-test.mavogel.xyz\\\",\\\"toMail\\\":\\\"root+test-id-a647df97@a647df97.rootmail-test.mavogel.xyz\\\"}\""
+     "Payload": {
+      "Fn::Join": [
+       "",
+       [
+        "\"{\\\"id\\\":\\\"test-id-b647df97\\\",\\\"text\\\":\\\"This is a mail body\\\",\\\"sourceMail\\\":\\\"test@b647df97-",
+        {
+         "Ref": "AWS::Region"
+        },
+        ".rootmail-test.mavogel.xyz\\\",\\\"toMail\\\":\\\"root+test-id-b647df97@b647df97-",
+        {
+         "Ref": "AWS::Region"
+        },
+        ".rootmail-test.mavogel.xyz\\\"}\""
+       ]
+      ]
+     }
     },
     "flattenResponse": "false",
-    "salt": "1707323496537"
+    "salt": "1707474894373"
    },
    "DependsOn": [
     "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b"
@@ -38,7 +53,7 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   },
-  "LambdaInvoke039384452617e2bb3418392bbc41659fInvokeA91432B2": {
+  "LambdaInvoke683c845d9bea165a967a76b79d7da1c1InvokeEF8E1448": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -197,7 +212,7 @@
     }
    }
   },
-  "LambdaInvokea002cff7dba8130aa0764349bff9de73": {
+  "LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72": {
    "Type": "Custom::DeployAssert@SdkCallLambdainvoke",
    "Properties": {
     "ServiceToken": {
@@ -224,19 +239,30 @@
      },
      "InvocationType": "\"RequestResponse\"",
      "LogType": "\"Tail\"",
-     "Payload": "\"{\\\"title\\\":\\\"test-id-a647df97\\\",\\\"source\\\":\\\"root+test-id-a647df97@a647df97.rootmail-test.mavogel.xyz\\\",\\\"description\\\":\\\"This is a mail body\\\\n\\\"}\""
+     "Payload": {
+      "Fn::Join": [
+       "",
+       [
+        "\"{\\\"title\\\":\\\"test-id-b647df97\\\",\\\"source\\\":\\\"root+test-id-b647df97@b647df97-",
+        {
+         "Ref": "AWS::Region"
+        },
+        ".rootmail-test.mavogel.xyz\\\",\\\"description\\\":\\\"This is a mail body\\\\n\\\"}\""
+       ]
+      ]
+     }
     },
     "flattenResponse": "false",
-    "salt": "1707323496537"
+    "salt": "1707474894373"
    },
    "DependsOn": [
-    "LambdaInvoke039384452617e2bb3418392bbc41659f",
-    "LambdaInvoke039384452617e2bb3418392bbc41659fInvokeA91432B2"
+    "LambdaInvoke683c845d9bea165a967a76b79d7da1c1",
+    "LambdaInvoke683c845d9bea165a967a76b79d7da1c1InvokeEF8E1448"
    ],
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   },
-  "LambdaInvokea002cff7dba8130aa0764349bff9de73Invoke700FD259": {
+  "LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72Invoke3A57FE86": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -251,8 +277,8 @@
     }
    },
    "DependsOn": [
-    "LambdaInvoke039384452617e2bb3418392bbc41659f",
-    "LambdaInvoke039384452617e2bb3418392bbc41659fInvokeA91432B2"
+    "LambdaInvoke683c845d9bea165a967a76b79d7da1c1",
+    "LambdaInvoke683c845d9bea165a967a76b79d7da1c1InvokeEF8E1448"
    ]
   },
   "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b": {
@@ -271,25 +297,25 @@
      "Name": "\"/rootmail/domain_name_servers\""
     },
     "flattenResponse": "false",
-    "salt": "1707323496537"
+    "salt": "1707474894373"
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   }
  },
  "Outputs": {
-  "AssertionResultsLambdaInvoke039384452617e2bb3418392bbc41659f": {
+  "AssertionResultsLambdaInvoke683c845d9bea165a967a76b79d7da1c1": {
    "Value": {
     "Fn::GetAtt": [
-     "LambdaInvoke039384452617e2bb3418392bbc41659f",
+     "LambdaInvoke683c845d9bea165a967a76b79d7da1c1",
      "assertion"
     ]
    }
   },
-  "AssertionResultsLambdaInvokea002cff7dba8130aa0764349bff9de73": {
+  "AssertionResultsLambdaInvokeb52657067e4b5f63c2c8dd056d68bf72": {
    "Value": {
     "Fn::GetAtt": [
-     "LambdaInvokea002cff7dba8130aa0764349bff9de73",
+     "LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72",
      "assertion"
     ]
    }

@@ -91,7 +91,18 @@
   "testRootmailHostedZone6DFD3C9C": {
    "Type": "AWS::Route53::HostedZone",
    "Properties": {
-    "Name": "a647df97.rootmail-test.mavogel.xyz."
+    "Name": {
+     "Fn::Join": [
+      "",
+      [
+       "b647df97-",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".rootmail-test.mavogel.xyz."
+      ]
+     ]
+    }
    }
   },
   "testRootmailHostedZoneSSMParameter574DA41C": {
@@ -121,7 +132,18 @@
       "Arn"
      ]
     },
-    "Domain": "a647df97.rootmail-test.mavogel.xyz"
+    "Domain": {
+     "Fn::Join": [
+      "",
+      [
+       "b647df97-",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".rootmail-test.mavogel.xyz"
+      ]
+     ]
+    }
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
@@ -147,7 +169,11 @@
          }
         ]
        },
-       "._domainkey.a647df97.rootmail-test.mavogel.xyz."
+       "._domainkey.b647df97-",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".rootmail-test.mavogel.xyz."
       ]
      ]
     },
@@ -197,7 +223,11 @@
          }
         ]
        },
-       "._domainkey.a647df97.rootmail-test.mavogel.xyz."
+       "._domainkey.b647df97-",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".rootmail-test.mavogel.xyz."
       ]
      ]
     },
@@ -247,7 +277,11 @@
          }
         ]
        },
-       "._domainkey.a647df97.rootmail-test.mavogel.xyz."
+       "._domainkey.b647df97-",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".rootmail-test.mavogel.xyz."
       ]
      ]
     },
@@ -282,7 +316,18 @@
     "HostedZoneId": {
      "Ref": "testRootmailHostedZone6DFD3C9C"
     },
-    "Name": "a647df97.rootmail-test.mavogel.xyz.",
+    "Name": {
+     "Fn::Join": [
+      "",
+      [
+       "b647df97-",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".rootmail-test.mavogel.xyz."
+      ]
+     ]
+    },
     "ResourceRecords": [
      {
       "Fn::Join": [
@@ -307,7 +352,18 @@
     "HostedZoneId": {
      "Ref": "testRootmailHostedZone6DFD3C9C"
     },
-    "Name": "_amazonses.a647df97.rootmail-test.mavogel.xyz.",
+    "Name": {
+     "Fn::Join": [
+      "",
+      [
+       "_amazonses.b647df97-",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".rootmail-test.mavogel.xyz."
+      ]
+     ]
+    },
     "ResourceRecords": [
      {
       "Fn::Join": [
@@ -347,7 +403,17 @@
      ]
     },
     "Domain": "rootmail-test.mavogel.xyz",
-    "Subdomain": "a647df97",
+    "Subdomain": {
+     "Fn::Join": [
+      "",
+      [
+       "b647df97-",
+       {
+        "Ref": "AWS::Region"
+       }
+      ]
+     ]
+    },
     "ParentHostedZoneId": "Z066250529JROZU7IIY3Q",
     "HostedZoneParameterName": {
      "Ref": "testRootmailHostedZoneSSMParameter574DA41C"
@@ -368,7 +434,18 @@
       "Arn"
      ]
     },
-    "Domain": "a647df97.rootmail-test.mavogel.xyz"
+    "Domain": {
+     "Fn::Join": [
+      "",
+      [
+       "b647df97-",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".rootmail-test.mavogel.xyz"
+      ]
+     ]
+    }
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
@@ -482,7 +559,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "93f248c0d906f32e25d0bd38725b66ad57f9261397088e15966d26fea87d2de0.zip"
+     "S3Key": "d743f551cbc5887508238844bf8235dc31c07ccbdfafcabc0d920397a26502c3.zip"
     },
     "Environment": {
      "Variables": {
@@ -564,7 +641,17 @@
      ]
     },
     "Domain": "rootmail-test.mavogel.xyz",
-    "Subdomain": "a647df97",
+    "Subdomain": {
+     "Fn::Join": [
+      "",
+      [
+       "b647df97-",
+       {
+        "Ref": "AWS::Region"
+       }
+      ]
+     ]
+    },
     "EmailBucketName": {
      "Ref": "testRootmailEmailBucket2A470446"
     },
@@ -669,7 +756,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "0d7c7a7383bd188507edd1418c134d29b0792efd1ccbba0da75311002020e65d.zip"
+     "S3Key": "78feee95e82ef361d9d27f66f2b9be1a91ff5ec2afcb2e1f35f121aa3f902c1a.zip"
     },
     "Environment": {
      "Variables": {
@@ -1129,7 +1216,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "fb84360f7467923a0658a669f4d3ee04bf136a74f97d873be2abadb4bcab711e.zip"
+     "S3Key": "d4cadbcd34a7190b2e8cdb99918ac4dfb6f159dc7329660db6940bbcca3ec8f2.zip"
     },
     "Environment": {
      "Variables": {
@@ -1331,7 +1418,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "b98430399e05a4d6daed4e2d6cec716645bf79ac334561c2f38b9efede570e23.zip"
+     "S3Key": "40792594eb6b226b515b669e95c0687ecc740adf225fdb9ad2841b217c070f76.zip"
     },
     "Environment": {
      "Variables": {
@@ -2028,7 +2115,7 @@
      "Fn::Join": [
       "",
       [
-       "{\"StartAt\":\"framework-isComplete-task\",\"States\":{\"framework-isComplete-task\":{\"End\":true,\"Retry\":[{\"ErrorEquals\":[\"States.ALL\"],\"IntervalSeconds\":5,\"MaxAttempts\":240,\"BackoffRate\":1}],\"Catch\":[{\"ErrorEquals\":[\"States.ALL\"],\"Next\":\"framework-onTimeout-task\"}],\"Type\":\"Task\",\"Resource\":\"",
+       "{\"StartAt\":\"framework-isComplete-task\",\"States\":{\"framework-isComplete-task\":{\"End\":true,\"Retry\":[{\"ErrorEquals\":[\"States.ALL\"],\"IntervalSeconds\":5,\"MaxAttempts\":1440,\"BackoffRate\":1}],\"Catch\":[{\"ErrorEquals\":[\"States.ALL\"],\"Next\":\"framework-onTimeout-task\"}],\"Type\":\"Task\",\"Resource\":\"",
        {
         "Fn::GetAtt": [
          "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2",
@@ -2164,7 +2251,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "33ac6a02ced9e72a70fce1b803f62512c513a125854f78cb153829678f6990c3.zip"
+     "S3Key": "bc282d8aa82302eec594bc3f486c7c5a52ed8a5335b728970760e8b68e201037.zip"
     },
     "Environment": {
      "Variables": {
@@ -3150,7 +3237,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "bdbd19752d7324326841494d68ece6350ceb3a5e56735547d431ef5bfe0a3199.zip"
+     "S3Key": "ff373a1476ac715751c8365e785fb10df2d9314294bdae4cf52dbbe3d1f3daa8.zip"
     },
     "Environment": {
      "Variables": {
@@ -3335,7 +3422,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "61fab78d8315be84fb5ddcd593f0411773aaf262b84ec59f2dcab0568de73698.zip"
+     "S3Key": "bdddcd5dc9deea1e8548896bbc66f3c77095a83cf03dce262f1021dc5084b434.zip"
     },
     "Environment": {
      "Variables": {
@@ -4277,7 +4364,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "2622827c68651f3e047bc6c261ad6d8e213a1a2ff80d570d1a757746c25787f4.zip"
+     "S3Key": "e1af3b308bce8549a83727689853cc1bcc322a2f2f99bab1417667050c14792b.zip"
     },
     "Environment": {
      "Variables": {
@@ -4384,7 +4471,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "54be26a6d7b1da3c05a111d3350351623166b8de03c9edb60405509800b9547b.zip"
+     "S3Key": "398c1494ee7aa450b48095240fc626fdac5a8ea4662a27b64162e61949c6f3b9.zip"
     },
     "Environment": {
      "Variables": {

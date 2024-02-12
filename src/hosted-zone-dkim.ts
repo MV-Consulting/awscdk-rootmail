@@ -35,9 +35,16 @@ export interface HostedZoneDkimProps {
    * @default undefined
    */
   readonly wireDNSToHostedZoneID?: string;
-  // TODO
+
+  /**
+   * The Hosted Zone SSM Parameter Name for the NS records.
+   */
   readonly hostedZoneSSMParameter: ssm.StringListParameter;
-  readonly totalTimeToWireDNS?: Duration;
+
+  /**
+   * The total time to wait for the DNS records to be available/wired.
+   */
+  readonly totalTimeToWireDNS: Duration;
 }
 
 export class HostedZoneDkim extends Construct {
@@ -49,6 +56,7 @@ export class HostedZoneDkim extends Construct {
     const hostedZone = props.hostedZone;
     const wireDNSToHostedZoneID = props.wireDNSToHostedZoneID ?? undefined;
     const hostedZoneSSMParameter = props.hostedZoneSSMParameter;
+    const totalTimeToWireDNS = props.totalTimeToWireDNS;
 
     // 1: trigger SNS DKIM verification
     const hostedZoneDKIMAndVerificationRecords = new HostedZoneDKIMAndVerificationRecords(this, 'HostedZoneDKIMAndVerificationRecords', {
@@ -115,6 +123,7 @@ export class HostedZoneDkim extends Construct {
       subdomain: subdomain,
       wireDNSToHostedZoneID: wireDNSToHostedZoneID,
       hostedZoneSSMParameter: hostedZoneSSMParameter,
+      totalTimeToWireDNS: totalTimeToWireDNS,
     });
 
     // 4: trigger SES DKIM propagation polling

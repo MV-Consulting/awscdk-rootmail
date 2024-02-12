@@ -58,10 +58,13 @@ class RootmailStack extends Stack {
   }
 }
 
+let rootmailVersion = process.env.ROOTMAIL_VERSION;
 if (!process.env.ROOTMAIL_VERSION || process.env.ROOTMAIL_VERSION === '') {
-  throw new Error('ROOTMAIL_VERSION is not set or empty');
+  console.log('ROOTMAIL_VERSION is not set. Using default \'0.0.0-DEVELOPMENT\'');
+  rootmailVersion = '0.0.0-DEVELOPMENT';
 }
-const rootmailVersion = process.env.ROOTMAIL_VERSION;
+
+console.log(`Using ROOTMAIL_VERSION Version: '${rootmailVersion}'`);
 
 
 new RootmailStack(app, 'RootmailStack', {
