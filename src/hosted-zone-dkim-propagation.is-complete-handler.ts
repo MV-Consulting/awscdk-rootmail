@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/no-unresolved
 import * as AWSCDKAsyncCustomResource from 'aws-cdk-lib/custom-resources/lib/provider-framework/types';
-import * as AWS from 'aws-sdk';
+import { SES } from '@aws-sdk/client-ses';
 export const PROP_DOMAIN = 'Domain';
 
-const SES = new AWS.SES();
+const ses = new SES();
 
 export interface IsCompleteHandlerResponse {
   IsComplete: boolean;
@@ -35,25 +35,25 @@ async function internalHandler(domain: string): Promise<boolean> {
     level: 'debug',
   });
 
-  const sendingResponse = await SES.getAccountSendingEnabled().promise();
+  const sendingResponse = await ses.getAccountSendingEnabled();
   if (!sendingResponse.Enabled) {
     return false;
   }
   log('sending enabled');
 
-  const identityVerificationResponse = await SES.getIdentityVerificationAttributes({ Identities: [domain] }).promise();
+  const identityVerificationResponse = await ses.getIdentityVerificationAttributes({ Identities: [domain] });
   if (identityVerificationResponse.VerificationAttributes[domain].VerificationStatus !== 'Success') {
     return false;
   }
   log('identiity verification successful');
 
-  const identityDkimRes = await SES.getIdentityDkimAttributes({ Identities: [domain] }).promise();
+  const identityDkimRes = await ses.getIdentityDkimAttributes({ Identities: [domain] });
   if (identityDkimRes.DkimAttributes[domain].DkimVerificationStatus !== 'Success') {
     return false;
   }
   log('DKIM verification successful');
 
-  const identityNotificationRes = await SES.getIdentityNotificationAttributes({ Identities: [domain] }).promise();
+  const identityNotificationRes = await ses.getIdentityNotificationAttributes({ Identities: [domain] });
   if (!identityNotificationRes.NotificationAttributes[domain].ForwardingEnabled) {
     return false;
   }

@@ -1,8 +1,8 @@
-import * as AWS from 'aws-sdk';
+import { OpsEntity, SSM } from '@aws-sdk/client-ssm';
 
-const SSM = new AWS.SSM();
+const ssm = new SSM();
 
-async function getOpsItem(title: string): Promise<AWS.SSM.OpsEntity | undefined> {
+async function getOpsItem(title: string): Promise<OpsEntity | undefined> {
   // get opsItem n times with 5s interval
   const maxRetries = 30;
   const delaySeconds = 5;
@@ -12,7 +12,7 @@ async function getOpsItem(title: string): Promise<AWS.SSM.OpsEntity | undefined>
       title: title,
     });
 
-    const res = await SSM.getOpsSummary({
+    const res = await ssm.getOpsSummary({
       Filters: [
         {
           Key: 'AWS:OpsItem.Title',
@@ -25,7 +25,7 @@ async function getOpsItem(title: string): Promise<AWS.SSM.OpsEntity | undefined>
           Type: 'Equal',
         },
       ],
-    }).promise();
+    });
     if (res.$response.error) {
       log({
         message: 'Error getOpsSummary',
@@ -118,10 +118,10 @@ export const handler = async (event: any) => {
     }
 
     // 2 close opsItem
-    const resUpdate = await SSM.updateOpsItem({
+    const resUpdate = await ssm.updateOpsItem({
       OpsItemId: opsItemId,
       Status: 'Resolved',
-    }).promise();
+    });
 
     if (resUpdate.$response.error) {
       log({

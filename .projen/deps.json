@@ -139,11 +139,27 @@
       "type": "build"
     },
     {
-      "name": "async-retry",
+      "name": "@aws-sdk/client-cloudwatch-logs",
       "type": "bundled"
     },
     {
-      "name": "aws-sdk",
+      "name": "@aws-sdk/client-route-53",
+      "type": "bundled"
+    },
+    {
+      "name": "@aws-sdk/client-s3",
+      "type": "bundled"
+    },
+    {
+      "name": "@aws-sdk/client-ses",
+      "type": "bundled"
+    },
+    {
+      "name": "@aws-sdk/client-ssm",
+      "type": "bundled"
+    },
+    {
+      "name": "async-retry",
       "type": "bundled"
     },
     {

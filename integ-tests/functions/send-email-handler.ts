@@ -1,6 +1,6 @@
-import * as AWS from 'aws-sdk';
+import { SendEmailCommandInput, SES } from '@aws-sdk/client-ses';
 
-const SES = new AWS.SES();
+const ses = new SES();
 
 export const handler = async (event: any) => {
   const id = event.id || 'test-id-1';
@@ -8,13 +8,13 @@ export const handler = async (event: any) => {
   const sourceMail = event.sourceMail || 'test@example.com';
   const toMail = event.toMail || 'root@example.com';
 
-  const ruleAfter = await SES.describeReceiptRule({
+  const ruleAfter = await ses.describeReceiptRule({
     RuleSetName: 'RootMail',
     RuleName: 'Receive',
-  }).promise();
+  });
   log({ message: 'Rule:', rule: ruleAfter.Rule });
 
-  const params: AWS.SES.SendEmailRequest = {
+  const params: SendEmailCommandInput = {
     Source: sourceMail,
     Destination: {
       ToAddresses: [toMail],
@@ -32,7 +32,7 @@ export const handler = async (event: any) => {
   };
 
   try {
-    const res = await SES.sendEmail(params).promise();
+    const res = await ses.sendEmail(params);
     if (res.$response.error) {
       log({
         message: 'Error sending email',

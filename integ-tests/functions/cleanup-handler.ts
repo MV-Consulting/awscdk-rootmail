@@ -1,8 +1,8 @@
-import * as AWS from 'aws-sdk';
+import { CloudWatchLogs } from '@aws-sdk/client-cloudwatch-logs';
+import { S3 } from '@aws-sdk/client-s3';
 
-const cwl = new AWS.CloudWatchLogs();
-const route53 = new AWS.Route53();
-const s3 = new AWS.S3();
+const cwl = new CloudWatchLogs();
+const s3 = new S3();
 
 export const handler = async (event: any) => {
   const emailBucketName = event.s3EmailBucketName;
@@ -31,7 +31,7 @@ export const handler = async (event: any) => {
   }
 };
 
-const deleteLogGroups = async (cwlHandler: AWS.CloudWatchLogs, logGroupNamePrefixes: string[]) => {
+const deleteLogGroups = async (cwlHandler: CloudWatchLogs, logGroupNamePrefixes: string[]) => {
   for (const logGroupNamePrefix of logGroupNamePrefixes) {
     try {
       let nextToken: string | undefined;
@@ -39,12 +39,12 @@ const deleteLogGroups = async (cwlHandler: AWS.CloudWatchLogs, logGroupNamePrefi
         const logGroupsResponse = await cwl.describeLogGroups({
           logGroupNamePrefix: logGroupNamePrefix,
           nextToken: nextToken,
-        }).promise();
+        });
 
         for (const logGroup of logGroupsResponse.logGroups || []) {
           if (logGroup.logGroupName) {
             console.log(`Deleting log group: ${logGroup.logGroupName}`);
-            await cwlHandler.deleteLogGroup({ logGroupName: logGroup.logGroupName }).promise();
+            await cwlHandler.deleteLogGroup({ logGroupName: logGroup.logGroupName });
             console.log(`Deleted log group: ${logGroup.logGroupName}`);
           }
         }
@@ -57,7 +57,7 @@ const deleteLogGroups = async (cwlHandler: AWS.CloudWatchLogs, logGroupNamePrefi
   }
 };
 
-const emptyS3Bucket = async (s3Handler: AWS.S3, bucketName: string) => {
+const emptyS3Bucket = async (s3Handler: S3, bucketName: string) => {
   if (!bucketName || bucketName === '') {
     console.log('Empty s3 bucket name: aborting');
     return;
@@ -69,12 +69,12 @@ const emptyS3Bucket = async (s3Handler: AWS.S3, bucketName: string) => {
       const objectsResponse = await s3Handler.listObjectsV2({
         Bucket: bucketName,
         ContinuationToken: nextToken,
-      }).promise();
+      });
 
       for (const object of objectsResponse.Contents || []) {
         if (object.Key) {
           console.log(`Deleting object: ${object.Key}`);
-          await s3Handler.deleteObject({ Bucket: bucketName, Key: object.Key }).promise();
+          await s3Handler.deleteObject({ Bucket: bucketName, Key: object.Key });
           console.log(`Deleted object: ${object.Key}`);
         }
       }
