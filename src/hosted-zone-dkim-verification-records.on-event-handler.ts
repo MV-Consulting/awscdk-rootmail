@@ -1,6 +1,6 @@
+import { SES } from '@aws-sdk/client-ses';
 // eslint-disable-next-line import/no-unresolved
 import * as AWSCDKAsyncCustomResource from 'aws-cdk-lib/custom-resources/lib/provider-framework/types';
-import { SES } from '@aws-sdk/client-ses';
 export const PROP_DOMAIN = 'Domain';
 export const ATTR_VERIFICATION_TOKEN = 'VerificationToken';
 export const ATTR_DKIM_TOKENS = 'DkimTokens';

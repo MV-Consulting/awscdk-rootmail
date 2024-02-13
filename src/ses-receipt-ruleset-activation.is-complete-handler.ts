@@ -1,6 +1,6 @@
+import { S3 } from '@aws-sdk/client-s3';
 // eslint-disable-next-line import/no-unresolved
 import * as AWSCDKAsyncCustomResource from 'aws-cdk-lib/custom-resources/lib/provider-framework/types';
-import { S3 } from '@aws-sdk/client-s3';
 export const PROP_EMAILBUCKET_NAME = 'EmailBucketName';
 
 const fileKey = 'RootMail/AMAZON_SES_SETUP_NOTIFICATION';

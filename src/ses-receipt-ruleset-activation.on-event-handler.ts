@@ -1,6 +1,6 @@
+import { SES } from '@aws-sdk/client-ses';
 // eslint-disable-next-line import/no-unresolved
 import * as AWSCDKAsyncCustomResource from 'aws-cdk-lib/custom-resources/lib/provider-framework/types';
-import { SES } from '@aws-sdk/client-ses';
 export const PROP_DOMAIN = 'Domain';
 export const PROP_SUBDOMAIN = 'Subdomain';
 export const PROP_EMAILBUCKET_NAME = 'EmailBucketName';
