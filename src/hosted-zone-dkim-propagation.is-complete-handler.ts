@@ -35,26 +35,26 @@ async function internalHandler(domain: string): Promise<boolean> {
     level: 'debug',
   });
 
-  const sendingResponse = await ses.getAccountSendingEnabled();
+  const sendingResponse = await ses.getAccountSendingEnabled({});
   if (!sendingResponse.Enabled) {
     return false;
   }
   log('sending enabled');
 
   const identityVerificationResponse = await ses.getIdentityVerificationAttributes({ Identities: [domain] });
-  if (identityVerificationResponse.VerificationAttributes[domain].VerificationStatus !== 'Success') {
+  if (identityVerificationResponse.VerificationAttributes![domain].VerificationStatus !== 'Success') {
     return false;
   }
   log('identiity verification successful');
 
   const identityDkimRes = await ses.getIdentityDkimAttributes({ Identities: [domain] });
-  if (identityDkimRes.DkimAttributes[domain].DkimVerificationStatus !== 'Success') {
+  if (identityDkimRes.DkimAttributes![domain].DkimVerificationStatus !== 'Success') {
     return false;
   }
   log('DKIM verification successful');
 
   const identityNotificationRes = await ses.getIdentityNotificationAttributes({ Identities: [domain] });
-  if (!identityNotificationRes.NotificationAttributes[domain].ForwardingEnabled) {
+  if (!identityNotificationRes.NotificationAttributes![domain].ForwardingEnabled) {
     return false;
   }
   log('forwarding enabled');

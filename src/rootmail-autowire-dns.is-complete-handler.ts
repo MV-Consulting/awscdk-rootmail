@@ -2,6 +2,7 @@
 import * as AWSCDKAsyncCustomResource from 'aws-cdk-lib/custom-resources/lib/provider-framework/types';
 import { Route53, waitUntilResourceRecordSetsChanged } from '@aws-sdk/client-route-53';
 import { SSM } from '@aws-sdk/client-ssm';
+import { WaiterResult } from "@smithy/util-waiter";
 export const PROP_DOMAIN = 'Domain';
 export const PROP_SUB_DOMAIN = 'Subdomain';
 export const PROP_R53_HANGEINFO_ID_PARAMETER_NAME = 'R53ChangeInfoIdParameterName'; // TODO DRY with interface
@@ -50,12 +51,18 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
           Id: recordSetCreationResponseChangeInfoId,
         });
 
-        if (res.ChangeInfo.Status !== 'INSYNC') {
-          log(`DNS propagation not in sync yet. Has status ${res.ChangeInfo.Status}`);
+        if (
+          // res.state !== 'SUCCESS' ||
+          // res.state !== 'ABORTED' || 
+          // res.state !== 'FAILURE' || 
+          // res.state !== 'TIMEOUT' || 
+          res.state !== 'RETRY'
+          ) {
+          log(`DNS propagation not in sync yet. Has status ${res.state}`);
           return { IsComplete: false };
         }
 
-        log(`DNS propagated with status ${res.ChangeInfo.Status}`);
+        log(`DNS propagated with status ${res.state}`);
         return { IsComplete: true };
       } catch (e) {
         log(`DNS propagation errored. Has message ${e}`);

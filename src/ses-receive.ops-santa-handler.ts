@@ -1,5 +1,5 @@
 import { S3 } from '@aws-sdk/client-s3';
-import { SSM } from '@aws-sdk/client-ssm';
+import { OpsItemDataValue, SSM } from '@aws-sdk/client-ssm';
 import { simpleParser } from 'mailparser';
 
 const region = process.env.ROOTMAIL_DEPLOY_REGION;
@@ -124,7 +124,7 @@ export const handler = async (event: SESEventRecordsToLambda) => {
 
     const response = await s3.getObject({ Bucket: emailBucket as string, Key: key });
 
-    const msg = await simpleParser(response.Body as Buffer);
+    const msg = await simpleParser(response.Body as unknown as Buffer);
 
     let title = msg.subject;
 
@@ -204,7 +204,7 @@ export const handler = async (event: SESEventRecordsToLambda) => {
 
     const sourceTruncated = source.substring(0, 60) + (source.length > 60 ? ' ...' : '');
 
-    const operational_data = {
+    const operational_data: Record<string, OpsItemDataValue> = {
       '/aws/dedup': {
         Value: JSON.stringify(
           {

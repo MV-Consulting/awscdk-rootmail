@@ -25,7 +25,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       });
 
       // check if file is present
-      if (result.$response.error) {
+      if (result.$metadata.httpStatusCode === 404) {
         console.log(`File ${fileKey} NOT found. IsComplete: false`);
         return {
           IsComplete: false,

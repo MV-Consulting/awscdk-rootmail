@@ -147,7 +147,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       // we add the change info id to the parameter store so we use it in the is-complete-handler
       await ssm.putParameter({
         Name: r53ChangeInfoIdParameterName,
-        Value: recordSetCreationResponse.ChangeInfo.Id,
+        Value: recordSetCreationResponse.ChangeInfo!.Id,
         Overwrite: true,
       });
 
