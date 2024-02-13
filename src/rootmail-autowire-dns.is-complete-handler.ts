@@ -55,7 +55,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
           // res.state !== 'ABORTED' ||
           // res.state !== 'FAILURE' ||
           // res.state !== 'TIMEOUT' ||
-          res.state !== 'RETRY'
+          res.state !== 'RETRY' // TODO: check if this is the correct state
         ) {
           log(`DNS propagation not in sync yet. Has status ${res.state}`);
           return { IsComplete: false };

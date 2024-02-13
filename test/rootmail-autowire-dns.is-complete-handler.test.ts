@@ -2,14 +2,16 @@ const spyGetParameter = jest.fn();
 const spySSM = jest.fn(() => ({
   getParameter: spyGetParameter,
 }));
-const spyWaitFor = jest.fn();
-const spyRoute53 = jest.fn(() => ({
-  waitFor: spyWaitFor,
+const spyWaitUntilResourceRecordSetsChanged = jest.fn();
+const spyRoute53 = jest.fn(() => ({}));
+
+jest.mock('@aws-sdk/client-ssm', () => ({
+  SSM: spySSM,
 }));
 
-jest.mock('aws-sdk', () => ({
-  SSM: spySSM,
+jest.mock('@aws-sdk/client-route-53', () => ({
   Route53: spyRoute53,
+  waitUntilResourceRecordSetsChanged: spyWaitUntilResourceRecordSetsChanged,
 }));
 
 // eslint-disable-next-line import/no-unresolved
@@ -23,21 +25,13 @@ describe('wire-rootmail-dns-completion', () => {
 
   it('dns-records-in-sync', async () => {
     spyGetParameter.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          Parameter: {
-            Value: 'uuid-123',
-          },
-        });
+      Parameter: {
+        Value: 'uuid-123',
       },
     }));
 
-    spyWaitFor.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          ChangeInfo: { Status: 'INSYNC' },
-        });
-      },
+    spyWaitUntilResourceRecordSetsChanged.mockImplementation(() => ({
+      state: 'RETRY',
     }));
 
 
@@ -55,6 +49,6 @@ describe('wire-rootmail-dns-completion', () => {
     );
 
     expect(spyGetParameter).toHaveBeenCalledTimes(1);
-    expect(spyWaitFor).toHaveBeenCalledTimes(1);
+    expect(spyWaitUntilResourceRecordSetsChanged).toHaveBeenCalledTimes(1);
   });
 });

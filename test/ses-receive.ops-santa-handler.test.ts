@@ -13,8 +13,11 @@ const spySSM = jest.fn(() => ({
   createOpsItem: spyCreateOpsItem,
 }));
 
-jest.mock('aws-sdk', () => ({
+jest.mock('@aws-sdk/client-s3', () => ({
   S3: spyS3,
+}));
+
+jest.mock('@aws-sdk/client-ssm', () => ({
   SSM: spySSM,
 }));
 
@@ -29,24 +32,14 @@ describe('ops santa', () => {
   it('parse password reset mail', async () => {
     const sesPasswordResetEvent = jsonfile.readFileSync(path.join(__dirname, 'fixtures', 'password-reset-ses-event.json'), { encoding: 'utf-8' }) as SESEventRecordsToLambda;
 
+    const email = fs.readFileSync(path.join(__dirname, 'fixtures', 'password-reset-mail.txt'), { encoding: 'utf-8' });
     spyGetObject.mockImplementation(() => ({
-      promise() {
-        const email = fs.readFileSync(path.join(__dirname, 'fixtures', 'password-reset-mail.txt'), { encoding: 'utf-8' });
-        return Promise.resolve({ Body: email });
-      },
+      Body: email,
     }));
 
-    spyPutParameter.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve();
-      },
-    }));
+    spyPutParameter.mockImplementation(() => ({}));
 
-    spyCreateOpsItem.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve();
-      },
-    }));
+    spyCreateOpsItem.mockImplementation(() => ({}));
 
     await handler(sesPasswordResetEvent);
 
@@ -58,11 +51,9 @@ describe('ops santa', () => {
   it('filter account ready mail', async () => {
     const sesAccountReadyEvent = jsonfile.readFileSync(path.join(__dirname, 'fixtures', 'account-ready-ses-event.json'), { encoding: 'utf-8' }) as SESEventRecordsToLambda;
 
+    const email = fs.readFileSync(path.join(__dirname, 'fixtures', 'account-ready-mail.txt'), { encoding: 'utf-8' });
     spyGetObject.mockImplementation(() => ({
-      promise() {
-        const email = fs.readFileSync(path.join(__dirname, 'fixtures', 'account-ready-mail.txt'), { encoding: 'utf-8' });
-        return Promise.resolve({ Body: email });
-      },
+      Body: email,
     }));
 
     await handler(sesAccountReadyEvent);

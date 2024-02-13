@@ -13,8 +13,11 @@ const spyRoute53 = jest.fn(() => ({
   changeResourceRecordSets: spyChangeResourceRecordSets,
 }));
 
-jest.mock('aws-sdk', () => ({
+jest.mock('@aws-sdk/client-ssm', () => ({
   SSM: spySSM,
+}));
+
+jest.mock('@aws-sdk/client-route-53', () => ({
   Route53: spyRoute53,
 }));
 
@@ -29,49 +32,28 @@ describe('wire-rootmail-dns', () => {
 
   it('wire-dns-ns-records', async () => {
     spyGetParameter.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          Parameter: {
-            Value: 'ns-1111.awsdns-00.co.uk,ns-2222.awsdns-00.co.uk,ns-3333.awsdns-00.de,ns-4444.awsdns-00.com',
-          },
-        });
+      Parameter: {
+        Value: 'ns-1111.awsdns-00.co.uk,ns-2222.awsdns-00.co.uk,ns-3333.awsdns-00.de,ns-4444.awsdns-00.com',
       },
     }));
 
     spyListHostedZonesByName.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          HostedZones: [
-            { Id: '/hostedzone/Z1234567890CC2' },
-          ],
-        });
-      },
+      HostedZones: [
+        { Id: '/hostedzone/Z1234567890CC2' },
+      ],
     }));
 
     spyListResourceRecordSets.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          ResourceRecordSets: [
-            { Name: 'another.domain.com.', Type: 'NS' },
-          ],
-        });
-      },
+      ResourceRecordSets: [
+        { Name: 'another.domain.com.', Type: 'NS' },
+      ],
     }));
 
     spyChangeResourceRecordSets.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          ChangeInfo: { Status: 'PENDING' },
-        });
-      },
+      ChangeInfo: { Status: 'PENDING' },
     }));
 
-    spyPutParameter.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({});
-      },
-    }));
-
+    spyPutParameter.mockImplementation(() => ({}));
 
     await handler(
       {
@@ -95,34 +77,22 @@ describe('wire-rootmail-dns', () => {
 
   it('dns-ns-records-already-exist', async () => {
     spyGetParameter.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          Parameter: {
-            Value: 'ns-1111.awsdns-00.co.uk,ns-2222.awsdns-00.co.uk,ns-3333.awsdns-00.de,ns-4444.awsdns-00.com',
-          },
-        });
+      Parameter: {
+        Value: 'ns-1111.awsdns-00.co.uk,ns-2222.awsdns-00.co.uk,ns-3333.awsdns-00.de,ns-4444.awsdns-00.com',
       },
     }));
 
     spyListHostedZonesByName.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          HostedZones: [
-            { Id: '/hostedzone/Z1234567890CC2' },
-          ],
-        });
-      },
+      HostedZones: [
+        { Id: '/hostedzone/Z1234567890CC2' },
+      ],
     }));
 
     spyListResourceRecordSets.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          ResourceRecordSets: [
-            // record already exist
-            { Name: 'aws.manuel-vogel.de.', Type: 'NS' },
-          ],
-        });
-      },
+      ResourceRecordSets: [
+        // record already exist
+        { Name: 'aws.manuel-vogel.de.', Type: 'NS' },
+      ],
     }));
 
     await handler(

@@ -7,7 +7,7 @@ const spySES = jest.fn(() => ({
   deleteIdentity: spyDeleteIdentity,
 }));
 
-jest.mock('aws-sdk', () => ({
+jest.mock('@aws-sdk/client-ses', () => ({
   SES: spySES,
 }));
 
@@ -21,17 +21,13 @@ describe('hosted-zone-dkim-verification-records', () => {
   });
 
   it('verifies-create-domain-and-dkim-records', async () => {
-    spyVerifyDomainIdentity.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({ VerificationToken: 'abc-token' });
-      },
-    }));
+    spyVerifyDomainIdentity.mockImplementation(() => (
+      { VerificationToken: 'abc-token' }
+    ));
 
-    spyVerifyDomainDkim.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({ DkimTokens: ['dkim-token-1', 'dkim-token-2'] });
-      },
-    }));
+    spyVerifyDomainDkim.mockImplementation(() => (
+      { DkimTokens: ['dkim-token-1', 'dkim-token-2'] }
+    ));
 
     const result = await handler(
       {
@@ -56,11 +52,7 @@ describe('hosted-zone-dkim-verification-records', () => {
   });
 
   it('verifies-delete-domain-and-dkim-records', async () => {
-    spyDeleteIdentity.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({});
-      },
-    }));
+    spyDeleteIdentity.mockImplementation(() => ({}));
 
     await handler(
       {
