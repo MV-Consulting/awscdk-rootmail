@@ -26,11 +26,11 @@ async function getOpsItem(title: string): Promise<OpsEntity | undefined> {
         },
       ],
     });
-    if (res.$response.error) {
+    if (res.$metadata.httpStatusCode !== 200) {
       log({
         message: 'Error getOpsSummary',
         title: title,
-        err: res.$response.error,
+        err: `httpStatusCode: ${res.$metadata.httpStatusCode}`,
       });
 
       return undefined;
@@ -123,14 +123,14 @@ export const handler = async (event: any) => {
       Status: 'Resolved',
     });
 
-    if (resUpdate.$response.error) {
+    if (resUpdate.$metadata.httpStatusCode !== 200) {
       log({
         message: 'Error updateOpsItem',
         title: title,
-        err: resUpdate.$response.error,
+        err: `httpStatusCode: ${resUpdate.$metadata.httpStatusCode}`,
       });
 
-      return { closeStatusCode: 500, err: resUpdate.$response.error };
+      return { closeStatusCode: 500, err: resUpdate.$metadata.httpStatusCode };
     }
 
     log({

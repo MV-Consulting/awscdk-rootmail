@@ -33,15 +33,15 @@ export const handler = async (event: any) => {
 
   try {
     const res = await ses.sendEmail(params);
-    if (res.$response.error) {
+    if (res.$metadata.httpStatusCode !== 200) {
       log({
         message: 'Error sending email',
         params: params,
         messageId: res.MessageId,
-        err: res.$response.error,
+        err: `httpStatusCode: ${res.$metadata.httpStatusCode}`,
       });
 
-      return { sendStatusCode: 500, err: res.$response.error };
+      return { sendStatusCode: 500, err: res.$metadata.httpStatusCode };
     }
     log({
       message: 'Email sent',
