@@ -50,19 +50,22 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
           Id: recordSetCreationResponseChangeInfoId,
         });
 
-        if (
-          // res.state !== 'SUCCESS' ||
-          // res.state !== 'ABORTED' ||
-          // res.state !== 'FAILURE' ||
-          // res.state !== 'TIMEOUT' ||
-          res.state !== 'RETRY' // TODO: check if this is the correct state
-        ) {
-          log(`DNS propagation not in sync yet. Has status ${res.state}`);
-          return { IsComplete: false };
+        switch (res.state) {
+          case 'SUCCESS':
+            log(`DNS propagated with status '${res.state}'`);
+            return { IsComplete: true };
+          case 'RETRY':
+            log(`DNS propagation not in sync yet. Has status '${res.state}'`);
+            return { IsComplete: false };
+          case 'ABORTED':
+          case 'FAILURE':
+          case 'TIMEOUT':
+            log(`DNS propagation state failed '${res.state}'`);
+            return { IsComplete: false };
+          default:
+            log(`DNS propagation state unknow '${res.state}'`);
+            return { IsComplete: false };
         }
-
-        log(`DNS propagated with status ${res.state}`);
-        return { IsComplete: true };
       } catch (e) {
         log(`DNS propagation errored. Has message ${e}`);
         return { IsComplete: false };

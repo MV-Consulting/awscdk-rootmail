@@ -31,7 +31,7 @@ describe('wire-rootmail-dns-completion', () => {
     }));
 
     spyWaitUntilResourceRecordSetsChanged.mockImplementation(() => ({
-      state: 'RETRY',
+      state: 'SUCCESS',
     }));
 
 
