@@ -37997,7 +37997,7 @@ var handler = async (event) => {
     const response = await s3.getObject({ Bucket: emailBucket, Key: key });
     const msg = await (0, import_mailparser.simpleParser)(response.Body);
     let title = msg.subject;
-    if (title === void 0) {
+    if (title === void 0 || title.trim() === "") {
       log({
         id,
         key,
