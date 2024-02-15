@@ -98,7 +98,7 @@ npm run deploy
 2. The `hosted-zone-dkim-propagation-provider.is-complete-handler` Lambda function checks every 10 seconds if the DNS for the subdomain is propagated. Details are in the Cloudwatch log group.
 
 #### Cloudformation
-or use it directly a Cloudformation template from the URL: https://mvc-test4-bucket-eu-west-1.s3.eu-west-1.amazonaws.com/rootmail/0.0.5-DEVELOPMENT/c8813b2aa55bf403f0c9dfdc3136b8f6f1b5139bd5438befc37835b5125a4850.json
+or use it directly a Cloudformation template `yaml` from the URL [here](https://mvc-test4-bucket-eu-west-1.s3.eu-west-1.amazonaws.com/rootmail/0.0.13-DEVELOPMENT/rootmailStack.template.yaml).
 
 
 <details>

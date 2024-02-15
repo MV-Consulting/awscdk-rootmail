@@ -2,14 +2,16 @@ const spyGetParameter = jest.fn();
 const spySSM = jest.fn(() => ({
   getParameter: spyGetParameter,
 }));
-const spyWaitFor = jest.fn();
-const spyRoute53 = jest.fn(() => ({
-  waitFor: spyWaitFor,
+const spyWaitUntilResourceRecordSetsChanged = jest.fn();
+const spyRoute53 = jest.fn(() => ({}));
+
+jest.mock('@aws-sdk/client-ssm', () => ({
+  SSM: spySSM,
 }));
 
-jest.mock('aws-sdk', () => ({
-  SSM: spySSM,
+jest.mock('@aws-sdk/client-route-53', () => ({
   Route53: spyRoute53,
+  waitUntilResourceRecordSetsChanged: spyWaitUntilResourceRecordSetsChanged,
 }));
 
 // eslint-disable-next-line import/no-unresolved
@@ -23,21 +25,13 @@ describe('wire-rootmail-dns-completion', () => {
 
   it('dns-records-in-sync', async () => {
     spyGetParameter.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          Parameter: {
-            Value: 'uuid-123',
-          },
-        });
+      Parameter: {
+        Value: 'uuid-123',
       },
     }));
 
-    spyWaitFor.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          ChangeInfo: { Status: 'INSYNC' },
-        });
-      },
+    spyWaitUntilResourceRecordSetsChanged.mockImplementation(() => ({
+      state: 'SUCCESS',
     }));
 
 
@@ -55,6 +49,85 @@ describe('wire-rootmail-dns-completion', () => {
     );
 
     expect(spyGetParameter).toHaveBeenCalledTimes(1);
-    expect(spyWaitFor).toHaveBeenCalledTimes(1);
+    expect(spyWaitUntilResourceRecordSetsChanged).toHaveBeenCalledTimes(1);
+  });
+
+  it('dns-records-timeout', async () => {
+    spyGetParameter.mockImplementation(() => ({
+      Parameter: {
+        Value: 'uuid-123',
+      },
+    }));
+
+    spyWaitUntilResourceRecordSetsChanged.mockImplementation(() => ({
+      state: 'TIMEOUT',
+    }));
+
+
+    await handler(
+      {
+        RequestType: 'Create',
+        ResourceProperties: {
+          Domain: 'manuel-vogel.de',
+          Subdomain: 'aws',
+          HostedZoneParameterName: '/rootmail/dns_name_servers',
+          R53ChangeInfoIdParameterName: '/rootmail/auto_wire_r53_changeinfo_id',
+          ParentHostedZoneId: 'Z1234567890CC2',
+        },
+      } as unknown as OnEventRequest,
+    );
+
+    expect(spyGetParameter).toHaveBeenCalledTimes(1);
+    expect(spyWaitUntilResourceRecordSetsChanged).toHaveBeenCalledTimes(1);
+  });
+
+  it('dns-records-on-update', async () => {
+    spyGetParameter.mockImplementation(() => ({
+      Parameter: {
+        Value: 'uuid-123',
+      },
+    }));
+
+    const result = await handler(
+      {
+        RequestType: 'Update',
+        ResourceProperties: {
+          Domain: 'manuel-vogel.de',
+          Subdomain: 'aws',
+          HostedZoneParameterName: '/rootmail/dns_name_servers',
+          R53ChangeInfoIdParameterName: '/rootmail/auto_wire_r53_changeinfo_id',
+          ParentHostedZoneId: 'Z1234567890CC2',
+        },
+      } as unknown as OnEventRequest,
+    );
+
+    expect(result).toEqual({ IsComplete: true });
+    expect(spyGetParameter).toHaveBeenCalledTimes(1);
+    expect(spyWaitUntilResourceRecordSetsChanged).not.toHaveBeenCalled();
+  });
+
+  it('dns-records-on-delete', async () => {
+    spyGetParameter.mockImplementation(() => ({
+      Parameter: {
+        Value: 'uuid-123',
+      },
+    }));
+
+    const result = await handler(
+      {
+        RequestType: 'Delete',
+        ResourceProperties: {
+          Domain: 'manuel-vogel.de',
+          Subdomain: 'aws',
+          HostedZoneParameterName: '/rootmail/dns_name_servers',
+          R53ChangeInfoIdParameterName: '/rootmail/auto_wire_r53_changeinfo_id',
+          ParentHostedZoneId: 'Z1234567890CC2',
+        },
+      } as unknown as OnEventRequest,
+    );
+
+    expect(result).toEqual({ IsComplete: true });
+    expect(spyGetParameter).toHaveBeenCalledTimes(1);
+    expect(spyWaitUntilResourceRecordSetsChanged).not.toHaveBeenCalled();
   });
 });

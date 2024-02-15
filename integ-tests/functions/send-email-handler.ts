@@ -1,6 +1,6 @@
-import * as AWS from 'aws-sdk';
+import { SendEmailCommandInput, SES } from '@aws-sdk/client-ses';
 
-const SES = new AWS.SES();
+const ses = new SES();
 
 export const handler = async (event: any) => {
   const id = event.id || 'test-id-1';
@@ -8,13 +8,13 @@ export const handler = async (event: any) => {
   const sourceMail = event.sourceMail || 'test@example.com';
   const toMail = event.toMail || 'root@example.com';
 
-  const ruleAfter = await SES.describeReceiptRule({
+  const ruleAfter = await ses.describeReceiptRule({
     RuleSetName: 'RootMail',
     RuleName: 'Receive',
-  }).promise();
+  });
   log({ message: 'Rule:', rule: ruleAfter.Rule });
 
-  const params: AWS.SES.SendEmailRequest = {
+  const params: SendEmailCommandInput = {
     Source: sourceMail,
     Destination: {
       ToAddresses: [toMail],
@@ -32,16 +32,16 @@ export const handler = async (event: any) => {
   };
 
   try {
-    const res = await SES.sendEmail(params).promise();
-    if (res.$response.error) {
+    const res = await ses.sendEmail(params);
+    if (res.$metadata.httpStatusCode !== 200) {
       log({
         message: 'Error sending email',
         params: params,
         messageId: res.MessageId,
-        err: res.$response.error,
+        err: `httpStatusCode: ${res.$metadata.httpStatusCode}`,
       });
 
-      return { sendStatusCode: 500, err: res.$response.error };
+      return { sendStatusCode: 500, err: res.$metadata.httpStatusCode };
     }
     log({
       message: 'Email sent',

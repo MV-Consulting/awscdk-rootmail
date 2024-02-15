@@ -1,4 +1,5 @@
-import { Route53, SSM } from 'aws-sdk';
+import { Route53 } from '@aws-sdk/client-route-53';
+import { SSM } from '@aws-sdk/client-ssm';
 export const PROP_DOMAIN = 'Domain';
 export const PROP_SUB_DOMAIN = 'Subdomain';
 export const PROP_PARENT_HOSTED_ZONE_ID = 'ParentHostedZoneId';
@@ -38,7 +39,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       // 1: check if the subdomain was created and get its NS records
       const hostedZoneNameServerParameterResponse = await ssm.getParameter({
         Name: hostedZoneParameterName,
-      }).promise();
+      });
 
       const hostedZoneNameServersAsString = hostedZoneNameServerParameterResponse.Parameter?.Value;
       log({
@@ -59,7 +60,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       // which is a prerequisite for autowiring the DNS records
       const hostedZoneResponse = await route53.listHostedZonesByName({
         DNSName: domain,
-      }).promise();
+      });
 
       if (hostedZoneResponse.HostedZones === undefined || hostedZoneResponse.HostedZones?.length === 0) {
         log({
@@ -90,7 +91,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       const listResourceRecordSetsResponse = await route53.listResourceRecordSets({
         // remove the prefix for using it as parameter
         HostedZoneId: parentHostedZoneId.replace('/hostedzone/', ''),
-      }).promise();
+      });
 
       if (listResourceRecordSetsResponse.ResourceRecordSets === undefined) {
         log({
@@ -141,14 +142,14 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
             },
           ],
         },
-      }).promise();
+      });
 
       // we add the change info id to the parameter store so we use it in the is-complete-handler
       await ssm.putParameter({
         Name: r53ChangeInfoIdParameterName,
-        Value: recordSetCreationResponse.ChangeInfo.Id,
+        Value: recordSetCreationResponse.ChangeInfo!.Id,
         Overwrite: true,
-      }).promise();
+      });
 
       return {
         PhysicalResourceId: event.RequestId,
@@ -169,7 +170,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
           const recordsResponse = await route53.listResourceRecordSets({
             HostedZoneId: parentHostedZoneId,
             StartRecordName: nextRecordName,
-          }).promise();
+          });
 
           for (const recordSet of recordsResponse.ResourceRecordSets || []) {
             // Note the trainling dot in the name at the end
@@ -185,7 +186,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
                     },
                   ],
                 },
-              }).promise();
+              });
               console.log(`Deleted record: ${recordSet.Name} ${recordSet.Type}. Stopping here.`);
               isRecordDeleted = true;
               // we exit here as there should be only one record with the given name and type
@@ -208,7 +209,7 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
         PhysicalResourceId: event.PhysicalResourceId,
       };
   }
-};
+}
 
 function log(msg: any) {
   console.log(JSON.stringify(msg));

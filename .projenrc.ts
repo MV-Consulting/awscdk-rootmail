@@ -25,8 +25,12 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
 
   bundledDeps: [
+    '@aws-sdk/client-cloudwatch-logs',
+    '@aws-sdk/client-route-53',
+    '@aws-sdk/client-s3',
+    '@aws-sdk/client-ses',
+    '@aws-sdk/client-ssm',
     'async-retry',
-    'aws-sdk',
     'axios',
     'cdk-nag',
     'mailparser',

@@ -1,11 +1,14 @@
-import { S3, SSM } from 'aws-sdk';
+import { S3 } from '@aws-sdk/client-s3';
+import { OpsItemDataValue, SSM } from '@aws-sdk/client-ssm';
 import { simpleParser } from 'mailparser';
 
 const region = process.env.ROOTMAIL_DEPLOY_REGION;
 const emailBucket = process.env.EMAIL_BUCKET;
 const emailBucketArn = process.env.EMAIL_BUCKET_ARN;
 const s3 = new S3();
-const ssm = new SSM({ region: region });
+const ssm = new SSM({
+  region: region,
+});
 
 const filteredEmailSubjects = [
   'Your AWS Account is Ready - Get Started Now',
@@ -119,15 +122,13 @@ export const handler = async (event: SESEventRecordsToLambda) => {
       }
     }
 
-    const response = await s3.getObject(
-      { Bucket: emailBucket as string, Key: key },
-    ).promise();
+    const response = await s3.getObject({ Bucket: emailBucket as string, Key: key });
 
-    const msg = await simpleParser(response.Body as Buffer);
+    const msg = await simpleParser(response.Body as unknown as Buffer);
 
     let title = msg.subject;
 
-    if (title === undefined) {
+    if (title === undefined || title.trim() === '') {
       log({
         id: id,
         key: key,
@@ -161,24 +162,22 @@ export const handler = async (event: SESEventRecordsToLambda) => {
       const description = msg.html;
       const pw_reset_link = description.match(/https:\/\/signin.aws.amazon.com\/resetpassword(.*?)(?=<br>)/)?.[0] || 'no passsord reset link';
       const rootmail_identifier = `/rootmail/pw_reset_link/${source.split('@')[0].split('root+')[1]}`;
-      await ssm.putParameter(
-        {
-          Name: rootmail_identifier,
-          Value: pw_reset_link,
-          Overwrite: true,
-          Type: 'String',
-          Tier: 'Advanced',
-          Policies: JSON.stringify([
-            {
-              Type: 'Expiration',
-              Version: '1.0',
-              Attributes: {
-                Timestamp: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
-              },
+      await ssm.putParameter({
+        Name: rootmail_identifier,
+        Value: pw_reset_link,
+        Overwrite: true,
+        Type: 'String',
+        Tier: 'Advanced',
+        Policies: JSON.stringify([
+          {
+            Type: 'Expiration',
+            Version: '1.0',
+            Attributes: {
+              Timestamp: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
             },
-          ]),
-        },
-      ).promise();
+          },
+        ]),
+      });
       log({
         id: id,
         key: key,
@@ -205,7 +204,7 @@ export const handler = async (event: SESEventRecordsToLambda) => {
 
     const sourceTruncated = source.substring(0, 60) + (source.length > 60 ? ' ...' : '');
 
-    const operational_data = {
+    const operational_data: Record<string, OpsItemDataValue> = {
       '/aws/dedup': {
         Value: JSON.stringify(
           {
@@ -224,14 +223,12 @@ export const handler = async (event: SESEventRecordsToLambda) => {
       },
     };
 
-    await ssm.createOpsItem(
-      {
-        Description: description,
-        OperationalData: operational_data,
-        Source: sourceTruncated,
-        Title: title,
-      },
-    ).promise();
+    await ssm.createOpsItem({
+      Description: description,
+      OperationalData: operational_data,
+      Source: sourceTruncated,
+      Title: title,
+    });
     log({
       id: id,
       key: key,

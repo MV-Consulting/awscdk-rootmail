@@ -11,7 +11,7 @@ const spySES = jest.fn(() => ({
   deleteReceiptRuleSet: spyDeleteReceiptRuleSet,
 }));
 
-jest.mock('aws-sdk', () => ({
+jest.mock('@aws-sdk/client-ses', () => ({
   SES: spySES,
 }));
 
@@ -25,23 +25,11 @@ describe('ses-receipt-ruleset-activation', () => {
   });
 
   it('create-ses-receipt-ruleset-activation', async () => {
-    spyCreateReceiptRuleSet.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve();
-      },
-    }));
+    spyCreateReceiptRuleSet.mockImplementation(() => ({}));
 
-    spyCreateReceiptRule.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve();
-      },
-    }));
+    spyCreateReceiptRule.mockImplementation(() => ({}));
 
-    spySetActiveReceiptRuleSet.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve();
-      },
-    }));
+    spySetActiveReceiptRuleSet.mockImplementation(() => ({}));
 
     await handler(
       {
@@ -61,23 +49,11 @@ describe('ses-receipt-ruleset-activation', () => {
   });
 
   it('update-ses-receipt-ruleset-activation', async () => {
-    spyCreateReceiptRuleSet.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve();
-      },
-    }));
+    spyCreateReceiptRuleSet.mockImplementation(() => ({}));
 
-    spyCreateReceiptRule.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve();
-      },
-    }));
+    spyCreateReceiptRule.mockImplementation(() => ({}));
 
-    spySetActiveReceiptRuleSet.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve();
-      },
-    }));
+    spySetActiveReceiptRuleSet.mockImplementation(() => ({}));
 
     await handler(
       {
@@ -98,11 +74,7 @@ describe('ses-receipt-ruleset-activation', () => {
   });
 
   it('delete: ses receipt ruleset activation', async () => {
-    spyDeleteReceiptRuleSet.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve();
-      },
-    }));
+    spyDeleteReceiptRuleSet.mockImplementation(() => ({}));
 
     spyDeleteReceiptRule.mockImplementation(() => ({
       promise() {
@@ -110,11 +82,7 @@ describe('ses-receipt-ruleset-activation', () => {
       },
     }));
 
-    spySetActiveReceiptRuleSet.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve();
-      },
-    }));
+    spySetActiveReceiptRuleSet.mockImplementation(() => ({}));
 
     await handler(
       {

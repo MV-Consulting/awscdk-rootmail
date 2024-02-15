@@ -1,10 +1,11 @@
+import { S3 } from '@aws-sdk/client-s3';
 // eslint-disable-next-line import/no-unresolved
 import * as AWSCDKAsyncCustomResource from 'aws-cdk-lib/custom-resources/lib/provider-framework/types';
-import * as AWS from 'aws-sdk';
 export const PROP_EMAILBUCKET_NAME = 'EmailBucketName';
 
-const s3 = new AWS.S3();
 const fileKey = 'RootMail/AMAZON_SES_SETUP_NOTIFICATION';
+
+const s3 = new S3();
 
 export interface IsCompleteHandlerResponse {
   IsComplete: boolean;
@@ -21,10 +22,10 @@ export async function handler(event: AWSCDKAsyncCustomResource.OnEventRequest): 
       const result = await s3.headObject({
         Bucket: emailBucketName,
         Key: fileKey,
-      }).promise();
+      });
 
       // check if file is present
-      if (result.$response.error) {
+      if (result.$metadata.httpStatusCode === 404) {
         console.log(`File ${fileKey} NOT found. IsComplete: false`);
         return {
           IsComplete: false,

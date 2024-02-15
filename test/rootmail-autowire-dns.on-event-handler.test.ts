@@ -13,8 +13,11 @@ const spyRoute53 = jest.fn(() => ({
   changeResourceRecordSets: spyChangeResourceRecordSets,
 }));
 
-jest.mock('aws-sdk', () => ({
+jest.mock('@aws-sdk/client-ssm', () => ({
   SSM: spySSM,
+}));
+
+jest.mock('@aws-sdk/client-route-53', () => ({
   Route53: spyRoute53,
 }));
 
@@ -29,49 +32,28 @@ describe('wire-rootmail-dns', () => {
 
   it('wire-dns-ns-records', async () => {
     spyGetParameter.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          Parameter: {
-            Value: 'ns-1111.awsdns-00.co.uk,ns-2222.awsdns-00.co.uk,ns-3333.awsdns-00.de,ns-4444.awsdns-00.com',
-          },
-        });
+      Parameter: {
+        Value: 'ns-1111.awsdns-00.co.uk,ns-2222.awsdns-00.co.uk,ns-3333.awsdns-00.de,ns-4444.awsdns-00.com',
       },
     }));
 
     spyListHostedZonesByName.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          HostedZones: [
-            { Id: '/hostedzone/Z1234567890CC2' },
-          ],
-        });
-      },
+      HostedZones: [
+        { Id: '/hostedzone/Z1234567890CC2' },
+      ],
     }));
 
     spyListResourceRecordSets.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          ResourceRecordSets: [
-            { Name: 'another.domain.com.', Type: 'NS' },
-          ],
-        });
-      },
+      ResourceRecordSets: [
+        { Name: 'another.domain.com.', Type: 'NS' },
+      ],
     }));
 
     spyChangeResourceRecordSets.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          ChangeInfo: { Status: 'PENDING' },
-        });
-      },
+      ChangeInfo: { Status: 'PENDING' },
     }));
 
-    spyPutParameter.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({});
-      },
-    }));
-
+    spyPutParameter.mockImplementation(() => ({}));
 
     await handler(
       {
@@ -95,34 +77,22 @@ describe('wire-rootmail-dns', () => {
 
   it('dns-ns-records-already-exist', async () => {
     spyGetParameter.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          Parameter: {
-            Value: 'ns-1111.awsdns-00.co.uk,ns-2222.awsdns-00.co.uk,ns-3333.awsdns-00.de,ns-4444.awsdns-00.com',
-          },
-        });
+      Parameter: {
+        Value: 'ns-1111.awsdns-00.co.uk,ns-2222.awsdns-00.co.uk,ns-3333.awsdns-00.de,ns-4444.awsdns-00.com',
       },
     }));
 
     spyListHostedZonesByName.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          HostedZones: [
-            { Id: '/hostedzone/Z1234567890CC2' },
-          ],
-        });
-      },
+      HostedZones: [
+        { Id: '/hostedzone/Z1234567890CC2' },
+      ],
     }));
 
     spyListResourceRecordSets.mockImplementation(() => ({
-      promise() {
-        return Promise.resolve({
-          ResourceRecordSets: [
-            // record already exist
-            { Name: 'aws.manuel-vogel.de.', Type: 'NS' },
-          ],
-        });
-      },
+      ResourceRecordSets: [
+        // record already exist
+        { Name: 'aws.manuel-vogel.de.', Type: 'NS' },
+      ],
     }));
 
     await handler(
@@ -144,4 +114,49 @@ describe('wire-rootmail-dns', () => {
     expect(spyChangeResourceRecordSets).not.toHaveBeenCalled();
     expect(spyPutParameter).not.toHaveBeenCalled();
   });
+
+  it('dns-ns-records-on-update', async () => {
+    await handler(
+      {
+        RequestType: 'Update',
+        ResourceProperties: {
+          Domain: 'manuel-vogel.de',
+          Subdomain: 'aws',
+          HostedZoneParameterName: '/rootmail/dns_name_servers',
+          R53ChangeInfoIdParameterName: '/rootmail/auto_wire_r53_changeinfo_id',
+          ParentHostedZoneId: 'Z1234567890CC2',
+        },
+      } as unknown as OnEventRequest,
+    );
+
+    expect(spyGetParameter).not.toHaveBeenCalled();
+    expect(spyListHostedZonesByName).not.toHaveBeenCalled();
+    expect(spyListResourceRecordSets).not.toHaveBeenCalled();
+    expect(spyChangeResourceRecordSets).not.toHaveBeenCalled();
+    expect(spyPutParameter).not.toHaveBeenCalled();
+  });
+});
+
+it('dns-ns-records-on-delete', async () => {
+  spyListResourceRecordSets.mockImplementation(() => ({
+    ResourceRecordSets: [
+      { Name: 'aws.manuel-vogel.de.', Type: 'NS' },
+    ],
+  }));
+
+  spyChangeResourceRecordSets.mockImplementation(() => ({}));
+
+  await handler(
+    {
+      RequestType: 'Delete',
+      ResourceProperties: {
+        Domain: 'manuel-vogel.de',
+        Subdomain: 'aws',
+        ParentHostedZoneId: 'Z1234567890CC2',
+      },
+    } as unknown as OnEventRequest,
+  );
+
+  expect(spyListResourceRecordSets).toHaveBeenCalledTimes(1);
+  expect(spyChangeResourceRecordSets).toHaveBeenCalledTimes(1);
 });

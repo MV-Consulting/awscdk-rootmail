@@ -1,8 +1,8 @@
-import * as AWS from 'aws-sdk';
+import { OpsEntity, SSM } from '@aws-sdk/client-ssm';
 
-const SSM = new AWS.SSM();
+const ssm = new SSM();
 
-async function getOpsItem(title: string): Promise<AWS.SSM.OpsEntity | undefined> {
+async function getOpsItem(title: string): Promise<OpsEntity | undefined> {
   // get opsItem n times with 5s interval
   const maxRetries = 30;
   const delaySeconds = 5;
@@ -12,7 +12,7 @@ async function getOpsItem(title: string): Promise<AWS.SSM.OpsEntity | undefined>
       title: title,
     });
 
-    const res = await SSM.getOpsSummary({
+    const res = await ssm.getOpsSummary({
       Filters: [
         {
           Key: 'AWS:OpsItem.Title',
@@ -25,12 +25,12 @@ async function getOpsItem(title: string): Promise<AWS.SSM.OpsEntity | undefined>
           Type: 'Equal',
         },
       ],
-    }).promise();
-    if (res.$response.error) {
+    });
+    if (res.$metadata.httpStatusCode !== 200) {
       log({
         message: 'Error getOpsSummary',
         title: title,
-        err: res.$response.error,
+        err: `httpStatusCode: ${res.$metadata.httpStatusCode}`,
       });
 
       return undefined;
@@ -118,19 +118,19 @@ export const handler = async (event: any) => {
     }
 
     // 2 close opsItem
-    const resUpdate = await SSM.updateOpsItem({
+    const resUpdate = await ssm.updateOpsItem({
       OpsItemId: opsItemId,
       Status: 'Resolved',
-    }).promise();
+    });
 
-    if (resUpdate.$response.error) {
+    if (resUpdate.$metadata.httpStatusCode !== 200) {
       log({
         message: 'Error updateOpsItem',
         title: title,
-        err: resUpdate.$response.error,
+        err: `httpStatusCode: ${resUpdate.$metadata.httpStatusCode}`,
       });
 
-      return { closeStatusCode: 500, err: resUpdate.$response.error };
+      return { closeStatusCode: 500, err: resUpdate.$metadata.httpStatusCode };
     }
 
     log({

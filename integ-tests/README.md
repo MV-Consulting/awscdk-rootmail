@@ -1,6 +1,7 @@
 # integ-tests
 
 ## run
+### changes
 1. do the changes in the `*.ts` files
 2. from the root of the project run
 ```bash
@@ -11,6 +12,13 @@ npm run integ-test -- --dry-run
 # run the tests
 npm run integ-test
 ```
+
+### changes in CR
+the `integ-runner` does not detect the changes, this is why we need to run all test via the `--force` flag
+```bash
+npm run integ-test -- --force
+```
+
 ## clean up manually
 ### s3 bucket
 ```bash
