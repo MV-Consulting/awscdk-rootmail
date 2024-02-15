@@ -128,7 +128,7 @@ export const handler = async (event: SESEventRecordsToLambda) => {
 
     let title = msg.subject;
 
-    if (title === undefined) {
+    if (title === undefined || title.trim() === '') {
       log({
         id: id,
         key: key,
