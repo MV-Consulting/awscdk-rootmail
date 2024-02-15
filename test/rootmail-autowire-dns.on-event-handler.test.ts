@@ -136,3 +136,27 @@ describe('wire-rootmail-dns', () => {
     expect(spyPutParameter).not.toHaveBeenCalled();
   });
 });
+
+it('dns-ns-records-on-delete', async () => {
+  spyListResourceRecordSets.mockImplementation(() => ({
+    ResourceRecordSets: [
+      { Name: 'aws.manuel-vogel.de.', Type: 'NS' },
+    ],
+  }));
+
+  spyChangeResourceRecordSets.mockImplementation(() => ({}));
+
+  await handler(
+    {
+      RequestType: 'Delete',
+      ResourceProperties: {
+        Domain: 'manuel-vogel.de',
+        Subdomain: 'aws',
+        ParentHostedZoneId: 'Z1234567890CC2',
+      },
+    } as unknown as OnEventRequest,
+  );
+
+  expect(spyListResourceRecordSets).toHaveBeenCalledTimes(1);
+  expect(spyChangeResourceRecordSets).toHaveBeenCalledTimes(1);
+});
