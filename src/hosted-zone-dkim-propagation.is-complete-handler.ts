@@ -42,19 +42,25 @@ async function internalHandler(domain: string): Promise<boolean> {
   log('sending enabled');
 
   const identityVerificationResponse = await ses.getIdentityVerificationAttributes({ Identities: [domain] });
-  if (identityVerificationResponse.VerificationAttributes![domain].VerificationStatus !== 'Success') {
+  const identityVerificationStatus = identityVerificationResponse.VerificationAttributes![domain].VerificationStatus;
+  if (identityVerificationStatus !== 'Success') {
+    log(`Identity Verification status not successful. Was '${identityVerificationStatus}'`);
     return false;
   }
-  log('identiity verification successful');
+  log('identitity verification successful');
 
   const identityDkimRes = await ses.getIdentityDkimAttributes({ Identities: [domain] });
-  if (identityDkimRes.DkimAttributes![domain].DkimVerificationStatus !== 'Success') {
+  const identityDkimStatus = identityDkimRes.DkimAttributes![domain].DkimVerificationStatus;
+  if (identityDkimStatus !== 'Success') {
+    log(`DKIM status not successful. Was '${identityDkimStatus}'`);
     return false;
   }
   log('DKIM verification successful');
 
   const identityNotificationRes = await ses.getIdentityNotificationAttributes({ Identities: [domain] });
-  if (!identityNotificationRes.NotificationAttributes![domain].ForwardingEnabled) {
+  const forwardingEnabled = identityNotificationRes.NotificationAttributes![domain].ForwardingEnabled;
+  if (!forwardingEnabled) {
+    log(`Forwarding not enabled. Was '${forwardingEnabled}'`);
     return false;
   }
   log('forwarding enabled');
