@@ -63,7 +63,7 @@ import {
     Stack, 
     aws_route53 as r53 
 } from 'aws-cdk-lib';
-import { Rootmail, SESReceiveStack } from '@mavogel/awscdk-rootmail';
+import { Rootmail } from '@mavogel/awscdk-rootmail';
 import { Construct } from 'constructs';
 
 export class MyStack extends Stack {
