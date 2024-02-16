@@ -34,6 +34,11 @@ export interface SESReceiveProps {
   readonly emailbucket: s3.Bucket;
 
   /**
+   * The custom SES receive function to use
+   */
+  readonly customSesReceiveFunction?: lambda.Function;
+
+  /**
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
    */
   readonly setDestroyPolicyToAllResources?: boolean;
@@ -91,11 +96,10 @@ export class SESReceive extends Construct {
                   resourceName: 'rootmail/*',
                 }, Stack.of(this)),
               ],
-            }),
-
+            })
           ],
         }),
-      },
+      }
     });
     NagSuppressions.addResourceSuppressions(
       [
@@ -106,19 +110,39 @@ export class SESReceive extends Construct {
         { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok as we allow every opsitem to be created' },
       ], true);
 
-    const opsSantaFunction = new NodejsFunction(this, 'ops-santa-handler', {
-      handler: 'handler',
-      role: opsSantaFunctionRole,
-      runtime: lambda.Runtime.NODEJS_18_X,
-      timeout: Duration.seconds(60),
-      logRetention: 3,
-      environment: {
-        EMAIL_BUCKET: props.emailbucket.bucketName,
-        EMAIL_BUCKET_ARN: props.emailbucket.bucketArn,
-        ROOTMAIL_DEPLOY_REGION: Stack.of(this).region,
-      },
-    });
-
+    let opsSantaFunction: lambda.Function;
+    if (props.customSesReceiveFunction) {
+      opsSantaFunction = props.customSesReceiveFunction;
+      opsSantaFunction.role?.attachInlinePolicy(new iam.Policy(this, 'CustomSesReceiveFunctionPolicy', {
+        statements: [
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              's3:GetObject',
+            ],
+            resources: [
+              props.emailbucket.arnForObjects('RootMail/*'),
+            ],
+          }),
+        ],
+      }));
+      opsSantaFunction.addEnvironment('EMAIL_BUCKET', props.emailbucket.bucketName);
+      opsSantaFunction.addEnvironment('EMAIL_BUCKET_ARN', props.emailbucket.bucketArn);
+    } else {
+      opsSantaFunction = new NodejsFunction(this, 'ops-santa-handler', {
+        handler: 'handler',
+        role: opsSantaFunctionRole,
+        runtime: lambda.Runtime.NODEJS_18_X,
+        timeout: Duration.seconds(60),
+        logRetention: 3,
+        environment: {
+          EMAIL_BUCKET: props.emailbucket.bucketName,
+          EMAIL_BUCKET_ARN: props.emailbucket.bucketArn,
+          ROOTMAIL_DEPLOY_REGION: Stack.of(this).region,
+        },
+      });
+    }
+    // will be added in both ways
     opsSantaFunction.addPermission('OpsSantaFunctionSESPermissions', {
       principal: opsSantaFunctionSESPermissions,
       action: 'lambda:InvokeFunction',
