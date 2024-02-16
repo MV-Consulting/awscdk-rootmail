@@ -45,10 +45,10 @@ export interface RootmailProps {
    */
   readonly wireDNSToHostedZoneID?: string;
 
-   /**
+  /**
    * The custom SES receive function to use
    */
-   readonly customSesReceiveFunction?: lambda.Function;
+  readonly customSesReceiveFunction?: lambda.Function;
 
   /**
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.

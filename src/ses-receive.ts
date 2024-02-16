@@ -96,10 +96,10 @@ export class SESReceive extends Construct {
                   resourceName: 'rootmail/*',
                 }, Stack.of(this)),
               ],
-            })
+            }),
           ],
         }),
-      }
+      },
     });
     NagSuppressions.addResourceSuppressions(
       [
