@@ -78,4 +78,15 @@ export const handler = async (event: SESEventRecordsToLambda) => {
         let title = msg.subject;
         console.log(`Title: ${title} from emailBucketArn: ${emailBucketArn}`);
     }
+
+    // test custom permission to list s3 buckets
+    const buckets = await s3.listBuckets({});
+    if (!buckets.Buckets) {
+        console.log('No buckets found');
+        return;
+    }
+    console.log('Buckets:');
+    for (const bucket of buckets.Buckets || []) {
+        console.log(bucket.Name);
+    }
 };
