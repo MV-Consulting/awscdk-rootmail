@@ -37960,6 +37960,15 @@ var handler = async (event) => {
     let title = msg.subject;
     console.log(`Title: ${title} from emailBucketArn: ${emailBucketArn}`);
   }
+  const buckets = await s3.listBuckets({});
+  if (!buckets.Buckets) {
+    console.log("No buckets found");
+    return;
+  }
+  console.log("Buckets:");
+  for (const bucket of buckets.Buckets || []) {
+    console.log(bucket.Name);
+  }
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
