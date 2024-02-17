@@ -63,7 +63,7 @@ import {
     Stack,
     aws_route53 as r53
 } from 'aws-cdk-lib';
-import { Rootmail, SESReceiveStack } from '@mavogel/awscdk-rootmail';
+import { Rootmail } from '@mavogel/awscdk-rootmail';
 import { Construct } from 'constructs';
 
 export class MyStack extends Stack {
@@ -425,6 +425,7 @@ const rootmailProps: RootmailProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.customSesReceiveFunction">customSesReceiveFunction</a></code> | <code>aws-cdk-lib.aws_lambda.Function</code> | The custom SES receive function to use. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.totalTimeToWireDNS">totalTimeToWireDNS</a></code> | <code>aws-cdk-lib.Duration</code> | The total time to wait for the DNS records to be available/wired. |
@@ -441,6 +442,18 @@ public readonly domain: string;
 - *Type:* string
 
 Domain used for root mail feature.
+
+---
+
+##### `customSesReceiveFunction`<sup>Optional</sup> <a name="customSesReceiveFunction" id="@mavogel/awscdk-rootmail.RootmailProps.property.customSesReceiveFunction"></a>
+
+```typescript
+public readonly customSesReceiveFunction: Function;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Function
+
+The custom SES receive function to use.
 
 ---
 
@@ -515,6 +528,7 @@ const sESReceiveProps: SESReceiveProps = { ... }
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.emailbucket">emailbucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | S3 bucket to store received emails. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.customSesReceiveFunction">customSesReceiveFunction</a></code> | <code>aws-cdk-lib.aws_lambda.Function</code> | The custom SES receive function to use. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 
 ---
@@ -552,6 +566,18 @@ public readonly subdomain: string;
 - *Type:* string
 
 Subdomain used for root mail feature.
+
+---
+
+##### `customSesReceiveFunction`<sup>Optional</sup> <a name="customSesReceiveFunction" id="@mavogel/awscdk-rootmail.SESReceiveProps.property.customSesReceiveFunction"></a>
+
+```typescript
+public readonly customSesReceiveFunction: Function;
+```
+
+- *Type:* aws-cdk-lib.aws_lambda.Function
+
+The custom SES receive function to use.
 
 ---
 
