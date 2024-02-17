@@ -1,5 +1,5 @@
 import { S3 } from '@aws-sdk/client-s3';
-import { simpleParser } from 'mailparser';
+import { ParsedMail, simpleParser } from 'mailparser';
 // from https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-lambda-event.html
 export interface EventRecord {
     eventSource: string;
@@ -73,7 +73,7 @@ export const handler = async (event: SESEventRecordsToLambda) => {
         const key = `RootMail/${id}`;
         const response = await s3.getObject({ Bucket: emailBucket as string, Key: key });
         
-        const msg = await simpleParser(response.Body as unknown as Buffer);
+        const msg: ParsedMail = await simpleParser(response.Body as unknown as Buffer);
         
         let title = msg.subject;
         console.log(`Title: ${title} from emailBucketArn: ${emailBucketArn}`);
