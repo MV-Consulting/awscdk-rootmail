@@ -35,7 +35,7 @@ const customSesReceiveFunction = new NodejsFunction(stackUnderTest, 'custom-ses-
 
 customSesReceiveFunction.addToRolePolicy(new iam.PolicyStatement({
   actions: [
-    's3:Get*',
+    's3:List*',
   ],
   resources: ['*'],
 }))
