@@ -56,14 +56,14 @@ You can chose via embedding the construct in your cdk-app or use is directly via
    ```
    2. Add `@mavogel/awscdk-rootmail` as a dependency to your project in the `.projenrc.ts` file
    3. Run `npm run projen` to install it
-2. In you `main.ts` file add the following
+2. In you `main.ts` file add the following code
 ```ts
 import { 
     App, 
     Stack, 
     aws_route53 as r53 
 } from 'aws-cdk-lib';
-import { Rootmail, SESReceiveStack } from '@mavogel/awscdk-rootmail';
+import { Rootmail } from '@mavogel/awscdk-rootmail';
 import { Construct } from 'constructs';
 
 export class MyStack extends Stack {
@@ -96,6 +96,73 @@ npm run deploy
 ```
 1. No need to do anything, the NS records are **automatically** propagated as the parent Hosted Zone is in the same account!
 2. The `hosted-zone-dkim-propagation-provider.is-complete-handler` Lambda function checks every 10 seconds if the DNS for the subdomain is propagated. Details are in the Cloudwatch log group.
+
+### CDK with your own receiver function
+You might also want to pass in you own function on what to do when an EMail is received
+
+file `functions/custom-ses-receive-function.ts` which gets the 2 environment variables populated
+- `EMAIL_BUCKET`
+- `EMAIL_BUCKET_ARN`
+
+as well as `s3:GetObject` on the `RootMail/*` objects in the created Rootmail `S3` bucket. 
+
+```ts
+import { S3 } from '@aws-sdk/client-s3';
+import { ParsedMail, simpleParser } from 'mailparser';
+// populated by default
+const emailBucket = process.env.EMAIL_BUCKET;
+const emailBucketArn = process.env.EMAIL_BUCKET_ARN;
+const s3 = new S3();
+
+// SESEventRecordsToLambda
+// from https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-lambda-event.html
+export const handler = async (event: SESEventRecordsToLambda) => {
+    for (const record of event.Records) {
+        
+        const id = record.ses.mail.messageId;
+        const key = `RootMail/${id}`;
+        const response = await s3.getObject({ Bucket: emailBucket as string, Key: key });
+        
+        const msg: ParsedMail = await simpleParser(response.Body as unknown as Buffer);
+        
+        let title = msg.subject;
+        console.log(`Title: ${title} from emailBucketArn: ${emailBucketArn}`);
+        // use the content of the email body 
+        const body = msg.html;
+        // add your custom code here ...
+
+        // dummy example: list s3 buckets
+        const buckets = await s3.listBuckets({});
+        if (!buckets.Buckets) {
+            console.log('No buckets found');
+            return;
+        }
+        console.log('Buckets:');
+        for (const bucket of buckets.Buckets || []) {
+            console.log(bucket.Name);
+        }
+    }
+
+};
+```
+
+```ts
+const customSesReceiveFunction = new NodejsFunction(stackUnderTest, 'custom-ses-receive-function', {
+  functionName: PhysicalName.GENERATE_IF_NEEDED,
+  entry: path.join(__dirname, 'functions', 'custom-ses-receive-function.ts'),
+  runtime: lambda.Runtime.NODEJS_18_X,
+  logRetention: 1,
+  timeout: Duration.seconds(30),
+});
+
+// Note: any additional permissions you need to add to the function yourself!
+customSesReceiveFunction.addToRolePolicy(new iam.PolicyStatement({
+  actions: [
+    's3:List*',
+  ],
+  resources: ['*'],
+}))
+```
 
 #### Cloudformation
 or use it directly a Cloudformation template `yaml` from the URL [here](https://mvc-test4-bucket-eu-west-1.s3.eu-west-1.amazonaws.com/rootmail/0.0.13-DEVELOPMENT/rootmailStack.template.yaml).

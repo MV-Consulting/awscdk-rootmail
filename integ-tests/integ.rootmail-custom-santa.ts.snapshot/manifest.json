@@ -17,7 +17,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/48c74a489d3bba323f0b5e9de6b107e045144c26b35130b6083823df88a4b060.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/29df648400c115f86c87fc9f5bdb95120b46d2d1c8adfa2b2064e33731fb830b.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -33,6 +33,54 @@
         "RootmailIntegTestStack.assets"
       ],
       "metadata": {
+        "/RootmailIntegTestStack/custom-ses-receive-function/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "customsesreceivefunctionServiceRole59428503"
+          }
+        ],
+        "/RootmailIntegTestStack/custom-ses-receive-function/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "customsesreceivefunctionServiceRoleDefaultPolicyA3B235DE"
+          }
+        ],
+        "/RootmailIntegTestStack/custom-ses-receive-function/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "customsesreceivefunction5B1A9CD4"
+          }
+        ],
+        "/RootmailIntegTestStack/custom-ses-receive-function/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "customsesreceivefunctionLogRetention0291B225"
+          }
+        ],
+        "/RootmailIntegTestStack/custom-ses-receive-function/OpsSantaFunctionSESPermissions": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "customsesreceivefunctionOpsSantaFunctionSESPermissions3D5DD310"
+          }
+        ],
+        "/RootmailIntegTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ],
+        "/RootmailIntegTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+          }
+        ],
+        "/RootmailIntegTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
         "/RootmailIntegTestStack/testRootmail/EmailBucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -117,22 +165,10 @@
             "data": "testRootmailSESReceiveOpsSantaFunctionRole82D7297F"
           }
         ],
-        "/RootmailIntegTestStack/testRootmail/SESReceive/ops-santa-handler/Resource": [
+        "/RootmailIntegTestStack/testRootmail/SESReceive/CustomSesReceiveFunctionPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "testRootmailSESReceiveopssantahandler9628381A"
-          }
-        ],
-        "/RootmailIntegTestStack/testRootmail/SESReceive/ops-santa-handler/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailSESReceiveopssantahandlerLogRetention23A4ECDE"
-          }
-        ],
-        "/RootmailIntegTestStack/testRootmail/SESReceive/ops-santa-handler/OpsSantaFunctionSESPermissions": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "testRootmailSESReceiveopssantahandlerOpsSantaFunctionSESPermissionsEAD3AD06"
+            "data": "testRootmailSESReceiveCustomSesReceiveFunctionPolicy193B75EC"
           }
         ],
         "/RootmailIntegTestStack/testRootmail/SESReceive/SESReceiptRuleSetActivation/Resource/Default": [
@@ -187,24 +223,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "rootmailhostedzonedkimverificationrecordsproviderframeworkonEventLogRetention64AEF97C"
-          }
-        ],
-        "/RootmailIntegTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
-          }
-        ],
-        "/RootmailIntegTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
-          }
-        ],
-        "/RootmailIntegTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
           }
         ],
         "/RootmailIntegTestStack/rootmail.autowire-dns-provider/is-complete-handler/ServiceRole/Resource": [
@@ -603,40 +621,10 @@
             "data": "sendemailhandlerLogRetentionDBC033F7"
           }
         ],
-        "/RootmailIntegTestStack/close-opsitem-handler/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "closeopsitemhandlerServiceRoleCB0A72D2"
-          }
-        ],
-        "/RootmailIntegTestStack/close-opsitem-handler/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "closeopsitemhandlerServiceRoleDefaultPolicy6E097200"
-          }
-        ],
-        "/RootmailIntegTestStack/close-opsitem-handler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "closeopsitemhandler2F03D32C"
-          }
-        ],
-        "/RootmailIntegTestStack/close-opsitem-handler/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "closeopsitemhandlerLogRetentionFD7FC04E"
-          }
-        ],
         "/RootmailIntegTestStack/Exports/Output{\"Ref\":\"sendemailhandler05B16DE5\"}": [
           {
             "type": "aws:cdk:logicalId",
             "data": "ExportsOutputRefsendemailhandler05B16DE5F96FA757"
-          }
-        ],
-        "/RootmailIntegTestStack/Exports/Output{\"Ref\":\"closeopsitemhandler2F03D32C\"}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExportsOutputRefcloseopsitemhandler2F03D32CCD4ECFB2"
           }
         ],
         "/RootmailIntegTestStack/BootstrapVersion": [
@@ -670,7 +658,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3c319bbdb9ad02954c2bf2dd8462fcec43716ff75a9b9bb053439e3851f2f0be.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/bd5ca416acdf7bc9e351216c8692216e8915fa78d41070fc8e5bded880b1f738.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -687,22 +675,22 @@
         "SetupTestIntegStackDefaultTestDeployAssert6EB6FF77.assets"
       ],
       "metadata": {
-        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1/Default/Default": [
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke8535566be63cb52d07c1283fc6f6e307/Default/Default": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "LambdaInvoke683c845d9bea165a967a76b79d7da1c1"
+            "data": "LambdaInvoke8535566be63cb52d07c1283fc6f6e307"
           }
         ],
-        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1/Invoke": [
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke8535566be63cb52d07c1283fc6f6e307/Invoke": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "LambdaInvoke683c845d9bea165a967a76b79d7da1c1InvokeEF8E1448"
+            "data": "LambdaInvoke8535566be63cb52d07c1283fc6f6e307Invoke7095813B"
           }
         ],
-        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1/AssertionResults": [
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke8535566be63cb52d07c1283fc6f6e307/AssertionResults": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AssertionResultsLambdaInvoke683c845d9bea165a967a76b79d7da1c1"
+            "data": "AssertionResultsLambdaInvoke8535566be63cb52d07c1283fc6f6e307"
           }
         ],
         "/SetupTestIntegStack/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role": [
@@ -715,24 +703,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F"
-          }
-        ],
-        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72/Default/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72"
-          }
-        ],
-        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72/Invoke": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72Invoke3A57FE86"
-          }
-        ],
-        "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72/AssertionResults": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AssertionResultsLambdaInvokeb52657067e4b5f63c2c8dd056d68bf72"
           }
         ],
         "/SetupTestIntegStack/DefaultTest/DeployAssert/AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b/Default/Default": [

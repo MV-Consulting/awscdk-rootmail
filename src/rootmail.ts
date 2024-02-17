@@ -2,6 +2,7 @@ import {
   Duration,
   Stack,
   aws_iam as iam,
+  aws_lambda as lambda,
   aws_route53 as r53,
   aws_s3 as s3,
   aws_ssm as ssm,
@@ -43,6 +44,11 @@ export interface RootmailProps {
    * @default undefined
    */
   readonly wireDNSToHostedZoneID?: string;
+
+  /**
+   * The custom SES receive function to use
+   */
+  readonly customSesReceiveFunction?: lambda.Function;
 
   /**
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
@@ -118,6 +124,7 @@ export class Rootmail extends Construct {
       domain: domain,
       subdomain: subdomain,
       emailbucket: this.emailBucket,
+      customSesReceiveFunction: props.customSesReceiveFunction,
     });
 
     // If Destroy Policy Aspect is present:
