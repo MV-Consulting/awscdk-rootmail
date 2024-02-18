@@ -55,6 +55,42 @@ jobs:
           name: build-artifact
           path: dist
           overwrite: true
+  release_s3:
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-cenral-1
+          role-to-assume: arn:aws:iam::935897259846:role/gh-actions-awscdk-rootmail-Role-hejhEmbcI80y
+      - name: Install Build and publish assets dependencies
+        run: |-
+          pip install cfn-flip && cfn-flip --version
+          yarn global add aws-cdk
+          yarn install --check-files --frozen-lockfile
+      - name: Build and publish assets
+        env:
+          S3_PUBLISH_BUCKET: mvc-test4-bucket-eu-west-1
+        run: |-
+          ROOTMAIL_VERSION=$(cat dist/releasetag.txt)
+          echo "Release version: $ROOTMAIL_VERSION"
+          npm test
+          npm run synth
+          npm run publish-assets
+          aws s3 cp cdk.out/RootmailStack.template.json s3://${S3_PUBLISH_BUCKET}/${ROOTMAIL_VERSION}/templates/
+          cfn-flip cdk.out/RootmailStack.template.json cdk.out/rootmail.template.yaml
+          aws s3 cp cdk.out/rootmail.template.yaml s3://${S3_PUBLISH_BUCKET}/${ROOTMAIL_VERSION}/templates/
   release_github:
     name: Publish to GitHub Releases
     needs: release
