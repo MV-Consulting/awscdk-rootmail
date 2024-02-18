@@ -90,7 +90,7 @@ if (releaseWorkflow) {
         contents: JobPermission.READ,
       },
       needs: ['release'],
-      if: `needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha`,
+      if: 'needs.release.outputs.tag_exists != \'true\' && needs.release.outputs.latest_commit == github.sha',
       steps: [
         {
           name: 'Checkout',
