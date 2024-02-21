@@ -12,6 +12,16 @@ const project = new awscdk.AwsCdkConstructLibrary({
   projenrcTs: true,
   repositoryUrl: 'https://github.com/mavogel/awscdk-rootmail.git',
   npmAccess: NpmAccess.PUBLIC, /* The npm access level to use when releasing this module. */
+  keywords: ['aws', 'cdk', 'ses', 'construct', 'rootmail'],
+  autoApproveOptions: {
+    allowedUsernames: ['mavogel'],
+  },
+  autoApproveUpgrades: true,
+  depsUpgradeOptions: {
+    workflowOptions: {
+      labels: ['auto-approve'],
+    },
+  },
   tsconfig: {
     compilerOptions: {
       esModuleInterop: true,
@@ -107,7 +117,7 @@ if (releaseWorkflow) {
           name: 'Configure AWS credentials',
           uses: 'aws-actions/configure-aws-credentials@v4',
           with: {
-            'aws-region': 'eu-cenral-1',
+            'aws-region': 'eu-central-1',
             'role-to-assume': 'arn:aws:iam::935897259846:role/gh-actions-awscdk-rootmail-Role-hejhEmbcI80y',
           },
         },

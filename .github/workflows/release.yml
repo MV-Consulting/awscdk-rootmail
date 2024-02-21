@@ -72,7 +72,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-region: eu-cenral-1
+          aws-region: eu-central-1
           role-to-assume: arn:aws:iam::935897259846:role/gh-actions-awscdk-rootmail-Role-hejhEmbcI80y
       - name: Install Build and publish assets dependencies
         run: |-

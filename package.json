@@ -104,7 +104,11 @@
     "uuid"
   ],
   "keywords": [
-    "cdk"
+    "aws",
+    "cdk",
+    "construct",
+    "rootmail",
+    "ses"
   ],
   "main": "lib/index.js",
   "license": "Apache-2.0",
