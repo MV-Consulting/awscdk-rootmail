@@ -10,7 +10,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   jsiiVersion: '~5.3.0',
   name: '@mavogel/awscdk-rootmail',
   projenrcTs: true,
-  repositoryUrl: 'https://github.com/mavogel/awscdk-rootmail.git',
+  repositoryUrl: 'https://github.com/MV-Consulting/awscdk-rootmail',
   npmAccess: NpmAccess.PUBLIC, /* The npm access level to use when releasing this module. */
   keywords: ['aws', 'cdk', 'ses', 'construct', 'rootmail'],
   autoApproveOptions: {
