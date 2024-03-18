@@ -2,35 +2,34 @@ import { execSync } from 'child_process';
 import * as path from 'path';
 import * as retry from 'async-retry';
 
-const REGIONS = [
-  'eu-west-1', // Europe (Ireland),
-  // 'us-east-1', // US East (N. Virginia),
-  // 'us-west-2', // US West (Oregon),
-  //  // new regions since 2023-09
-  // 'eu-central-1', // Europe (Frankfurt),
-  // 'eu-west-2', // Europe (London),
-  // 'us-east-2', // US East (Ohio),
-  // 'ca-central-1', // Canada (Central),
-  // 'ap-northeast-1', // Asia Pacific (Tokyo),
-  // 'ap-southeast-1', // Asia Pacific (Singapore),
-  // 'ap-southeast-2', // Asia Pacific (Sydney),
-];
+if (!process.env.RELEASE_NAME || process.env.RELEASE_NAME === '') {
+  throw new Error('RELEASE_NAME environment variable must be set');
+}
 
-const retries = 20;
+if (!process.env.RELEASE_RETRIES || process.env.RELEASE_RETRIES === '') {
+  throw new Error('RELEASE_RETRIES environment variable must be set');
+}
 
-// Publish assets into all regional buckets
-// e.g. superwerker-assets-eu-central-1 etc.
+if (!process.env.RELEASE_REGIONS || process.env.RELEASE_REGIONS.length === 0) {
+  throw new Error('RELEASE_REGIONS environment variable must be set and not empty');
+}
+
+const releaseName = process.env.RELEASE_NAME;
+const releaseRetries = process.env.RELEASE_RETRIES as unknown as number;
+const releaseRegions = process.env.RELEASE_REGIONS.split(',');
+console.log(`Publishing assets for release ${releaseName} with ${releaseRetries} retries to regions: ${releaseRegions}`);
+
 const main = async () => {
-  const assetManifestPath = path.resolve(__dirname, '..', '..', 'cdk.out', 'RootmailStack.assets.json');
-  for (const region of REGIONS) {
+  const assetManifestPath = path.resolve(__dirname, '..', '..', 'cdk.out', `${releaseName}.assets.json`);
+  for (const region of releaseRegions) {
     const command = `AWS_REGION=${region} yarn cdk-assets publish -p ${assetManifestPath}`;
     console.log(command);
     await retry(async (_: any, attempt: number) => {
-      console.log(`Attempt ${attempt} of ${retries} in region ${region}`);
+      console.log(`Attempt ${attempt} of ${releaseRetries} in region ${region}`);
       const execResult = await execSync(command);
       console.log(execResult.toString());
     }, {
-      retries: retries,
+      retries: releaseRetries,
       factor: 2,
       minTimeout: 1000,
       maxTimeout: 30000,
@@ -38,7 +37,6 @@ const main = async () => {
   }
 };
 
-// top level await madness
 (async () => { await main(); })().catch(e => {
   console.error(e);
 });

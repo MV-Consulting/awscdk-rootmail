@@ -145,7 +145,7 @@ export const handler = async (event: SESEventRecordsToLambda) => {
 
 };
 ```
-
+and you create a separate `NodejsFunction` as follows with the additionally needed IAM permissions:
 ```ts
 const customSesReceiveFunction = new NodejsFunction(stackUnderTest, 'custom-ses-receive-function', {
   functionName: PhysicalName.GENERATE_IF_NEEDED,
@@ -162,6 +162,28 @@ customSesReceiveFunction.addToRolePolicy(new iam.PolicyStatement({
   ],
   resources: ['*'],
 }))
+```
+and then pass it into the `Rootmail` Stack
+```ts
+export class MyStack extends Stack {
+  constructor(scope: Construct, id: string, props: StackProps = {}) {
+    super(scope, id, props);
+
+    const domain = 'mycompany.test'
+    const hostedZone = r53.HostedZone.fromLookup(this, 'rootmail-parent-hosted-zone', {
+      domainName: domain,
+    });
+
+    const rootmail = new Rootmail(this, 'rootmail-stack', {
+      domain: domain;
+      autowireDNSParentHostedZoneID: hostedZone.hostedZoneId,
+      env: {
+        region: 'eu-west-1',
+      },
+      customSesReceiveFunction: customSesReceiveFunction, // <- pass it in here
+    });
+  }
+}
 ```
 
 #### Cloudformation

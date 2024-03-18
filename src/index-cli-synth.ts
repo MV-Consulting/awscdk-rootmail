@@ -58,23 +58,33 @@ class RootmailStack extends Stack {
   }
 }
 
-let rootmailVersion = process.env.ROOTMAIL_VERSION;
-if (!process.env.ROOTMAIL_VERSION || process.env.ROOTMAIL_VERSION === '') {
-  console.log('ROOTMAIL_VERSION is not set. Using default \'0.0.0-DEVELOPMENT\'');
-  rootmailVersion = '0.0.0-DEVELOPMENT';
+let releaseVersion = process.env.RELEASE_VERSION;
+if (!process.env.RELEASE_VERSION || process.env.RELEASE_VERSION === '') {
+  console.log('RELEASE_VERSION is not set. Using default \'0.0.0-DEVELOPMENT\'');
+  releaseVersion = '0.0.0-DEVELOPMENT';
 }
 
-console.log(`Using ROOTMAIL_VERSION Version: '${rootmailVersion}'`);
+if (!process.env.RELEASE_NAME || process.env.RELEASE_NAME === '') {
+  throw new Error('RELEASE_NAME environment variable must be set');
+}
+const releaseName = process.env.RELEASE_NAME;
 
+if (!process.env.RELEASE_PREFIX || process.env.RELEASE_PREFIX === '') {
+  throw new Error('RELEASE_PREFIX environment variable must be set');
+}
+const releasePrefix = process.env.RELEASE_PREFIX;
 
-new RootmailStack(app, 'RootmailStack', {
+if (!process.env.S3_FILE_ASSETS_BUCKET_PREFIX || process.env.S3_FILE_ASSETS_BUCKET_PREFIX === '') {
+  throw new Error('S3_FILE_ASSETS_BUCKET_PREFIX environment variable must be set');
+}
+const s3FileAssetsBucketPrefix = process.env.S3_FILE_ASSETS_BUCKET_PREFIX;
 
-  version: rootmailVersion,
+console.log(`Using RELEASE_NAME: '${releaseName}' RELEASE_VERSION Version: '${releaseVersion}' with prefix: '${releasePrefix}'`);
+new RootmailStack(app, releaseName, {
+  version: releaseVersion,
   synthesizer: new CliCredentialsStackSynthesizer({
-    // TODO: https://www.simplified.guide/aws/s3/create-public-bucket
-    fileAssetsBucketName: 'mvc-test4-bucket-${AWS::Region}',
-    bucketPrefix: `rootmail/${rootmailVersion}/`,
+    fileAssetsBucketName: `${s3FileAssetsBucketPrefix}-\${AWS::Region}`,
+    bucketPrefix: `${releasePrefix}/${releaseVersion}/`,
   }),
 });
-
 app.synth();
