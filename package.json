@@ -28,11 +28,11 @@
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
     "projen": "npx projen",
+    "synth": "npx cdk synth -q",
+    "publish-assets": "npx ts-node -P tsconfig.json --prefer-ts-exts src/scripts/publish-assets.ts",
     "prepare": "husky install",
-    "integ-test": "integ-runner --directory ./integ-tests --parallel-regions eu-west-2 --parallel-regions eu-west-1 --update-on-failed",
-    "synth": "cdk synth -q",
-    "prepare-integ-test": "rm -rf cdk.out && cdk synth -q",
-    "publish-assets": "npx ts-node -P tsconfig.json --prefer-ts-exts src/scripts/publish-assets.ts"
+    "prepare-integ-test": "rm -rf cdk.out && npx cdk synth -q",
+    "integ-test": "integ-runner --directory ./integ-tests --parallel-regions eu-west-2 --parallel-regions eu-west-1 --update-on-failed"
   },
   "author": {
     "name": "Manuel Vogel",

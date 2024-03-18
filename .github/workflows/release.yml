@@ -56,6 +56,7 @@ jobs:
           path: dist
           overwrite: true
   release_s3:
+    name: Release to S3
     needs: release
     runs-on: ubuntu-latest
     permissions:
@@ -63,34 +64,49 @@ jobs:
       contents: read
     if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-west-1
+          role-to-assume: TODO
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
         with:
-          aws-region: eu-central-1
-          role-to-assume: arn:aws:iam::935897259846:role/gh-actions-awscdk-rootmail-Role-hejhEmbcI80y
+          name: build-artifact
+          path: dist
+      - name: Restore build artifact permissions
+        run: cd dist && setfacl --restore=permissions-backup.acl
+        continue-on-error: true
+      - name: Prepare Repository
+        run: mv dist .repo
+      - name: Collect GitHub Metadata
+        run: mv .repo/dist dist
       - name: Install Build and publish assets dependencies
         run: |-
           pip install cfn-flip && cfn-flip --version
           yarn global add aws-cdk
-          yarn install --check-files --frozen-lockfile
       - name: Build and publish assets
         env:
-          S3_PUBLISH_BUCKET: mvc-test4-bucket-eu-west-1
+          S3_PUBLISH_BUCKET: TODO
+          S3_FILE_ASSETS_BUCKET_PREFIX: TODO
+          RELEASE_RETRIES: "20"
+          RELEASE_REGIONS: eu-central-1,eu-west-1
+          RELEASE_PREFIX: rootmail
         run: |-
-          ROOTMAIL_VERSION=$(cat dist/releasetag.txt)
-          echo "Release version: $ROOTMAIL_VERSION"
-          npm test
-          npm run synth
-          npm run publish-assets
-          aws s3 cp cdk.out/RootmailStack.template.json s3://${S3_PUBLISH_BUCKET}/${ROOTMAIL_VERSION}/templates/
-          cfn-flip cdk.out/RootmailStack.template.json cdk.out/rootmail.template.yaml
-          aws s3 cp cdk.out/rootmail.template.yaml s3://${S3_PUBLISH_BUCKET}/${ROOTMAIL_VERSION}/templates/
+          export RELEASE_NAME=${CI_REPOSITORY_NAME}
+          export RELEASE_VERSION=$(cat $GITHUB_WORKSPACE/dist/releasetag.txt)
+          echo "Releasing ${CI_REPOSITORY_NAME} with prefix ${RELEASE_PREFIX} and version ${RELEASE_VERSION} to S3 bucket ${S3_PUBLISH_BUCKET} and file assets bucket prefix ${S3_FILE_ASSETS_BUCKET_PREFIX}"
+          yarn install
+          yarn synth
+          yarn publish-assets
+          aws s3 cp cdk.out/${RELEASE_NAME}.template.json s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/
+          cfn-flip cdk.out/${RELEASE_NAME}.template.json cdk.out/${RELEASE_NAME}.template.yaml
+          aws s3 cp cdk.out/${RELEASE_NAME}.template.yaml s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/
+        working-directory: .repo
   release_github:
     name: Publish to GitHub Releases
     needs: release
