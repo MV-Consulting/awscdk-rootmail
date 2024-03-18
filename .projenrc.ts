@@ -142,7 +142,7 @@ if (buildWorkflow) {
           uses: 'aws-actions/configure-aws-credentials@v4',
           with: {
             'aws-region': 'eu-west-1',
-            'role-to-assume': '{{ secrets.DEV_RELEASE_ROLE }}',
+            'role-to-assume': '${{ secrets.DEV_RELEASE_ROLE }}',
           },
         },
         {
