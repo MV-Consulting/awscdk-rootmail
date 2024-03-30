@@ -247,6 +247,10 @@ if (releaseWorkflow) {
           run: installToolDependenciesSteps.join('\n'),
         },
         {
+          name: 'Inject environment variables',
+          uses: 'FranzDiebold/github-env-vars-action@v2',
+        },
+        {
           name: 'Build and publish assets',
           run: buildAndPublishAssetsSteps.join('\n'),
           env: {
