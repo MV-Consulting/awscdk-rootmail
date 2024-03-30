@@ -147,7 +147,7 @@ jobs:
           S3_PUBLISH_BUCKET: mvc-tmp-dev-releases
           S3_FILE_ASSETS_BUCKET_PREFIX: mvc-tmp-dev-assets
           RELEASE_RETRIES: "20"
-          RELEASE_REGIONS: eu-central-1,eu-west-1
+          RELEASE_REGIONS: eu-central-1,eu-west-1,eu-west-2
           RELEASE_PREFIX: rootmail
         run: |-
           export RELEASE_NAME=${CI_REPOSITORY_NAME}
