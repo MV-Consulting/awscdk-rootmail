@@ -82,9 +82,8 @@ const releasePrefix = 'rootmail'; // will be used as prefix for the S3 path
 const devS3PublishBucket = 'mvc-tmp-dev-releases';
 const devS3FileAssetsBucketPrefix = 'mvc-tmp-dev-assets'; // will get '${AWS::Region}' appended
 // prod
-const prodReleaseRole = 'TODO';
-const prodS3PublishBucket = 'TODO';
-const prodS3FileAssetsBucketPrefix = 'TODO'; // will get '${AWS::Region}' appended
+const prodS3PublishBucket = 'mvc-tmp-prod-releases';
+const prodS3FileAssetsBucketPrefix = 'mvc-tmp-prod-assets'; // will get '${AWS::Region}' appended
 
 const packageManager = project.package.packageManager;
 switch (packageManager) {
@@ -168,7 +167,10 @@ if (buildWorkflow) {
         },
         {
           name: 'Prepare version for branch',
-          run: 'mkdir -p $GITHUB_WORKSPACE/dist && echo "0.0.0-${CI_HEAD_REF_SLUG}-$(date -u +\'%Y%m%d-%H%M%S\')-${GITHUB_SHA::8}" > $GITHUB_WORKSPACE/dist/releasetag.txt && cat $GITHUB_WORKSPACE/dist/releasetag.txt',
+          run: [
+            'mkdir -p $GITHUB_WORKSPACE/dist',
+            'echo "0.0.0-${CI_HEAD_REF_SLUG}-$(date -u +\'%Y%m%d-%H%M%S\')-${GITHUB_SHA::8}" > $GITHUB_WORKSPACE/dist/releasetag.txt',
+          ].join('\n'),
         },
         {
           name: 'Build and publish assets',
@@ -207,7 +209,7 @@ if (releaseWorkflow) {
           uses: 'aws-actions/configure-aws-credentials@v4',
           with: {
             'aws-region': 'eu-west-1',
-            'role-to-assume': prodReleaseRole,
+            'role-to-assume': '${{ secrets.PROD_RELEASE_ROLE }}',
           },
         },
         {

@@ -68,7 +68,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: eu-west-1
-          role-to-assume: TODO
+          role-to-assume: ${{ secrets.PROD_RELEASE_ROLE }}
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -91,8 +91,8 @@ jobs:
           yarn global add aws-cdk
       - name: Build and publish assets
         env:
-          S3_PUBLISH_BUCKET: TODO
-          S3_FILE_ASSETS_BUCKET_PREFIX: TODO
+          S3_PUBLISH_BUCKET: mvc-tmp-prod-releases
+          S3_FILE_ASSETS_BUCKET_PREFIX: mvc-tmp-prod-assets
           RELEASE_RETRIES: "20"
           RELEASE_REGIONS: eu-central-1,eu-west-1
           RELEASE_PREFIX: rootmail

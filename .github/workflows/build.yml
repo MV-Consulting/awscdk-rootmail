@@ -139,7 +139,9 @@ jobs:
       - name: Inject environment variables
         uses: FranzDiebold/github-env-vars-action@v2
       - name: Prepare version for branch
-        run: mkdir -p $GITHUB_WORKSPACE/dist && echo "0.0.0-${CI_HEAD_REF_SLUG}-$(date -u +'%Y%m%d-%H%M%S')-${GITHUB_SHA::8}" > $GITHUB_WORKSPACE/dist/releasetag.txt && cat $GITHUB_WORKSPACE/dist/releasetag.txt
+        run: |-
+          mkdir -p $GITHUB_WORKSPACE/dist
+          echo "0.0.0-${CI_HEAD_REF_SLUG}-$(date -u +'%Y%m%d-%H%M%S')-${GITHUB_SHA::8}" > $GITHUB_WORKSPACE/dist/releasetag.txt
       - name: Build and publish assets
         env:
           S3_PUBLISH_BUCKET: mvc-tmp-dev-releases
