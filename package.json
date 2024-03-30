@@ -3,7 +3,7 @@
   "description": "An opinionated way to secure root email addresses for AWS accounts.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mavogel/awscdk-rootmail.git"
+    "url": "https://github.com/MV-Consulting/awscdk-rootmail"
   },
   "scripts": {
     "build": "npx projen build",
@@ -28,10 +28,11 @@
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
     "projen": "npx projen",
+    "synth": "npx cdk synth -q",
+    "publish-assets": "npx ts-node -P tsconfig.json --prefer-ts-exts src/scripts/publish-assets.ts",
     "prepare": "husky install",
-    "integ-test": "integ-runner --directory ./integ-tests --parallel-regions eu-west-2 --parallel-regions eu-west-1 --update-on-failed",
-    "prepare-integ-test": "rm -rf cdk.out && cdk synth -q",
-    "publish-assets": "npx ts-node -P tsconfig.json --prefer-ts-exts src/scripts/publish-assets.ts"
+    "prepare-integ-test": "rm -rf cdk.out && npx cdk synth -q",
+    "integ-test": "integ-runner --directory ./integ-tests --parallel-regions eu-west-2 --parallel-regions eu-west-1 --update-on-failed"
   },
   "author": {
     "name": "Manuel Vogel",
@@ -103,7 +104,11 @@
     "uuid"
   ],
   "keywords": [
-    "cdk"
+    "aws",
+    "cdk",
+    "construct",
+    "rootmail",
+    "ses"
   ],
   "main": "lib/index.js",
   "license": "Apache-2.0",
