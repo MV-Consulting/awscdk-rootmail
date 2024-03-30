@@ -89,6 +89,8 @@ jobs:
         run: |-
           pip install cfn-flip && cfn-flip --version
           yarn global add aws-cdk
+      - name: Inject environment variables
+        uses: FranzDiebold/github-env-vars-action@v2
       - name: Build and publish assets
         env:
           S3_PUBLISH_BUCKET: mvc-tmp-prod-releases
