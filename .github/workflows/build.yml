@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: "18.13"
       - name: Install dependencies
         run: yarn install --check-files
       - name: build
@@ -94,7 +94,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: "18.13"
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
@@ -112,7 +112,7 @@ jobs:
       - name: Collect js Artifact
         run: mv .repo/dist dist
   release_s3_dev:
-    name: Release to S3 (dev)
+    name: Publish to S3 (dev)
     needs: build
     runs-on: ubuntu-latest
     permissions:
@@ -130,7 +130,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: "18.13"
       - name: Install Build and publish assets dependencies
         run: |-
           pip install cfn-flip && cfn-flip --version
