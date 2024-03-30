@@ -111,3 +111,52 @@ jobs:
         run: cd .repo && npx projen package:js
       - name: Collect js Artifact
         run: mv .repo/dist dist
+  release_s3_dev:
+    name: Release to S3 (dev)
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    if: "!(needs.build.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-west-1
+          role-to-assume: ${{ secrets.DEV_RELEASE_ROLE }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+      - name: Install Build and publish assets dependencies
+        run: |-
+          pip install cfn-flip && cfn-flip --version
+          yarn global add aws-cdk
+      - name: Additional install, build and synth
+        run: yarn install && yarn build
+      - name: Inject environment variables
+        uses: FranzDiebold/github-env-vars-action@v2
+      - name: Prepare version for branch
+        run: |-
+          mkdir -p $GITHUB_WORKSPACE/dist
+          echo "0.0.0-${CI_HEAD_REF_SLUG}-$(date -u +'%Y%m%d-%H%M%S')-${GITHUB_SHA::8}" > $GITHUB_WORKSPACE/dist/releasetag.txt
+      - name: Build and publish assets
+        env:
+          S3_PUBLISH_BUCKET: mvc-tmp-dev-releases
+          S3_FILE_ASSETS_BUCKET_PREFIX: mvc-tmp-dev-assets
+          RELEASE_RETRIES: "20"
+          RELEASE_REGIONS: eu-central-1,eu-west-1
+          RELEASE_PREFIX: rootmail
+        run: |-
+          export RELEASE_NAME=${CI_REPOSITORY_NAME}
+          export RELEASE_VERSION=$(cat $GITHUB_WORKSPACE/dist/releasetag.txt)
+          echo "Releasing ${CI_REPOSITORY_NAME} with prefix ${RELEASE_PREFIX} and version ${RELEASE_VERSION} to S3 bucket ${S3_PUBLISH_BUCKET} and file assets bucket prefix ${S3_FILE_ASSETS_BUCKET_PREFIX}"
+          yarn install
+          yarn synth
+          yarn publish-assets
+          aws s3 cp cdk.out/${RELEASE_NAME}.template.json s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/
+          cfn-flip cdk.out/${RELEASE_NAME}.template.json cdk.out/${RELEASE_NAME}.template.yaml
+          aws s3 cp cdk.out/${RELEASE_NAME}.template.yaml s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/
