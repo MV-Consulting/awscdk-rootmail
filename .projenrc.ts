@@ -76,7 +76,7 @@ const releaseWorkflow = project.github!.workflows.find(w => w.name === 'release'
 // general
 const releaseRetries = '20'; // needs to be a string and will be parsed
 // comma separated list of regions
-const releaseRegions = 'eu-central-1,eu-west-1';
+const releaseRegions = 'eu-central-1,eu-west-1,eu-west-2';
 const releasePrefix = 'rootmail'; // will be used as prefix for the S3 path
 // dev
 const devS3PublishBucket = 'mvc-tmp-dev-releases';
