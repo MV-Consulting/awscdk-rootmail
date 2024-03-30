@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: "18.13"
       - name: Install dependencies
         run: yarn install --check-files --frozen-lockfile
       - name: release
@@ -56,7 +56,7 @@ jobs:
           path: dist
           overwrite: true
   release_s3:
-    name: Release to S3
+    name: Publish to S3
     needs: release
     runs-on: ubuntu-latest
     permissions:
@@ -72,7 +72,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: "18.13"
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
@@ -119,7 +119,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: "18.13"
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
@@ -149,7 +149,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: "18.13"
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:

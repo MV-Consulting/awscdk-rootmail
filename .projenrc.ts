@@ -34,6 +34,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
       'integ-tests/**/*.ts',
     ],
   },
+  // due to aws-sdk-v3 and the bug
+  // see https://stackoverflow.com/questions/76695161/jsii-pacmak-ignores-dist-files-from-aws-sdk-util-utf8-browser
+  workflowNodeVersion: '18.13',
 
   bundledDeps: [
     '@aws-sdk/client-cloudwatch-logs',
@@ -122,7 +125,7 @@ const buildAndPublishAssetsSteps = [
 if (buildWorkflow) {
   buildWorkflow.addJobs({
     release_s3_dev: {
-      name: 'Release to S3 (dev)',
+      name: 'Publish to S3 (dev)',
       runsOn: ['ubuntu-latest'],
       needs: ['build'],
       // self-mutation did not happen and the PR is from the same repo
@@ -148,7 +151,7 @@ if (buildWorkflow) {
           name: 'Setup Node.js',
           uses: 'actions/setup-node@v4',
           with: {
-            'node-version': '18.x',
+            'node-version': '18.13',
           },
         },
         {
@@ -191,7 +194,7 @@ if (buildWorkflow) {
 if (releaseWorkflow) {
   releaseWorkflow.addJobs({
     release_s3: {
-      name: 'Release to S3',
+      name: 'Publish to S3',
       runsOn: ['ubuntu-latest'],
       permissions: {
         idToken: JobPermission.WRITE,
@@ -216,7 +219,7 @@ if (releaseWorkflow) {
           name: 'Setup Node.js',
           uses: 'actions/setup-node@v4',
           with: {
-            'node-version': '18.x',
+            'node-version': '18.13',
           },
         },
         // As in the other release jobs
