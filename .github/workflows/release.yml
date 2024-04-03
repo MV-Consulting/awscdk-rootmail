@@ -93,10 +93,10 @@ jobs:
         uses: FranzDiebold/github-env-vars-action@v2
       - name: Build and publish assets
         env:
-          S3_PUBLISH_BUCKET: mvc-tmp-prod-releases
-          S3_FILE_ASSETS_BUCKET_PREFIX: mvc-tmp-prod-assets
+          S3_PUBLISH_BUCKET: mvc-prod-releases
+          S3_FILE_ASSETS_BUCKET_PREFIX: mvc-prod-assets
           RELEASE_RETRIES: "20"
-          RELEASE_REGIONS: eu-central-1,eu-west-1,eu-west-2
+          RELEASE_REGIONS: eu-central-1,eu-west-1,ca-central-1
           RELEASE_PREFIX: rootmail
         run: |-
           export RELEASE_NAME=${CI_REPOSITORY_NAME}
