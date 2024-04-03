@@ -79,14 +79,26 @@ const releaseWorkflow = project.github!.workflows.find(w => w.name === 'release'
 // general
 const releaseRetries = '20'; // needs to be a string and will be parsed
 // comma separated list of regions
-const releaseRegions = 'eu-central-1,eu-west-1,eu-west-2';
+const releaseRegions = [
+  'us-east-1', // US East (N. Virginia),
+  'eu-west-1', // Europe (Ireland),
+  'us-west-2', // US West (Oregon),
+  // new regions since 2023-09 for SES
+  'eu-central-1', // Europe (Frankfurt),
+  // 'eu-west-2', // Europe (London),
+  'us-east-2', // US East (Ohio),
+  'ca-central-1', // Canada (Central),
+  'ap-northeast-1', // Asia Pacific (Tokyo),
+  'ap-southeast-1', // Asia Pacific (Singapore),
+  'ap-southeast-2', // Asia Pacific (Sydney),
+].join(',');
 const releasePrefix = 'rootmail'; // will be used as prefix for the S3 path
 // dev
-const devS3PublishBucket = 'mvc-tmp-dev-releases';
-const devS3FileAssetsBucketPrefix = 'mvc-tmp-dev-assets'; // will get '${AWS::Region}' appended
+const devS3PublishBucket = 'mvc-dev-releases';
+const devS3FileAssetsBucketPrefix = 'mvc-dev-assets'; // will get '${AWS::Region}' appended
 // prod
-const prodS3PublishBucket = 'mvc-tmp-prod-releases';
-const prodS3FileAssetsBucketPrefix = 'mvc-tmp-prod-assets'; // will get '${AWS::Region}' appended
+const prodS3PublishBucket = 'mvc-prod-releases';
+const prodS3FileAssetsBucketPrefix = 'mvc-prod-assets'; // will get '${AWS::Region}' appended
 
 const packageManager = project.package.packageManager;
 switch (packageManager) {
