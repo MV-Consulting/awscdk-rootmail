@@ -40,8 +40,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   // however we cannot build anymore
   // https://github.com/MV-Consulting/awscdk-rootmail/actions/runs/9606321210/job/26495659910#step:5:697
   // so we need to update to 18.18
-  // now bump to 20.12
-  workflowNodeVersion: '20.12',
+  // now bump to 20.x
+  workflowNodeVersion: '20.x',
 
   bundledDeps: [
     '@aws-sdk/client-cloudwatch-logs',
@@ -168,7 +168,7 @@ if (buildWorkflow) {
           name: 'Setup Node.js',
           uses: 'actions/setup-node@v4',
           with: {
-            'node-version': '20.12',
+            'node-version': '20.x',
           },
         },
         {
@@ -236,7 +236,7 @@ if (releaseWorkflow) {
           name: 'Setup Node.js',
           uses: 'actions/setup-node@v4',
           with: {
-            'node-version': '20.12',
+            'node-version': '20.x',
           },
         },
         // As in the other release jobs
