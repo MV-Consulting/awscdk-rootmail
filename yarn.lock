@@ -2961,10 +2961,10 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-assets@^2.151.4:
-  version "2.151.4"
-  resolved "https://registry.yarnpkg.com/cdk-assets/-/cdk-assets-2.151.4.tgz#ba0570c3ddf4fc1733e7f26f0a53af9b146a9cea"
-  integrity sha512-NbNM1vF1kq2F6lN82j5shCIGEUoMJGlxaxNJhasQM0GTN0A9DqMQxMNeaOXANuZwL1i+WkTcmy/u2+s1fafmtQ==
+cdk-assets@^2.151.5:
+  version "2.151.5"
+  resolved "https://registry.yarnpkg.com/cdk-assets/-/cdk-assets-2.151.5.tgz#4f9c7b00a0e952e76526437b99725379fed749c0"
+  integrity sha512-vt7goOYXxeI03koD8qRPOvOslSeacmx5U/z5x96JdRUHDKIyGTeulRzdr5qKGO+v611MlFRpjxk/xxsY2iDSCA==
   dependencies:
     "@aws-cdk/cloud-assembly-schema" "^36.0.0"
     "@aws-cdk/cx-api" "^2.151.0"
@@ -2974,10 +2974,10 @@ cdk-assets@^2.151.4:
     mime "^2.6.0"
     yargs "^16.2.0"
 
-cdk-nag@^2.28.176:
-  version "2.28.176"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.176.tgz#a6e40e4bb3e0ac6d48ac29b806d4c5c2e270af44"
-  integrity sha512-/GXjiAtxqlsC1+BkDnljBF5co85g8rtgHy3zXwW2k8wAfoo8hCzsEztBG+mX1RzxqTjriAsG/wGzZLxZj3MxCQ==
+cdk-nag@^2.28.177:
+  version "2.28.177"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.177.tgz#9cbdff535130cb5e58e36841eaec699af11a206c"
+  integrity sha512-b6l76XEedQD6UNRY5XFHCtUtQbO21JuLhzAhfkRhlNEW3TxS3FBzXs++3KjpABRUt/5lolxbjxIDWzXLdM9K3Q==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -7071,9 +7071,9 @@ typedarray@^0.0.6:
   integrity sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==
 
 typescript@next:
-  version "5.6.0-dev.20240809"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.0-dev.20240809.tgz#46f8f6fc9503933f4d5410b981ec135f5e3c3f66"
-  integrity sha512-FR/CnWCicfrcZapalmc4c9lKRxsR+9RCxIBm+Msx6duXy9Yiu+MifWStLuNYLPXr2uRLdp0ybb9aGFkrXP5UdQ==
+  version "5.6.0-dev.20240810"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.0-dev.20240810.tgz#a2d47f2964d727e5c2ccaf654d136500506c3242"
+  integrity sha512-X1G99j+LKr2crVMNe9WpoKgzRSK3yv32I/HJU+9Fa8WPeHGmHooAkdZSUaY1U9rYRs3m2Ueg4S+GLwy8RpQZKg==
 
 typescript@~5.3:
   version "5.3.3"
@@ -7086,9 +7086,9 @@ uc.micro@^2.0.0:
   integrity sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==
 
 uglify-js@^3.1.4:
-  version "3.19.1"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.19.1.tgz#2d5df6a0872c43da43187968308d7741d44b8056"
-  integrity sha512-y/2wiW+ceTYR2TSSptAhfnEtpLaQ4Ups5zrjB2d3kuVxHj16j/QJwPl5PvuGy9uARb39J0+iKxcRPvtpsx4A4A==
+  version "3.19.2"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.19.2.tgz#319ae26a5fbd18d03c7dc02496cfa1d6f1cd4307"
+  integrity sha512-S8KA6DDI47nQXJSi2ctQ629YzwOVs+bQML6DAtvy0wgNdpi+0ySpQK0g2pxBq2xfF2z3YCscu7NNA8nXT9PlIQ==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"
