@@ -2233,10 +2233,10 @@
   dependencies:
     "@types/retry" "*"
 
-"@types/aws-lambda@^8.10.144":
-  version "8.10.144"
-  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.144.tgz#4c9dfed39a41bf92eea0b8ad7bb087dcc0b5864b"
-  integrity sha512-zRN25EUlALZsDlFfFCFEkQYXWj2WWu69pDBTycrsoFE+cS0XEs8vpFlSrq/L8OoJsrMW12LZtpvDHIGwGkQ2yg==
+"@types/aws-lambda@^8.10.145":
+  version "8.10.145"
+  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.145.tgz#b2d31a987f4888e5553ff1819f57cafa475594d9"
+  integrity sha512-dtByW6WiFk5W5Jfgz1VM+YPA21xMXTuSFoLYIDY0L44jDLLflVPtZkYuu3/YxpGcvjzKFBZLU+GyKjR0HOYtyw==
 
 "@types/axios@^0.14.0":
   version "0.14.0"
@@ -2779,9 +2779,9 @@ aws-cdk@2.90.0:
     fsevents "2.3.2"
 
 aws-sdk@^2.1653.0:
-  version "2.1684.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1684.0.tgz#1f3423369fabd764e66525cb01e649024d094379"
-  integrity sha512-Womhydf2UhEeLALLOUEDIuJ1Iv2k9aOsqAeDaQT3AhayiYt7pguvncs5IgEAxZ0TRH7driA7kTk+iGnCP2jMMA==
+  version "2.1685.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1685.0.tgz#906d2a5d06a99ac288c9138f0bb6a7e3932e7da4"
+  integrity sha512-axo1by16nZXqHAFu65+/pLnqqaU3ez5ko3jTGDt0byafT7XD948z3WqqrXWT9vJTUF93DdTZ9DEcazj4Ai91cQ==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -3021,10 +3021,10 @@ cdk-assets@^2.153.0:
     mime "^2.6.0"
     yargs "^16.2.0"
 
-cdk-nag@^2.28.191:
-  version "2.28.191"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.191.tgz#086dcbc028f59be7a827716c07e5dcc13ecfa9ed"
-  integrity sha512-2G2okbVVCZbgsvyUEZjtuDN5AoQylFMeMQoeAhzFCnufmjLdy84wSTO7maq0VUytiid7P9/OMY/GQBwfClHZWw==
+cdk-nag@^2.28.192:
+  version "2.28.192"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.192.tgz#36c3f14477625ef1f3a67396b986ca5b9c26ad98"
+  integrity sha512-Ri9j9/qzeoHqsJzyWt+BNmVjD9qvF0foeaj49w9IyBts3aE/D3aGyvKh6TiXYyqCJOHaNYF5LYtquYhERN3vkw==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -5415,12 +5415,12 @@ jsii-reflect@^1.102.0, jsii-reflect@^1.103.0:
     yargs "^16.2.0"
 
 jsii-rosetta@~5.3.0:
-  version "5.3.51"
-  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.3.51.tgz#d3b19e09743e02d558f79479817e52efeb2797db"
-  integrity sha512-h9MYULN3HLiSOzU8ydWbmrwWrG3YV2qkJXePxXPoBuMJ/gVkbGGqCtFPkgbsWkqUM4uE9YgABTFW0Rmw2o0zng==
+  version "5.3.52"
+  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.3.52.tgz#4b8ab12e178df0a020a1b376c27385eeff5d658c"
+  integrity sha512-D9QUmJHYwdaNIrTLbyjqNWaf61h1+AKaP9iYP9KXWLMFQ1jq4eiWf+7SSM7QmS9WPuxgxMpd6u27qw2JjD1CNg==
   dependencies:
-    "@jsii/check-node" "1.102.0"
-    "@jsii/spec" "^1.102.0"
+    "@jsii/check-node" "1.103.0"
+    "@jsii/spec" "^1.103.0"
     "@xmldom/xmldom" "^0.8.10"
     chalk "^4"
     commonmark "^0.31.1"
@@ -7220,9 +7220,9 @@ typedarray@^0.0.6:
   integrity sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==
 
 typescript@next:
-  version "5.7.0-dev.20240827"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20240827.tgz#556be4d7ba683ec7c691aa895d10293934df8b90"
-  integrity sha512-qNwNQBg18O4Z5RRGb07O562OpDlAVlytNcKfqcx8JQRJcs3p/KLHXjr0FbUbJ3SKoxA2vaQ3Zt89YLWHuCXzUw==
+  version "5.7.0-dev.20240828"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20240828.tgz#32a4f1fb7d8a01c195a4d5b346ca157565185560"
+  integrity sha512-ErCxPl/V/LAmiULX17il/1qONClDF5dKH3A7ltOVj6Rsj+fSSXYiimnDAZShs7iFfMpo87oWv97hjkX7sG1edg==
 
 typescript@~5.3:
   version "5.3.3"
