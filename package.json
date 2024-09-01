@@ -86,7 +86,7 @@
     "@aws-sdk/client-ses": "^3.637.0",
     "@aws-sdk/client-ssm": "^3.637.0",
     "async-retry": "^1.3.3",
-    "axios": "^1.7.6",
+    "axios": "^1.7.7",
     "cdk-nag": "^2.28.194",
     "mailparser": "^3.7.1",
     "uuid": "^9.0.1"
