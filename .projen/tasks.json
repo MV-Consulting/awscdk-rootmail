@@ -270,7 +270,7 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@commitlint/cli,@commitlint/config-conventional,@types/async-retry,@types/aws-lambda,@types/axios,@types/jest,@types/jsonfile,@types/mailparser,@types/uuid,cdk-assets,eslint-import-resolver-typescript,eslint-plugin-import,husky,jest,jsii-diff,jsii-pacmak,jsonfile,projen,ts-jest,ts-node,typescript,@aws-sdk/client-cloudwatch-logs,@aws-sdk/client-route-53,@aws-sdk/client-s3,@aws-sdk/client-ses,@aws-sdk/client-ssm,async-retry,axios,cdk-nag,mailparser,uuid"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@commitlint/cli,@commitlint/config-conventional,@types/async-retry,@types/aws-lambda,@types/axios,@types/jest,@types/jsonfile,@types/mailparser,@types/node,@types/uuid,cdk-assets,eslint-import-resolver-typescript,eslint-plugin-import,husky,jest,jsii-diff,jsii-pacmak,jsonfile,projen,ts-jest,ts-node,typescript,@aws-sdk/client-cloudwatch-logs,@aws-sdk/client-route-53,@aws-sdk/client-s3,@aws-sdk/client-ses,@aws-sdk/client-ssm,async-retry,axios,cdk-nag,mailparser,uuid"
         },
         {
           "exec": "yarn install --check-files"
