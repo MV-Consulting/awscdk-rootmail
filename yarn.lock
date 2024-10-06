@@ -33,10 +33,10 @@
     jsonschema "^1.4.1"
     semver "^7.6.3"
 
-"@aws-cdk/cx-api@^2.161.0":
-  version "2.161.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/cx-api/-/cx-api-2.161.0.tgz#c3f98af1e2b31db2be1bb0407da3b5dfd2621fe3"
-  integrity sha512-Q3rZeJ8Rm2NcjE84uS1JUCMXNSTmHd9tPLtYHK8AoyGnynelvtOtRreC34aZ8LOUbOiPU/E8gBsR7fFxeUmD+A==
+"@aws-cdk/cx-api@^2.161.1":
+  version "2.161.1"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/cx-api/-/cx-api-2.161.1.tgz#aea39961f97422829aa0673c72389aaea18e7123"
+  integrity sha512-8HDxSQCIX7OOHqY7JmZzC6BKjVm2cgS7kiX8V6MNyE/1MbqJ+2Eztixfn0GBpXOUfEx8xV9USB1JMuLZcB6LCA==
   dependencies:
     semver "^7.6.3"
 
@@ -3010,13 +3010,13 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-assets@^2.155.3:
-  version "2.155.3"
-  resolved "https://registry.yarnpkg.com/cdk-assets/-/cdk-assets-2.155.3.tgz#0a118746546e65d115eef589521641aea13bc327"
-  integrity sha512-gOvywzxLXVcRg8eWZoGMymLSCMVJIER4isKo2a3MqQNmTsFbp12V38e0ufb5F9Ak2GCqeK7d6pK4b8dxQiZtOA==
+cdk-assets@^2.155.4:
+  version "2.155.4"
+  resolved "https://registry.yarnpkg.com/cdk-assets/-/cdk-assets-2.155.4.tgz#132aecb020840943a4494211117f75031afbb531"
+  integrity sha512-p5fVaLcjN6JoG12/fjyWbwpIDwnaeecZo/AHBsQZT/tieIeS8zayFPnMpgNebUHTLO2tn8YlBUWeiMTxfimwGA==
   dependencies:
     "@aws-cdk/cloud-assembly-schema" "^38.0.1"
-    "@aws-cdk/cx-api" "^2.161.0"
+    "@aws-cdk/cx-api" "^2.161.1"
     archiver "^5.3.2"
     aws-sdk "^2.1691.0"
     glob "^7.2.3"
@@ -7208,9 +7208,9 @@ typedarray@^0.0.6:
   integrity sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==
 
 typescript@next:
-  version "5.7.0-dev.20241004"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20241004.tgz#a8baeee39b961e4619b5c50c3e60affe0841961e"
-  integrity sha512-u95eIEvZzkHiq7PEViwynbgPSpCdT0u7wzGk15FV1OrznDxPoiB/E8AOtdxicOkQlO35XebHMCJg1vjh4gCMIg==
+  version "5.7.0-dev.20241005"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20241005.tgz#9a945d532a17ce2790d11e444adad785db111141"
+  integrity sha512-jwUlB3Y1mBo3qAXxvbtv7eF4dATeS65xKT4fC9GThKJB2iY8Ptc+frjidfW2mGbKFR0abI8v5gpn9Z7w6oEmFw==
 
 typescript@~5.3:
   version "5.3.3"
