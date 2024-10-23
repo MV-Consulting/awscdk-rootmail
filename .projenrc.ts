@@ -131,7 +131,7 @@ const buildAndPublishAssetsSteps = [
   'echo $$GITHUB_WORKSPACE',
   'pwd',
   'ls -lash',
-  'ls -lash .repo',
+  'ls -lash .repo || true',
   'export RELEASE_NAME=${CI_REPOSITORY_NAME}',
   'export RELEASE_VERSION=$(cat $GITHUB_WORKSPACE/dist/releasetag.txt)',
   'echo "Releasing ${CI_REPOSITORY_NAME} with prefix ${RELEASE_PREFIX} and version ${RELEASE_VERSION} to S3 bucket ${S3_PUBLISH_BUCKET} and file assets bucket prefix ${S3_FILE_ASSETS_BUCKET_PREFIX}"',
