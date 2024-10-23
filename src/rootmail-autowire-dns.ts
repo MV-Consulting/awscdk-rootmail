@@ -113,6 +113,11 @@ class RootmailAutowireDnsProvider extends Construct {
       runtime: lambda.Runtime.NODEJS_18_X,
       timeout: Duration.seconds(120),
       logRetention: 3,
+      bundling: {
+        esbuildArgs: {
+          '--packages': 'bundle',
+        },
+      },
     });
 
     isCompleteHandlerFunc.addToRolePolicy(
@@ -133,6 +138,11 @@ class RootmailAutowireDnsProvider extends Construct {
       timeout: Duration.seconds(160), // 2m40s
       logRetention: 3,
       environment: {},
+      bundling: {
+        esbuildArgs: {
+          '--packages': 'bundle',
+        },
+      },
     });
 
     props.hostedZoneSSMParameter.grantRead(onEventHandlerFunc);

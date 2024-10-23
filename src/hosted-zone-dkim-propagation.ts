@@ -56,6 +56,11 @@ class HostedZoneDKIMPropagationProvider extends Construct {
       runtime: lambda.Runtime.NODEJS_18_X,
       logRetention: 3,
       timeout: Duration.seconds(30),
+      bundling: {
+        esbuildArgs: {
+          '--packages': 'bundle',
+        },
+      },
     });
 
     isCompleteHandlerFunc.addToRolePolicy(
@@ -79,6 +84,11 @@ class HostedZoneDKIMPropagationProvider extends Construct {
       runtime: lambda.Runtime.NODEJS_18_X,
       logRetention: 3,
       timeout: Duration.seconds(10),
+      bundling: {
+        esbuildArgs: {
+          '--packages': 'bundle',
+        },
+      },
     });
     NagSuppressions.addResourceSuppressions(onEventHandlerFunc, [
       { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },

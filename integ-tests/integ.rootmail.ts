@@ -72,6 +72,11 @@ const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler'
       resources: ['*'],
     }),
   ],
+  bundling: {
+    esbuildArgs: {
+      "--packages": "bundle",
+    },
+  },
 });
 
 const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-handler', {
@@ -89,6 +94,11 @@ const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-ha
       resources: ['*'],
     }),
   ],
+  bundling: {
+    esbuildArgs: {
+      "--packages": "bundle",
+    },
+  },
 });
 
 /**

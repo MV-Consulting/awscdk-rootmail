@@ -57,6 +57,11 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
       runtime: lambda.Runtime.NODEJS_18_X,
       logRetention: 3,
       timeout: Duration.seconds(200),
+      bundling: {
+        esbuildArgs: {
+          '--packages': 'bundle',
+        },
+      },
     });
 
     onEventHandlerFunc.addToRolePolicy(

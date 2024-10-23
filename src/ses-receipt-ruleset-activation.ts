@@ -89,6 +89,11 @@ class SESReceiptRuleSetActivationProvider extends Construct {
       timeout: Duration.seconds(30),
       //  Note: we use the resource properties from above as it is a CustomResource
       environment: {},
+      bundling: {
+        esbuildArgs: {
+          '--packages': 'bundle',
+        },
+      },
     });
 
     const isCompleteHandlerFunc = new NodejsFunction(this, 'is-complete-handler', {
@@ -97,6 +102,11 @@ class SESReceiptRuleSetActivationProvider extends Construct {
       timeout: Duration.seconds(30),
       //  Note: we use the resource properties from above as it is a CustomResource
       environment: {},
+      bundling: {
+        esbuildArgs: {
+          '--packages': 'bundle',
+        },
+      },
     });
     props.emailbucket.grantRead(isCompleteHandlerFunc, 'RootMail/*');
 
