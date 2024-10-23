@@ -7,7 +7,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   authorAddress: 'mavogel@posteo.de',
   cdkVersion: '2.90.0',
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.3.0',
+  jsiiVersion: '~5.5.0',
   name: '@mavogel/awscdk-rootmail',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/MV-Consulting/awscdk-rootmail',
@@ -254,12 +254,35 @@ if (releaseWorkflow) {
           continueOnError: true,
         },
         {
+          name: 'Checkout',
+          uses: 'actions/checkout@v4',
+          with: {
+            path: '.repo',
+          },
+        },
+        {
+          name: 'Install dependencies',
+          run: 'cd .repo && yarn install --check-files --frozen-lockfile',
+        },
+        {
+          name: 'Extract build artifact',
+          run: 'tar --strip-components=1 -xzvf dist/js/*.tgz -C .repo',
+        },
+        {
+          name: 'Move build artifact out of the way',
+          run: 'mv dist dist.old',
+        },
+        {
+          name: 'Create js artifact',
+          run: 'cd .repo && npx projen package:js',
+        },
+        {
           name: 'Prepare Repository',
           run: 'mv dist .repo',
         },
         // Collect GitHub Metadata, such as, changelog.md, releasetag.txt, version.txt
         {
-          name: 'Collect GitHub Metadata',
+          name: 'Collect js artifact',
           run: 'mv .repo/dist dist',
         },
         {
@@ -281,7 +304,7 @@ if (releaseWorkflow) {
             RELEASE_PREFIX: releasePrefix,
           },
           // Note: in the 'Prepare Repository' step we move the dist folder to .repo
-          workingDirectory: '.repo',
+          // workingDirectory: '.repo',
         },
       ],
     },
