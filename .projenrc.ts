@@ -128,12 +128,16 @@ const installToolDependenciesSteps = [
 ];
 
 const buildAndPublishAssetsSteps = [
-  'echo $$GITHUB_WORKSPACE',
+  'set -x',
+  'echo $GITHUB_WORKSPACE',
   'pwd',
   'ls -lash',
+  'ls -lash dist || true',
+  'ls -lash dist.old || true',
   'ls -lash .repo || true',
+  'set +x',
   'export RELEASE_NAME=${CI_REPOSITORY_NAME}',
-  'export RELEASE_VERSION=$(cat $GITHUB_WORKSPACE/dist/releasetag.txt)',
+  'export RELEASE_VERSION=$(cat $GITHUB_WORKSPACE/$RELEASE_TAG_FILE)',
   'echo "Releasing ${CI_REPOSITORY_NAME} with prefix ${RELEASE_PREFIX} and version ${RELEASE_VERSION} to S3 bucket ${S3_PUBLISH_BUCKET} and file assets bucket prefix ${S3_FILE_ASSETS_BUCKET_PREFIX}"',
   'yarn install',
   'yarn synth',
@@ -202,6 +206,7 @@ if (buildWorkflow) {
           env: {
             S3_PUBLISH_BUCKET: devS3PublishBucket,
             S3_FILE_ASSETS_BUCKET_PREFIX: devS3FileAssetsBucketPrefix,
+            RELEASE_TAG_FILE: 'dist/releasetag.txt',
             RELEASE_RETRIES: releaseRetries,
             RELEASE_REGIONS: releaseRegions,
             RELEASE_PREFIX: releasePrefix,
@@ -299,12 +304,13 @@ if (releaseWorkflow) {
           env: {
             S3_PUBLISH_BUCKET: prodS3PublishBucket,
             S3_FILE_ASSETS_BUCKET_PREFIX: prodS3FileAssetsBucketPrefix,
+            RELEASE_TAG_FILE: 'dist.old/releasetag.txt',
             RELEASE_RETRIES: releaseRetries,
             RELEASE_REGIONS: releaseRegions,
             RELEASE_PREFIX: releasePrefix,
           },
-          // Note: in the 'Prepare Repository' step we move the dist folder to .repo
-          // workingDirectory: '.repo',
+          // Note: in the 'Extract build artifact' step we extract to .repo
+          workingDirectory: '.repo',
         },
       ],
     },
