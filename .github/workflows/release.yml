@@ -84,9 +84,21 @@ jobs:
       - name: Restore build artifact permissions
         run: cd dist && setfacl --restore=permissions-backup.acl
         continue-on-error: true
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: .repo
+      - name: Install dependencies
+        run: cd .repo && yarn install --check-files --frozen-lockfile
+      - name: Extract build artifact
+        run: tar --strip-components=1 -xzvf dist/js/*.tgz -C .repo
+      - name: Move build artifact out of the way
+        run: mv dist dist.old
+      - name: Create js artifact
+        run: cd .repo && npx projen package:js
       - name: Prepare Repository
         run: mv dist .repo
-      - name: Collect GitHub Metadata
+      - name: Collect js artifact
         run: mv .repo/dist dist
       - name: Install Build and publish assets dependencies
         run: |-
@@ -111,7 +123,6 @@ jobs:
           aws s3 cp cdk.out/${RELEASE_NAME}.template.json s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/
           cfn-flip cdk.out/${RELEASE_NAME}.template.json cdk.out/${RELEASE_NAME}.template.yaml
           aws s3 cp cdk.out/${RELEASE_NAME}.template.yaml s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/
-        working-directory: .repo
   release_github:
     name: Publish to GitHub Releases
     needs:
