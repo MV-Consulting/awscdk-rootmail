@@ -108,16 +108,21 @@ jobs:
         env:
           S3_PUBLISH_BUCKET: mvc-prod-releases
           S3_FILE_ASSETS_BUCKET_PREFIX: mvc-prod-assets
+          RELEASE_TAG_FILE: dist.old/releasetag.txt
           RELEASE_RETRIES: "20"
           RELEASE_REGIONS: us-east-1,eu-west-1,us-west-2,eu-central-1,us-east-2,ca-central-1,ap-northeast-1,ap-southeast-1,ap-southeast-2
           RELEASE_PREFIX: rootmail
         run: |-
-          echo $$GITHUB_WORKSPACE
+          set -x
+          echo $GITHUB_WORKSPACE
           pwd
           ls -lash
+          ls -lash dist || true
+          ls -lash dist.old || true
           ls -lash .repo || true
+          set +x
           export RELEASE_NAME=${CI_REPOSITORY_NAME}
-          export RELEASE_VERSION=$(cat $GITHUB_WORKSPACE/dist/releasetag.txt)
+          export RELEASE_VERSION=$(cat $GITHUB_WORKSPACE/$RELEASE_TAG_FILE)
           echo "Releasing ${CI_REPOSITORY_NAME} with prefix ${RELEASE_PREFIX} and version ${RELEASE_VERSION} to S3 bucket ${S3_PUBLISH_BUCKET} and file assets bucket prefix ${S3_FILE_ASSETS_BUCKET_PREFIX}"
           yarn install
           yarn synth
@@ -125,6 +130,7 @@ jobs:
           aws s3 cp cdk.out/${RELEASE_NAME}.template.json s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/
           cfn-flip cdk.out/${RELEASE_NAME}.template.json cdk.out/${RELEASE_NAME}.template.yaml
           aws s3 cp cdk.out/${RELEASE_NAME}.template.yaml s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/
+        working-directory: .repo
   release_github:
     name: Publish to GitHub Releases
     needs:
