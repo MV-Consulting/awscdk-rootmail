@@ -11,9 +11,9 @@
     "@jridgewell/trace-mapping" "^0.3.24"
 
 "@aws-cdk/asset-awscli-v1@^2.2.200":
-  version "2.2.209"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-awscli-v1/-/asset-awscli-v1-2.2.209.tgz#cc981f02b0c43e32b4ad2b1d47117d31e3c2a0fe"
-  integrity sha512-tL7aBDzx/QBuZoQso9OST2BMCoev89v01iQZicOKlR0J6vWQLPiqZfn4vd9nissFbM4X+xIwi3UKasPBTQL0WQ==
+  version "2.2.210"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-awscli-v1/-/asset-awscli-v1-2.2.210.tgz#1bea0c6b4742ab2ed529c2f8344d41ae502a5679"
+  integrity sha512-yxuGP52ZtdAGkcAik5mW79FKKv6yvc5QuCZbsKMyICk48alqs+ni7Iv2UnuGLkVSLh09+ixoHHu4o5rIv8X9jg==
 
 "@aws-cdk/asset-kubectl-v20@^2.1.2":
   version "2.1.3"
@@ -33,7 +33,7 @@
     jsonschema "^1.4.1"
     semver "^7.6.3"
 
-"@aws-cdk/cx-api@^2.164.1":
+"@aws-cdk/cx-api@^2.165.0":
   version "2.165.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/cx-api/-/cx-api-2.165.0.tgz#0b8b72a21138694dd62a244c20ba8e7c7969d23a"
   integrity sha512-L/ZdqR4H661hUBr282oUo+2Sxd0/iYzjtmHMfreYJ5dM1AvfVGiXhYcWIacMp3G0CFSrdrgscAcUPsOpUrfCjw==
@@ -3021,23 +3021,23 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-assets@^2.155.20:
-  version "2.155.20"
-  resolved "https://registry.yarnpkg.com/cdk-assets/-/cdk-assets-2.155.20.tgz#a7a380f820001d2087d0dce802eac4c71a688100"
-  integrity sha512-NXU7RCJsPecQbRVkQ6iPyOV3jDEojENaxWs9956pYddY5Pq0onSibXItivavQC74i0YZdyWDdlH6RcLPzFQhPQ==
+cdk-assets@^2.155.22:
+  version "2.155.22"
+  resolved "https://registry.yarnpkg.com/cdk-assets/-/cdk-assets-2.155.22.tgz#247969aec5f180588620cff50c6a17920f3ce022"
+  integrity sha512-jdztqQqQQ9jtESvhOMcbH2aptC/3fbUWK1P17wyC+1CjTsRFz5kDMg4rDlfHGn+9KGdExbaAv2wXgz5WB8yUXQ==
   dependencies:
     "@aws-cdk/cloud-assembly-schema" "^38.0.1"
-    "@aws-cdk/cx-api" "^2.164.1"
+    "@aws-cdk/cx-api" "^2.165.0"
     archiver "^5.3.2"
     aws-sdk "^2.1691.0"
     glob "^7.2.3"
     mime "^2.6.0"
     yargs "^16.2.0"
 
-cdk-nag@^2.31.2:
-  version "2.31.2"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.31.2.tgz#e3a37c70cde6d3677bd1384ab96df8fb23e9a5d2"
-  integrity sha512-b1VfiDtfWkTXGzsLLsMk5+gNapZOgY+alNQpf6FsBfIIYWsSsPeZ7S0SqiKlEC+Kvta1k55MX7OPfJEYH8uDMA==
+cdk-nag@^2.31.3:
+  version "2.31.3"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.31.3.tgz#bd64fca5244ea0cbca6ff1c48dea8a3815d80345"
+  integrity sha512-+VpyG9NywG90oSBfrlRY4As3dvnqbkRLVgBD7wyI/O7aYv2RSTBivXAmX5WjLppz5H/X850x9gUawzwQbBwMIA==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -3678,9 +3678,9 @@ ejs@^3.1.10:
     jake "^10.8.5"
 
 electron-to-chromium@^1.5.41:
-  version "1.5.50"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.50.tgz#d9ba818da7b2b5ef1f3dd32bce7046feb7e93234"
-  integrity sha512-eMVObiUQ2LdgeO1F/ySTXsvqvxb6ZH2zPGaMYsWzRDdOddUa77tdmI0ltg+L16UpbWdhPmuF3wIQYyQq65WfZw==
+  version "1.5.51"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.51.tgz#bb99216fed4892d131a8585a8593b00739310163"
+  integrity sha512-kKeWV57KSS8jH4alKt/jKnvHPmJgBxXzGUSbMd4eQF+iOsVPl7bz2KUmu6eo80eMP8wVioTfTyTzdMgM15WXNg==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -7214,9 +7214,9 @@ typedarray@^0.0.6:
   integrity sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==
 
 typescript@next:
-  version "5.7.0-dev.20241103"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20241103.tgz#8368a9982aa38611dc708012320f3e872ff359cc"
-  integrity sha512-TQdCL9AO74AAMYkGvsSyNW+eYl5SYwQXBudj7LpNpZcxnNBrMxk+qZqqScRjycbvvWCaE1ykg7dZF7MxeBV5yg==
+  version "5.7.0-dev.20241104"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20241104.tgz#282904ae7565616020fde56de003443f21123ee9"
+  integrity sha512-cz5/yx6iInIMoiEsKTQm/4iZ0PbTMPUtSOUrVc8jvdAg9k5qDiSkq4+TOqZvqKnEMK+5TM1yM983dwABaaeudg==
 
 typescript@~5.5:
   version "5.5.4"
