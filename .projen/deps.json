@@ -19,6 +19,11 @@
       "type": "build"
     },
     {
+      "name": "@stylistic/eslint-plugin",
+      "version": "^2",
+      "type": "build"
+    },
+    {
       "name": "@types/async-retry",
       "type": "build"
     },
@@ -52,12 +57,12 @@
     },
     {
       "name": "@typescript-eslint/eslint-plugin",
-      "version": "^7",
+      "version": "^8",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/parser",
-      "version": "^7",
+      "version": "^8",
       "type": "build"
     },
     {
@@ -79,7 +84,7 @@
     },
     {
       "name": "eslint",
-      "version": "^8",
+      "version": "^9",
       "type": "build"
     },
     {
