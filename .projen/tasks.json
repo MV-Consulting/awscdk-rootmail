@@ -125,6 +125,9 @@
     "eslint": {
       "name": "eslint",
       "description": "Runs eslint against the codebase",
+      "env": {
+        "ESLINT_USE_FLAT_CONFIG": "false"
+      },
       "steps": [
         {
           "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern $@ src test build-tools projenrc .projenrc.ts",
@@ -276,7 +279,7 @@
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @aws-cdk/integ-runner @aws-cdk/integ-tests-alpha @commitlint/cli @commitlint/config-conventional @types/async-retry @types/aws-lambda @types/axios @types/jest @types/jsonfile @types/mailparser @types/node @types/uuid @typescript-eslint/eslint-plugin @typescript-eslint/parser cdk-assets commit-and-tag-version eslint-import-resolver-typescript eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii jsonfile projen ts-jest ts-node typescript @aws-sdk/client-cloudwatch-logs @aws-sdk/client-route-53 @aws-sdk/client-s3 @aws-sdk/client-ses @aws-sdk/client-ssm async-retry axios cdk-nag mailparser uuid aws-cdk-lib constructs"
+          "exec": "yarn upgrade @aws-cdk/integ-runner @aws-cdk/integ-tests-alpha @commitlint/cli @commitlint/config-conventional @stylistic/eslint-plugin @types/async-retry @types/aws-lambda @types/axios @types/jest @types/jsonfile @types/mailparser @types/node @types/uuid @typescript-eslint/eslint-plugin @typescript-eslint/parser cdk-assets commit-and-tag-version eslint-import-resolver-typescript eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii jsonfile projen ts-jest ts-node typescript @aws-sdk/client-cloudwatch-logs @aws-sdk/client-route-53 @aws-sdk/client-s3 @aws-sdk/client-ses @aws-sdk/client-ssm async-retry axios cdk-nag mailparser uuid aws-cdk-lib constructs"
         },
         {
           "exec": "npx projen"
