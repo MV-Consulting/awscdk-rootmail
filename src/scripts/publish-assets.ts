@@ -1,5 +1,5 @@
 import { execSync } from 'child_process';
-const path = require('path');
+import * as path from 'path';
 import * as retry from 'async-retry';
 
 if (!process.env.RELEASE_NAME || process.env.RELEASE_NAME === '') {
