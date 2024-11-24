@@ -281,9 +281,9 @@ if (buildWorkflow) {
           uses: 'actions/upload-artifact@v4',
           with: {
             name: 'release-version',
-            path: 'dist/releasetag.txt'
+            path: 'dist/releasetag.txt',
           },
-        }
+        },
       ],
     },
   });
@@ -318,7 +318,7 @@ if (buildWorkflow) {
           uses: 'actions/download-artifact@v4',
           with: {
             name: 'release-version',
-            path: 'dist/releasetag.txt'
+            path: 'dist/releasetag.txt',
           },
         },
         {
