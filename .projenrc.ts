@@ -153,6 +153,7 @@ if (buildWorkflow) {
     e2e_integ_test: {
       name: 'Run e2e integ tests',
       runsOn: ['ubuntu-latest'],
+      needs: ['build'],
       permissions: {
         idToken: JobPermission.WRITE,
         contents: JobPermission.READ,
