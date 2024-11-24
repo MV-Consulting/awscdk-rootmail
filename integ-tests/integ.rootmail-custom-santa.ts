@@ -1,4 +1,4 @@
-const path = require('path');
+import * as path from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { IntegTest, ExpectedResult, LogType, InvocationType } from '@aws-cdk/integ-tests-alpha';
 import {

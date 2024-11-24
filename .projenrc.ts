@@ -186,6 +186,10 @@ if (buildWorkflow) {
           run: 'yarn install --check-files',
         },
         {
+          name: 'Prepare integ tests',
+          run: 'yarn run compile',
+        },
+        {
           name: 'Run e2e integ tests',
           run: 'yarn run integ-test -- --force',
           timeoutMinutes: 10,

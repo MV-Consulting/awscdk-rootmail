@@ -143,6 +143,8 @@ jobs:
           node-version: 20.x
       - name: Install dependencies
         run: yarn install --check-files
+      - name: Prepare integ tests
+        run: yarn run compile
       - name: Run e2e integ tests
         run: yarn run integ-test -- --force
         timeout-minutes: 10
