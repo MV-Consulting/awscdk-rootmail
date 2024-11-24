@@ -240,6 +240,7 @@ const rootmailProps: RootmailProps = { ... }
 | --- | --- | --- |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.customSesReceiveFunction">customSesReceiveFunction</a></code> | <code>aws-cdk-lib.aws_lambda.Function</code> | The custom SES receive function to use. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.emailBucketDeletePolicy">emailBucketDeletePolicy</a></code> | <code>aws-cdk-lib.RemovalPolicy</code> | The removal policy for the email bucket. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.totalTimeToWireDNS">totalTimeToWireDNS</a></code> | <code>aws-cdk-lib.Duration</code> | The total time to wait for the DNS records to be available/wired. |
@@ -268,6 +269,19 @@ public readonly customSesReceiveFunction: Function;
 - *Type:* aws-cdk-lib.aws_lambda.Function
 
 The custom SES receive function to use.
+
+---
+
+##### `emailBucketDeletePolicy`<sup>Optional</sup> <a name="emailBucketDeletePolicy" id="@mavogel/awscdk-rootmail.RootmailProps.property.emailBucketDeletePolicy"></a>
+
+```typescript
+public readonly emailBucketDeletePolicy: RemovalPolicy;
+```
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+- *Default:* RemovalPolicy.RETAIN
+
+The removal policy for the email bucket.
 
 ---
 
