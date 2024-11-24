@@ -35,7 +35,7 @@ aws s3api put-bucket-policy --bucket $MY_PUBLISH_BUCKET --policy '{
 1. synth and publish
 ```bash
 ROOTMAIL_VERSION="0.0.10-DEVELOPMENT" npx cdk synth
-npm run publish-assets
+yarn run publish-assets
 ```
 
 2. flip json to yaml

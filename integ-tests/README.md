@@ -6,17 +6,17 @@
 2. from the root of the project run
 ```bash
 # run the dry-run to see changes if they are destructive
-npm run integ-test -- --dry-run
+yarn run integ-test -- --dry-run
 # NOTE: undo the changes in the integ.snapshot so the next call
 # will really run the tests with the update
 # run the tests
-npm run integ-test
+yarn run integ-test
 ```
 
 ### changes in CR
 the `integ-runner` does not detect the changes, this is why we need to run all test via the `--force` flag
 ```bash
-npm run integ-test -- --force
+yarn run integ-test -- --force
 ```
 
 ## clean up manually
