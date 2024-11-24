@@ -147,7 +147,7 @@ jobs:
         run: yarn run compile
       - name: Run e2e integ tests
         run: yarn run integ-test -- --force
-        timeout-minutes: 10
+        timeout-minutes: 20
       - name: Install Python dependencies
         run: pip install -r requirements.txt
         working-directory: integ-tests

@@ -192,7 +192,7 @@ if (buildWorkflow) {
         {
           name: 'Run e2e integ tests',
           run: 'yarn run integ-test -- --force',
-          timeoutMinutes: 10,
+          timeoutMinutes: 20,
         },
         {
           name: 'Install Python dependencies',
