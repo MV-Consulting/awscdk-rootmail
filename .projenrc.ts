@@ -197,13 +197,13 @@ if (buildWorkflow) {
         {
           name: 'Post e2e integ tests cleanup',
           run: [
-            `for bucket in $(aws s3 ls | grep rootmailinteg |  awk '{ print $3 }'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done`,
-            `for lgregion in eu-west-1 eu-west-2; do echo $lgregion; python cleanup/delete-log-groups.py Integ $lgregion; done`
+            'for bucket in $(aws s3 ls | grep rootmailinteg |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
+            'for lgregion in eu-west-1 eu-west-2; do echo $lgregion; python cleanup/delete-log-groups.py Integ $lgregion; done',
           ].join('\n'),
           workingDirectory: 'integ-tests',
-        }
+        },
       ],
-    }
+    },
   });
 }
 
