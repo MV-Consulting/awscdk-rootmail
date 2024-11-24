@@ -54971,21 +54971,42 @@ var handler = async (event) => {
     });
     const verdicts = {
       dkim: receipt.dkimVerdict.status,
+      dmarc: receipt.dmarcVerdict.status,
       spam: receipt.spamVerdict.status,
       spf: receipt.spfVerdict.status,
       virus: receipt.virusVerdict.status
     };
     for (const [k, v] of Object.entries(verdicts)) {
-      if (v !== "PASS") {
-        log({
-          class: k,
-          value: v,
-          id,
-          key,
-          level: "warn",
-          msg: "verdict failed - ops santa item skipped"
-        });
-        return;
+      switch (k) {
+        case "dkim":
+        case "dmarc":
+          if (v !== "PASS" && v !== "GRAY") {
+            log({
+              class: k,
+              value: v,
+              id,
+              key,
+              level: "warn",
+              msg: "verdict failed - ops santa item skipped"
+            });
+            return;
+          }
+          break;
+        case "spam":
+        case "spf":
+        case "virus":
+          if (v !== "PASS") {
+            log({
+              class: k,
+              value: v,
+              id,
+              key,
+              level: "warn",
+              msg: "verdict failed - ops santa item skipped"
+            });
+            return;
+          }
+          break;
       }
     }
     const response = await s3.getObject({ Bucket: emailBucket, Key: key });

@@ -785,7 +785,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "f1ba44a2215dda9aa692b375e85af4bdb484471f8055cbfbb054e394ef75a270.zip"
+                              "s3Key": "3fe096136c1d1292627baeb9b860b3206032deebb5a03ea407d7d04833a222d7.zip"
                             },
                             "environment": {
                               "variables": {
@@ -1862,7 +1862,7 @@
                                         "route53:ListResourceRecordSets"
                                       ],
                                       "Effect": "Allow",
-                                      "Resource": "arn:aws:route53:::hostedzone/Z066250529JROZU7IIY3Q"
+                                      "Resource": "arn:aws:route53:::hostedzone/Z01336592122MNIWKOZSV"
                                     }
                                   ],
                                   "Version": "2012-10-17"

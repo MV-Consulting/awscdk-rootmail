@@ -100,25 +100,45 @@ export const handler = async (event: SESEventRecordsToLambda) => {
 
     const verdicts = {
       dkim: receipt.dkimVerdict.status,
+      dmarc: receipt.dmarcVerdict.status,
       spam: receipt.spamVerdict.status,
       spf: receipt.spfVerdict.status,
       virus: receipt.virusVerdict.status,
     };
 
     for (const [k, v] of Object.entries(verdicts)) {
+      switch (k) {
+        case 'dkim':
+        case 'dmarc':
+          if (v !== 'PASS' && v !== 'GRAY') {
+            log({
+              class: k,
+              value: v,
+              id: id,
+              key: key,
+              level: 'warn',
+              msg: 'verdict failed - ops santa item skipped',
+            });
+            return;
+          }
 
-      if (v !== 'PASS') {
+          break;
+        case 'spam':
+        case 'spf':
+        case 'virus':
+          if (v !== 'PASS') {
+            log({
+              class: k,
+              value: v,
+              id: id,
+              key: key,
+              level: 'warn',
+              msg: 'verdict failed - ops santa item skipped',
+            });
+            return;
+          }
 
-        log({
-          class: k,
-          value: v,
-          id: id,
-          key: key,
-          level: 'warn',
-          msg: 'verdict failed - ops santa item skipped',
-        });
-
-        return;
+          break;
       }
     }
 

@@ -621,7 +621,7 @@
       ]
      ]
     },
-    "ParentHostedZoneId": "Z066250529JROZU7IIY3Q",
+    "ParentHostedZoneId": "Z01336592122MNIWKOZSV",
     "HostedZoneParameterName": {
      "Ref": "testRootmailHostedZoneSSMParameter574DA41C"
     },
@@ -1482,7 +1482,7 @@
         "route53:ListResourceRecordSets"
        ],
        "Effect": "Allow",
-       "Resource": "arn:aws:route53:::hostedzone/Z066250529JROZU7IIY3Q"
+       "Resource": "arn:aws:route53:::hostedzone/Z01336592122MNIWKOZSV"
       }
      ],
      "Version": "2012-10-17"

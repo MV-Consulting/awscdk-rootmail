@@ -144,7 +144,7 @@
         }
       }
     },
-    "3d15844eeb6c8bd6881c80dfdf582a8ce0d8547c8b529b21bb4596ef7fc39682": {
+    "c8ec203309c2c203c70b59d98084241414aa0642a0880d346858b3467db17aa9": {
       "source": {
         "path": "RootmailIntegTestStack.template.json",
         "packaging": "file"
@@ -152,7 +152,7 @@
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "3d15844eeb6c8bd6881c80dfdf582a8ce0d8547c8b529b21bb4596ef7fc39682.json",
+          "objectKey": "c8ec203309c2c203c70b59d98084241414aa0642a0880d346858b3467db17aa9.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
