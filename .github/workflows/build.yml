@@ -147,7 +147,7 @@ jobs:
         run: yarn run compile
       - name: Run e2e integ tests
         run: yarn run integ-test -- --force
-        timeout-minutes: 20
+        timeout-minutes: 15
       - name: Install Python dependencies
         run: pip install -r requirements.txt
         working-directory: integ-tests
@@ -214,3 +214,42 @@ jobs:
           aws s3 cp cdk.out/${RELEASE_NAME}.template.json s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/
           cfn-flip cdk.out/${RELEASE_NAME}.template.json cdk.out/${RELEASE_NAME}.template.yaml
           aws s3 cp cdk.out/${RELEASE_NAME}.template.yaml s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/
+      - name: Upload release version
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-version
+          path: dist/releasetag.txt
+  e2e_cloudformation_test:
+    name: Run e2e cloudformation tests
+    needs: release_s3_dev
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-west-1
+          role-to-assume: ${{ secrets.E2E_INTEG_ROLE }}
+          role-session-name: e2e-cloudformation-test-federatedOIDC
+      - name: Download release version
+        uses: actions/download-artifact@v4
+        with:
+          name: release-version
+          path: dist/releasetag.txt
+      - name: Run e2e cloudformation deployment
+        run: |-
+          echo "Relase version: $(cat dist/releasetag.txt)"
+          bash integ-tests/run-e2e-cfn-test.bash $(cat dist/releasetag.txt)
+        timeout-minutes: 15
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+        working-directory: integ-tests
+      - name: Post e2e integ tests cleanup
+        run: |-
+          for bucket in $(aws s3 ls | grep rootmail-cfn |  awk '{ print $3 }'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done
+          for lgregion in eu-central-1; do echo $lgregion; python cleanup/delete-log-groups.py rootmail-cfn $lgregion; done
+        working-directory: integ-tests

@@ -192,7 +192,7 @@ if (buildWorkflow) {
         {
           name: 'Run e2e integ tests',
           run: 'yarn run integ-test -- --force',
-          timeoutMinutes: 20,
+          timeoutMinutes: 15,
         },
         {
           name: 'Install Python dependencies',
@@ -275,10 +275,77 @@ if (buildWorkflow) {
             RELEASE_PREFIX: releasePrefix,
           },
         },
+        // upload $GITHUB_WORKSPACE/dist/releasetag.txt
+        {
+          name: 'Upload release version',
+          uses: 'actions/upload-artifact@v4',
+          with: {
+            name: 'release-version',
+            path: 'dist/releasetag.txt'
+          },
+        }
       ],
     },
   });
 };
+
+if (buildWorkflow) {
+  buildWorkflow.addJobs({
+    e2e_cloudformation_test: {
+      name: 'Run e2e cloudformation tests',
+      runsOn: ['ubuntu-latest'],
+      needs: ['release_s3_dev'],
+      permissions: {
+        idToken: JobPermission.WRITE,
+        contents: JobPermission.READ,
+      },
+      steps: [
+        {
+          name: 'Checkout',
+          uses: 'actions/checkout@v4',
+        },
+        {
+          name: 'Configure AWS credentials',
+          uses: 'aws-actions/configure-aws-credentials@v4',
+          with: {
+            'aws-region': 'eu-west-1',
+            'role-to-assume': '${{ secrets.E2E_INTEG_ROLE }}',
+            'role-session-name': 'e2e-cloudformation-test-federatedOIDC',
+          },
+        },
+        {
+          name: 'Download release version',
+          uses: 'actions/download-artifact@v4',
+          with: {
+            name: 'release-version',
+            path: 'dist/releasetag.txt'
+          },
+        },
+        {
+          name: 'Run e2e cloudformation deployment',
+          run: [
+            'echo "Relase version: $(cat dist/releasetag.txt)"',
+            'bash integ-tests/run-e2e-cfn-test.bash $(cat dist/releasetag.txt)',
+          ].join('\n'),
+          timeoutMinutes: 15,
+        },
+        {
+          name: 'Install Python dependencies',
+          run: 'pip install -r requirements.txt',
+          workingDirectory: 'integ-tests',
+        },
+        {
+          name: 'Post e2e integ tests cleanup',
+          run: [
+            'for bucket in $(aws s3 ls | grep rootmail-cfn |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
+            'for lgregion in eu-central-1; do echo $lgregion; python cleanup/delete-log-groups.py rootmail-cfn $lgregion; done',
+          ].join('\n'),
+          workingDirectory: 'integ-tests',
+        },
+      ],
+    },
+  });
+}
 
 if (releaseWorkflow) {
   releaseWorkflow.addJobs({
@@ -379,6 +446,7 @@ if (releaseWorkflow) {
     },
   });
 }
+
 project.package.setScript('synth', 'npx cdk synth -q');
 project.package.setScript('publish-assets', 'npx ts-node -P tsconfig.json --prefer-ts-exts src/scripts/publish-assets.ts');
 // END custom workflow
