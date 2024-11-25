@@ -19,7 +19,7 @@ aws cloudformation create-stack \
 
 # get the status of the stack
 count=0
-max_create_count=30 # 5min
+max_create_count=60 # 10min
 while [[ ! "$STACK_STATUS" == *"_FAILED" ]] && [[ ! "$STACK_STATUS" == *"_COMPLETE" ]]; do
     sleep 10
     count=$((count+1))
@@ -39,7 +39,7 @@ aws cloudformation delete-stack --stack-name rootmail-cfn-test --region eu-centr
 
 # wait for the stack to be deleted
 count=0
-max_delete_count=30 # 5min
+max_delete_count=48 # 8min
 STACK_STATUS="undefined"
 while [[ ! "$STACK_STATUS" == *"_FAILED" ]] && [[ ! "$STACK_STATUS" == *"_COMPLETE" ]]; do
     sleep 2

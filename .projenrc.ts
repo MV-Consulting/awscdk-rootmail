@@ -329,7 +329,7 @@ if (buildWorkflow) {
             'echo "Relase version: $(cat ${{ runner.temp }}/releasetag.txt)"',
             'bash integ-tests/run-e2e-cfn-test.bash $(cat ${{ runner.temp }}/releasetag.txt)',
           ].join('\n'),
-          timeoutMinutes: 10,
+          timeoutMinutes: 20,
         },
         {
           name: 'Install Python dependencies',
