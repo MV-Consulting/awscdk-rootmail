@@ -51,6 +51,13 @@ export interface RootmailProps {
   readonly customSesReceiveFunction?: lambda.Function;
 
   /**
+   * The removal policy for the email bucket
+   *
+   * @default RemovalPolicy.RETAIN
+   */
+  readonly emailBucketDeletePolicy?: RemovalPolicy;
+
+  /**
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
    *
    * @default false
@@ -71,6 +78,7 @@ export class Rootmail extends Construct {
     const totalTimeToWireDNS = props.totalTimeToWireDNS ?? Duration.hours(2);
     const wireDNSToHostedZoneID = props.wireDNSToHostedZoneID ?? undefined;
     const setDestroyPolicyToAllResources = props.setDestroyPolicyToAllResources ?? false;
+    const emailBucketDeletePolicy = props.emailBucketDeletePolicy ?? RemovalPolicy.RETAIN;
 
     const deployRegion = Stack.of(this).region;
     console.log(`Deploy region is ${deployRegion}`);
@@ -84,6 +92,7 @@ export class Rootmail extends Construct {
     this.emailBucket = new s3.Bucket(this, 'EmailBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.S3_MANAGED,
+      removalPolicy: emailBucketDeletePolicy,
     });
     NagSuppressions.addResourceSuppressions([
       this.emailBucket,

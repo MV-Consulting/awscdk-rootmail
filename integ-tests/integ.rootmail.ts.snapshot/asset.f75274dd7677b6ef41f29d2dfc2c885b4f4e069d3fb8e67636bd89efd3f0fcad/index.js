@@ -54,6 +54,8 @@ async function handler(event) {
           [ATTR_DKIM_TOKENS]: dkimTokens
         }
       };
+    // TODO check if delete should do nothing: https://github.com/superwerker/superwerker/blob/main/templates/rootmail.yaml#L170
+    // we store in Parameter Store as well
     case "Delete":
       console.log(`Deleting Domain identity for domain '${domain}' with PhysicalResourceId '${event.PhysicalResourceId}'`);
       const deleteResponse = await ses.deleteIdentity({ Identity: domain });

@@ -414,7 +414,7 @@
       ]
      ]
     },
-    "ParentHostedZoneId": "Z066250529JROZU7IIY3Q",
+    "ParentHostedZoneId": "Z01336592122MNIWKOZSV",
     "HostedZoneParameterName": {
      "Ref": "testRootmailHostedZoneSSMParameter574DA41C"
     },
@@ -559,7 +559,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "de67316e819b929cc1aa19838de373be5c9ede7a11e8132fabd28dbc730a92fd.zip"
+     "S3Key": "3fe096136c1d1292627baeb9b860b3206032deebb5a03ea407d7d04833a222d7.zip"
     },
     "Environment": {
      "Variables": {
@@ -756,7 +756,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "f9b17c134d24cf60e1d26c033b5f4f247b759149619ac0aac341b950a10ccf14.zip"
+     "S3Key": "f75274dd7677b6ef41f29d2dfc2c885b4f4e069d3fb8e67636bd89efd3f0fcad.zip"
     },
     "Environment": {
      "Variables": {
@@ -1398,7 +1398,7 @@
         "route53:ListResourceRecordSets"
        ],
        "Effect": "Allow",
-       "Resource": "arn:aws:route53:::hostedzone/Z066250529JROZU7IIY3Q"
+       "Resource": "arn:aws:route53:::hostedzone/Z01336592122MNIWKOZSV"
       }
      ],
      "Version": "2012-10-17"

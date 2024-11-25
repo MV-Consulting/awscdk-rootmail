@@ -11,6 +11,7 @@ import {
 } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Rootmail } from '../src/rootmail';
+import { testDomain, hostedZoneId } from './common';
 // CDK App for Integration Tests
 const app = new App();
 // Stack under test
@@ -19,8 +20,6 @@ const stackUnderTest = new Stack(app, stackUnderTestName, {
   description: "This stack includes the application's resources for integration testing.",
 });
 
-const testDomain = 'rootmail-test.mavogel.xyz';
-const hostedZoneId = 'Z066250529JROZU7IIY3Q';
 const randomTestId = 'b647df97';
 const testSubdomain = `${randomTestId}-${Stack.of(stackUnderTest).region}`;
 const fullDomain = `${testSubdomain}.${testDomain}`;

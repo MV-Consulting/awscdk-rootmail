@@ -125,6 +125,7 @@ switch (packageManager) {
 const installToolDependenciesSteps = [
   'pip install cfn-flip && cfn-flip --version',
   'yarn global add aws-cdk',
+  'yarn global add esbuild',
 ];
 
 const buildAndPublishAssetsSteps = [
@@ -150,12 +151,74 @@ const buildAndPublishAssetsSteps = [
 
 if (buildWorkflow) {
   buildWorkflow.addJobs({
+    e2e_integ_test: {
+      name: 'Run e2e integ tests',
+      runsOn: ['ubuntu-latest'],
+      needs: ['build'],
+      permissions: {
+        idToken: JobPermission.WRITE,
+        contents: JobPermission.READ,
+      },
+      // self-mutation did not happen and the PR is from the same repo
+      if: '!(needs.build.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)',
+      steps: [
+        {
+          name: 'Checkout',
+          uses: 'actions/checkout@v4',
+        },
+        {
+          name: 'Configure AWS credentials',
+          uses: 'aws-actions/configure-aws-credentials@v4',
+          with: {
+            'aws-region': 'eu-west-1',
+            'role-to-assume': '${{ secrets.E2E_INTEG_ROLE }}',
+            'role-session-name': 'e2e-integ-test-federatedOIDC',
+          },
+        },
+        {
+          name: 'Setup Node.js',
+          uses: 'actions/setup-node@v4',
+          with: {
+            'node-version': '20.x',
+          },
+        },
+        {
+          name: 'Install dependencies',
+          run: 'yarn install --check-files',
+        },
+        {
+          name: 'Prepare integ tests',
+          run: 'yarn run compile',
+        },
+        {
+          name: 'Run e2e integ tests',
+          run: 'yarn run integ-test -- --force',
+          timeoutMinutes: 15,
+        },
+        {
+          name: 'Install Python dependencies',
+          run: 'pip install -r requirements.txt',
+          workingDirectory: 'integ-tests',
+        },
+        {
+          name: 'Post e2e integ tests cleanup',
+          run: [
+            'for bucket in $(aws s3 ls | grep rootmailinteg |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
+            'for lgregion in eu-west-1 eu-west-2; do echo $lgregion; python cleanup/delete-log-groups.py Integ $lgregion; done',
+          ].join('\n'),
+          workingDirectory: 'integ-tests',
+        },
+      ],
+    },
+  });
+}
+
+if (buildWorkflow) {
+  buildWorkflow.addJobs({
     release_s3_dev: {
       name: 'Publish to S3 (dev)',
       runsOn: ['ubuntu-latest'],
-      needs: ['build'],
-      // self-mutation did not happen and the PR is from the same repo
-      if: '!(needs.build.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)',
+      needs: ['e2e_integ_test'],
       permissions: {
         idToken: JobPermission.WRITE,
         contents: JobPermission.READ,
@@ -213,10 +276,85 @@ if (buildWorkflow) {
             RELEASE_PREFIX: releasePrefix,
           },
         },
+        // upload $GITHUB_WORKSPACE/dist/releasetag.txt
+        {
+          name: 'Upload release version',
+          uses: 'actions/upload-artifact@v4',
+          with: {
+            name: 'release-version',
+            path: 'dist/releasetag.txt',
+          },
+        },
       ],
     },
   });
 };
+
+if (buildWorkflow) {
+  buildWorkflow.addJobs({
+    e2e_cloudformation_test: {
+      name: 'Run e2e cloudformation tests',
+      runsOn: ['ubuntu-latest'],
+      needs: ['release_s3_dev'],
+      permissions: {
+        idToken: JobPermission.WRITE,
+        contents: JobPermission.READ,
+      },
+      steps: [
+        {
+          name: 'Checkout',
+          uses: 'actions/checkout@v4',
+        },
+        {
+          name: 'Configure AWS credentials',
+          uses: 'aws-actions/configure-aws-credentials@v4',
+          with: {
+            'aws-region': 'eu-west-1',
+            'role-to-assume': '${{ secrets.E2E_INTEG_ROLE }}',
+            'role-session-name': 'e2e-cloudformation-test-federatedOIDC',
+          },
+        },
+        {
+          name: 'Download release version',
+          uses: 'actions/download-artifact@v4',
+          with: {
+            name: 'release-version',
+            path: '${{ runner.temp }}',
+          },
+        },
+        {
+          name: 'Create e2e cloudformation stack',
+          run: [
+            'ls -R ${{ runner.temp }}',
+            'echo "Relase version: $(cat ${{ runner.temp }}/releasetag.txt)"',
+            'bash integ-tests/create-e2e-cfn-stack.bash $(cat ${{ runner.temp }}/releasetag.txt)',
+          ].join('\n'),
+          timeoutMinutes: 11,
+        },
+        {
+          name: 'Delete e2e cloudformation stack',
+          run: [
+            'bash integ-tests/delete-e2e-cfn-stack.bash',
+          ].join('\n'),
+          timeoutMinutes: 11,
+        },
+        {
+          name: 'Install Python dependencies',
+          run: 'pip install -r requirements.txt',
+          workingDirectory: 'integ-tests',
+        },
+        {
+          name: 'Post e2e integ tests cleanup',
+          run: [
+            'for bucket in $(aws s3 ls | grep rootmail-cfn |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
+            'for lgregion in eu-central-1; do echo $lgregion; python cleanup/delete-log-groups.py rootmail-cfn $lgregion; done',
+          ].join('\n'),
+          workingDirectory: 'integ-tests',
+        },
+      ],
+    },
+  });
+}
 
 if (releaseWorkflow) {
   releaseWorkflow.addJobs({
@@ -317,6 +455,7 @@ if (releaseWorkflow) {
     },
   });
 }
+
 project.package.setScript('synth', 'npx cdk synth -q');
 project.package.setScript('publish-assets', 'npx ts-node -P tsconfig.json --prefer-ts-exts src/scripts/publish-assets.ts');
 // END custom workflow

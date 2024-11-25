@@ -1397,7 +1397,7 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
-          "S3Key": "e4f8a90e749eb7ab52fd711d961f9289474f39cb1093b3ae673eb106d1c6b06e.zip",
+          "S3Key": "7149f5c460805ebf4117156d3ee2ad25067cf0fd16cff6ba5a2e4d1bb95ccf4c.zip",
         },
         "Environment": {
           "Variables": {

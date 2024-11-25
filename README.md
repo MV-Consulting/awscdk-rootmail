@@ -55,7 +55,7 @@ You can chose via embedding the construct in your cdk-app or use is directly via
    npx projen new awscdk-app-ts
    ```
    2. Add `@mavogel/awscdk-rootmail` as a dependency to your project in the `.projenrc.ts` file
-   3. Run `npm run projen` to install it
+   3. Run `yarn run projen` to install it
 2. In you `main.ts` file add the following code
 ```ts
 import { Rootmail } from '@mavogel/awscdk-rootmail';
@@ -90,7 +90,7 @@ export class MyStack extends Stack {
 ```
 2. run on your commandline
 ```sh
-npm run deploy
+yarn run deploy
 ```
 1. No need to do anything, the NS records are **automatically** propagated as the parent Hosted Zone is in the same account!
 2. The `hosted-zone-dkim-propagation-provider.is-complete-handler` Lambda function checks every 10 seconds if the DNS for the subdomain is propagated. Details are in the Cloudwatch log group.
@@ -241,7 +241,7 @@ const rootmail = new Rootmail(this, 'rootmail-stack', {
 
 
 > [!NOTE]
-> After running `npm run deploy` you need to do the following steps manually:
+> After running `yarn run deploy` you need to do the following steps manually:
 
 1. watch out for the hosted zone  `aws.mycompany.test` to be created
 ![subdomain-hosted-zone](docs/img/1-use-ns-from-hz-min.png) By default you have **2 hours** to wire the DNS!
