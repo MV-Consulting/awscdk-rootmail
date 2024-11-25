@@ -8,7 +8,7 @@ count=0
 max_delete_count=60 # 10min
 STACK_STATUS="undefined"
 while [[ ! "$STACK_STATUS" == *"_FAILED" ]] && [[ ! "$STACK_STATUS" == *"_COMPLETE" ]]; do
-    sleep 2
+    sleep 10
     count=$((count+1))
     STACK_STATUS=$(aws cloudformation describe-stacks --stack-name rootmail-cfn-test --query 'Stacks[0].StackStatus' --output text --region eu-central-1)
     echo "($count/$max_delete_count) Stack status: $STACK_STATUS at $(date)"
