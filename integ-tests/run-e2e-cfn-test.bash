@@ -23,14 +23,15 @@ max_create_count=30 # 5min
 while [[ ! "$STACK_STATUS" == *"_FAILED" ]] && [[ ! "$STACK_STATUS" == *"_COMPLETE" ]]; do
     sleep 10
     count=$((count+1))
-    STACK_STATUS=$(aws cloudformation describe-stacks --stack-name rootmail-cfn-test --query 'Stacks[0].StackStatus' --output text)
+    STACK_STATUS=$(aws cloudformation describe-stacks --stack-name rootmail-cfn-test --query 'Stacks[0].StackStatus' --output text --region eu-central-1)
     echo "($count/$max_create_count) Stack status: $STACK_STATUS at $(date)"
-    if [ $count -eq $max_retries ]; then
+    if [ $count -eq $max_create_count ]; then
         echo "Max retries reached. Stack creation failed."
         exit 1
     fi
 done
 
+echo "Stack creation successful. Sleep for 5 seconds."
 sleep 5
 
 echo "Deleting the stack."

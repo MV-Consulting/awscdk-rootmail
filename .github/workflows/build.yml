@@ -209,7 +209,7 @@ jobs:
           ls -R ${{ runner.temp }}
           echo "Relase version: $(cat ${{ runner.temp }}/releasetag.txt)"
           bash integ-tests/run-e2e-cfn-test.bash $(cat ${{ runner.temp }}/releasetag.txt)
-        timeout-minutes: 15
+        timeout-minutes: 10
       - name: Install Python dependencies
         run: pip install -r requirements.txt
         working-directory: integ-tests
