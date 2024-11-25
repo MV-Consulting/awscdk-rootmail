@@ -125,6 +125,7 @@ switch (packageManager) {
 const installToolDependenciesSteps = [
   'pip install cfn-flip && cfn-flip --version',
   'yarn global add aws-cdk',
+  'yarn global add esbuild',
 ];
 
 const buildAndPublishAssetsSteps = [

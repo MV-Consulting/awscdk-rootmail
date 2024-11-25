@@ -179,6 +179,7 @@ jobs:
         run: |-
           pip install cfn-flip && cfn-flip --version
           yarn global add aws-cdk
+          yarn global add esbuild
       - name: Additional install, build and synth
         run: yarn install && yarn build
       - name: Inject environment variables

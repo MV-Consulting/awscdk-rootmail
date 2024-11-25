@@ -102,6 +102,7 @@ jobs:
         run: |-
           pip install cfn-flip && cfn-flip --version
           yarn global add aws-cdk
+          yarn global add esbuild
       - name: Inject environment variables
         uses: FranzDiebold/github-env-vars-action@v2
       - name: Build and publish assets
