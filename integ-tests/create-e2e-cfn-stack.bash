@@ -7,13 +7,6 @@ if [ -z "$RELEASE_VERSION" ]; then
 fi
 echo "Using release version: '$RELEASE_VERSION'"
 
-# test if there is already a stack with the name rootmail-cfn-test
-STACK_EXISTS=$(aws cloudformation describe-stacks --stack-name rootmail-cfn-test --region eu-central-1 --no-cli-pager 2>&1)
-if [ ! -z "$STACK_EXISTS" ]; then
-    echo "Stack with the name rootmail-cfn-test already exists. Please delete it first."
-    exit 1
-fi
-
 echo "Running E2E test for CloudFormation template."
 aws cloudformation create-stack \
     --stack-name rootmail-cfn-test \
