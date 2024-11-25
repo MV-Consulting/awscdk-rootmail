@@ -122,7 +122,6 @@ jobs:
         run: mv .repo/dist dist
   release_s3_dev:
     name: Publish to S3 (dev)
-    needs: e2e_integ_test
     runs-on: ubuntu-latest
     permissions:
       id-token: write

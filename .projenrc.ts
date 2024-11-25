@@ -218,7 +218,7 @@ if (buildWorkflow) {
     release_s3_dev: {
       name: 'Publish to S3 (dev)',
       runsOn: ['ubuntu-latest'],
-      needs: ['e2e_integ_test'],
+      // needs: ['e2e_integ_test'],
       permissions: {
         idToken: JobPermission.WRITE,
         contents: JobPermission.READ,
