@@ -318,14 +318,14 @@ if (buildWorkflow) {
           uses: 'actions/download-artifact@v4',
           with: {
             name: 'release-version',
-            path: 'dist/releasetag.txt',
+            path: '${{ runner.temp }}',
           },
         },
         {
           name: 'Run e2e cloudformation deployment',
           run: [
-            'echo "Relase version: $(cat dist/releasetag.txt)"',
-            'bash integ-tests/run-e2e-cfn-test.bash $(cat dist/releasetag.txt)',
+            'echo "Relase version: $(cat ${{ runner.temp }}/dist/releasetag.txt)"',
+            'bash integ-tests/run-e2e-cfn-test.bash $(cat ${{ runner.temp }}/dist/releasetag.txt)',
           ].join('\n'),
           timeoutMinutes: 15,
         },
