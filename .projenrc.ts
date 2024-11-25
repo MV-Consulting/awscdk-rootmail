@@ -149,76 +149,76 @@ const buildAndPublishAssetsSteps = [
   'aws s3 cp cdk.out/${RELEASE_NAME}.template.yaml s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/',
 ];
 
-// if (buildWorkflow) {
-//   buildWorkflow.addJobs({
-//     e2e_integ_test: {
-//       name: 'Run e2e integ tests',
-//       runsOn: ['ubuntu-latest'],
-//       needs: ['build'],
-//       permissions: {
-//         idToken: JobPermission.WRITE,
-//         contents: JobPermission.READ,
-//       },
-//       // self-mutation did not happen and the PR is from the same repo
-//       if: '!(needs.build.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)',
-//       steps: [
-//         {
-//           name: 'Checkout',
-//           uses: 'actions/checkout@v4',
-//         },
-//         {
-//           name: 'Configure AWS credentials',
-//           uses: 'aws-actions/configure-aws-credentials@v4',
-//           with: {
-//             'aws-region': 'eu-west-1',
-//             'role-to-assume': '${{ secrets.E2E_INTEG_ROLE }}',
-//             'role-session-name': 'e2e-integ-test-federatedOIDC',
-//           },
-//         },
-//         {
-//           name: 'Setup Node.js',
-//           uses: 'actions/setup-node@v4',
-//           with: {
-//             'node-version': '20.x',
-//           },
-//         },
-//         {
-//           name: 'Install dependencies',
-//           run: 'yarn install --check-files',
-//         },
-//         {
-//           name: 'Prepare integ tests',
-//           run: 'yarn run compile',
-//         },
-//         {
-//           name: 'Run e2e integ tests',
-//           run: 'yarn run integ-test -- --force',
-//           timeoutMinutes: 15,
-//         },
-//         {
-//           name: 'Install Python dependencies',
-//           run: 'pip install -r requirements.txt',
-//           workingDirectory: 'integ-tests',
-//         },
-//         {
-//           name: 'Post e2e integ tests cleanup',
-//           run: [
-//             'for bucket in $(aws s3 ls | grep rootmailinteg |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
-//             'for lgregion in eu-west-1 eu-west-2; do echo $lgregion; python cleanup/delete-log-groups.py Integ $lgregion; done',
-//           ].join('\n'),
-//           workingDirectory: 'integ-tests',
-//         },
-//       ],
-//     },
-//   });
-// }
+if (buildWorkflow) {
+  buildWorkflow.addJobs({
+    e2e_integ_test: {
+      name: 'Run e2e integ tests',
+      runsOn: ['ubuntu-latest'],
+      needs: ['build'],
+      permissions: {
+        idToken: JobPermission.WRITE,
+        contents: JobPermission.READ,
+      },
+      // self-mutation did not happen and the PR is from the same repo
+      if: '!(needs.build.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)',
+      steps: [
+        {
+          name: 'Checkout',
+          uses: 'actions/checkout@v4',
+        },
+        {
+          name: 'Configure AWS credentials',
+          uses: 'aws-actions/configure-aws-credentials@v4',
+          with: {
+            'aws-region': 'eu-west-1',
+            'role-to-assume': '${{ secrets.E2E_INTEG_ROLE }}',
+            'role-session-name': 'e2e-integ-test-federatedOIDC',
+          },
+        },
+        {
+          name: 'Setup Node.js',
+          uses: 'actions/setup-node@v4',
+          with: {
+            'node-version': '20.x',
+          },
+        },
+        {
+          name: 'Install dependencies',
+          run: 'yarn install --check-files',
+        },
+        {
+          name: 'Prepare integ tests',
+          run: 'yarn run compile',
+        },
+        {
+          name: 'Run e2e integ tests',
+          run: 'yarn run integ-test -- --force',
+          timeoutMinutes: 15,
+        },
+        {
+          name: 'Install Python dependencies',
+          run: 'pip install -r requirements.txt',
+          workingDirectory: 'integ-tests',
+        },
+        {
+          name: 'Post e2e integ tests cleanup',
+          run: [
+            'for bucket in $(aws s3 ls | grep rootmailinteg |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
+            'for lgregion in eu-west-1 eu-west-2; do echo $lgregion; python cleanup/delete-log-groups.py Integ $lgregion; done',
+          ].join('\n'),
+          workingDirectory: 'integ-tests',
+        },
+      ],
+    },
+  });
+}
 
 if (buildWorkflow) {
   buildWorkflow.addJobs({
     release_s3_dev: {
       name: 'Publish to S3 (dev)',
       runsOn: ['ubuntu-latest'],
-      // needs: ['e2e_integ_test'],
+      needs: ['e2e_integ_test'],
       permissions: {
         idToken: JobPermission.WRITE,
         contents: JobPermission.READ,
