@@ -204,12 +204,15 @@ jobs:
         with:
           name: release-version
           path: ${{ runner.temp }}
-      - name: Run e2e cloudformation deployment
+      - name: Create e2e cloudformation stack
         run: |-
           ls -R ${{ runner.temp }}
           echo "Relase version: $(cat ${{ runner.temp }}/releasetag.txt)"
-          bash integ-tests/run-e2e-cfn-test.bash $(cat ${{ runner.temp }}/releasetag.txt)
-        timeout-minutes: 20
+          bash integ-tests/create-e2e-cfn-stack.bash $(cat ${{ runner.temp }}/releasetag.txt)
+        timeout-minutes: 11
+      - name: Delete e2e cloudformation stack
+        run: bash integ-tests/delete-e2e-cfn-stack.bash
+        timeout-minutes: 11
       - name: Install Python dependencies
         run: pip install -r requirements.txt
         working-directory: integ-tests

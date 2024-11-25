@@ -323,13 +323,20 @@ if (buildWorkflow) {
           },
         },
         {
-          name: 'Run e2e cloudformation deployment',
+          name: 'Create e2e cloudformation stack',
           run: [
             'ls -R ${{ runner.temp }}',
             'echo "Relase version: $(cat ${{ runner.temp }}/releasetag.txt)"',
-            'bash integ-tests/run-e2e-cfn-test.bash $(cat ${{ runner.temp }}/releasetag.txt)',
+            'bash integ-tests/create-e2e-cfn-stack.bash $(cat ${{ runner.temp }}/releasetag.txt)',
           ].join('\n'),
-          timeoutMinutes: 20,
+          timeoutMinutes: 11,
+        },
+        {
+          name: 'Delete e2e cloudformation stack',
+          run: [
+            'bash integ-tests/delete-e2e-cfn-stack.bash',
+          ].join('\n'),
+          timeoutMinutes: 11,
         },
         {
           name: 'Install Python dependencies',
