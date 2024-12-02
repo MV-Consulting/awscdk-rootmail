@@ -39,6 +39,11 @@ export interface SESReceiveProps {
   readonly customSesReceiveFunction?: lambda.Function;
 
   /**
+   * Filtered email subjects
+   */
+  readonly filteredEmailSubjects?: string[];
+
+  /**
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
    */
   readonly setDestroyPolicyToAllResources?: boolean;
@@ -47,6 +52,8 @@ export interface SESReceiveProps {
 export class SESReceive extends Construct {
   constructor(scope: Construct, id: string, props: SESReceiveProps) {
     super(scope, id);
+
+    const filteredEmailSubjects = props.filteredEmailSubjects || [];
 
     const deployRegion = Stack.of(this).region;
     if (!isSESEnabledRegion(deployRegion)) {
@@ -160,6 +167,7 @@ export class SESReceive extends Construct {
       subdomain: props.subdomain,
       emailbucket: props.emailbucket,
       opsSantaFunctionArn: opsSantaFunction.functionArn,
+      filteredEmailSubjects: filteredEmailSubjects,
     });
 
     // If Destroy Policy Aspect is present:

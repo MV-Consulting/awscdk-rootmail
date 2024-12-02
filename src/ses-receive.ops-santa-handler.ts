@@ -5,12 +5,13 @@ import { simpleParser } from 'mailparser';
 const region = process.env.ROOTMAIL_DEPLOY_REGION;
 const emailBucket = process.env.EMAIL_BUCKET;
 const emailBucketArn = process.env.EMAIL_BUCKET_ARN;
+const filteredEmailSubjects = process.env.FILTERED_EMAIL_SUBJECTS;
 const s3 = new S3();
 const ssm = new SSM({
   region: region,
 });
 
-const filteredEmailSubjects = [
+const defaultfilteredEmailSubjects = [
   'Your AWS Account is Ready - Get Started Now',
   'Welcome to Amazon Web Services',
 ];
@@ -82,6 +83,18 @@ export const handler = async (event: SESEventRecordsToLambda) => {
 
   log({
     event: event,
+    level: 'debug',
+  });
+
+  const mergedfilteredEmailSubjects = defaultfilteredEmailSubjects
+  if (filteredEmailSubjects) {
+    // convention is to pass in a comma separated list of email subjects
+    // which we will split and merge with the default list
+    mergedfilteredEmailSubjects.push(...filteredEmailSubjects.split(','));
+  }
+
+  log({
+    filteredEmailSubjects: mergedfilteredEmailSubjects,
     level: 'debug',
   });
 
@@ -158,7 +171,7 @@ export const handler = async (event: SESEventRecordsToLambda) => {
       return;
     }
 
-    if (filteredEmailSubjects.includes(title)) {
+    if (mergedfilteredEmailSubjects.includes(title)) {
       log({
         level: 'info',
         msg: 'filtered email',
