@@ -192,7 +192,7 @@ if (buildWorkflow) {
         },
         {
           name: 'Run e2e integ tests',
-          run: 'yarn run integ-test -- --force',
+          run: 'yarn run integ-test -- --update-on-failed',
           timeoutMinutes: 15,
         },
         {
