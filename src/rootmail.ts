@@ -52,6 +52,8 @@ export interface RootmailProps {
 
   /**
    * Filtered email subjects
+   * 
+   * @default []
    */
   readonly filteredEmailSubjects?: string[];
 
