@@ -3050,10 +3050,10 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-assets@^2.155.48:
-  version "2.155.48"
-  resolved "https://registry.yarnpkg.com/cdk-assets/-/cdk-assets-2.155.48.tgz#041c6dec1af0cda53feb383b8ff1f23493b58f0e"
-  integrity sha512-y7sMQtP9LXWdOTRp3lX6VNaJpbHpzSWLriteNkBfFbMgFpOyNQeUXil23EMKZ4G+QJulZYP+Fs10R2eMOQN4nQ==
+cdk-assets@^2.155.49:
+  version "2.155.49"
+  resolved "https://registry.yarnpkg.com/cdk-assets/-/cdk-assets-2.155.49.tgz#0a79a32eff8c3dc6570cc30faec2fd289dbd5be2"
+  integrity sha512-uwuOXdaz7AE4CF04pkNUh4sd0cZ8pH2oBElcfGLaz8GoDx0aXnYPakoFR3KFhilIWaUR1iLL/Pv72Fs1A3DWHQ==
   dependencies:
     "@aws-cdk/cloud-assembly-schema" "^38.0.1"
     "@aws-cdk/cx-api" "^2.171.1"
@@ -3063,10 +3063,10 @@ cdk-assets@^2.155.48:
     mime "^2.6.0"
     yargs "^16.2.0"
 
-cdk-nag@^2.34.12:
-  version "2.34.12"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.34.12.tgz#5b9c7fe96267504a058ff2d227f459e0a1e89a85"
-  integrity sha512-81Be6u+MXA0vbR0TfSCkw5OSoYSZK/7WMZUjF/0nRqc7q1fLLpwetEaNUU7xsx1j97aIIN0ehH5NOXtbA0k7tQ==
+cdk-nag@^2.34.13:
+  version "2.34.13"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.34.13.tgz#a0a5912db122be7af95d12c69ab64f4b4b76d244"
+  integrity sha512-V48tlMikhpRrSyBeQ0mpBQ/4McydelkTcp0lJHPmb9YNw0b/qqR8CL4EazF8Bxbi2kDvFbXCvOVQXYzMzKMwiA==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -4492,9 +4492,11 @@ has-property-descriptors@^1.0.0, has-property-descriptors@^1.0.2:
     es-define-property "^1.0.0"
 
 has-proto@^1.0.1, has-proto@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/has-proto/-/has-proto-1.0.3.tgz#b31ddfe9b0e6e9914536a6ab286426d0214f77fd"
-  integrity sha512-SJ1amZAJUiZS+PhsVLf5tGydlaVB8EdFpaSO4gmiUKUOxk8qzn5AIy4ZeJUmh22znIdk/uMAUT2pl3FxzVUH+Q==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/has-proto/-/has-proto-1.1.0.tgz#deb10494cbbe8809bce168a3b961f42969f5ed43"
+  integrity sha512-QLdzI9IIO1Jg7f9GT1gXpPpXArAn6cS31R1eEZqz08Gc+uQ8/XiqHWt17Fiw+2p6oTTIq5GXEpQkAlA88YRl/Q==
+  dependencies:
+    call-bind "^1.0.7"
 
 has-symbols@^1.0.2, has-symbols@^1.0.3:
   version "1.0.3"
@@ -7226,9 +7228,9 @@ typedarray@^0.0.6:
   integrity sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==
 
 typescript@next:
-  version "5.8.0-dev.20241130"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.0-dev.20241130.tgz#b1037763f9e978bffe41bfc7e4382b51dc8b7e04"
-  integrity sha512-cJ/17qrj874di4GaOZOxdH7kzhC25jyGXrxBhjUUUCq2HiQAo9nl8R33PKOqIejOA1ljGASS6jyHwWsBOjRwow==
+  version "5.8.0-dev.20241201"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.0-dev.20241201.tgz#d76d893340b96d2f8e7204b17aeb76650b5e2f23"
+  integrity sha512-c2pVSFoS1eJha1eBBNtuZoMkjQFOT9X+ib53SGU2psP+JCzoJxEXbobq9jwa7vauq45NB92wVPKaKgpqyCTaqQ==
 
 typescript@~5.5:
   version "5.5.4"
