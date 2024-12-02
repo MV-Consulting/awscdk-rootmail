@@ -146,7 +146,7 @@ jobs:
       - name: Prepare integ tests
         run: yarn run compile
       - name: Run e2e integ tests
-        run: yarn run integ-test -- --update-on-failed
+        run: yarn run integ-test
         timeout-minutes: 15
       - name: Install Python dependencies
         run: pip install -r requirements.txt
