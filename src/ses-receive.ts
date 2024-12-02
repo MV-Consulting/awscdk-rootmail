@@ -39,7 +39,7 @@ export interface SESReceiveProps {
   readonly customSesReceiveFunction?: lambda.Function;
 
   /**
-   * Filtered email subjects
+   * Filtered email subjects. NOTE: must not contain commas.
    */
   readonly filteredEmailSubjects?: string[];
 

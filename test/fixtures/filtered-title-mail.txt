@@ -1,0 +1,12 @@
+From: Amazon Web Services <no-reply-aws@amazon.com>
+To: user@example.com
+Subject: Config Rules Compliance Change
+Date: Mon, 30 Aug 2021 14:54:12 +0200
+Message-ID: <CAD8GCsC2M3=_aRKX4E2hO6pKb1Mxyo1n=J7H9q1UZjzOvGCHnA@mail.gmail.com>
+Content-Type: text/html; charset=utf-8
+
+<html>
+<body>
+not relevant
+</body>
+</html>

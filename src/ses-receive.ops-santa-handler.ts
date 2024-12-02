@@ -5,7 +5,6 @@ import { simpleParser } from 'mailparser';
 const region = process.env.ROOTMAIL_DEPLOY_REGION;
 const emailBucket = process.env.EMAIL_BUCKET;
 const emailBucketArn = process.env.EMAIL_BUCKET_ARN;
-const filteredEmailSubjects = process.env.FILTERED_EMAIL_SUBJECTS;
 const s3 = new S3();
 const ssm = new SSM({
   region: region,
@@ -86,7 +85,9 @@ export const handler = async (event: SESEventRecordsToLambda) => {
     level: 'debug',
   });
 
-  const mergedfilteredEmailSubjects = defaultfilteredEmailSubjects
+  const mergedfilteredEmailSubjects = defaultfilteredEmailSubjects;
+  // for unit testing purposes we evaluate the env var here
+  const filteredEmailSubjects = process.env.FILTERED_EMAIL_SUBJECTS;
   if (filteredEmailSubjects) {
     // convention is to pass in a comma separated list of email subjects
     // which we will split and merge with the default list

@@ -63,6 +63,25 @@ describe('ops-santa', () => {
     expect(spyCreateOpsItem).not.toHaveBeenCalled();
   });
 
+  it('filter-custom-title', async () => {
+    // Config Rules Compliance Change
+    const sesAccountReadyEvent = jsonfile.readFileSync(path.join(__dirname, 'fixtures', 'filtered-title-ses-event.json'), { encoding: 'utf-8' }) as SESEventRecordsToLambda;
+
+    const email = fs.readFileSync(path.join(__dirname, 'fixtures', 'filtered-title-mail.txt'), { encoding: 'utf-8' });
+    spyGetObject.mockImplementation(() => ({
+      Body: email,
+    }));
+
+    process.env.FILTERED_EMAIL_SUBJECTS = 'Config Rules Compliance Change';
+    await handler(sesAccountReadyEvent);
+
+    expect(process.env.FILTERED_EMAIL_SUBJECTS).toBe('Config Rules Compliance Change');
+    expect(spyGetObject).toHaveBeenCalledTimes(1);
+    expect(spyPutParameter).not.toHaveBeenCalled();
+    expect(spyCreateOpsItem).not.toHaveBeenCalled();
+    process.env.FILTERED_EMAIL_SUBJECTS = '';
+  });
+
   it('spam-verdict-fail', async () => {
     const sesAccountSpamVerdictFailedEvent = jsonfile.readFileSync(path.join(__dirname, 'fixtures', 'spam-verdict-failed-ses-event.json'), { encoding: 'utf-8' }) as SESEventRecordsToLambda;
 

@@ -51,8 +51,8 @@ export interface RootmailProps {
   readonly customSesReceiveFunction?: lambda.Function;
 
   /**
-   * Filtered email subjects
-   * 
+   * Filtered email subjects. NOTE: must not contain commas.
+   *
    * @default []
    */
   readonly filteredEmailSubjects?: string[];
