@@ -159,6 +159,12 @@ if (buildWorkflow) {
         idToken: JobPermission.WRITE,
         contents: JobPermission.WRITE,
       },
+      outputs: {
+        self_mutation_happened: {
+          outputName: 'self_mutation_happened',
+          stepId: 'self_mutation',
+        }
+      },
       // self-mutation did not happen and the PR is from the same repo
       if: '!(needs.build.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)',
       steps: [
@@ -214,9 +220,12 @@ if (buildWorkflow) {
           run: [
             'git add .',
             'git diff --staged --patch --exit-code > repo.patch || echo "self_mutation_happened=true" >> $GITHUB_OUTPUT',
-            '[ -s repo.patch ] && cat repo.patch || echo "No patch found."',
           ].join('\n'),
           workingDirectory: './',
+        },
+        {
+          name: 'Debug output',
+          run: 'cat $GITHUB_OUTPUT',
         },
         {
           name: 'Upload patch',
@@ -255,7 +264,7 @@ if (buildWorkflow) {
           name: 'Download patch',
           uses: 'actions/download-artifact@v4',
           with: {
-            name: 'repo,patch',
+            name: 'repo.patch',
             path: '${{ runner.temp }}',
           },
         },

@@ -127,6 +127,8 @@ jobs:
     permissions:
       id-token: write
       contents: write
+    outputs:
+      self_mutation_happened: ${{ steps.self_mutation.outputs.self_mutation_happened }}
     if: "!(needs.build.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)"
     steps:
       - name: Checkout
@@ -161,8 +163,9 @@ jobs:
         run: |-
           git add .
           git diff --staged --patch --exit-code > repo.patch || echo "self_mutation_happened=true" >> $GITHUB_OUTPUT
-          [ -s repo.patch ] && cat repo.patch || echo "No patch found."
         working-directory: ./
+      - name: Debug output
+        run: cat $GITHUB_OUTPUT
       - name: Upload patch
         if: steps.self_mutation.outputs.self_mutation_happened
         uses: actions/upload-artifact@v4
@@ -187,7 +190,7 @@ jobs:
       - name: Download patch
         uses: actions/download-artifact@v4
         with:
-          name: repo,patch
+          name: repo.patch
           path: ${{ runner.temp }}
       - name: Apply patch
         run: '[ -s ${{ runner.temp }}/repo.patch ] && git apply ${{ runner.temp }}/repo.patch || echo "Empty patch. Skipping."'
