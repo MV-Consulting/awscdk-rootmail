@@ -225,7 +225,7 @@ if (buildWorkflow) {
           with: {
             name: 'repo.patch',
             path: 'repo.patch',
-            overwrite: true
+            overwrite: true,
           },
         },
         {
@@ -265,7 +265,7 @@ if (buildWorkflow) {
           uses: 'actions/download-artifact@v4',
           with: {
             name: 'repo,patch',
-            path: '${{ runner.temp }}'
+            path: '${{ runner.temp }}',
           },
         },
         {
@@ -289,7 +289,7 @@ if (buildWorkflow) {
             'git commit -s -m "chore: self mutation after e2e integ tests"',
             'git push origin HEAD:$PULL_REQUEST_REF',
           ].join('\n'),
-        }
+        },
       ],
     },
   });
