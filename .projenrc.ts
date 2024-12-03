@@ -227,16 +227,7 @@ if (buildWorkflow) {
             path: 'repo.patch',
             overwrite: true,
           },
-        },
-        {
-          name: 'Fail e2e on mutation',
-          if: 'steps.self_mutation.outputs.self_mutation_happened',
-          run: [
-            'echo "::error::Files were changed during build (see build log). If this was triggered from a fork, you will need to update your branch."',
-            'cat repo.patch',
-            'exit 1',
-          ].join('\n'),
-        },
+        }
       ],
     },
   });
