@@ -227,7 +227,7 @@ if (buildWorkflow) {
             path: 'repo.patch',
             overwrite: true,
           },
-        }
+        },
       ],
     },
   });
