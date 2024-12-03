@@ -163,7 +163,7 @@ if (buildWorkflow) {
         self_mutation_happened: {
           outputName: 'self_mutation_happened',
           stepId: 'self_mutation',
-        }
+        },
       },
       // self-mutation did not happen and the PR is from the same repo
       if: '!(needs.build.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)',
