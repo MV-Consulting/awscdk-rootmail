@@ -157,7 +157,7 @@ if (buildWorkflow) {
       needs: ['build'],
       permissions: {
         idToken: JobPermission.WRITE,
-        contents: JobPermission.READ,
+        contents: JobPermission.WRITE,
       },
       // self-mutation did not happen and the PR is from the same repo
       if: '!(needs.build.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)',
@@ -208,6 +208,88 @@ if (buildWorkflow) {
           ].join('\n'),
           workingDirectory: 'integ-tests',
         },
+        {
+          name: 'Find mutations',
+          id: 'self_mutation',
+          run: [
+            'git add .',
+            'git diff --staged --patch --exit-code > repo.patch || echo "self_mutation_happened=true" >> $GITHUB_OUTPUT',
+            '[ -s repo.patch ] && cat repo.patch || echo "No patch found."',
+          ].join('\n'),
+          workingDirectory: './',
+        },
+        {
+          name: 'Upload patch',
+          uses: 'actions/upload-artifact@v4',
+          if: 'steps.self_mutation.outputs.self_mutation_happened',
+          with: {
+            name: 'repo.patch',
+            path: 'repo.patch',
+            overwrite: true
+          },
+        },
+        {
+          name: 'Fail e2e on mutation',
+          if: 'steps.self_mutation.outputs.self_mutation_happened',
+          run: [
+            'echo "::error::Files were changed during build (see build log). If this was triggered from a fork, you will need to update your branch."',
+            'cat repo.patch',
+            'exit 1',
+          ].join('\n'),
+        },
+      ],
+    },
+  });
+
+  buildWorkflow.addJobs({
+    'self-mutation-e2e': {
+      name: 'Self mutation after e2e integ tests',
+      runsOn: ['ubuntu-latest'],
+      needs: ['e2e_integ_test'],
+      permissions: {
+        contents: JobPermission.WRITE,
+      },
+      if: 'always() && needs.e2e_integ_test.outputs.self_mutation_happened && !(github.event.pull_request.head.repo.full_name != github.repository)',
+      steps: [
+        {
+          name: 'Checkout',
+          uses: 'actions/checkout@v4',
+          with: {
+            token: '${{ secrets.PROJEN_GITHUB_TOKEN }}',
+            ref: '${{ github.event.pull_request.head.ref }}',
+            repository: '${{ github.event.pull_request.head.repo.full_name }}',
+          },
+        },
+        {
+          name: 'Download patch',
+          uses: 'actions/download-artifact@v4',
+          with: {
+            name: 'repo,patch',
+            path: '${{ runner.temp }}'
+          },
+        },
+        {
+          name: 'Apply patch',
+          run: '[ -s ${{ runner.temp }}/repo.patch ] && git apply ${{ runner.temp }}/repo.patch || echo "Empty patch. Skipping."',
+        },
+        {
+          name: 'Set git identity',
+          run: [
+            'git config user.name "github-actions"',
+            'git config user.email "github-actions@github.com"',
+          ].join('\n'),
+        },
+        {
+          name: 'Push changes',
+          env: {
+            PULL_REQUEST_REF: '${{ github.event.pull_request.head.ref }}',
+          },
+          run: [
+            'git add .',
+            'git commit -s -m "chore: self mutation after e2e integ tests"',
+            'git push origin HEAD:$PULL_REQUEST_REF',
+          ].join('\n'),
+        }
       ],
     },
   });
@@ -223,6 +305,8 @@ if (buildWorkflow) {
         idToken: JobPermission.WRITE,
         contents: JobPermission.READ,
       },
+      // e2e self-mutation did not happen and the PR is from the same repo
+      if: '!(needs.e2e_integ_test.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)',
       steps: [
         {
           name: 'Checkout',

@@ -126,7 +126,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-      contents: read
+      contents: write
     if: "!(needs.build.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)"
     steps:
       - name: Checkout
@@ -156,6 +156,58 @@ jobs:
           for bucket in $(aws s3 ls | grep rootmailinteg |  awk '{ print $3 }'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done
           for lgregion in eu-west-1 eu-west-2; do echo $lgregion; python cleanup/delete-log-groups.py Integ $lgregion; done
         working-directory: integ-tests
+      - name: Find mutations
+        id: self_mutation
+        run: |-
+          git add .
+          git diff --staged --patch --exit-code > repo.patch || echo "self_mutation_happened=true" >> $GITHUB_OUTPUT
+          [ -s repo.patch ] && cat repo.patch || echo "No patch found."
+        working-directory: ./
+      - name: Upload patch
+        if: steps.self_mutation.outputs.self_mutation_happened
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo.patch
+          path: repo.patch
+          overwrite: true
+      - name: Fail e2e on mutation
+        if: steps.self_mutation.outputs.self_mutation_happened
+        run: |-
+          echo "::error::Files were changed during build (see build log). If this was triggered from a fork, you will need to update your branch."
+          cat repo.patch
+          exit 1
+  self-mutation-e2e:
+    name: Self mutation after e2e integ tests
+    needs: e2e_integ_test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: always() && needs.e2e_integ_test.outputs.self_mutation_happened && !(github.event.pull_request.head.repo.full_name != github.repository)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PROJEN_GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+      - name: Download patch
+        uses: actions/download-artifact@v4
+        with:
+          name: repo,patch
+          path: ${{ runner.temp }}
+      - name: Apply patch
+        run: '[ -s ${{ runner.temp }}/repo.patch ] && git apply ${{ runner.temp }}/repo.patch || echo "Empty patch. Skipping."'
+      - name: Set git identity
+        run: |-
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+      - name: Push changes
+        env:
+          PULL_REQUEST_REF: ${{ github.event.pull_request.head.ref }}
+        run: |-
+          git add .
+          git commit -s -m "chore: self mutation after e2e integ tests"
+          git push origin HEAD:$PULL_REQUEST_REF
   release_s3_dev:
     name: Publish to S3 (dev)
     needs: e2e_integ_test
@@ -163,6 +215,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    if: "!(needs.e2e_integ_test.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
