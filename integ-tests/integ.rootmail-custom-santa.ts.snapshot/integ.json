@@ -11,7 +11,7 @@
         ]
       },
       "regions": [
-        "${Token[AWS.Region.5]}"
+        "${Token[AWS.Region.4]}"
       ],
       "cdkCommandOptions": {
         "destroy": {
