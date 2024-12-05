@@ -16,6 +16,7 @@ import { Construct, IConstruct } from 'constructs';
 import { isSESEnabledRegion, sesEnabledRegions } from './common';
 import { HostedZoneDkim } from './hosted-zone-dkim';
 import { SESReceive } from './ses-receive';
+import { CfnBucket } from 'aws-cdk-lib/aws-s3';
 
 export interface RootmailProps {
   /**
@@ -101,6 +102,7 @@ export class Rootmail extends Construct {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.S3_MANAGED,
       removalPolicy: emailBucketDeletePolicy,
+      autoDeleteObjects: emailBucketDeletePolicy === RemovalPolicy.DESTROY,
     });
     NagSuppressions.addResourceSuppressions([
       this.emailBucket,
