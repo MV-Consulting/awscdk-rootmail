@@ -10,7 +10,7 @@ const ssm = new SSM({
   region: region,
 });
 
-const filteredEmailSubjects = [
+const defaultfilteredEmailSubjects = [
   'Your AWS Account is Ready - Get Started Now',
   'Welcome to Amazon Web Services',
 ];
@@ -82,6 +82,20 @@ export const handler = async (event: SESEventRecordsToLambda) => {
 
   log({
     event: event,
+    level: 'debug',
+  });
+
+  const mergedfilteredEmailSubjects = defaultfilteredEmailSubjects;
+  // for unit testing purposes we evaluate the env var here
+  const filteredEmailSubjects = process.env.FILTERED_EMAIL_SUBJECTS;
+  if (filteredEmailSubjects) {
+    // convention is to pass in a comma separated list of email subjects
+    // which we will split and merge with the default list
+    mergedfilteredEmailSubjects.push(...filteredEmailSubjects.split(','));
+  }
+
+  log({
+    filteredEmailSubjects: mergedfilteredEmailSubjects,
     level: 'debug',
   });
 
@@ -158,7 +172,7 @@ export const handler = async (event: SESEventRecordsToLambda) => {
       return;
     }
 
-    if (filteredEmailSubjects.includes(title)) {
+    if (mergedfilteredEmailSubjects.includes(title)) {
       log({
         level: 'info',
         msg: 'filtered email',

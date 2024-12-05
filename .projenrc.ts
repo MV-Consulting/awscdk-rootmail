@@ -74,6 +74,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   gitignore: [
     'venv',
     'cdk.out',
+    'tmp',
   ],
 });
 
@@ -157,7 +158,13 @@ if (buildWorkflow) {
       needs: ['build'],
       permissions: {
         idToken: JobPermission.WRITE,
-        contents: JobPermission.READ,
+        contents: JobPermission.WRITE,
+      },
+      outputs: {
+        self_mutation_happened: {
+          outputName: 'self_mutation_happened',
+          stepId: 'self_mutation',
+        },
       },
       // self-mutation did not happen and the PR is from the same repo
       if: '!(needs.build.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)',
@@ -192,7 +199,7 @@ if (buildWorkflow) {
         },
         {
           name: 'Run e2e integ tests',
-          run: 'yarn run integ-test -- --update-on-failed',
+          run: 'yarn run integ-test',
           timeoutMinutes: 15,
         },
         {
@@ -203,10 +210,88 @@ if (buildWorkflow) {
         {
           name: 'Post e2e integ tests cleanup',
           run: [
+            // todo use https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html#autodeleteobjects
+            // https://github.com/aws/aws-cdk/blob/main/packages/%40aws-cdk/custom-resource-handlers/lib/aws-s3/auto-delete-objects-handler/index.ts
             'for bucket in $(aws s3 ls | grep rootmailinteg |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
             'for lgregion in eu-west-1 eu-west-2; do echo $lgregion; python cleanup/delete-log-groups.py Integ $lgregion; done',
           ].join('\n'),
           workingDirectory: 'integ-tests',
+        },
+        {
+          name: 'Find mutations',
+          id: 'self_mutation',
+          run: [
+            'git add .',
+            'git diff --staged --patch --exit-code > repo.patch || echo "self_mutation_happened=true" >> $GITHUB_OUTPUT',
+          ].join('\n'),
+          workingDirectory: './',
+        },
+        {
+          name: 'Debug output',
+          run: 'cat $GITHUB_OUTPUT',
+        },
+        {
+          name: 'Upload patch',
+          uses: 'actions/upload-artifact@v4',
+          if: 'steps.self_mutation.outputs.self_mutation_happened',
+          with: {
+            name: 'repo.patch',
+            path: 'repo.patch',
+            overwrite: true,
+          },
+        },
+      ],
+    },
+  });
+
+  buildWorkflow.addJobs({
+    'self-mutation-e2e': {
+      name: 'Self mutation after e2e integ tests',
+      runsOn: ['ubuntu-latest'],
+      needs: ['e2e_integ_test'],
+      permissions: {
+        contents: JobPermission.WRITE,
+      },
+      if: 'always() && needs.e2e_integ_test.outputs.self_mutation_happened && !(github.event.pull_request.head.repo.full_name != github.repository)',
+      steps: [
+        {
+          name: 'Checkout',
+          uses: 'actions/checkout@v4',
+          with: {
+            token: '${{ secrets.PROJEN_GITHUB_TOKEN }}',
+            ref: '${{ github.event.pull_request.head.ref }}',
+            repository: '${{ github.event.pull_request.head.repo.full_name }}',
+          },
+        },
+        {
+          name: 'Download patch',
+          uses: 'actions/download-artifact@v4',
+          with: {
+            name: 'repo.patch',
+            path: '${{ runner.temp }}',
+          },
+        },
+        {
+          name: 'Apply patch',
+          run: '[ -s ${{ runner.temp }}/repo.patch ] && git apply ${{ runner.temp }}/repo.patch || echo "Empty patch. Skipping."',
+        },
+        {
+          name: 'Set git identity',
+          run: [
+            'git config user.name "github-actions"',
+            'git config user.email "github-actions@github.com"',
+          ].join('\n'),
+        },
+        {
+          name: 'Push changes',
+          env: {
+            PULL_REQUEST_REF: '${{ github.event.pull_request.head.ref }}',
+          },
+          run: [
+            'git add .',
+            'git commit -s -m "chore: self mutation after e2e integ tests"',
+            'git push origin HEAD:$PULL_REQUEST_REF',
+          ].join('\n'),
         },
       ],
     },
@@ -223,6 +308,8 @@ if (buildWorkflow) {
         idToken: JobPermission.WRITE,
         contents: JobPermission.READ,
       },
+      // e2e self-mutation did not happen and the PR is from the same repo
+      if: '!(needs.e2e_integ_test.outputs.self_mutation_happened) && !(github.event.pull_request.head.repo.full_name != github.repository)',
       steps: [
         {
           name: 'Checkout',

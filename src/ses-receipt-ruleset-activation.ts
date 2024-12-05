@@ -15,6 +15,7 @@ import {
   PROP_SUBDOMAIN,
   PROP_EMAILBUCKET_NAME,
   PROP_OPS_SANTA_FUNCTION_ARN,
+  FILTERED_EMAIL_SUBJECTS,
 } from './ses-receipt-ruleset-activation.on-event-handler';
 
 export interface SESReceiptRuleSetActivationProps {
@@ -22,6 +23,7 @@ export interface SESReceiptRuleSetActivationProps {
   readonly subdomain: string;
   readonly emailbucket: s3.Bucket;
   readonly opsSantaFunctionArn: string;
+  readonly filteredEmailSubjects: string[];
 }
 
 export class SESReceiptRuleSetActivation extends Construct {
@@ -37,6 +39,7 @@ export class SESReceiptRuleSetActivation extends Construct {
         [PROP_SUBDOMAIN]: props.subdomain,
         [PROP_EMAILBUCKET_NAME]: props.emailbucket.bucketName,
         [PROP_OPS_SANTA_FUNCTION_ARN]: props.opsSantaFunctionArn,
+        [FILTERED_EMAIL_SUBJECTS]: props.filteredEmailSubjects.join(','), // as we can only pass in strings
       },
     });
   }

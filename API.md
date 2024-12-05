@@ -241,6 +241,7 @@ const rootmailProps: RootmailProps = { ... }
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.customSesReceiveFunction">customSesReceiveFunction</a></code> | <code>aws-cdk-lib.aws_lambda.Function</code> | The custom SES receive function to use. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.emailBucketDeletePolicy">emailBucketDeletePolicy</a></code> | <code>aws-cdk-lib.RemovalPolicy</code> | The removal policy for the email bucket. |
+| <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.filteredEmailSubjects">filteredEmailSubjects</a></code> | <code>string[]</code> | Filtered email subjects. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.RootmailProps.property.totalTimeToWireDNS">totalTimeToWireDNS</a></code> | <code>aws-cdk-lib.Duration</code> | The total time to wait for the DNS records to be available/wired. |
@@ -282,6 +283,21 @@ public readonly emailBucketDeletePolicy: RemovalPolicy;
 - *Default:* RemovalPolicy.RETAIN
 
 The removal policy for the email bucket.
+
+---
+
+##### `filteredEmailSubjects`<sup>Optional</sup> <a name="filteredEmailSubjects" id="@mavogel/awscdk-rootmail.RootmailProps.property.filteredEmailSubjects"></a>
+
+```typescript
+public readonly filteredEmailSubjects: string[];
+```
+
+- *Type:* string[]
+- *Default:* []
+
+Filtered email subjects.
+
+NOTE: must not contain commas.
 
 ---
 
@@ -357,6 +373,7 @@ const sESReceiveProps: SESReceiveProps = { ... }
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.emailbucket">emailbucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | S3 bucket to store received emails. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.customSesReceiveFunction">customSesReceiveFunction</a></code> | <code>aws-cdk-lib.aws_lambda.Function</code> | The custom SES receive function to use. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.filteredEmailSubjects">filteredEmailSubjects</a></code> | <code>string[]</code> | Filtered email subjects. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.setDestroyPolicyToAllResources">setDestroyPolicyToAllResources</a></code> | <code>boolean</code> | Whether to set all removal policies to DESTROY. |
 
 ---
@@ -406,6 +423,20 @@ public readonly customSesReceiveFunction: Function;
 - *Type:* aws-cdk-lib.aws_lambda.Function
 
 The custom SES receive function to use.
+
+---
+
+##### `filteredEmailSubjects`<sup>Optional</sup> <a name="filteredEmailSubjects" id="@mavogel/awscdk-rootmail.SESReceiveProps.property.filteredEmailSubjects"></a>
+
+```typescript
+public readonly filteredEmailSubjects: string[];
+```
+
+- *Type:* string[]
+
+Filtered email subjects.
+
+NOTE: must not contain commas.
 
 ---
 

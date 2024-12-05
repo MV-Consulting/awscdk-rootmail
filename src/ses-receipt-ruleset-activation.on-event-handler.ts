@@ -6,6 +6,7 @@ export const PROP_SUBDOMAIN = 'Subdomain';
 export const PROP_EMAILBUCKET_NAME = 'EmailBucketName';
 export const PROP_OPS_SANTA_FUNCTION_ARN = 'OpsSantaFunctionArn';
 export const PROP_RULESET_SETTLE_TIME_SECONDS = 'RulesetSettleTimeSeconds';
+export const FILTERED_EMAIL_SUBJECTS = 'FilteredEmailSubjects';
 
 const ses = new SES();
 

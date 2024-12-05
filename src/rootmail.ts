@@ -51,6 +51,13 @@ export interface RootmailProps {
   readonly customSesReceiveFunction?: lambda.Function;
 
   /**
+   * Filtered email subjects. NOTE: must not contain commas.
+   *
+   * @default []
+   */
+  readonly filteredEmailSubjects?: string[];
+
+  /**
    * The removal policy for the email bucket
    *
    * @default RemovalPolicy.RETAIN
@@ -79,6 +86,7 @@ export class Rootmail extends Construct {
     const wireDNSToHostedZoneID = props.wireDNSToHostedZoneID ?? undefined;
     const setDestroyPolicyToAllResources = props.setDestroyPolicyToAllResources ?? false;
     const emailBucketDeletePolicy = props.emailBucketDeletePolicy ?? RemovalPolicy.RETAIN;
+    const filteredEmailSubjects = props.filteredEmailSubjects || [];
 
     const deployRegion = Stack.of(this).region;
     console.log(`Deploy region is ${deployRegion}`);
@@ -134,6 +142,7 @@ export class Rootmail extends Construct {
       subdomain: subdomain,
       emailbucket: this.emailBucket,
       customSesReceiveFunction: props.customSesReceiveFunction,
+      filteredEmailSubjects: filteredEmailSubjects,
     });
 
     // If Destroy Policy Aspect is present:

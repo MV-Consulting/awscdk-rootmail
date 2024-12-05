@@ -33,6 +33,7 @@ jspm_packages/
 .cache
 venv
 cdk.out
+tmp
 /test-reports/
 junit.xml
 /coverage/
