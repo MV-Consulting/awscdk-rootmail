@@ -16,7 +16,6 @@ import { Construct, IConstruct } from 'constructs';
 import { isSESEnabledRegion, sesEnabledRegions } from './common';
 import { HostedZoneDkim } from './hosted-zone-dkim';
 import { SESReceive } from './ses-receive';
-import { CfnBucket } from 'aws-cdk-lib/aws-s3';
 
 export interface RootmailProps {
   /**
