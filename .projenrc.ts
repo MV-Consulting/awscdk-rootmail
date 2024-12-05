@@ -209,7 +209,7 @@ if (buildWorkflow) {
         },
         {
           name: 'Post e2e integ tests cleanup',
-          run: [ 
+          run: [
             // todo use https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html#autodeleteobjects
             // https://github.com/aws/aws-cdk/blob/main/packages/%40aws-cdk/custom-resource-handlers/lib/aws-s3/auto-delete-objects-handler/index.ts
             'for bucket in $(aws s3 ls | grep rootmailinteg |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
