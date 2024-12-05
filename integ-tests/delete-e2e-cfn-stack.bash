@@ -23,4 +23,10 @@ while [[ ! "$STACK_STATUS" == *"_FAILED" ]] && [[ ! "$STACK_STATUS" == *"_COMPLE
     fi
 done
 
+# check for CREATE_FAILED
+if [[ "$STACK_STATUS" == *"_FAILED" ]]; then
+    echo "Stack deletion failed."
+    exit 1
+fi
+
 echo "E2E test for CloudFormation template finished."
