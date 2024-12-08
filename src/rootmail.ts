@@ -101,6 +101,7 @@ export class Rootmail extends Construct {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.S3_MANAGED,
       removalPolicy: emailBucketDeletePolicy,
+      autoDeleteObjects: emailBucketDeletePolicy === RemovalPolicy.DESTROY,
     });
     NagSuppressions.addResourceSuppressions([
       this.emailBucket,
