@@ -202,21 +202,21 @@ if (buildWorkflow) {
           run: 'yarn run integ-test',
           timeoutMinutes: 15,
         },
-        {
-          name: 'Install Python dependencies',
-          run: 'pip install -r requirements.txt',
-          workingDirectory: 'integ-tests',
-        },
-        {
-          name: 'Post e2e integ tests cleanup',
-          run: [
-            // todo use https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html#autodeleteobjects
-            // https://github.com/aws/aws-cdk/blob/main/packages/%40aws-cdk/custom-resource-handlers/lib/aws-s3/auto-delete-objects-handler/index.ts
-            'for bucket in $(aws s3 ls | grep rootmailinteg |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
-            'for lgregion in eu-west-1 eu-west-2; do echo $lgregion; python cleanup/delete-log-groups.py Integ $lgregion; done',
-          ].join('\n'),
-          workingDirectory: 'integ-tests',
-        },
+        // {
+        //   name: 'Install Python dependencies',
+        //   run: 'pip install -r requirements.txt',
+        //   workingDirectory: 'integ-tests',
+        // },
+        // {
+        //   name: 'Post e2e integ tests cleanup',
+        //   run: [
+        //     // todo use https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html#autodeleteobjects
+        //     // https://github.com/aws/aws-cdk/blob/main/packages/%40aws-cdk/custom-resource-handlers/lib/aws-s3/auto-delete-objects-handler/index.ts
+        //     'for bucket in $(aws s3 ls | grep rootmailinteg |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
+        //     'for lgregion in eu-west-1 eu-west-2; do echo $lgregion; python cleanup/delete-log-groups.py Integ $lgregion; done',
+        //   ].join('\n'),
+        //   workingDirectory: 'integ-tests',
+        // },
         {
           name: 'Find mutations',
           id: 'self_mutation',
@@ -425,19 +425,19 @@ if (buildWorkflow) {
           ].join('\n'),
           timeoutMinutes: 11,
         },
-        {
-          name: 'Install Python dependencies',
-          run: 'pip install -r requirements.txt',
-          workingDirectory: 'integ-tests',
-        },
-        {
-          name: 'Post e2e integ tests cleanup',
-          run: [
-            'for bucket in $(aws s3 ls | grep rootmail-cfn |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
-            'for lgregion in eu-central-1; do echo $lgregion; python cleanup/delete-log-groups.py rootmail-cfn $lgregion; done',
-          ].join('\n'),
-          workingDirectory: 'integ-tests',
-        },
+        // {
+        //   name: 'Install Python dependencies',
+        //   run: 'pip install -r requirements.txt',
+        //   workingDirectory: 'integ-tests',
+        // },
+        // {
+        //   name: 'Post e2e integ tests cleanup',
+        //   run: [
+        //     'for bucket in $(aws s3 ls | grep rootmail-cfn |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
+        //     'for lgregion in eu-central-1; do echo $lgregion; python cleanup/delete-log-groups.py rootmail-cfn $lgregion; done',
+        //   ].join('\n'),
+        //   workingDirectory: 'integ-tests',
+        // },
       ],
     },
   });
