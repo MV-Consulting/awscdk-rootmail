@@ -3072,10 +3072,10 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-assets@^2.155.68:
-  version "2.155.68"
-  resolved "https://registry.yarnpkg.com/cdk-assets/-/cdk-assets-2.155.68.tgz#16a01692de7ae96323754f9e78db6aa7d73a8276"
-  integrity sha512-dz3Qn30ATUFOI52AKCAv6T8VvDO3HbDTzLXnaImpB/uKzONBT+/7+awyl6RaHOhOSvwW8LWDXPGKyfJAcXRcAQ==
+cdk-assets@^2.155.69:
+  version "2.155.69"
+  resolved "https://registry.yarnpkg.com/cdk-assets/-/cdk-assets-2.155.69.tgz#b9ed83cf268d71a1c2f163aaa257dac083425f87"
+  integrity sha512-bK8mUbG7jKvDaEnaGAr4ZeeI1YbuhgWXH7+mILw+J5udpolaRqsP8/y9EJlGeyoCM2ETKZxJLJHUBLF1i1kc8A==
   dependencies:
     "@aws-cdk/cloud-assembly-schema" "^38.0.1"
     "@aws-cdk/cx-api" "^2.173.2"
@@ -4770,9 +4770,9 @@ is-callable@^1.1.3, is-callable@^1.2.7:
   integrity sha512-1BC0BVFhS/p0qtw6enp8e+8OD0UrK0oFLztSjNzhcKA3WDuJxxAPXzPuPtKkjEY9UUoEWlX/8fgKeu2S8i9JTA==
 
 is-core-module@^2.13.0, is-core-module@^2.15.1, is-core-module@^2.16.0, is-core-module@^2.5.0:
-  version "2.16.0"
-  resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.16.0.tgz#6c01ffdd5e33c49c1d2abfa93334a85cb56bd81c"
-  integrity sha512-urTSINYfAYgcbLb0yDQ6egFm6h3Mo1DcF9EkyXSRjjzdHbsulg01qhwWuXdOoUBuTkbQ80KDboXa0vFJ+BDH+g==
+  version "2.16.1"
+  resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.16.1.tgz#2a98801a849f43e2add644fbb6bc6229b19a4ef4"
+  integrity sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==
   dependencies:
     hasown "^2.0.2"
 
@@ -7315,9 +7315,9 @@ typedarray@^0.0.6:
   integrity sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==
 
 typescript@next:
-  version "5.8.0-dev.20241220"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.0-dev.20241220.tgz#16e0b7ab3295e7bc44356e3789ceaa5e8a9c0f20"
-  integrity sha512-+Ub5hKcNqrDJ/MWTrMCjy4HZivAggL6MtkgRqu8YaPg/Ghu6CY57SDD0fcTn/AClb3zxDATm+ilNq3fnPrnx7Q==
+  version "5.8.0-dev.20241221"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.0-dev.20241221.tgz#16edbf7631d48a5058843eb6844c0c4aaa104f24"
+  integrity sha512-K1z3tD4Ueb295sqFiI+uQcCpAzJabMJKHLugAh8X5IducThJ9u4ZJEfxfBx5CGoBPJIF89EAl61msuwSlS+MKQ==
 
 typescript@~5.5:
   version "5.5.4"
