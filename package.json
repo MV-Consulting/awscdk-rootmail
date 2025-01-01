@@ -56,7 +56,7 @@
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "aws-cdk-lib": "2.90.0",
-    "cdk-assets": "^2.155.75",
+    "cdk-assets": "^2.155.76",
     "commit-and-tag-version": "^12",
     "constructs": "10.0.5",
     "eslint": "^9",
