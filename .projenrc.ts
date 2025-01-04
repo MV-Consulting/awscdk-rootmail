@@ -75,6 +75,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'venv',
     'cdk.out',
     'tmp',
+    '.codegpt'
   ],
 });
 
