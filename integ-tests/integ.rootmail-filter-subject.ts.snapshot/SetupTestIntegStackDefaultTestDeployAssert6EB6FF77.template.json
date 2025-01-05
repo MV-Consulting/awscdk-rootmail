@@ -45,7 +45,7 @@
      }
     },
     "flattenResponse": "false",
-    "salt": "1733357050961"
+    "salt": "1736073250635"
    },
    "DependsOn": [
     "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b"
@@ -188,7 +188,7 @@
      "Name": "\"/rootmail/domain_name_servers\""
     },
     "flattenResponse": "false",
-    "salt": "1733357050961"
+    "salt": "1736073250636"
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"

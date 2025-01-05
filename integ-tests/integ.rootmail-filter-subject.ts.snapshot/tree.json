@@ -2353,6 +2353,32 @@
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
                           "version": "2.90.0"
                         }
+                      },
+                      "LogRetention": {
+                        "id": "LogRetention",
+                        "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/LogRetention",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/LogRetention/Resource",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogRetention",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/LogGroup",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.90.0"
+                        }
                       }
                     },
                     "constructInfo": {
@@ -2571,6 +2597,32 @@
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
                           "version": "2.90.0"
                         }
+                      },
+                      "LogRetention": {
+                        "id": "LogRetention",
+                        "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/LogRetention",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/LogRetention/Resource",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogRetention",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/LogGroup",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.90.0"
+                        }
                       }
                     },
                     "constructInfo": {
@@ -2787,6 +2839,32 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "LogRetention": {
+                        "id": "LogRetention",
+                        "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/LogRetention",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/LogRetention/Resource",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogRetention",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/LogGroup",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
                           "version": "2.90.0"
                         }
                       }
@@ -3526,6 +3604,32 @@
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
                           "version": "2.90.0"
                         }
+                      },
+                      "LogRetention": {
+                        "id": "LogRetention",
+                        "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/LogRetention",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/LogRetention/Resource",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogRetention",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/LogGroup",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.90.0"
+                        }
                       }
                     },
                     "constructInfo": {
@@ -3744,6 +3848,32 @@
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
                           "version": "2.90.0"
                         }
+                      },
+                      "LogRetention": {
+                        "id": "LogRetention",
+                        "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/LogRetention",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/LogRetention/Resource",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogRetention",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/LogGroup",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.90.0"
+                        }
                       }
                     },
                     "constructInfo": {
@@ -3960,6 +4090,32 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "LogRetention": {
+                        "id": "LogRetention",
+                        "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/LogRetention",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/LogRetention/Resource",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.90.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogRetention",
+                          "version": "2.90.0"
+                        }
+                      },
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/LogGroup",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
                           "version": "2.90.0"
                         }
                       }

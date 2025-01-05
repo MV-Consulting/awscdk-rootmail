@@ -17,7 +17,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fc77071178228caec9ab04ea33ee87108edf4b307e1e1989183b4a3ea1c8d3ab.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f6698870d27c8371c45a12db5f88e55d4df22193923f736589ce7a397956534d.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -273,6 +273,12 @@
             "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventAA9D49B6"
           }
         ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventLogRetention06222B6A"
+          }
+        ],
         "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -291,6 +297,12 @@
             "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2"
           }
         ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteLogRetentionB48EA66E"
+          }
+        ],
         "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -307,6 +319,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutC714B95F"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutLogRetention59C14E50"
           }
         ],
         "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/waiter-state-machine/Role/Resource": [
@@ -387,6 +405,12 @@
             "data": "rootmailhostedzonedkimpropagationproviderframeworkonEvent15357119"
           }
         ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderframeworkonEventLogRetention39EDE52F"
+          }
+        ],
         "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -405,6 +429,12 @@
             "data": "rootmailhostedzonedkimpropagationproviderframeworkisComplete165FE163"
           }
         ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderframeworkisCompleteLogRetentionF6AB8959"
+          }
+        ],
         "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -421,6 +451,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "rootmailhostedzonedkimpropagationproviderframeworkonTimeout7D8A73CD"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderframeworkonTimeoutLogRetentionB2967E04"
           }
         ],
         "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/waiter-state-machine/Role/Resource": [
@@ -670,7 +706,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/d443993c699f890d4f5662b99f7b48af5c2598bae91d5c4f97ca6d0d5e688a15.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/759fc0488326a38876c58f8b445465602c77accb7731350b467a899fc52c4ad4.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
