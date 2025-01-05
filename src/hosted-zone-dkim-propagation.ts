@@ -20,8 +20,6 @@ export class HostedZoneDKIMPropagation extends Construct {
   constructor(scope: Construct, id: string, props: HostedZoneDKIMPropagationProps) {
     super(scope, id);
 
-    // TODO can we pass in custom cloudwatch log groups? so they are deleted on destroy
-
     new CustomResource(this, 'Resource', {
       serviceToken: HostedZoneDKIMPropagationProvider.getOrCreate(this, { totalTimeToWireDNS: props.totalTimeToWireDNS }),
       resourceType: 'Custom::HostedZoneDKIMPropagation',
@@ -56,7 +54,7 @@ class HostedZoneDKIMPropagationProvider extends Construct {
 
     const isCompleteHandlerFunc = new NodejsFunction(this, 'is-complete-handler', {
       runtime: lambda.Runtime.NODEJS_18_X,
-      logRetention: 3,
+      logRetention: 1,
       timeout: Duration.seconds(30),
       bundling: {
         esbuildArgs: {
@@ -84,7 +82,7 @@ class HostedZoneDKIMPropagationProvider extends Construct {
 
     const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
       runtime: lambda.Runtime.NODEJS_18_X,
-      logRetention: 3,
+      logRetention: 1,
       timeout: Duration.seconds(10),
       bundling: {
         esbuildArgs: {
@@ -102,6 +100,7 @@ class HostedZoneDKIMPropagationProvider extends Construct {
       queryInterval: Duration.seconds(10),
       totalTimeout: props.totalTimeToWireDNS,
       onEventHandler: onEventHandlerFunc,
+      logRetention: 1,
     });
     NagSuppressions.addResourceSuppressions(this.provider, [
       { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },

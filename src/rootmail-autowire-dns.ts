@@ -112,7 +112,7 @@ class RootmailAutowireDnsProvider extends Construct {
     const isCompleteHandlerFunc = new NodejsFunction(this, 'is-complete-handler', {
       runtime: lambda.Runtime.NODEJS_18_X,
       timeout: Duration.seconds(120),
-      logRetention: 3,
+      logRetention: 1,
       bundling: {
         esbuildArgs: {
           '--packages': 'bundle',
@@ -136,7 +136,7 @@ class RootmailAutowireDnsProvider extends Construct {
     const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
       runtime: lambda.Runtime.NODEJS_18_X,
       timeout: Duration.seconds(160), // 2m40s
-      logRetention: 3,
+      logRetention: 1,
       environment: {},
       bundling: {
         esbuildArgs: {
@@ -191,6 +191,7 @@ class RootmailAutowireDnsProvider extends Construct {
       queryInterval: Duration.seconds(5),
       totalTimeout: Duration.hours(2), // props.totalTimeToWireDNS, TODO does not work
       onEventHandler: onEventHandlerFunc,
+      logRetention: 1,
     });
     NagSuppressions.addResourceSuppressions(
       [
