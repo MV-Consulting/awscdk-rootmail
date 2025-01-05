@@ -20,6 +20,8 @@ export class HostedZoneDKIMPropagation extends Construct {
   constructor(scope: Construct, id: string, props: HostedZoneDKIMPropagationProps) {
     super(scope, id);
 
+    // TODO can we pass in custom cloudwatch log groups? so they are deleted on destroy
+
     new CustomResource(this, 'Resource', {
       serviceToken: HostedZoneDKIMPropagationProvider.getOrCreate(this, { totalTimeToWireDNS: props.totalTimeToWireDNS }),
       resourceType: 'Custom::HostedZoneDKIMPropagation',
