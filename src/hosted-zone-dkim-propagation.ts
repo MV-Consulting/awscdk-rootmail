@@ -54,7 +54,7 @@ class HostedZoneDKIMPropagationProvider extends Construct {
 
     const isCompleteHandlerFunc = new NodejsFunction(this, 'is-complete-handler', {
       runtime: lambda.Runtime.NODEJS_18_X,
-      logRetention: 3,
+      logRetention: 1,
       timeout: Duration.seconds(30),
       bundling: {
         esbuildArgs: {
@@ -75,14 +75,10 @@ class HostedZoneDKIMPropagationProvider extends Construct {
         resources: ['*'],
       }),
     );
-    NagSuppressions.addResourceSuppressions(isCompleteHandlerFunc, [
-      { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
-      { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the ses mail verification' },
-    ], true);
 
     const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
       runtime: lambda.Runtime.NODEJS_18_X,
-      logRetention: 3,
+      logRetention: 1,
       timeout: Duration.seconds(10),
       bundling: {
         esbuildArgs: {
@@ -90,21 +86,25 @@ class HostedZoneDKIMPropagationProvider extends Construct {
         },
       },
     });
-    NagSuppressions.addResourceSuppressions(onEventHandlerFunc, [
-      { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
-      { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok as the function by itself does nothing' },
-    ], true);
 
     this.provider = new cr.Provider(this, 'hosted-zone-dkim-propagation-provider', {
       isCompleteHandler: isCompleteHandlerFunc,
       queryInterval: Duration.seconds(10),
       totalTimeout: props.totalTimeToWireDNS,
       onEventHandler: onEventHandlerFunc,
+      logRetention: 1,
     });
-    NagSuppressions.addResourceSuppressions(this.provider, [
-      { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
-      { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the provider as the function has restrictions' },
-    ], true);
+    NagSuppressions.addResourceSuppressions(
+      [
+        this.provider,
+        this.provider.onEventHandler!,
+        this.provider.onEventHandler.role!,
+        this.provider.isCompleteHandler!,
+        this.provider.isCompleteHandler!.role!,
+      ], [
+        { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
+        { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the provider as the function has restrictions' },
+      ], true);
   };
 }
 

@@ -75,6 +75,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'venv',
     'cdk.out',
     'tmp',
+    '.codegpt',
   ],
 });
 
@@ -202,6 +203,7 @@ if (buildWorkflow) {
           run: 'yarn run integ-test',
           timeoutMinutes: 15,
         },
+        // TODO in https://github.com/MV-Consulting/awscdk-rootmail/issues/238
         {
           name: 'Install Python dependencies',
           run: 'pip install -r requirements.txt',
@@ -425,6 +427,7 @@ if (buildWorkflow) {
           ].join('\n'),
           timeoutMinutes: 11,
         },
+        // TODO in https://github.com/MV-Consulting/awscdk-rootmail/issues/238
         {
           name: 'Install Python dependencies',
           run: 'pip install -r requirements.txt',

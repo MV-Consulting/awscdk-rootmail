@@ -55,7 +55,7 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
 
     const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
       runtime: lambda.Runtime.NODEJS_18_X,
-      logRetention: 3,
+      logRetention: 1,
       timeout: Duration.seconds(200),
       bundling: {
         esbuildArgs: {
@@ -77,12 +77,13 @@ class HostedZoneDKIMAndVerificationRecordsProvider extends Construct {
 
     this.provider = new cr.Provider(this, 'hosted-zone-dkim-verification-records-provider', {
       onEventHandler: onEventHandlerFunc,
-      logRetention: 3,
+      logRetention: 1,
     });
     NagSuppressions.addResourceSuppressions(
       [
         this.provider,
         this.provider.onEventHandler,
+        this.provider.onEventHandler.role!,
       ],
       [
         { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },

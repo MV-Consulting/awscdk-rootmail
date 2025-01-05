@@ -31,5 +31,11 @@ while [[ ! "$STACK_STATUS" == *"_FAILED" ]] && [[ ! "$STACK_STATUS" == *"_COMPLE
     fi
 done
 
+# check if CREATE_FAILED
+if [[ "$STACK_STATUS" == *"_FAILED" ]]; then
+    echo "Stack creation failed."
+    exit 1
+fi
+
 echo "Stack creation successful. Sleep for 5 seconds."
 sleep 5
