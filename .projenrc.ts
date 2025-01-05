@@ -426,19 +426,20 @@ if (buildWorkflow) {
           ].join('\n'),
           timeoutMinutes: 11,
         },
-        // {
-        //   name: 'Install Python dependencies',
-        //   run: 'pip install -r requirements.txt',
-        //   workingDirectory: 'integ-tests',
-        // },
-        // {
-        //   name: 'Post e2e integ tests cleanup',
-        //   run: [
-        //     'for bucket in $(aws s3 ls | grep rootmail-cfn |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
-        //     'for lgregion in eu-central-1; do echo $lgregion; python cleanup/delete-log-groups.py rootmail-cfn $lgregion; done',
-        //   ].join('\n'),
-        //   workingDirectory: 'integ-tests',
-        // },
+        // TODO in https://github.com/MV-Consulting/awscdk-rootmail/issues/238
+        {
+          name: 'Install Python dependencies',
+          run: 'pip install -r requirements.txt',
+          workingDirectory: 'integ-tests',
+        },
+        {
+          name: 'Post e2e integ tests cleanup',
+          run: [
+            'for bucket in $(aws s3 ls | grep rootmail-cfn |  awk \'{ print $3 }\'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done',
+            'for lgregion in eu-central-1; do echo $lgregion; python cleanup/delete-log-groups.py rootmail-cfn $lgregion; done',
+          ].join('\n'),
+          workingDirectory: 'integ-tests',
+        },
       ],
     },
   });
