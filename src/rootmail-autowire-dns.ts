@@ -196,7 +196,10 @@ class RootmailAutowireDnsProvider extends Construct {
     NagSuppressions.addResourceSuppressions(
       [
         this.provider,
+        this.provider.onEventHandler!,
+        this.provider.onEventHandler.role!,
         this.provider.isCompleteHandler!,
+        this.provider.isCompleteHandler!.role!,
       ],
       [
         { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
