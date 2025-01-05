@@ -150,6 +150,14 @@ jobs:
       - name: Run e2e integ tests
         run: yarn run integ-test
         timeout-minutes: 15
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+        working-directory: integ-tests
+      - name: Post e2e integ tests cleanup
+        run: |-
+          for bucket in $(aws s3 ls | grep rootmailinteg |  awk '{ print $3 }'); do echo $bucket; python cleanup/empty-and-delete-s3-bucket.py $bucket; done
+          for lgregion in eu-west-1 eu-west-2; do echo $lgregion; python cleanup/delete-log-groups.py Integ $lgregion; done
+        working-directory: integ-tests
       - name: Find mutations
         id: self_mutation
         run: |-
