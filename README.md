@@ -4,7 +4,7 @@ A single email box for all your root user emails in all AWS accounts of the orga
 - The cdk implementation and **adaption** of the [superwerker](https://superwerker.cloud/) rootmail feature. 
 - See [here](docs/adrs/rootmail.md) for a detailed Architectural Decision Record ([ADR](https://adr.github.io/))
 
-## TL;DR
+## TL;DR ⚡
 Each AWS account needs one unique email address (the so-called "AWS account root user email address").
 
 Access to these email addresses must be adequately secured since they provide privileged access to AWS accounts, such as account deletion procedures.
@@ -17,7 +17,10 @@ we recommend the following pattern `aws-roots+<uuid>@mycompany.test`
 
 And as you own the domain `mycompany.test` you can add a subdomain, e.g. `aws`, for which all EMails will then be received with this solution within this particular AWS Management account.
 
-## Usage
+Feel free to take a look at the design 
+![rootmail-solution-diagram-v1](docs/img/awscdk-rootmail-v1-min.png)
+
+## Usage ✨
 
 Install the dependencies:
 ```sh
@@ -25,7 +28,7 @@ brew install aws-cli node@18 esbuild
 ```
 
 You can chose via embedding the construct in your cdk-app or use is directly via Cloudformation.
-### cdk
+### cdk 🤖
 1. To start a new project we recommend using [projen](https://projen.io/).
    1. Create a new projen project
    ```sh
@@ -75,8 +78,11 @@ yarn run deploy
 > [!TIP]
 > Take a look at the solution design [here](docs/adrs/solution-design-domain-same-aws-account.md) for more details.
 
-### cdk with your own receiver function
+### cdk with your own receiver function 🏗️
 You might also want to pass in you own function on what to do when an EMail is received
+
+> [!TIP]
+> You can add any custom code as receiver function you want.
 
 <details>
   <summary>... click here for the details</summary>
@@ -167,12 +173,13 @@ export class MyStack extends Stack {
 }
 ```
 
-</details>
 
 > [!TIP]
 > Take a look at the solution design for external DNS [here](docs/adrs/solution-design-external-dns-provider.md) for more details.
 
-### Cloudformation
+</details>
+
+### Cloudformation 📦
 or use it directly a Cloudformation template `yaml` from the URL [here](https://mvc-prod-releases.s3.eu-central-1.amazonaws.com/rootmail/v0.0.258/awscdk-rootmail.template.yaml).
 
 
