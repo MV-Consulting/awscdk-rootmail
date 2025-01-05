@@ -75,10 +75,6 @@ class HostedZoneDKIMPropagationProvider extends Construct {
         resources: ['*'],
       }),
     );
-    NagSuppressions.addResourceSuppressions(isCompleteHandlerFunc, [
-      { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
-      { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the ses mail verification' },
-    ], true);
 
     const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
       runtime: lambda.Runtime.NODEJS_18_X,
@@ -90,10 +86,6 @@ class HostedZoneDKIMPropagationProvider extends Construct {
         },
       },
     });
-    NagSuppressions.addResourceSuppressions(onEventHandlerFunc, [
-      { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
-      { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok as the function by itself does nothing' },
-    ], true);
 
     this.provider = new cr.Provider(this, 'hosted-zone-dkim-propagation-provider', {
       isCompleteHandler: isCompleteHandlerFunc,
@@ -102,7 +94,14 @@ class HostedZoneDKIMPropagationProvider extends Construct {
       onEventHandler: onEventHandlerFunc,
       logRetention: 1,
     });
-    NagSuppressions.addResourceSuppressions(this.provider, [
+    NagSuppressions.addResourceSuppressions(
+      [
+        this.provider,
+        this.provider.onEventHandler!,
+        this.provider.onEventHandler.role!,
+        this.provider.isCompleteHandler!,
+        this.provider.isCompleteHandler!.role!,
+      ], [
       { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
       { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the provider as the function has restrictions' },
     ], true);
