@@ -87,9 +87,7 @@ describe.skip('rootmail-cdk-nag-AwsSolutions-Pack', () => {
     );
     if (errors.length > 0) {
       for (const error of errors) {
-        // if (error.id.includes('EmailBucket')) {
         console.log(`id: '${error.id}': ${error.entry.data}`);
-        // }
       }
     }
     expect(errors).toHaveLength(0);

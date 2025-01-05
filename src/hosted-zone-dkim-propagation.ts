@@ -102,9 +102,9 @@ class HostedZoneDKIMPropagationProvider extends Construct {
         this.provider.isCompleteHandler!,
         this.provider.isCompleteHandler!.role!,
       ], [
-      { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
-      { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the provider as the function has restrictions' },
-    ], true);
+        { id: 'AwsSolutions-IAM4', reason: 'no service role restriction needed' },
+        { id: 'AwsSolutions-IAM5', reason: 'wildcards are ok for the provider as the function has restrictions' },
+      ], true);
   };
 }
 

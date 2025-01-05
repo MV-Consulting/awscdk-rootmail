@@ -154,7 +154,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -276,6 +276,20 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         "rootmailautowirednsprovideroneventhandlerServiceRoleDefaultPolicy4A5BBAB1",
         "rootmailautowirednsprovideroneventhandlerServiceRole6D9F81B0",
       ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
@@ -299,6 +313,20 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Type": "AWS::Lambda::Function",
     },
     "rootmailautowirednsprovideroneventhandlerLogRetentionA4DB1AD5": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
       "Properties": {
         "LogGroupName": {
           "Fn::Join": [
@@ -311,7 +339,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -322,6 +350,20 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Type": "Custom::LogRetention",
     },
     "rootmailautowirednsprovideroneventhandlerServiceRole6D9F81B0": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -353,6 +395,20 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Type": "AWS::IAM::Role",
     },
     "rootmailautowirednsprovideroneventhandlerServiceRoleDefaultPolicy4A5BBAB1": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -479,6 +535,43 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteLogRetentionB48EA66E": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 1,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
     },
     "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteServiceRoleD15A96AC": {
       "Metadata": {
@@ -662,6 +755,43 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventLogRetention06222B6A": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventAA9D49B6",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 1,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
     },
     "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventServiceRoleDefaultPolicy16D799D5": {
       "Metadata": {
@@ -849,6 +979,43 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutLogRetention59C14E50": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutC714B95F",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 1,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
     },
     "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutServiceRole4383D224": {
       "Metadata": {
@@ -1194,6 +1361,43 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       },
       "Type": "AWS::Lambda::Function",
     },
+    "rootmailhostedzonedkimpropagationproviderframeworkisCompleteLogRetentionF6AB8959": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailhostedzonedkimpropagationproviderframeworkisComplete165FE163",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 1,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
     "rootmailhostedzonedkimpropagationproviderframeworkisCompleteServiceRole9BABA5E5": {
       "Metadata": {
         "cdk_nag": {
@@ -1376,6 +1580,43 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
+    },
+    "rootmailhostedzonedkimpropagationproviderframeworkonEventLogRetention39EDE52F": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailhostedzonedkimpropagationproviderframeworkonEvent15357119",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 1,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
     },
     "rootmailhostedzonedkimpropagationproviderframeworkonEventServiceRole5729BE95": {
       "Metadata": {
@@ -1564,6 +1805,43 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       },
       "Type": "AWS::Lambda::Function",
     },
+    "rootmailhostedzonedkimpropagationproviderframeworkonTimeoutLogRetentionB2967E04": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailhostedzonedkimpropagationproviderframeworkonTimeout7D8A73CD",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 1,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
     "rootmailhostedzonedkimpropagationproviderframeworkonTimeoutServiceRoleB169BF13": {
       "Metadata": {
         "cdk_nag": {
@@ -1705,7 +1983,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok for the ses mail verification",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -1742,7 +2020,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok for the ses mail verification",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -1759,7 +2037,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -1779,7 +2057,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok for the ses mail verification",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -1824,7 +2102,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok for the ses mail verification",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -1867,7 +2145,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok as the function by itself does nothing",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -1904,7 +2182,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok as the function by itself does nothing",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -1921,7 +2199,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -1941,7 +2219,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok as the function by itself does nothing",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -2214,7 +2492,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -2393,7 +2671,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -2653,7 +2931,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -2873,7 +3151,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -3097,7 +3375,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -3302,7 +3580,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -3485,7 +3763,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -4397,7 +4675,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -4519,6 +4797,20 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         "rootmailautowirednsprovideroneventhandlerServiceRoleDefaultPolicy4A5BBAB1",
         "rootmailautowirednsprovideroneventhandlerServiceRole6D9F81B0",
       ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
@@ -4542,6 +4834,20 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Type": "AWS::Lambda::Function",
     },
     "rootmailautowirednsprovideroneventhandlerLogRetentionA4DB1AD5": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
       "Properties": {
         "LogGroupName": {
           "Fn::Join": [
@@ -4554,7 +4860,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -4565,6 +4871,20 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Type": "Custom::LogRetention",
     },
     "rootmailautowirednsprovideroneventhandlerServiceRole6D9F81B0": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -4596,6 +4916,20 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Type": "AWS::IAM::Role",
     },
     "rootmailautowirednsprovideroneventhandlerServiceRoleDefaultPolicy4A5BBAB1": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -4714,6 +5048,43 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteLogRetentionB48EA66E": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 1,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
     },
     "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteServiceRoleD15A96AC": {
       "Metadata": {
@@ -4897,6 +5268,43 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventLogRetention06222B6A": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventAA9D49B6",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 1,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
     },
     "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonEventServiceRoleDefaultPolicy16D799D5": {
       "Metadata": {
@@ -5084,6 +5492,43 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutLogRetention59C14E50": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutC714B95F",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 1,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
     },
     "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutServiceRole4383D224": {
       "Metadata": {
@@ -5429,6 +5874,43 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       },
       "Type": "AWS::Lambda::Function",
     },
+    "rootmailhostedzonedkimpropagationproviderframeworkisCompleteLogRetentionF6AB8959": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailhostedzonedkimpropagationproviderframeworkisComplete165FE163",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 1,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
     "rootmailhostedzonedkimpropagationproviderframeworkisCompleteServiceRole9BABA5E5": {
       "Metadata": {
         "cdk_nag": {
@@ -5611,6 +6093,43 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
+    },
+    "rootmailhostedzonedkimpropagationproviderframeworkonEventLogRetention39EDE52F": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailhostedzonedkimpropagationproviderframeworkonEvent15357119",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 1,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
     },
     "rootmailhostedzonedkimpropagationproviderframeworkonEventServiceRole5729BE95": {
       "Metadata": {
@@ -5799,6 +6318,43 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       },
       "Type": "AWS::Lambda::Function",
     },
+    "rootmailhostedzonedkimpropagationproviderframeworkonTimeoutLogRetentionB2967E04": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "rootmailhostedzonedkimpropagationproviderframeworkonTimeout7D8A73CD",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 1,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
     "rootmailhostedzonedkimpropagationproviderframeworkonTimeoutServiceRoleB169BF13": {
       "Metadata": {
         "cdk_nag": {
@@ -5940,7 +6496,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok for the ses mail verification",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -5977,7 +6533,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok for the ses mail verification",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -5994,7 +6550,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -6014,7 +6570,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok for the ses mail verification",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -6059,7 +6615,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok for the ses mail verification",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -6102,7 +6658,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok as the function by itself does nothing",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -6139,7 +6695,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok as the function by itself does nothing",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -6156,7 +6712,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -6176,7 +6732,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             },
             {
               "id": "AwsSolutions-IAM5",
-              "reason": "wildcards are ok as the function by itself does nothing",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
             },
           ],
         },
@@ -6449,7 +7005,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -6628,7 +7184,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -6888,7 +7444,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -7108,7 +7664,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -7332,7 +7888,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -7537,7 +8093,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
@@ -7720,7 +8276,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
-        "RetentionInDays": 3,
+        "RetentionInDays": 1,
         "ServiceToken": {
           "Fn::GetAtt": [
             "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
