@@ -36,10 +36,10 @@
   resolved "https://registry.yarnpkg.com/@aws-cdk/asset-node-proxy-agent-v5/-/asset-node-proxy-agent-v5-2.0.166.tgz#467507db141cd829ff8aa9d6ea5519310a4276b8"
   integrity sha512-j0xnccpUQHXJKPgCwQcGGNu4lRiC1PptYfdxBIH1L4dRK91iBxtSQHESRQX+yB47oGLaF/WfNN/aF3WXwlhikg==
 
-"@aws-cdk/cloud-assembly-schema@^39.2.10":
-  version "39.2.11"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-39.2.11.tgz#97b692f3e00e7e68dfb2890457a89c9e0edd2946"
-  integrity sha512-/iDXQtxtqKOuUpds51GK/neVzq/UdxLWuGgLs01HdA30xOunVbAe+CAExvHPw0/h2qlfaEkJRpAxZ0Ch6gJnJQ==
+"@aws-cdk/cloud-assembly-schema@^39.2.11":
+  version "39.2.12"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-39.2.12.tgz#7322a426672a410646b0b3be248820cd2e972741"
+  integrity sha512-LjHz0Yrl3sFPihZVpIGoBrMnKjj18G755IlVH79Tzufx7eWVL/G/4RCiLUn0+NFE5e3ssTtfXr3KY9pxGMe/bA==
   dependencies:
     jsonschema "~1.4.1"
     semver "^7.7.0"
@@ -3055,12 +3055,12 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-assets@^2.155.102:
-  version "2.155.102"
-  resolved "https://registry.yarnpkg.com/cdk-assets/-/cdk-assets-2.155.102.tgz#d7bc7ddf7a83053260367eefd8f787de009f3f01"
-  integrity sha512-Vu0XWTIyINOYm3Ish0N30AG6cecm3fAlT6N0J1ockI36svSFY0M/g3SeVCBEXBrK4tPdLKbmOHIIqMPBxB4Rig==
+cdk-assets@^2.155.103:
+  version "2.155.103"
+  resolved "https://registry.yarnpkg.com/cdk-assets/-/cdk-assets-2.155.103.tgz#cf672e60e11fec6f07106d468ea0679edd6e4f8f"
+  integrity sha512-yNj4KA2z+gX34idaIMKJ8BTFgzafpbSnReLgleL4fSQ4j/X0QPJfFREL4VRF2F7PaMUEjp4PaQvdx05lXI+KLQ==
   dependencies:
-    "@aws-cdk/cloud-assembly-schema" "^39.2.10"
+    "@aws-cdk/cloud-assembly-schema" "^39.2.11"
     "@aws-cdk/cx-api" "^2.177.0"
     archiver "^5.3.2"
     aws-sdk "^2.1692.0"
@@ -3068,10 +3068,10 @@ cdk-assets@^2.155.102:
     mime "^2.6.0"
     yargs "^16.2.0"
 
-cdk-nag@^2.35.6:
-  version "2.35.6"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.6.tgz#d49382e9542c2edab3ec620e89d0fdec043a4150"
-  integrity sha512-OemnCGLcsyhSSS4sCc79wg3FX5KCnD/iCcoWzynPPvHsP/ZSfYVlQpiHE6FnV9vIh5cSMqJZFJCcIWp12q2auA==
+cdk-nag@^2.35.7:
+  version "2.35.7"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.7.tgz#b4624c858e74d1fb03aebe9b06fc799d317fc79d"
+  integrity sha512-jUj12cT/LN1Vd6k1DrpCxGGIKZFVhibYa4TtdllB7Jygakd5NlC3ShLFoeb0HIswg3ho/NVLL95wzZgtMoT1Ug==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -7221,9 +7221,9 @@ trim-newlines@^3.0.0:
   integrity sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==
 
 ts-api-utils@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ts-api-utils/-/ts-api-utils-2.0.0.tgz#b9d7d5f7ec9f736f4d0f09758b8607979044a900"
-  integrity sha512-xCt/TOAc+EOHS1XPnijD3/yzpH6qg2xppZO1YDqGoVsNXfQfzHpOdNuXwrwOU8u4ITXJyDCTyt8w5g1sZv9ynQ==
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/ts-api-utils/-/ts-api-utils-2.0.1.tgz#660729385b625b939aaa58054f45c058f33f10cd"
+  integrity sha512-dnlgjFSVetynI8nzgJ+qF62efpglpWRk8isUEWZGWlJYySCTD6aKvbUDu+zbPeDakk3bg5H4XpitHukgfL1m9w==
 
 ts-jest@^29.2.5:
   version "29.2.5"
@@ -7362,9 +7362,9 @@ typedarray@^0.0.6:
   integrity sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==
 
 typescript@next:
-  version "5.8.0-dev.20250131"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.0-dev.20250131.tgz#da81dbe6821f52db8c00af47fb6207bdb81ab82d"
-  integrity sha512-q7nLABAsnnq3BdqOdWnRGVhe7Gv3QkditzT6YMfWpKHsZoJ1TVo+C4ZCZHK4fCuu2vHYUwV0zUUsEZZXdnxB2w==
+  version "5.8.0-dev.20250201"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.0-dev.20250201.tgz#e9d08ad125fc0687ce4a4f4a916a21ca4b4620f8"
+  integrity sha512-dH6JX5ZdOLme/jasEkBV2/HbhOp5RuYxeMasdzndYrC3HVpSSoU/OEIiBRl1+2zzhRLkAjYknZtbvm6EW+Qadw==
 
 typescript@~5.5:
   version "5.5.4"
