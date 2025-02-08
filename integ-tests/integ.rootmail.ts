@@ -108,15 +108,7 @@ const sendTestEmailAssertion = integ.assertions
       sourceMail: `test@${fullDomain}`,
       toMail: `root+${id}@${fullDomain}`,
     }),
-  }).expect(ExpectedResult.objectLike(
-    // as the object 'return { sendStatusCode: 200 };' is wrapped in a Payload object with other properties
-    {
-      Payload: {
-        sendStatusCode: 200,
-      },
-    },
-  ),
-  );
+  }).expect(ExpectedResult.objectLike({ Payload: '"OK"' }));
 
 
 const validateOpsItemAssertion = integ.assertions
@@ -129,15 +121,7 @@ const validateOpsItemAssertion = integ.assertions
       source: `root+${id}@${fullDomain}`,
       description: `${message}\n`,
     }),
-  }).expect(ExpectedResult.objectLike(
-    // as the object 'return { closeStatusCode: 200 };' is wrapped in a Payload object with other properties
-    {
-      Payload: {
-        closeStatusCode: 200,
-      },
-    },
-  ),
-  );
+  }).expect(ExpectedResult.objectLike({ Payload: '"OK"' }));
 // NOTE: this is not working as expected
 // .waitForAssertions({
 //   totalTimeout: Duration.minutes(2),

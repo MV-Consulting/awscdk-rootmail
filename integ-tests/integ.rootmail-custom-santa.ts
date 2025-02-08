@@ -107,15 +107,7 @@ const sendTestEmailAssertion = integ.assertions
       sourceMail: `test@${fullDomain}`,
       toMail: `root+${id}@${fullDomain}`,
     }),
-  }).expect(ExpectedResult.objectLike(
-    // as the object 'return { sendStatusCode: 200 };' is wrapped in a Payload object with other properties
-    {
-      Payload: {
-        sendStatusCode: 200,
-      },
-    },
-  ),
-  );
+  }).expect(ExpectedResult.objectLike({ Payload: '"OK"' }));
 
 const getHostedZoneParametersAssertion = integ.assertions
   /**

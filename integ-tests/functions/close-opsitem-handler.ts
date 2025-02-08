@@ -89,7 +89,7 @@ export const handler = async (event: any) => {
       log({
         message: 'opsItem undefined',
       });
-      return { closeStatusCode: 500 };
+      return 'NOK';
     }
     log({
       message: 'Got opsItem',
@@ -114,7 +114,7 @@ export const handler = async (event: any) => {
         expected: `title: '${title}', source: '${source}', description: '${description}'`,
         got: `title: '${opsItemTitle}', source: '${opsItemSource}', description: '${opsItemDescription}'`,
       });
-      return { closeStatusCode: 500 };
+      return 'NOK';
     }
 
     // 2 close opsItem
@@ -130,7 +130,7 @@ export const handler = async (event: any) => {
         err: `httpStatusCode: ${resUpdate.$metadata.httpStatusCode}`,
       });
 
-      return { closeStatusCode: 500, err: resUpdate.$metadata.httpStatusCode };
+      return 'NOK';
     }
 
     log({
@@ -140,15 +140,13 @@ export const handler = async (event: any) => {
       res: resUpdate,
     });
 
-    // return { statusCode: res.$response.httpResponse.statusCode };
-    return { closeStatusCode: 200 };
+    return 'OK';
   } catch (err) {
     log({
       message: 'Error (catch) getting and closing opsItem',
       err: err,
     });
-    // return { statusCode: err.statusCode, err: err };
-    return { closeStatusCode: 500, err: err };
+    return 'NOK';
   }
 };
 
