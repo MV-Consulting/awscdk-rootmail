@@ -123,7 +123,7 @@ const validateOpsItemAssertion = integ.assertions
   .invokeFunction({
     functionName: closeOpsItemHandler.functionName,
     logType: LogType.TAIL,
-    invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
+    invocationType: InvocationType.REQUEST_RESPONSE, // to run it synchronously
     payload: JSON.stringify({
       title: id,
       source: `root+${id}@${fullDomain}`,
