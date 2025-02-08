@@ -17,6 +17,9 @@ import { isSESEnabledRegion, sesEnabledRegions } from './common';
 import { HostedZoneDkim } from './hosted-zone-dkim';
 import { SESReceive } from './ses-receive';
 
+/**
+ * Properties for the construct
+ */
 export interface RootmailProps {
   /**
    * Domain used for root mail feature.
@@ -41,12 +44,14 @@ export interface RootmailProps {
    * The hosted zone ID of the domain that is registered Route53 AND in the same AWS account
    * to enable autowiring of the DNS records.
    *
-   * @default undefined
+   * @default emtpy string
    */
   readonly wireDNSToHostedZoneID?: string;
 
   /**
    * The custom SES receive function to use
+   *
+   * @default the provided functions within the construct
    */
   readonly customSesReceiveFunction?: lambda.Function;
 
@@ -72,8 +77,18 @@ export interface RootmailProps {
   readonly setDestroyPolicyToAllResources?: boolean;
 }
 
+/**
+ * Rootmail construct
+ */
 export class Rootmail extends Construct {
+  /**
+   * The name parameter in SSM to store the domain name server.
+   */
   public readonly hostedZoneParameterName: string;
+
+  /**
+   * S3 bucket to store the root mails in
+   */
   public readonly emailBucket: s3.Bucket;
 
   constructor(scope: Construct, id: string, props: RootmailProps) {

@@ -4,6 +4,8 @@
 
 ### Rootmail <a name="Rootmail" id="@mavogel/awscdk-rootmail.Rootmail"></a>
 
+Rootmail construct.
+
 #### Initializers <a name="Initializers" id="@mavogel/awscdk-rootmail.Rootmail.Initializer"></a>
 
 ```typescript
@@ -99,8 +101,8 @@ Any object.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.emailBucket">emailBucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | *No description.* |
-| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.hostedZoneParameterName">hostedZoneParameterName</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.emailBucket">emailBucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | S3 bucket to store the root mails in. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.hostedZoneParameterName">hostedZoneParameterName</a></code> | <code>string</code> | The name parameter in SSM to store the domain name server. |
 
 ---
 
@@ -124,6 +126,8 @@ public readonly emailBucket: Bucket;
 
 - *Type:* aws-cdk-lib.aws_s3.Bucket
 
+S3 bucket to store the root mails in.
+
 ---
 
 ##### `hostedZoneParameterName`<sup>Required</sup> <a name="hostedZoneParameterName" id="@mavogel/awscdk-rootmail.Rootmail.property.hostedZoneParameterName"></a>
@@ -134,10 +138,14 @@ public readonly hostedZoneParameterName: string;
 
 - *Type:* string
 
+The name parameter in SSM to store the domain name server.
+
 ---
 
 
 ### SESReceive <a name="SESReceive" id="@mavogel/awscdk-rootmail.SESReceive"></a>
+
+SES Receive construct.
 
 #### Initializers <a name="Initializers" id="@mavogel/awscdk-rootmail.SESReceive.Initializer"></a>
 
@@ -254,6 +262,8 @@ The tree node.
 
 ### RootmailProps <a name="RootmailProps" id="@mavogel/awscdk-rootmail.RootmailProps"></a>
 
+Properties for the construct.
+
 #### Initializer <a name="Initializer" id="@mavogel/awscdk-rootmail.RootmailProps.Initializer"></a>
 
 ```typescript
@@ -296,6 +306,7 @@ public readonly customSesReceiveFunction: Function;
 ```
 
 - *Type:* aws-cdk-lib.aws_lambda.Function
+- *Default:* the provided functions within the construct
 
 The custom SES receive function to use.
 
@@ -377,13 +388,15 @@ public readonly wireDNSToHostedZoneID: string;
 ```
 
 - *Type:* string
-- *Default:* undefined
+- *Default:* emtpy string
 
 The hosted zone ID of the domain that is registered Route53 AND in the same AWS account to enable autowiring of the DNS records.
 
 ---
 
 ### SESReceiveProps <a name="SESReceiveProps" id="@mavogel/awscdk-rootmail.SESReceiveProps"></a>
+
+Properties for the SESReceive construct.
 
 #### Initializer <a name="Initializer" id="@mavogel/awscdk-rootmail.SESReceiveProps.Initializer"></a>
 
@@ -449,6 +462,7 @@ public readonly customSesReceiveFunction: Function;
 ```
 
 - *Type:* aws-cdk-lib.aws_lambda.Function
+- *Default:* the provided functions within the construct
 
 The custom SES receive function to use.
 
@@ -461,6 +475,7 @@ public readonly filteredEmailSubjects: string[];
 ```
 
 - *Type:* string[]
+- *Default:* 2 subjects: 'Your AWS Account is Ready - Get Started Now' and 'Welcome to Amazon Web Services'
 
 Filtered email subjects.
 
@@ -475,6 +490,7 @@ public readonly setDestroyPolicyToAllResources: boolean;
 ```
 
 - *Type:* boolean
+- *Default:* false
 
 Whether to set all removal policies to DESTROY.
 
