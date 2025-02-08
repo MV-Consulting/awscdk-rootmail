@@ -24,10 +24,10 @@ export const handler = async (event: any) => {
   try {
     await emptyS3Bucket(s3, emailBucketName || '');
     // await deleteLogGroups(cwl, logGroupNamePrefixes);
-    return { success: 200 };
+    return 'OK';
   } catch (err) {
     console.log(`Error cleaning up: ${err}`);
-    return { success: 500, err: err };
+    return 'NOK';
   }
 };
 

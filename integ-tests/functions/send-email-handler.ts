@@ -41,7 +41,7 @@ export const handler = async (event: any) => {
         err: `httpStatusCode: ${res.$metadata.httpStatusCode}`,
       });
 
-      return { sendStatusCode: 500, err: res.$metadata.httpStatusCode };
+      return 'NOK';
     }
     log({
       message: 'Email sent',
@@ -49,15 +49,13 @@ export const handler = async (event: any) => {
       res: res,
     });
 
-    // return { statusCode: res.$response.httpResponse.statusCode };
-    return { sendStatusCode: 200 };
+    return 'OK';
   } catch (err) {
     log({
       message: 'Error (catch) sending email',
       err: err,
     });
-    // return { statusCode: err.statusCode, err: err };
-    return { sendStatusCode: 500, err: err };
+    return 'NOK';
   }
 };
 

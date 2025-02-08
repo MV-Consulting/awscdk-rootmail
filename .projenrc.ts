@@ -1,47 +1,29 @@
-import { awscdk } from 'projen';
+import { MvcCdkConstructLibrary } from '@mavogel/mvc-projen';
+import { javascript } from 'projen';
 import { JobPermission } from 'projen/lib/github/workflows-model';
 import { NpmAccess } from 'projen/lib/javascript';
 
-const project = new awscdk.AwsCdkConstructLibrary({
+const project = new MvcCdkConstructLibrary({
   author: 'Manuel Vogel',
-  authorAddress: 'mavogel@posteo.de',
-  cdkVersion: '2.90.0',
+  authorAddress: '8409778+mavogel@users.noreply.github.com',
+  cdkVersion: '2.177.0',
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.5.0',
+  jsiiVersion: '~5.7.0',
   name: '@mavogel/awscdk-rootmail',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/MV-Consulting/awscdk-rootmail',
   npmAccess: NpmAccess.PUBLIC, /* The npm access level to use when releasing this module. */
+  packageManager: javascript.NodePackageManager.YARN_CLASSIC,
   keywords: ['aws', 'cdk', 'ses', 'construct', 'rootmail'],
-  autoApproveOptions: {
-    allowedUsernames: ['mavogel'],
-  },
-  autoApproveUpgrades: true,
-  depsUpgradeOptions: {
-    workflowOptions: {
-      labels: ['auto-approve'],
-    },
-  },
   tsconfig: {
     compilerOptions: {
       esModuleInterop: true,
     },
   },
-  tsconfigDev: {
-    compilerOptions: {
-    },
-    include: [
-      'integ-tests/**/*.ts',
-    ],
-  },
-  // due to aws-sdk-v3 and the bug
-  // see https://stackoverflow.com/questions/76695161/jsii-pacmak-ignores-dist-files-from-aws-sdk-util-utf8-browser
-  // we locked to 18.13
-  // however we cannot build anymore
-  // https://github.com/MV-Consulting/awscdk-rootmail/actions/runs/9606321210/job/26495659910#step:5:697
-  // so we need to update to 18.18
-  // now bump to 20.x
-  workflowNodeVersion: '20.x',
+  deps: [
+    '@mavogel/mvc-projen',
+    'constructs@^10.4.2',
+  ],
 
   bundledDeps: [
     '@aws-sdk/client-cloudwatch-logs',
@@ -63,8 +45,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@types/jsonfile',
     '@types/mailparser',
     '@types/uuid',
-    '@aws-cdk/integ-runner@^2.90.0-alpha.0',
-    '@aws-cdk/integ-tests-alpha@^2.90.0-alpha.0',
+    '@aws-cdk/integ-runner@^2.177.0-alpha.0',
+    '@aws-cdk/integ-tests-alpha@^2.177.0-alpha.0',
     '@commitlint/cli',
     '@commitlint/config-conventional',
     'cdk-assets',

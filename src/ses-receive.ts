@@ -17,6 +17,9 @@ import { Construct, IConstruct } from 'constructs';
 import { isSESEnabledRegion, sesEnabledRegions } from './common';
 import { SESReceiptRuleSetActivation } from './ses-receipt-ruleset-activation';
 
+/**
+ * Properties for the SESReceive construct
+ */
 export interface SESReceiveProps {
   /**
    * Domain used for root mail feature.
@@ -35,20 +38,29 @@ export interface SESReceiveProps {
 
   /**
    * The custom SES receive function to use
+   *
+   * @default the provided functions within the construct
    */
   readonly customSesReceiveFunction?: lambda.Function;
 
   /**
    * Filtered email subjects. NOTE: must not contain commas.
+   *
+   * @default 2 subjects: 'Your AWS Account is Ready - Get Started Now' and 'Welcome to Amazon Web Services'
    */
   readonly filteredEmailSubjects?: string[];
 
   /**
    * Whether to set all removal policies to DESTROY. This is useful for integration testing purposes.
+   *
+   * @default false
    */
   readonly setDestroyPolicyToAllResources?: boolean;
 }
 
+/**
+ * SES Receive construct
+ */
 export class SESReceive extends Construct {
   constructor(scope: Construct, id: string, props: SESReceiveProps) {
     super(scope, id);
@@ -146,11 +158,6 @@ export class SESReceive extends Construct {
           EMAIL_BUCKET: props.emailbucket.bucketName,
           EMAIL_BUCKET_ARN: props.emailbucket.bucketArn,
           ROOTMAIL_DEPLOY_REGION: Stack.of(this).region,
-        },
-        bundling: {
-          esbuildArgs: {
-            '--packages': 'bundle',
-          },
         },
       });
     }

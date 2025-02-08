@@ -4,6 +4,8 @@
 
 ### Rootmail <a name="Rootmail" id="@mavogel/awscdk-rootmail.Rootmail"></a>
 
+Rootmail construct.
+
 #### Initializers <a name="Initializers" id="@mavogel/awscdk-rootmail.Rootmail.Initializer"></a>
 
 ```typescript
@@ -62,7 +64,7 @@ Returns a string representation of this construct.
 
 ---
 
-##### ~~`isConstruct`~~ <a name="isConstruct" id="@mavogel/awscdk-rootmail.Rootmail.isConstruct"></a>
+##### `isConstruct` <a name="isConstruct" id="@mavogel/awscdk-rootmail.Rootmail.isConstruct"></a>
 
 ```typescript
 import { Rootmail } from '@mavogel/awscdk-rootmail'
@@ -71,6 +73,20 @@ Rootmail.isConstruct(x: any)
 ```
 
 Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
 
 ###### `x`<sup>Required</sup> <a name="x" id="@mavogel/awscdk-rootmail.Rootmail.isConstruct.parameter.x"></a>
 
@@ -85,8 +101,8 @@ Any object.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.emailBucket">emailBucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | *No description.* |
-| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.hostedZoneParameterName">hostedZoneParameterName</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.emailBucket">emailBucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | S3 bucket to store the root mails in. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.property.hostedZoneParameterName">hostedZoneParameterName</a></code> | <code>string</code> | The name parameter in SSM to store the domain name server. |
 
 ---
 
@@ -110,6 +126,8 @@ public readonly emailBucket: Bucket;
 
 - *Type:* aws-cdk-lib.aws_s3.Bucket
 
+S3 bucket to store the root mails in.
+
 ---
 
 ##### `hostedZoneParameterName`<sup>Required</sup> <a name="hostedZoneParameterName" id="@mavogel/awscdk-rootmail.Rootmail.property.hostedZoneParameterName"></a>
@@ -120,10 +138,14 @@ public readonly hostedZoneParameterName: string;
 
 - *Type:* string
 
+The name parameter in SSM to store the domain name server.
+
 ---
 
 
 ### SESReceive <a name="SESReceive" id="@mavogel/awscdk-rootmail.SESReceive"></a>
+
+SES Receive construct.
 
 #### Initializers <a name="Initializers" id="@mavogel/awscdk-rootmail.SESReceive.Initializer"></a>
 
@@ -183,7 +205,7 @@ Returns a string representation of this construct.
 
 ---
 
-##### ~~`isConstruct`~~ <a name="isConstruct" id="@mavogel/awscdk-rootmail.SESReceive.isConstruct"></a>
+##### `isConstruct` <a name="isConstruct" id="@mavogel/awscdk-rootmail.SESReceive.isConstruct"></a>
 
 ```typescript
 import { SESReceive } from '@mavogel/awscdk-rootmail'
@@ -192,6 +214,20 @@ SESReceive.isConstruct(x: any)
 ```
 
 Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
 
 ###### `x`<sup>Required</sup> <a name="x" id="@mavogel/awscdk-rootmail.SESReceive.isConstruct.parameter.x"></a>
 
@@ -225,6 +261,8 @@ The tree node.
 ## Structs <a name="Structs" id="Structs"></a>
 
 ### RootmailProps <a name="RootmailProps" id="@mavogel/awscdk-rootmail.RootmailProps"></a>
+
+Properties for the construct.
 
 #### Initializer <a name="Initializer" id="@mavogel/awscdk-rootmail.RootmailProps.Initializer"></a>
 
@@ -268,6 +306,7 @@ public readonly customSesReceiveFunction: Function;
 ```
 
 - *Type:* aws-cdk-lib.aws_lambda.Function
+- *Default:* the provided functions within the construct
 
 The custom SES receive function to use.
 
@@ -349,13 +388,15 @@ public readonly wireDNSToHostedZoneID: string;
 ```
 
 - *Type:* string
-- *Default:* undefined
+- *Default:* emtpy string
 
 The hosted zone ID of the domain that is registered Route53 AND in the same AWS account to enable autowiring of the DNS records.
 
 ---
 
 ### SESReceiveProps <a name="SESReceiveProps" id="@mavogel/awscdk-rootmail.SESReceiveProps"></a>
+
+Properties for the SESReceive construct.
 
 #### Initializer <a name="Initializer" id="@mavogel/awscdk-rootmail.SESReceiveProps.Initializer"></a>
 
@@ -421,6 +462,7 @@ public readonly customSesReceiveFunction: Function;
 ```
 
 - *Type:* aws-cdk-lib.aws_lambda.Function
+- *Default:* the provided functions within the construct
 
 The custom SES receive function to use.
 
@@ -433,6 +475,7 @@ public readonly filteredEmailSubjects: string[];
 ```
 
 - *Type:* string[]
+- *Default:* 2 subjects: 'Your AWS Account is Ready - Get Started Now' and 'Welcome to Amazon Web Services'
 
 Filtered email subjects.
 
@@ -447,6 +490,7 @@ public readonly setDestroyPolicyToAllResources: boolean;
 ```
 
 - *Type:* boolean
+- *Default:* false
 
 Whether to set all removal policies to DESTROY.
 

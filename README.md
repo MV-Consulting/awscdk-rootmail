@@ -1,3 +1,11 @@
+![Source](https://img.shields.io/github/stars/MV-Consulting/awscdk-rootmail?logo=github&label=GitHub%20Stars)
+[![Build Status](https://github.com/MV-Consulting/awscdk-rootmail/actions/workflows/build.yml/badge.svg)](https://github.com/MV-Consulting/awscdk-rootmail/actions/workflows/build.yml)
+[![ESLint Code Formatting](https://img.shields.io/badge/code_style-eslint-brightgreen.svg)](https://eslint.org)
+[![Latest release](https://img.shields.io/github/release/MV-Consulting/awscdk-rootmail.svg)](https://github.com/MV-Consulting/awscdk-rootmail/releases)
+![GitHub](https://img.shields.io/github/license/MV-Consulting/awscdk-rootmail)
+[![npm](https://img.shields.io/npm/dt/@mavogel/awscdk-rootmail?label=npm&color=orange)](https://www.npmjs.com/package/@mavogel/awscdk-rootmail)
+[![typescript](https://img.shields.io/badge/jsii-typescript-blueviolet.svg)](https://www.npmjs.com/package/@mavogel/cdk-vscode-server)
+
 # awscdk-rootmail
 
 A single email box for all your root user emails in all AWS accounts of the organization. 

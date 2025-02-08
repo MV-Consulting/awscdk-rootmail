@@ -1,5 +1,5 @@
 {
-  "version": "33.0.0",
+  "version": "39.0.0",
   "artifacts": {
     "RootmailIntegTestStack.assets": {
       "type": "cdk:asset-manifest",
@@ -14,10 +14,11 @@
       "environment": "aws://unknown-account/unknown-region",
       "properties": {
         "templateFile": "RootmailIntegTestStack.template.json",
+        "terminationProtection": false,
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/5a71c5f7749d20cea20bef34501d65ae584e2a8e48069991520c405b062caf0c.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fad6059eff651594ff34cad66311e9964c09e43ee0a44968f209e1dd58bc79b6.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -79,6 +80,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
+        "/RootmailIntegTestStack/LatestNodeRuntimeMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LatestNodeRuntimeMap"
           }
         ],
         "/RootmailIntegTestStack/testRootmail/EmailBucket/Resource": [
@@ -357,6 +364,12 @@
             "data": "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRoleDefaultPolicy310226B4"
           }
         ],
+        "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/waiter-state-machine/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineLogGroup8F234E2E"
+          }
+        ],
         "/RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/waiter-state-machine/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -487,6 +500,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "rootmailhostedzonedkimpropagationproviderwaiterstatemachineRoleDefaultPolicy70368CA0"
+          }
+        ],
+        "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/waiter-state-machine/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailhostedzonedkimpropagationproviderwaiterstatemachineLogGroup9CDB772B"
           }
         ],
         "/RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/waiter-state-machine/Resource": [
@@ -627,6 +646,12 @@
             "data": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRoleDefaultPolicy64767BAC"
           }
         ],
+        "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineLogGroup91D50937"
+          }
+        ],
         "/RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -691,10 +716,11 @@
       "environment": "aws://unknown-account/unknown-region",
       "properties": {
         "templateFile": "SetupTestIntegStackDefaultTestDeployAssert6EB6FF77.template.json",
+        "terminationProtection": false,
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/770adedb9324a46cb119d3908b6a4853d44cf9672245ac28f8c2e67130fde83c.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/235ab250befcc793aa441cf9b264d2aca2fcaa12994c256227fc5649d2a55eaf.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -739,6 +765,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F"
+          }
+        ],
+        "/SetupTestIntegStack/DefaultTest/DeployAssert/LatestNodeRuntimeMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LatestNodeRuntimeMap"
           }
         ],
         "/SetupTestIntegStack/DefaultTest/DeployAssert/AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b/Default/Default": [

@@ -18,7 +18,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip",
+          "S3Key": "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -27,7 +27,8 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
+        "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -109,11 +110,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
           "S3Key": "409d1db869dd0ed635bff94c855031afc92e9ac918a5d09651dd0b5316db1433.zip",
-        },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
         },
         "Handler": "index.handler",
         "Role": {
@@ -294,11 +290,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
           "S3Key": "aca912f8a6aebc5dfd423aff79785b8fd7488473a4cf93aaa7ad0e442b548787.zip",
-        },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
         },
         "Handler": "index.handler",
         "Role": {
@@ -505,7 +496,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - isComplete (testStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
         "Environment": {
@@ -531,7 +522,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -722,7 +713,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (testStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
         "Environment": {
@@ -751,7 +742,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -949,7 +940,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onTimeout (testStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
         "Environment": {
@@ -975,7 +966,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -1186,6 +1177,22 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
+        "LoggingConfiguration": {
+          "Destinations": [
+            {
+              "CloudWatchLogsLogGroup": {
+                "LogGroupArn": {
+                  "Fn::GetAtt": [
+                    "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineLogGroup8F234E2E",
+                    "Arn",
+                  ],
+                },
+              },
+            },
+          ],
+          "IncludeExecutionData": false,
+          "Level": "ERROR",
+        },
         "RoleArn": {
           "Fn::GetAtt": [
             "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRole258A7061",
@@ -1194,6 +1201,40 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         },
       },
       "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineLogGroup8F234E2E": {
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/vendedlogs/states/waiter-state-machine-",
+              {
+                "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2",
+              },
+              "-c8ef439490dd79c111f55fff9bed997d25e7e6b9f3",
+            ],
+          ],
+        },
+        "RetentionInDays": 731,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
     },
     "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRole258A7061": {
       "Metadata": {
@@ -1217,7 +1258,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": {
-                "Service": "states.us-east-1.amazonaws.com",
+                "Service": "states.amazonaws.com",
               },
             },
           ],
@@ -1296,6 +1337,22 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                 },
               ],
             },
+            {
+              "Action": [
+                "logs:CreateLogDelivery",
+                "logs:CreateLogStream",
+                "logs:GetLogDelivery",
+                "logs:UpdateLogDelivery",
+                "logs:DeleteLogDelivery",
+                "logs:ListLogDeliveries",
+                "logs:PutLogEvents",
+                "logs:PutResourcePolicy",
+                "logs:DescribeResourcePolicies",
+                "logs:DescribeLogGroups",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -1330,7 +1387,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - isComplete (testStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
         "Environment": {
@@ -1356,7 +1413,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -1547,7 +1604,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (testStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
         "Environment": {
@@ -1576,7 +1633,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -1774,7 +1831,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onTimeout (testStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
         "Environment": {
@@ -1800,7 +1857,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -1993,11 +2050,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
           "S3Key": "f61472ea141af20f69ebb7a7718158fcb95d72410c0c2a2e72cc59b1822873fc.zip",
         },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
-        },
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
@@ -2155,11 +2207,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
           "S3Key": "11768574bbd12c5ed10f463a68797423c366b61535ebc1b14951661b92657fa5.zip",
         },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
-        },
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
@@ -2296,6 +2343,22 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
+        "LoggingConfiguration": {
+          "Destinations": [
+            {
+              "CloudWatchLogsLogGroup": {
+                "LogGroupArn": {
+                  "Fn::GetAtt": [
+                    "rootmailhostedzonedkimpropagationproviderwaiterstatemachineLogGroup9CDB772B",
+                    "Arn",
+                  ],
+                },
+              },
+            },
+          ],
+          "IncludeExecutionData": false,
+          "Level": "ERROR",
+        },
         "RoleArn": {
           "Fn::GetAtt": [
             "rootmailhostedzonedkimpropagationproviderwaiterstatemachineRole40906579",
@@ -2304,6 +2367,40 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         },
       },
       "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "rootmailhostedzonedkimpropagationproviderwaiterstatemachineLogGroup9CDB772B": {
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/vendedlogs/states/waiter-state-machine-",
+              {
+                "Ref": "rootmailhostedzonedkimpropagationproviderframeworkisComplete165FE163",
+              },
+              "-c8059bf80bc2f98c1f20b4b79121d53e5547620595",
+            ],
+          ],
+        },
+        "RetentionInDays": 731,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
     },
     "rootmailhostedzonedkimpropagationproviderwaiterstatemachineRole40906579": {
       "Metadata": {
@@ -2327,7 +2424,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": {
-                "Service": "states.us-east-1.amazonaws.com",
+                "Service": "states.amazonaws.com",
               },
             },
           ],
@@ -2406,6 +2503,22 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                 },
               ],
             },
+            {
+              "Action": [
+                "logs:CreateLogDelivery",
+                "logs:CreateLogStream",
+                "logs:GetLogDelivery",
+                "logs:UpdateLogDelivery",
+                "logs:DeleteLogDelivery",
+                "logs:ListLogDeliveries",
+                "logs:PutLogEvents",
+                "logs:PutResourcePolicy",
+                "logs:DescribeResourcePolicies",
+                "logs:DescribeLogGroups",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -2440,7 +2553,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (testStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider)",
         "Environment": {
@@ -2460,7 +2573,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -2625,12 +2738,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "a0f9d47d625e1e17d1946bc138cc46c9b7ecb7136dc54cf26af266b0e30b4e15.zip",
-        },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
+          "S3Key": "11281c9e2a2b601c3421513ba7c9be4b643b04ba6a934192e52e46def7ab0830.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -2873,7 +2981,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - isComplete (testStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
         "Environment": {
@@ -2899,7 +3007,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -3090,7 +3198,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (testStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
         "Environment": {
@@ -3119,7 +3227,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -3317,7 +3425,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onTimeout (testStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
         "Environment": {
@@ -3343,7 +3451,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -3536,11 +3644,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
           "S3Key": "7144c5a47b3904b1aa4b27be73803a4b684f4ef765d9df8fa767779d37106254.zip",
         },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
-        },
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
@@ -3719,11 +3822,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
           "S3Key": "9709438d0fbb508ea9bfee8683a274b4f9492f5e527eb28e0bd9e2bc96b9a08f.zip",
         },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
-        },
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
@@ -3815,6 +3913,22 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
             ],
           ],
         },
+        "LoggingConfiguration": {
+          "Destinations": [
+            {
+              "CloudWatchLogsLogGroup": {
+                "LogGroupArn": {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineLogGroup91D50937",
+                    "Arn",
+                  ],
+                },
+              },
+            },
+          ],
+          "IncludeExecutionData": false,
+          "Level": "ERROR",
+        },
         "RoleArn": {
           "Fn::GetAtt": [
             "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA",
@@ -3823,6 +3937,40 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
         },
       },
       "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineLogGroup91D50937": {
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/vendedlogs/states/waiter-state-machine-",
+              {
+                "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146",
+              },
+              "-c80f4934dfce03c6ccc38a6c21a42f069dd33d3c3c",
+            ],
+          ],
+        },
+        "RetentionInDays": 731,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
     },
     "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA": {
       "Metadata": {
@@ -3846,7 +3994,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": {
-                "Service": "states.us-east-1.amazonaws.com",
+                "Service": "states.amazonaws.com",
               },
             },
           ],
@@ -3924,6 +4072,22 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                   ],
                 },
               ],
+            },
+            {
+              "Action": [
+                "logs:CreateLogDelivery",
+                "logs:CreateLogStream",
+                "logs:GetLogDelivery",
+                "logs:UpdateLogDelivery",
+                "logs:DeleteLogDelivery",
+                "logs:ListLogDeliveries",
+                "logs:PutLogEvents",
+                "logs:PutResourcePolicy",
+                "logs:DescribeResourcePolicies",
+                "logs:DescribeLogGroups",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
             },
           ],
           "Version": "2012-10-17",
@@ -4424,11 +4588,10 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "e7a4bd2c63d19a8a7417fb959bbbd79a115b7a94907fcd33e8d5bd240f3a2320.zip",
+          "S3Key": "aa3a06cb0aae2ae75b5bdf62921fd207503fd54b0e711ebb20274f3e6afd3bfa.zip",
         },
         "Environment": {
           "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
             "EMAIL_BUCKET": {
               "Ref": "testRootmailEmailBucket2A470446",
             },
@@ -4539,7 +4702,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "5cc92ed0cea39e2b8de2dbc527dfb5980a3af9564bd1084d840b9787c7d0467e.zip",
+          "S3Key": "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -4548,7 +4711,8 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
+        "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -4630,11 +4794,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
           "S3Key": "409d1db869dd0ed635bff94c855031afc92e9ac918a5d09651dd0b5316db1433.zip",
-        },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
         },
         "Handler": "index.handler",
         "Role": {
@@ -4815,11 +4974,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
           "S3Key": "aca912f8a6aebc5dfd423aff79785b8fd7488473a4cf93aaa7ad0e442b548787.zip",
-        },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
         },
         "Handler": "index.handler",
         "Role": {
@@ -5018,7 +5172,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - isComplete (testStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
         "Environment": {
@@ -5044,7 +5198,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -5235,7 +5389,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (testStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
         "Environment": {
@@ -5264,7 +5418,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -5462,7 +5616,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onTimeout (testStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
         "Environment": {
@@ -5488,7 +5642,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -5699,6 +5853,22 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
+        "LoggingConfiguration": {
+          "Destinations": [
+            {
+              "CloudWatchLogsLogGroup": {
+                "LogGroupArn": {
+                  "Fn::GetAtt": [
+                    "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineLogGroup8F234E2E",
+                    "Arn",
+                  ],
+                },
+              },
+            },
+          ],
+          "IncludeExecutionData": false,
+          "Level": "ERROR",
+        },
         "RoleArn": {
           "Fn::GetAtt": [
             "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRole258A7061",
@@ -5707,6 +5877,40 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         },
       },
       "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineLogGroup8F234E2E": {
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/vendedlogs/states/waiter-state-machine-",
+              {
+                "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2",
+              },
+              "-c8ef439490dd79c111f55fff9bed997d25e7e6b9f3",
+            ],
+          ],
+        },
+        "RetentionInDays": 731,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
     },
     "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRole258A7061": {
       "Metadata": {
@@ -5730,7 +5934,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": {
-                "Service": "states.us-east-1.amazonaws.com",
+                "Service": "states.amazonaws.com",
               },
             },
           ],
@@ -5809,6 +6013,22 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                 },
               ],
             },
+            {
+              "Action": [
+                "logs:CreateLogDelivery",
+                "logs:CreateLogStream",
+                "logs:GetLogDelivery",
+                "logs:UpdateLogDelivery",
+                "logs:DeleteLogDelivery",
+                "logs:ListLogDeliveries",
+                "logs:PutLogEvents",
+                "logs:PutResourcePolicy",
+                "logs:DescribeResourcePolicies",
+                "logs:DescribeLogGroups",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -5843,7 +6063,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - isComplete (testStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
         "Environment": {
@@ -5869,7 +6089,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -6060,7 +6280,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (testStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
         "Environment": {
@@ -6089,7 +6309,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -6287,7 +6507,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onTimeout (testStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
         "Environment": {
@@ -6313,7 +6533,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -6506,11 +6726,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
           "S3Key": "f61472ea141af20f69ebb7a7718158fcb95d72410c0c2a2e72cc59b1822873fc.zip",
         },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
-        },
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
@@ -6668,11 +6883,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
           "S3Key": "11768574bbd12c5ed10f463a68797423c366b61535ebc1b14951661b92657fa5.zip",
         },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
-        },
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
@@ -6809,6 +7019,22 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
+        "LoggingConfiguration": {
+          "Destinations": [
+            {
+              "CloudWatchLogsLogGroup": {
+                "LogGroupArn": {
+                  "Fn::GetAtt": [
+                    "rootmailhostedzonedkimpropagationproviderwaiterstatemachineLogGroup9CDB772B",
+                    "Arn",
+                  ],
+                },
+              },
+            },
+          ],
+          "IncludeExecutionData": false,
+          "Level": "ERROR",
+        },
         "RoleArn": {
           "Fn::GetAtt": [
             "rootmailhostedzonedkimpropagationproviderwaiterstatemachineRole40906579",
@@ -6817,6 +7043,40 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         },
       },
       "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "rootmailhostedzonedkimpropagationproviderwaiterstatemachineLogGroup9CDB772B": {
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/vendedlogs/states/waiter-state-machine-",
+              {
+                "Ref": "rootmailhostedzonedkimpropagationproviderframeworkisComplete165FE163",
+              },
+              "-c8059bf80bc2f98c1f20b4b79121d53e5547620595",
+            ],
+          ],
+        },
+        "RetentionInDays": 731,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
     },
     "rootmailhostedzonedkimpropagationproviderwaiterstatemachineRole40906579": {
       "Metadata": {
@@ -6840,7 +7100,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": {
-                "Service": "states.us-east-1.amazonaws.com",
+                "Service": "states.amazonaws.com",
               },
             },
           ],
@@ -6919,6 +7179,22 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                 },
               ],
             },
+            {
+              "Action": [
+                "logs:CreateLogDelivery",
+                "logs:CreateLogStream",
+                "logs:GetLogDelivery",
+                "logs:UpdateLogDelivery",
+                "logs:DeleteLogDelivery",
+                "logs:ListLogDeliveries",
+                "logs:PutLogEvents",
+                "logs:PutResourcePolicy",
+                "logs:DescribeResourcePolicies",
+                "logs:DescribeLogGroups",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
           ],
           "Version": "2012-10-17",
         },
@@ -6953,7 +7229,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (testStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider)",
         "Environment": {
@@ -6973,7 +7249,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -7138,12 +7414,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "a0f9d47d625e1e17d1946bc138cc46c9b7ecb7136dc54cf26af266b0e30b4e15.zip",
-        },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
+          "S3Key": "11281c9e2a2b601c3421513ba7c9be4b643b04ba6a934192e52e46def7ab0830.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -7386,7 +7657,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - isComplete (testStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
         "Environment": {
@@ -7412,7 +7683,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -7603,7 +7874,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (testStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
         "Environment": {
@@ -7632,7 +7903,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -7830,7 +8101,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip",
         },
         "Description": "AWS CDK resource provider framework - onTimeout (testStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
         "Environment": {
@@ -7856,7 +8127,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs20.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -8049,11 +8320,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
           "S3Key": "7144c5a47b3904b1aa4b27be73803a4b684f4ef765d9df8fa767779d37106254.zip",
         },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
-        },
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
@@ -8232,11 +8498,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
           "S3Key": "9709438d0fbb508ea9bfee8683a274b4f9492f5e527eb28e0bd9e2bc96b9a08f.zip",
         },
-        "Environment": {
-          "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-          },
-        },
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
@@ -8328,6 +8589,22 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
             ],
           ],
         },
+        "LoggingConfiguration": {
+          "Destinations": [
+            {
+              "CloudWatchLogsLogGroup": {
+                "LogGroupArn": {
+                  "Fn::GetAtt": [
+                    "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineLogGroup91D50937",
+                    "Arn",
+                  ],
+                },
+              },
+            },
+          ],
+          "IncludeExecutionData": false,
+          "Level": "ERROR",
+        },
         "RoleArn": {
           "Fn::GetAtt": [
             "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA",
@@ -8336,6 +8613,40 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
         },
       },
       "Type": "AWS::StepFunctions::StateMachine",
+    },
+    "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineLogGroup91D50937": {
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "no service role restriction needed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "wildcards are ok for the provider as the function has restrictions",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/vendedlogs/states/waiter-state-machine-",
+              {
+                "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146",
+              },
+              "-c80f4934dfce03c6ccc38a6c21a42f069dd33d3c3c",
+            ],
+          ],
+        },
+        "RetentionInDays": 731,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
     },
     "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA": {
       "Metadata": {
@@ -8359,7 +8670,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": {
-                "Service": "states.us-east-1.amazonaws.com",
+                "Service": "states.amazonaws.com",
               },
             },
           ],
@@ -8437,6 +8748,22 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                   ],
                 },
               ],
+            },
+            {
+              "Action": [
+                "logs:CreateLogDelivery",
+                "logs:CreateLogStream",
+                "logs:GetLogDelivery",
+                "logs:UpdateLogDelivery",
+                "logs:DeleteLogDelivery",
+                "logs:ListLogDeliveries",
+                "logs:PutLogEvents",
+                "logs:PutResourcePolicy",
+                "logs:DescribeResourcePolicies",
+                "logs:DescribeLogGroups",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
             },
           ],
           "Version": "2012-10-17",
@@ -8936,11 +9263,10 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "e7a4bd2c63d19a8a7417fb959bbbd79a115b7a94907fcd33e8d5bd240f3a2320.zip",
+          "S3Key": "aa3a06cb0aae2ae75b5bdf62921fd207503fd54b0e711ebb20274f3e6afd3bfa.zip",
         },
         "Environment": {
           "Variables": {
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
             "EMAIL_BUCKET": {
               "Ref": "testRootmailEmailBucket2A470446",
             },

@@ -71,11 +71,6 @@ const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler'
       resources: ['*'],
     }),
   ],
-  bundling: {
-    esbuildArgs: {
-      "--packages": "bundle",
-    },
-  },
 });
 
 const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-handler', {
@@ -93,11 +88,6 @@ const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-ha
       resources: ['*'],
     }),
   ],
-  bundling: {
-    esbuildArgs: {
-      "--packages": "bundle",
-    },
-  },
 });
 
 /**
@@ -111,43 +101,27 @@ const sendTestEmailAssertion = integ.assertions
   .invokeFunction({
     functionName: sendEmailHandler.functionName,
     logType: LogType.TAIL,
-    invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
+    invocationType: InvocationType.REQUEST_RESPONSE, // to run it synchronously
     payload: JSON.stringify({
       id: id,
       text: message,
       sourceMail: `test@${fullDomain}`,
       toMail: `root+${id}@${fullDomain}`,
     }),
-  }).expect(ExpectedResult.objectLike(
-    // as the object 'return { sendStatusCode: 200 };' is wrapped in a Payload object with other properties
-    {
-      Payload: {
-        sendStatusCode: 200,
-      },
-    },
-  ),
-  );
+  }).expect(ExpectedResult.objectLike({ Payload: '"OK"' }));
 
 
 const validateOpsItemAssertion = integ.assertions
   .invokeFunction({
     functionName: closeOpsItemHandler.functionName,
     logType: LogType.TAIL,
-    invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
+    invocationType: InvocationType.REQUEST_RESPONSE, // to run it synchronously
     payload: JSON.stringify({
       title: id,
       source: `root+${id}@${fullDomain}`,
       description: `${message}\n`,
     }),
-  }).expect(ExpectedResult.objectLike(
-    // as the object 'return { closeStatusCode: 200 };' is wrapped in a Payload object with other properties
-    {
-      Payload: {
-        closeStatusCode: 200,
-      },
-    },
-  ),
-  );
+  }).expect(ExpectedResult.objectLike({ Payload: '"OK"' }));
 // NOTE: this is not working as expected
 // .waitForAssertions({
 //   totalTimeout: Duration.minutes(2),

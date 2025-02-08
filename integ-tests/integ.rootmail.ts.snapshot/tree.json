@@ -41,7 +41,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Policy": {
@@ -94,19 +94,19 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_s3.Bucket",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "HostedZone": {
@@ -135,13 +135,13 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_route53.CfnHostedZone",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_route53.HostedZone",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "HostedZoneSSMParameter": {
@@ -171,13 +171,13 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_ssm.CfnParameter",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_ssm.StringListParameter",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "HostedZoneDkim": {
@@ -197,19 +197,19 @@
                             "path": "RootmailIntegTestStack/testRootmail/HostedZoneDkim/HostedZoneDKIMAndVerificationRecords/Resource/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CustomResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "constructs.Construct",
-                      "version": "10.0.5"
+                      "version": "10.4.2"
                     }
                   },
                   "HostedZoneDKIMTokenRecord0": {
@@ -275,13 +275,13 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_route53.CfnRecordSet",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_route53.RecordSet",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "HostedZoneDKIMTokenRecord1": {
@@ -347,13 +347,13 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_route53.CfnRecordSet",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_route53.RecordSet",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "HostedZoneDKIMTokenRecord2": {
@@ -419,13 +419,13 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_route53.CfnRecordSet",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_route53.RecordSet",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "HostedZoneMXRecord": {
@@ -473,13 +473,13 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_route53.CfnRecordSet",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_route53.MxRecord",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "HostedZoneVerificationTokenRecord": {
@@ -530,13 +530,13 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_route53.CfnRecordSet",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_route53.TxtRecord",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "RootmailAutowireDns": {
@@ -560,13 +560,13 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_ssm.CfnParameter",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_ssm.StringParameter",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -578,19 +578,19 @@
                             "path": "RootmailIntegTestStack/testRootmail/HostedZoneDkim/RootmailAutowireDns/Resource/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CustomResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "constructs.Construct",
-                      "version": "10.0.5"
+                      "version": "10.4.2"
                     }
                   },
                   "HostedZoneDKIMPropagation": {
@@ -606,25 +606,25 @@
                             "path": "RootmailIntegTestStack/testRootmail/HostedZoneDkim/HostedZoneDKIMPropagation/Resource/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CustomResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "constructs.Construct",
-                      "version": "10.0.5"
+                      "version": "10.4.2"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "constructs.Construct",
-                  "version": "10.0.5"
+                  "version": "10.4.2"
                 }
               },
               "SESReceive": {
@@ -640,7 +640,7 @@
                         "path": "RootmailIntegTestStack/testRootmail/SESReceive/OpsSantaFunctionRole/ImportOpsSantaFunctionRole",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -736,13 +736,13 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Role",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "ops-santa-handler": {
@@ -758,7 +758,7 @@
                             "path": "RootmailIntegTestStack/testRootmail/SESReceive/ops-santa-handler/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "AssetBucket": {
@@ -766,13 +766,13 @@
                             "path": "RootmailIntegTestStack/testRootmail/SESReceive/ops-santa-handler/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -785,7 +785,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "adf960437fc6c552bee317e122c1e6839152590b199f7c44c0eee7bfbb744187.zip"
+                              "s3Key": "8621467f8f2410fb7445cc07fab37b2e996e541b6f7acb8549df9e88e1def73c.zip"
                             },
                             "environment": {
                               "variables": {
@@ -800,8 +800,7 @@
                                 },
                                 "ROOTMAIL_DEPLOY_REGION": {
                                   "Ref": "AWS::Region"
-                                },
-                                "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+                                }
                               }
                             },
                             "handler": "index.handler",
@@ -817,7 +816,7 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogRetention": {
@@ -829,13 +828,13 @@
                             "path": "RootmailIntegTestStack/testRootmail/SESReceive/ops-santa-handler/LogRetention/Resource",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogGroup": {
@@ -843,7 +842,7 @@
                         "path": "RootmailIntegTestStack/testRootmail/SESReceive/ops-santa-handler/LogGroup",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "OpsSantaFunctionSESPermissions": {
@@ -867,13 +866,13 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "SESReceiptRuleSetActivation": {
@@ -889,31 +888,31 @@
                             "path": "RootmailIntegTestStack/testRootmail/SESReceive/SESReceiptRuleSetActivation/Resource/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CustomResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "constructs.Construct",
-                      "version": "10.0.5"
+                      "version": "10.4.2"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "constructs.Construct",
-                  "version": "10.0.5"
+                  "version": "10.4.2"
                 }
               }
             },
             "constructInfo": {
               "fqn": "constructs.Construct",
-              "version": "10.0.5"
+              "version": "10.4.2"
             }
           },
           "rootmail.hosted-zone-dkim-verification-records-provider": {
@@ -933,7 +932,7 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/on-event-handler/ServiceRole/ImportServiceRole",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -972,7 +971,7 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "DefaultPolicy": {
@@ -1009,19 +1008,19 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Policy",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Role",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Code": {
@@ -1033,7 +1032,7 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/on-event-handler/Code/Stage",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.AssetStaging",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "AssetBucket": {
@@ -1041,13 +1040,13 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/on-event-handler/Code/AssetBucket",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Resource": {
@@ -1062,11 +1061,6 @@
                           },
                           "s3Key": "f75274dd7677b6ef41f29d2dfc2c885b4f4e069d3fb8e67636bd89efd3f0fcad.zip"
                         },
-                        "environment": {
-                          "variables": {
-                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
-                          }
-                        },
                         "handler": "index.handler",
                         "role": {
                           "Fn::GetAtt": [
@@ -1080,7 +1074,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogRetention": {
@@ -1092,13 +1086,13 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/on-event-handler/LogRetention/Resource",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogGroup": {
@@ -1106,13 +1100,13 @@
                     "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/on-event-handler/LogGroup",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "hosted-zone-dkim-verification-records-provider": {
@@ -1132,7 +1126,7 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/ServiceRole/ImportServiceRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "Resource": {
@@ -1171,7 +1165,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "DefaultPolicy": {
@@ -1225,19 +1219,19 @@
                                 },
                                 "constructInfo": {
                                   "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                                  "version": "2.90.0"
+                                  "version": "2.177.0"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.Policy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Role",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Code": {
@@ -1249,7 +1243,7 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "AssetBucket": {
@@ -1257,13 +1251,13 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -1276,7 +1270,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                              "s3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip"
                             },
                             "description": "AWS CDK resource provider framework - onEvent (RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider)",
                             "environment": {
@@ -1296,13 +1290,21 @@
                                 "Arn"
                               ]
                             },
-                            "runtime": "nodejs18.x",
+                            "runtime": {
+                              "Fn::FindInMap": [
+                                "LatestNodeRuntimeMap",
+                                {
+                                  "Ref": "AWS::Region"
+                                },
+                                "value"
+                              ]
+                            },
                             "timeout": 900
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogRetention": {
@@ -1314,13 +1316,13 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/LogRetention/Resource",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogGroup": {
@@ -1328,25 +1330,25 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-verification-records-provider/hosted-zone-dkim-verification-records-provider/framework-onEvent/LogGroup",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.Function",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.custom_resources.Provider",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "constructs.Construct",
-              "version": "10.0.5"
+              "version": "10.4.2"
             }
           },
           "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a": {
@@ -1362,7 +1364,7 @@
                     "path": "RootmailIntegTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "AssetBucket": {
@@ -1370,13 +1372,13 @@
                     "path": "RootmailIntegTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "ServiceRole": {
@@ -1388,7 +1390,7 @@
                     "path": "RootmailIntegTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/ImportServiceRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Resource": {
@@ -1427,7 +1429,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "DefaultPolicy": {
@@ -1463,19 +1465,19 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Policy",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_iam.Role",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "Resource": {
@@ -1483,13 +1485,21 @@
                 "path": "RootmailIntegTestStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "constructs.Construct",
-              "version": "10.0.5"
+              "version": "10.4.2"
+            }
+          },
+          "LatestNodeRuntimeMap": {
+            "id": "LatestNodeRuntimeMap",
+            "path": "RootmailIntegTestStack/LatestNodeRuntimeMap",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnMapping",
+              "version": "2.177.0"
             }
           },
           "rootmail.autowire-dns-provider": {
@@ -1509,7 +1519,7 @@
                         "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/is-complete-handler/ServiceRole/ImportServiceRole",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -1548,7 +1558,7 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "DefaultPolicy": {
@@ -1616,19 +1626,19 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Policy",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Role",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Code": {
@@ -1640,7 +1650,7 @@
                         "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/is-complete-handler/Code/Stage",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.AssetStaging",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "AssetBucket": {
@@ -1648,13 +1658,13 @@
                         "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/is-complete-handler/Code/AssetBucket",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Resource": {
@@ -1669,11 +1679,6 @@
                           },
                           "s3Key": "157ba1713f7224463b621261792d18081588ff306a9bc3f75e6c468fabbe1a60.zip"
                         },
-                        "environment": {
-                          "variables": {
-                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
-                          }
-                        },
                         "handler": "index.handler",
                         "role": {
                           "Fn::GetAtt": [
@@ -1687,7 +1692,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogRetention": {
@@ -1699,13 +1704,13 @@
                         "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/is-complete-handler/LogRetention/Resource",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogGroup": {
@@ -1713,13 +1718,13 @@
                     "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/is-complete-handler/LogGroup",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "on-event-handler": {
@@ -1735,7 +1740,7 @@
                         "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/on-event-handler/ServiceRole/ImportServiceRole",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -1774,7 +1779,7 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "DefaultPolicy": {
@@ -1877,19 +1882,19 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Policy",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Role",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Code": {
@@ -1901,7 +1906,7 @@
                         "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/on-event-handler/Code/Stage",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.AssetStaging",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "AssetBucket": {
@@ -1909,13 +1914,13 @@
                         "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/on-event-handler/Code/AssetBucket",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Resource": {
@@ -1930,11 +1935,6 @@
                           },
                           "s3Key": "4c079063901e6478dbb5ace19e3123641ebf0da2ab648ecf52079c5bec154196.zip"
                         },
-                        "environment": {
-                          "variables": {
-                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
-                          }
-                        },
                         "handler": "index.handler",
                         "role": {
                           "Fn::GetAtt": [
@@ -1948,7 +1948,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogRetention": {
@@ -1960,13 +1960,13 @@
                         "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/on-event-handler/LogRetention/Resource",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogGroup": {
@@ -1974,13 +1974,13 @@
                     "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/on-event-handler/LogGroup",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "rootmail-autowire-dns-provider": {
@@ -2000,7 +2000,7 @@
                             "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/ServiceRole/ImportServiceRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "Resource": {
@@ -2039,7 +2039,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "DefaultPolicy": {
@@ -2120,19 +2120,19 @@
                                 },
                                 "constructInfo": {
                                   "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                                  "version": "2.90.0"
+                                  "version": "2.177.0"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.Policy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Role",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Code": {
@@ -2144,7 +2144,7 @@
                             "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "AssetBucket": {
@@ -2152,13 +2152,13 @@
                             "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -2171,7 +2171,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                              "s3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip"
                             },
                             "description": "AWS CDK resource provider framework - onEvent (RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
                             "environment": {
@@ -2200,13 +2200,21 @@
                                 "Arn"
                               ]
                             },
-                            "runtime": "nodejs18.x",
+                            "runtime": {
+                              "Fn::FindInMap": [
+                                "LatestNodeRuntimeMap",
+                                {
+                                  "Ref": "AWS::Region"
+                                },
+                                "value"
+                              ]
+                            },
                             "timeout": 900
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogRetention": {
@@ -2218,13 +2226,13 @@
                             "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/LogRetention/Resource",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogGroup": {
@@ -2232,13 +2240,13 @@
                         "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onEvent/LogGroup",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.Function",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "framework-isComplete": {
@@ -2254,7 +2262,7 @@
                             "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/ServiceRole/ImportServiceRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "Resource": {
@@ -2293,7 +2301,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "DefaultPolicy": {
@@ -2367,19 +2375,19 @@
                                 },
                                 "constructInfo": {
                                   "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                                  "version": "2.90.0"
+                                  "version": "2.177.0"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.Policy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Role",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Code": {
@@ -2391,7 +2399,7 @@
                             "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "AssetBucket": {
@@ -2399,13 +2407,13 @@
                             "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -2418,7 +2426,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                              "s3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip"
                             },
                             "description": "AWS CDK resource provider framework - isComplete (RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
                             "environment": {
@@ -2444,13 +2452,21 @@
                                 "Arn"
                               ]
                             },
-                            "runtime": "nodejs18.x",
+                            "runtime": {
+                              "Fn::FindInMap": [
+                                "LatestNodeRuntimeMap",
+                                {
+                                  "Ref": "AWS::Region"
+                                },
+                                "value"
+                              ]
+                            },
                             "timeout": 900
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogRetention": {
@@ -2462,13 +2478,13 @@
                             "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/LogRetention/Resource",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogGroup": {
@@ -2476,13 +2492,13 @@
                         "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-isComplete/LogGroup",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.Function",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "framework-onTimeout": {
@@ -2498,7 +2514,7 @@
                             "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/ServiceRole/ImportServiceRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "Resource": {
@@ -2537,7 +2553,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "DefaultPolicy": {
@@ -2611,19 +2627,19 @@
                                 },
                                 "constructInfo": {
                                   "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                                  "version": "2.90.0"
+                                  "version": "2.177.0"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.Policy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Role",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Code": {
@@ -2635,7 +2651,7 @@
                             "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "AssetBucket": {
@@ -2643,13 +2659,13 @@
                             "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -2662,7 +2678,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                              "s3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip"
                             },
                             "description": "AWS CDK resource provider framework - onTimeout (RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider)",
                             "environment": {
@@ -2688,13 +2704,21 @@
                                 "Arn"
                               ]
                             },
-                            "runtime": "nodejs18.x",
+                            "runtime": {
+                              "Fn::FindInMap": [
+                                "LatestNodeRuntimeMap",
+                                {
+                                  "Ref": "AWS::Region"
+                                },
+                                "value"
+                              ]
+                            },
                             "timeout": 900
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogRetention": {
@@ -2706,13 +2730,13 @@
                             "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/LogRetention/Resource",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogGroup": {
@@ -2720,13 +2744,13 @@
                         "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/framework-onTimeout/LogGroup",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.Function",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "waiter-state-machine": {
@@ -2742,7 +2766,7 @@
                             "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/waiter-state-machine/Role/ImportRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "Resource": {
@@ -2767,7 +2791,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "DefaultPolicy": {
@@ -2827,6 +2851,22 @@
                                               ]
                                             }
                                           ]
+                                        },
+                                        {
+                                          "Action": [
+                                            "logs:CreateLogDelivery",
+                                            "logs:CreateLogStream",
+                                            "logs:DeleteLogDelivery",
+                                            "logs:DescribeLogGroups",
+                                            "logs:DescribeResourcePolicies",
+                                            "logs:GetLogDelivery",
+                                            "logs:ListLogDeliveries",
+                                            "logs:PutLogEvents",
+                                            "logs:PutResourcePolicy",
+                                            "logs:UpdateLogDelivery"
+                                          ],
+                                          "Effect": "Allow",
+                                          "Resource": "*"
                                         }
                                       ],
                                       "Version": "2012-10-17"
@@ -2841,45 +2881,130 @@
                                 },
                                 "constructInfo": {
                                   "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                                  "version": "2.90.0"
+                                  "version": "2.177.0"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.Policy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Role",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
+                        }
+                      },
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/waiter-state-machine/LogGroup",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/waiter-state-machine/LogGroup/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                              "aws:cdk:cloudformation:props": {
+                                "logGroupName": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "/aws/vendedlogs/states/waiter-state-machine-",
+                                      {
+                                        "Ref": "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2"
+                                      },
+                                      "-c87dd05ebab293a9aee46077d679d140dd7cde1383"
+                                    ]
+                                  ]
+                                },
+                                "retentionInDays": 731
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                              "version": "2.177.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
                         "id": "Resource",
                         "path": "RootmailIntegTestStack/rootmail.autowire-dns-provider/rootmail-autowire-dns-provider/waiter-state-machine/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::StepFunctions::StateMachine",
+                          "aws:cdk:cloudformation:props": {
+                            "definitionString": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "{\"StartAt\":\"framework-isComplete-task\",\"States\":{\"framework-isComplete-task\":{\"End\":true,\"Retry\":[{\"ErrorEquals\":[\"States.ALL\"],\"IntervalSeconds\":5,\"MaxAttempts\":1440,\"BackoffRate\":1}],\"Catch\":[{\"ErrorEquals\":[\"States.ALL\"],\"Next\":\"framework-onTimeout-task\"}],\"Type\":\"Task\",\"Resource\":\"",
+                                  {
+                                    "Fn::GetAtt": [
+                                      "rootmailautowirednsproviderrootmailautowirednsproviderframeworkisCompleteC48DABD2",
+                                      "Arn"
+                                    ]
+                                  },
+                                  "\"},\"framework-onTimeout-task\":{\"End\":true,\"Type\":\"Task\",\"Resource\":\"",
+                                  {
+                                    "Fn::GetAtt": [
+                                      "rootmailautowirednsproviderrootmailautowirednsproviderframeworkonTimeoutC714B95F",
+                                      "Arn"
+                                    ]
+                                  },
+                                  "\"}}}"
+                                ]
+                              ]
+                            },
+                            "loggingConfiguration": {
+                              "destinations": [
+                                {
+                                  "cloudWatchLogsLogGroup": {
+                                    "logGroupArn": {
+                                      "Fn::GetAtt": [
+                                        "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineLogGroup8F234E2E",
+                                        "Arn"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "includeExecutionData": false,
+                              "level": "ERROR"
+                            },
+                            "roleArn": {
+                              "Fn::GetAtt": [
+                                "rootmailautowirednsproviderrootmailautowirednsproviderwaiterstatemachineRole258A7061",
+                                "Arn"
+                              ]
+                            }
+                          }
+                        },
                         "constructInfo": {
-                          "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "fqn": "aws-cdk-lib.aws_stepfunctions.CfnStateMachine",
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
-                      "fqn": "constructs.Construct",
-                      "version": "10.0.5"
+                      "fqn": "aws-cdk-lib.custom_resources.WaiterStateMachine",
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.custom_resources.Provider",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "constructs.Construct",
-              "version": "10.0.5"
+              "version": "10.4.2"
             }
           },
           "rootmail.hosted-zone-dkim-propagation-provider": {
@@ -2899,7 +3024,7 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/is-complete-handler/ServiceRole/ImportServiceRole",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -2938,7 +3063,7 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "DefaultPolicy": {
@@ -2976,19 +3101,19 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Policy",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Role",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Code": {
@@ -3000,7 +3125,7 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/is-complete-handler/Code/Stage",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.AssetStaging",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "AssetBucket": {
@@ -3008,13 +3133,13 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/is-complete-handler/Code/AssetBucket",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Resource": {
@@ -3029,11 +3154,6 @@
                           },
                           "s3Key": "7e8a681794eff5fda1841caa360113df5488ecf944055a69b8f1e5a687e269f5.zip"
                         },
-                        "environment": {
-                          "variables": {
-                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
-                          }
-                        },
                         "handler": "index.handler",
                         "role": {
                           "Fn::GetAtt": [
@@ -3047,7 +3167,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogRetention": {
@@ -3059,13 +3179,13 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/is-complete-handler/LogRetention/Resource",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogGroup": {
@@ -3073,13 +3193,13 @@
                     "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/is-complete-handler/LogGroup",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "on-event-handler": {
@@ -3095,7 +3215,7 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/on-event-handler/ServiceRole/ImportServiceRole",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -3134,13 +3254,13 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Role",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Code": {
@@ -3152,7 +3272,7 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/on-event-handler/Code/Stage",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.AssetStaging",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "AssetBucket": {
@@ -3160,13 +3280,13 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/on-event-handler/Code/AssetBucket",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Resource": {
@@ -3181,11 +3301,6 @@
                           },
                           "s3Key": "9572b451243318765beb576ae7528096b3879783dbaab795c02c01d7f4e83438.zip"
                         },
-                        "environment": {
-                          "variables": {
-                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
-                          }
-                        },
                         "handler": "index.handler",
                         "role": {
                           "Fn::GetAtt": [
@@ -3199,7 +3314,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogRetention": {
@@ -3211,13 +3326,13 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/on-event-handler/LogRetention/Resource",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogGroup": {
@@ -3225,13 +3340,13 @@
                     "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/on-event-handler/LogGroup",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "hosted-zone-dkim-propagation-provider": {
@@ -3251,7 +3366,7 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/ServiceRole/ImportServiceRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "Resource": {
@@ -3290,7 +3405,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "DefaultPolicy": {
@@ -3371,19 +3486,19 @@
                                 },
                                 "constructInfo": {
                                   "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                                  "version": "2.90.0"
+                                  "version": "2.177.0"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.Policy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Role",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Code": {
@@ -3395,7 +3510,7 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "AssetBucket": {
@@ -3403,13 +3518,13 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -3422,7 +3537,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                              "s3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip"
                             },
                             "description": "AWS CDK resource provider framework - onEvent (RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
                             "environment": {
@@ -3451,13 +3566,21 @@
                                 "Arn"
                               ]
                             },
-                            "runtime": "nodejs18.x",
+                            "runtime": {
+                              "Fn::FindInMap": [
+                                "LatestNodeRuntimeMap",
+                                {
+                                  "Ref": "AWS::Region"
+                                },
+                                "value"
+                              ]
+                            },
                             "timeout": 900
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogRetention": {
@@ -3469,13 +3592,13 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/LogRetention/Resource",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogGroup": {
@@ -3483,13 +3606,13 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onEvent/LogGroup",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.Function",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "framework-isComplete": {
@@ -3505,7 +3628,7 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/ServiceRole/ImportServiceRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "Resource": {
@@ -3544,7 +3667,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "DefaultPolicy": {
@@ -3618,19 +3741,19 @@
                                 },
                                 "constructInfo": {
                                   "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                                  "version": "2.90.0"
+                                  "version": "2.177.0"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.Policy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Role",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Code": {
@@ -3642,7 +3765,7 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "AssetBucket": {
@@ -3650,13 +3773,13 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -3669,7 +3792,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                              "s3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip"
                             },
                             "description": "AWS CDK resource provider framework - isComplete (RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
                             "environment": {
@@ -3695,13 +3818,21 @@
                                 "Arn"
                               ]
                             },
-                            "runtime": "nodejs18.x",
+                            "runtime": {
+                              "Fn::FindInMap": [
+                                "LatestNodeRuntimeMap",
+                                {
+                                  "Ref": "AWS::Region"
+                                },
+                                "value"
+                              ]
+                            },
                             "timeout": 900
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogRetention": {
@@ -3713,13 +3844,13 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/LogRetention/Resource",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogGroup": {
@@ -3727,13 +3858,13 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-isComplete/LogGroup",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.Function",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "framework-onTimeout": {
@@ -3749,7 +3880,7 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/ServiceRole/ImportServiceRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "Resource": {
@@ -3788,7 +3919,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "DefaultPolicy": {
@@ -3862,19 +3993,19 @@
                                 },
                                 "constructInfo": {
                                   "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                                  "version": "2.90.0"
+                                  "version": "2.177.0"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.Policy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Role",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Code": {
@@ -3886,7 +4017,7 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "AssetBucket": {
@@ -3894,13 +4025,13 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -3913,7 +4044,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                              "s3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip"
                             },
                             "description": "AWS CDK resource provider framework - onTimeout (RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider)",
                             "environment": {
@@ -3939,13 +4070,21 @@
                                 "Arn"
                               ]
                             },
-                            "runtime": "nodejs18.x",
+                            "runtime": {
+                              "Fn::FindInMap": [
+                                "LatestNodeRuntimeMap",
+                                {
+                                  "Ref": "AWS::Region"
+                                },
+                                "value"
+                              ]
+                            },
                             "timeout": 900
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogRetention": {
@@ -3957,13 +4096,13 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/LogRetention/Resource",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogGroup": {
@@ -3971,13 +4110,13 @@
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/framework-onTimeout/LogGroup",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.Function",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "waiter-state-machine": {
@@ -3993,7 +4132,7 @@
                             "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/waiter-state-machine/Role/ImportRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "Resource": {
@@ -4018,7 +4157,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "DefaultPolicy": {
@@ -4078,6 +4217,22 @@
                                               ]
                                             }
                                           ]
+                                        },
+                                        {
+                                          "Action": [
+                                            "logs:CreateLogDelivery",
+                                            "logs:CreateLogStream",
+                                            "logs:DeleteLogDelivery",
+                                            "logs:DescribeLogGroups",
+                                            "logs:DescribeResourcePolicies",
+                                            "logs:GetLogDelivery",
+                                            "logs:ListLogDeliveries",
+                                            "logs:PutLogEvents",
+                                            "logs:PutResourcePolicy",
+                                            "logs:UpdateLogDelivery"
+                                          ],
+                                          "Effect": "Allow",
+                                          "Resource": "*"
                                         }
                                       ],
                                       "Version": "2012-10-17"
@@ -4092,45 +4247,130 @@
                                 },
                                 "constructInfo": {
                                   "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                                  "version": "2.90.0"
+                                  "version": "2.177.0"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.Policy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Role",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
+                        }
+                      },
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/waiter-state-machine/LogGroup",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/waiter-state-machine/LogGroup/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                              "aws:cdk:cloudformation:props": {
+                                "logGroupName": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "/aws/vendedlogs/states/waiter-state-machine-",
+                                      {
+                                        "Ref": "rootmailhostedzonedkimpropagationproviderframeworkisComplete165FE163"
+                                      },
+                                      "-c8475ff4cfa405647403a9effa67ebd6e9b6ff1a29"
+                                    ]
+                                  ]
+                                },
+                                "retentionInDays": 731
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                              "version": "2.177.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
                         "id": "Resource",
                         "path": "RootmailIntegTestStack/rootmail.hosted-zone-dkim-propagation-provider/hosted-zone-dkim-propagation-provider/waiter-state-machine/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::StepFunctions::StateMachine",
+                          "aws:cdk:cloudformation:props": {
+                            "definitionString": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "{\"StartAt\":\"framework-isComplete-task\",\"States\":{\"framework-isComplete-task\":{\"End\":true,\"Retry\":[{\"ErrorEquals\":[\"States.ALL\"],\"IntervalSeconds\":10,\"MaxAttempts\":180,\"BackoffRate\":1}],\"Catch\":[{\"ErrorEquals\":[\"States.ALL\"],\"Next\":\"framework-onTimeout-task\"}],\"Type\":\"Task\",\"Resource\":\"",
+                                  {
+                                    "Fn::GetAtt": [
+                                      "rootmailhostedzonedkimpropagationproviderframeworkisComplete165FE163",
+                                      "Arn"
+                                    ]
+                                  },
+                                  "\"},\"framework-onTimeout-task\":{\"End\":true,\"Type\":\"Task\",\"Resource\":\"",
+                                  {
+                                    "Fn::GetAtt": [
+                                      "rootmailhostedzonedkimpropagationproviderframeworkonTimeout7D8A73CD",
+                                      "Arn"
+                                    ]
+                                  },
+                                  "\"}}}"
+                                ]
+                              ]
+                            },
+                            "loggingConfiguration": {
+                              "destinations": [
+                                {
+                                  "cloudWatchLogsLogGroup": {
+                                    "logGroupArn": {
+                                      "Fn::GetAtt": [
+                                        "rootmailhostedzonedkimpropagationproviderwaiterstatemachineLogGroup9CDB772B",
+                                        "Arn"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "includeExecutionData": false,
+                              "level": "ERROR"
+                            },
+                            "roleArn": {
+                              "Fn::GetAtt": [
+                                "rootmailhostedzonedkimpropagationproviderwaiterstatemachineRole40906579",
+                                "Arn"
+                              ]
+                            }
+                          }
+                        },
                         "constructInfo": {
-                          "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "fqn": "aws-cdk-lib.aws_stepfunctions.CfnStateMachine",
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
-                      "fqn": "constructs.Construct",
-                      "version": "10.0.5"
+                      "fqn": "aws-cdk-lib.custom_resources.WaiterStateMachine",
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.custom_resources.Provider",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "constructs.Construct",
-              "version": "10.0.5"
+              "version": "10.4.2"
             }
           },
           "rootmail.ses-receipt-ruleset-activation-provider": {
@@ -4146,7 +4386,7 @@
                     "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/SesReceiptRuleSetActivationCustomResourceRole/ImportSesReceiptRuleSetActivationCustomResourceRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Resource": {
@@ -4185,7 +4425,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "DefaultPolicy": {
@@ -4224,19 +4464,19 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Policy",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_iam.Role",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "on-event-handler": {
@@ -4252,7 +4492,7 @@
                         "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/on-event-handler/Code/Stage",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.AssetStaging",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "AssetBucket": {
@@ -4260,13 +4500,13 @@
                         "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/on-event-handler/Code/AssetBucket",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Resource": {
@@ -4281,11 +4521,6 @@
                           },
                           "s3Key": "be7d56b509650f7f97c406a745d8335992726086995e4cb4aaf50417ab40e803.zip"
                         },
-                        "environment": {
-                          "variables": {
-                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
-                          }
-                        },
                         "handler": "index.handler",
                         "role": {
                           "Fn::GetAtt": [
@@ -4299,7 +4534,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogRetention": {
@@ -4311,13 +4546,13 @@
                         "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/on-event-handler/LogRetention/Resource",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogGroup": {
@@ -4325,13 +4560,13 @@
                     "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/on-event-handler/LogGroup",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "is-complete-handler": {
@@ -4347,7 +4582,7 @@
                         "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/ServiceRole/ImportServiceRole",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -4386,7 +4621,7 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "DefaultPolicy": {
@@ -4444,19 +4679,19 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Policy",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Role",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Code": {
@@ -4468,7 +4703,7 @@
                         "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/Code/Stage",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.AssetStaging",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "AssetBucket": {
@@ -4476,13 +4711,13 @@
                         "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/Code/AssetBucket",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Resource": {
@@ -4497,11 +4732,6 @@
                           },
                           "s3Key": "78b64aaf9aebb4eacbdd42197be10e9d5894360a642f7dcf79aeb84bb3552377.zip"
                         },
-                        "environment": {
-                          "variables": {
-                            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
-                          }
-                        },
                         "handler": "index.handler",
                         "role": {
                           "Fn::GetAtt": [
@@ -4515,7 +4745,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogRetention": {
@@ -4527,13 +4757,13 @@
                         "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/LogRetention/Resource",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "LogGroup": {
@@ -4541,13 +4771,13 @@
                     "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/is-complete-handler/LogGroup",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "ses-receipt-ruleset-activation-provider": {
@@ -4567,7 +4797,7 @@
                             "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/ServiceRole/ImportServiceRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "Resource": {
@@ -4606,7 +4836,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "DefaultPolicy": {
@@ -4687,19 +4917,19 @@
                                 },
                                 "constructInfo": {
                                   "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                                  "version": "2.90.0"
+                                  "version": "2.177.0"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.Policy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Role",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Code": {
@@ -4711,7 +4941,7 @@
                             "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "AssetBucket": {
@@ -4719,13 +4949,13 @@
                             "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -4738,7 +4968,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                              "s3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip"
                             },
                             "description": "AWS CDK resource provider framework - onEvent (RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
                             "environment": {
@@ -4767,13 +4997,21 @@
                                 "Arn"
                               ]
                             },
-                            "runtime": "nodejs18.x",
+                            "runtime": {
+                              "Fn::FindInMap": [
+                                "LatestNodeRuntimeMap",
+                                {
+                                  "Ref": "AWS::Region"
+                                },
+                                "value"
+                              ]
+                            },
                             "timeout": 900
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogRetention": {
@@ -4785,13 +5023,13 @@
                             "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/LogRetention/Resource",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogGroup": {
@@ -4799,13 +5037,13 @@
                         "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onEvent/LogGroup",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.Function",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "framework-isComplete": {
@@ -4821,7 +5059,7 @@
                             "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/ServiceRole/ImportServiceRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "Resource": {
@@ -4860,7 +5098,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "DefaultPolicy": {
@@ -4934,19 +5172,19 @@
                                 },
                                 "constructInfo": {
                                   "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                                  "version": "2.90.0"
+                                  "version": "2.177.0"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.Policy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Role",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Code": {
@@ -4958,7 +5196,7 @@
                             "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "AssetBucket": {
@@ -4966,13 +5204,13 @@
                             "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -4985,7 +5223,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                              "s3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip"
                             },
                             "description": "AWS CDK resource provider framework - isComplete (RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
                             "environment": {
@@ -5011,13 +5249,21 @@
                                 "Arn"
                               ]
                             },
-                            "runtime": "nodejs18.x",
+                            "runtime": {
+                              "Fn::FindInMap": [
+                                "LatestNodeRuntimeMap",
+                                {
+                                  "Ref": "AWS::Region"
+                                },
+                                "value"
+                              ]
+                            },
                             "timeout": 900
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogRetention": {
@@ -5029,13 +5275,13 @@
                             "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/LogRetention/Resource",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogGroup": {
@@ -5043,13 +5289,13 @@
                         "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-isComplete/LogGroup",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.Function",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "framework-onTimeout": {
@@ -5065,7 +5311,7 @@
                             "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/ServiceRole/ImportServiceRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "Resource": {
@@ -5104,7 +5350,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "DefaultPolicy": {
@@ -5178,19 +5424,19 @@
                                 },
                                 "constructInfo": {
                                   "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                                  "version": "2.90.0"
+                                  "version": "2.177.0"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.Policy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Role",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Code": {
@@ -5202,7 +5448,7 @@
                             "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "AssetBucket": {
@@ -5210,13 +5456,13 @@
                             "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
@@ -5229,7 +5475,7 @@
                               "s3Bucket": {
                                 "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                               },
-                              "s3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip"
+                              "s3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip"
                             },
                             "description": "AWS CDK resource provider framework - onTimeout (RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider)",
                             "environment": {
@@ -5255,13 +5501,21 @@
                                 "Arn"
                               ]
                             },
-                            "runtime": "nodejs18.x",
+                            "runtime": {
+                              "Fn::FindInMap": [
+                                "LatestNodeRuntimeMap",
+                                {
+                                  "Ref": "AWS::Region"
+                                },
+                                "value"
+                              ]
+                            },
                             "timeout": 900
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogRetention": {
@@ -5273,13 +5527,13 @@
                             "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/LogRetention/Resource",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "LogGroup": {
@@ -5287,13 +5541,13 @@
                         "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/framework-onTimeout/LogGroup",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_lambda.Function",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "waiter-state-machine": {
@@ -5309,7 +5563,7 @@
                             "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/Role/ImportRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "Resource": {
@@ -5334,7 +5588,7 @@
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           },
                           "DefaultPolicy": {
@@ -5394,6 +5648,22 @@
                                               ]
                                             }
                                           ]
+                                        },
+                                        {
+                                          "Action": [
+                                            "logs:CreateLogDelivery",
+                                            "logs:CreateLogStream",
+                                            "logs:DeleteLogDelivery",
+                                            "logs:DescribeLogGroups",
+                                            "logs:DescribeResourcePolicies",
+                                            "logs:GetLogDelivery",
+                                            "logs:ListLogDeliveries",
+                                            "logs:PutLogEvents",
+                                            "logs:PutResourcePolicy",
+                                            "logs:UpdateLogDelivery"
+                                          ],
+                                          "Effect": "Allow",
+                                          "Resource": "*"
                                         }
                                       ],
                                       "Version": "2012-10-17"
@@ -5408,45 +5678,130 @@
                                 },
                                 "constructInfo": {
                                   "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                                  "version": "2.90.0"
+                                  "version": "2.177.0"
                                 }
                               }
                             },
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_iam.Policy",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.Role",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
+                        }
+                      },
+                      "LogGroup": {
+                        "id": "LogGroup",
+                        "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/LogGroup",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/LogGroup/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                              "aws:cdk:cloudformation:props": {
+                                "logGroupName": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "/aws/vendedlogs/states/waiter-state-machine-",
+                                      {
+                                        "Ref": "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146"
+                                      },
+                                      "-c835847d33488db0e9cc733c354fb0ac44503af5c9"
+                                    ]
+                                  ]
+                                },
+                                "retentionInDays": 731
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                              "version": "2.177.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                          "version": "2.177.0"
                         }
                       },
                       "Resource": {
                         "id": "Resource",
                         "path": "RootmailIntegTestStack/rootmail.ses-receipt-ruleset-activation-provider/ses-receipt-ruleset-activation-provider/waiter-state-machine/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::StepFunctions::StateMachine",
+                          "aws:cdk:cloudformation:props": {
+                            "definitionString": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "{\"StartAt\":\"framework-isComplete-task\",\"States\":{\"framework-isComplete-task\":{\"End\":true,\"Retry\":[{\"ErrorEquals\":[\"States.ALL\"],\"IntervalSeconds\":10,\"MaxAttempts\":12,\"BackoffRate\":1}],\"Catch\":[{\"ErrorEquals\":[\"States.ALL\"],\"Next\":\"framework-onTimeout-task\"}],\"Type\":\"Task\",\"Resource\":\"",
+                                  {
+                                    "Fn::GetAtt": [
+                                      "rootmailsesreceiptrulesetactivationproviderframeworkisComplete17519146",
+                                      "Arn"
+                                    ]
+                                  },
+                                  "\"},\"framework-onTimeout-task\":{\"End\":true,\"Type\":\"Task\",\"Resource\":\"",
+                                  {
+                                    "Fn::GetAtt": [
+                                      "rootmailsesreceiptrulesetactivationproviderframeworkonTimeout85CF91B9",
+                                      "Arn"
+                                    ]
+                                  },
+                                  "\"}}}"
+                                ]
+                              ]
+                            },
+                            "loggingConfiguration": {
+                              "destinations": [
+                                {
+                                  "cloudWatchLogsLogGroup": {
+                                    "logGroupArn": {
+                                      "Fn::GetAtt": [
+                                        "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineLogGroup91D50937",
+                                        "Arn"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "includeExecutionData": false,
+                              "level": "ERROR"
+                            },
+                            "roleArn": {
+                              "Fn::GetAtt": [
+                                "rootmailsesreceiptrulesetactivationproviderwaiterstatemachineRole069EB2EA",
+                                "Arn"
+                              ]
+                            }
+                          }
+                        },
                         "constructInfo": {
-                          "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "fqn": "aws-cdk-lib.aws_stepfunctions.CfnStateMachine",
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
-                      "fqn": "constructs.Construct",
-                      "version": "10.0.5"
+                      "fqn": "aws-cdk-lib.custom_resources.WaiterStateMachine",
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.custom_resources.Provider",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "constructs.Construct",
-              "version": "10.0.5"
+              "version": "10.4.2"
             }
           },
           "send-email-handler": {
@@ -5462,7 +5817,7 @@
                     "path": "RootmailIntegTestStack/send-email-handler/ServiceRole/ImportServiceRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Resource": {
@@ -5501,7 +5856,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "DefaultPolicy": {
@@ -5537,19 +5892,19 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Policy",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_iam.Role",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "Code": {
@@ -5561,7 +5916,7 @@
                     "path": "RootmailIntegTestStack/send-email-handler/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "AssetBucket": {
@@ -5569,13 +5924,13 @@
                     "path": "RootmailIntegTestStack/send-email-handler/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "Resource": {
@@ -5588,12 +5943,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "d2b520d86fd9d964c83dc0d5ce2e4456dbde5fa7ae0c791a71865cbdfe2fb855.zip"
-                    },
-                    "environment": {
-                      "variables": {
-                        "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
-                      }
+                      "s3Key": "2b86f8b255c50c6eba274c368849bab1c7a3747c30ef5df4c96f8dea8fffa21e.zip"
                     },
                     "handler": "index.handler",
                     "role": {
@@ -5608,7 +5958,7 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "LogRetention": {
@@ -5620,13 +5970,13 @@
                     "path": "RootmailIntegTestStack/send-email-handler/LogRetention/Resource",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnResource",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "LogGroup": {
@@ -5634,13 +5984,13 @@
                 "path": "RootmailIntegTestStack/send-email-handler/LogGroup",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
-              "version": "2.90.0"
+              "version": "2.177.0"
             }
           },
           "close-opsitem-handler": {
@@ -5656,7 +6006,7 @@
                     "path": "RootmailIntegTestStack/close-opsitem-handler/ServiceRole/ImportServiceRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "Resource": {
@@ -5695,7 +6045,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "DefaultPolicy": {
@@ -5731,19 +6081,19 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Policy",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_iam.Role",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "Code": {
@@ -5755,7 +6105,7 @@
                     "path": "RootmailIntegTestStack/close-opsitem-handler/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "AssetBucket": {
@@ -5763,13 +6113,13 @@
                     "path": "RootmailIntegTestStack/close-opsitem-handler/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "Resource": {
@@ -5782,12 +6132,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "070f758ea9c89b8ceea9bb5141ea511633e1d72ab992b608da4efb3d6eeb2ba5.zip"
-                    },
-                    "environment": {
-                      "variables": {
-                        "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
-                      }
+                      "s3Key": "6ae1d1fcc0e69b0216c406dcb73136e88857dfc9a29784c57838e1fb0f9f7496.zip"
                     },
                     "handler": "index.handler",
                     "role": {
@@ -5802,7 +6147,7 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "LogRetention": {
@@ -5814,13 +6159,13 @@
                     "path": "RootmailIntegTestStack/close-opsitem-handler/LogRetention/Resource",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnResource",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_logs.LogRetention",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "LogGroup": {
@@ -5828,13 +6173,13 @@
                 "path": "RootmailIntegTestStack/close-opsitem-handler/LogGroup",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
-              "version": "2.90.0"
+              "version": "2.177.0"
             }
           },
           "Exports": {
@@ -5846,7 +6191,7 @@
                 "path": "RootmailIntegTestStack/Exports/Output{\"Ref\":\"sendemailhandler05B16DE5\"}",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnOutput",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               },
               "Output{\"Ref\":\"closeopsitemhandler2F03D32C\"}": {
@@ -5854,13 +6199,13 @@
                 "path": "RootmailIntegTestStack/Exports/Output{\"Ref\":\"closeopsitemhandler2F03D32C\"}",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnOutput",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "constructs.Construct",
-              "version": "10.0.5"
+              "version": "10.4.2"
             }
           },
           "BootstrapVersion": {
@@ -5868,7 +6213,7 @@
             "path": "RootmailIntegTestStack/BootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnParameter",
-              "version": "2.90.0"
+              "version": "2.177.0"
             }
           },
           "CheckBootstrapVersion": {
@@ -5876,13 +6221,13 @@
             "path": "RootmailIntegTestStack/CheckBootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnRule",
-              "version": "2.90.0"
+              "version": "2.177.0"
             }
           }
         },
         "constructInfo": {
           "fqn": "aws-cdk-lib.Stack",
-          "version": "2.90.0"
+          "version": "2.177.0"
         }
       },
       "SetupTestIntegStack": {
@@ -5898,7 +6243,7 @@
                 "path": "SetupTestIntegStack/DefaultTest/Default",
                 "constructInfo": {
                   "fqn": "constructs.Construct",
-                  "version": "10.0.5"
+                  "version": "10.4.2"
                 }
               },
               "DeployAssert": {
@@ -5918,13 +6263,13 @@
                             "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1/SdkProvider/AssertionsProvider",
                             "constructInfo": {
                               "fqn": "constructs.Construct",
-                              "version": "10.0.5"
+                              "version": "10.4.2"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
-                          "version": "2.90.0-alpha.0"
+                          "version": "2.177.0-alpha.0"
                         }
                       },
                       "Default": {
@@ -5936,13 +6281,13 @@
                             "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1/Default/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CustomResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Invoke": {
@@ -5950,7 +6295,7 @@
                         "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1/Invoke",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "AssertionResults": {
@@ -5958,13 +6303,13 @@
                         "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke683c845d9bea165a967a76b79d7da1c1/AssertionResults",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnOutput",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "@aws-cdk/integ-tests-alpha.LambdaInvokeFunction",
-                      "version": "2.90.0-alpha.0"
+                      "version": "2.177.0-alpha.0"
                     }
                   },
                   "SingletonFunction1488541a7b23466481b69b4408076b81": {
@@ -5976,7 +6321,7 @@
                         "path": "SetupTestIntegStack/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Staging",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.AssetStaging",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Role": {
@@ -5984,7 +6329,7 @@
                         "path": "SetupTestIntegStack/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Handler": {
@@ -5992,13 +6337,21 @@
                         "path": "SetupTestIntegStack/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Handler",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "constructs.Construct",
-                      "version": "10.0.5"
+                      "version": "10.4.2"
+                    }
+                  },
+                  "LatestNodeRuntimeMap": {
+                    "id": "LatestNodeRuntimeMap",
+                    "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LatestNodeRuntimeMap",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnMapping",
+                      "version": "2.177.0"
                     }
                   },
                   "LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72": {
@@ -6014,13 +6367,13 @@
                             "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72/SdkProvider/AssertionsProvider",
                             "constructInfo": {
                               "fqn": "constructs.Construct",
-                              "version": "10.0.5"
+                              "version": "10.4.2"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
-                          "version": "2.90.0-alpha.0"
+                          "version": "2.177.0-alpha.0"
                         }
                       },
                       "Default": {
@@ -6032,13 +6385,13 @@
                             "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72/Default/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CustomResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "Invoke": {
@@ -6046,7 +6399,7 @@
                         "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72/Invoke",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "AssertionResults": {
@@ -6054,13 +6407,13 @@
                         "path": "SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvokeb52657067e4b5f63c2c8dd056d68bf72/AssertionResults",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnOutput",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "@aws-cdk/integ-tests-alpha.LambdaInvokeFunction",
-                      "version": "2.90.0-alpha.0"
+                      "version": "2.177.0-alpha.0"
                     }
                   },
                   "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b": {
@@ -6076,13 +6429,13 @@
                             "path": "SetupTestIntegStack/DefaultTest/DeployAssert/AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b/SdkProvider/AssertionsProvider",
                             "constructInfo": {
                               "fqn": "constructs.Construct",
-                              "version": "10.0.5"
+                              "version": "10.4.2"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
-                          "version": "2.90.0-alpha.0"
+                          "version": "2.177.0-alpha.0"
                         }
                       },
                       "Default": {
@@ -6094,13 +6447,13 @@
                             "path": "SetupTestIntegStack/DefaultTest/DeployAssert/AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b/Default/Default",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
-                              "version": "2.90.0"
+                              "version": "2.177.0"
                             }
                           }
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CustomResource",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       },
                       "AssertionResults": {
@@ -6108,13 +6461,13 @@
                         "path": "SetupTestIntegStack/DefaultTest/DeployAssert/AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b/AssertionResults",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnOutput",
-                          "version": "2.90.0"
+                          "version": "2.177.0"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "@aws-cdk/integ-tests-alpha.AwsApiCall",
-                      "version": "2.90.0-alpha.0"
+                      "version": "2.177.0-alpha.0"
                     }
                   },
                   "BootstrapVersion": {
@@ -6122,7 +6475,7 @@
                     "path": "SetupTestIntegStack/DefaultTest/DeployAssert/BootstrapVersion",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   },
                   "CheckBootstrapVersion": {
@@ -6130,25 +6483,25 @@
                     "path": "SetupTestIntegStack/DefaultTest/DeployAssert/CheckBootstrapVersion",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnRule",
-                      "version": "2.90.0"
+                      "version": "2.177.0"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Stack",
-                  "version": "2.90.0"
+                  "version": "2.177.0"
                 }
               }
             },
             "constructInfo": {
               "fqn": "@aws-cdk/integ-tests-alpha.IntegTestCase",
-              "version": "2.90.0-alpha.0"
+              "version": "2.177.0-alpha.0"
             }
           }
         },
         "constructInfo": {
           "fqn": "@aws-cdk/integ-tests-alpha.IntegTest",
-          "version": "2.90.0-alpha.0"
+          "version": "2.177.0-alpha.0"
         }
       },
       "Tree": {
@@ -6156,13 +6509,13 @@
         "path": "Tree",
         "constructInfo": {
           "fqn": "constructs.Construct",
-          "version": "10.0.5"
+          "version": "10.4.2"
         }
       }
     },
     "constructInfo": {
       "fqn": "aws-cdk-lib.App",
-      "version": "2.90.0"
+      "version": "2.177.0"
     }
   }
 }
