@@ -4,10 +4,10 @@ import { NpmAccess } from 'projen/lib/javascript';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Manuel Vogel',
-  authorAddress: 'mavogel@posteo.de',
-  cdkVersion: '2.90.0',
+  authorAddress: '8409778+mavogel@users.noreply.github.com',
+  cdkVersion: '2.177.0',
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.5.0',
+  jsiiVersion: '~5.7.0',
   name: '@mavogel/awscdk-rootmail',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/MV-Consulting/awscdk-rootmail',
