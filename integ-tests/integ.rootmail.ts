@@ -71,11 +71,6 @@ const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler'
       resources: ['*'],
     }),
   ],
-  bundling: {
-    esbuildArgs: {
-      "--packages": "bundle",
-    },
-  },
 });
 
 const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-handler', {
@@ -93,11 +88,6 @@ const closeOpsItemHandler = new NodejsFunction(stackUnderTest, 'close-opsitem-ha
       resources: ['*'],
     }),
   ],
-  bundling: {
-    esbuildArgs: {
-      "--packages": "bundle",
-    },
-  },
 });
 
 /**
@@ -111,7 +101,7 @@ const sendTestEmailAssertion = integ.assertions
   .invokeFunction({
     functionName: sendEmailHandler.functionName,
     logType: LogType.TAIL,
-    invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
+    invocationType: InvocationType.REQUEST_RESPONSE, // to run it synchronously
     payload: JSON.stringify({
       id: id,
       text: message,

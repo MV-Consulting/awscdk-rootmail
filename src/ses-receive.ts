@@ -159,11 +159,6 @@ export class SESReceive extends Construct {
           EMAIL_BUCKET_ARN: props.emailbucket.bucketArn,
           ROOTMAIL_DEPLOY_REGION: Stack.of(this).region,
         },
-        bundling: {
-          esbuildArgs: {
-            '--packages': 'bundle',
-          },
-        },
       });
     }
     // will be added in both ways

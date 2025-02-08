@@ -56,11 +56,6 @@ class HostedZoneDKIMPropagationProvider extends Construct {
       runtime: lambda.Runtime.NODEJS_18_X,
       logRetention: 1,
       timeout: Duration.seconds(30),
-      bundling: {
-        esbuildArgs: {
-          '--packages': 'bundle',
-        },
-      },
     });
 
     isCompleteHandlerFunc.addToRolePolicy(
@@ -80,11 +75,6 @@ class HostedZoneDKIMPropagationProvider extends Construct {
       runtime: lambda.Runtime.NODEJS_18_X,
       logRetention: 1,
       timeout: Duration.seconds(10),
-      bundling: {
-        esbuildArgs: {
-          '--packages': 'bundle',
-        },
-      },
     });
 
     this.provider = new cr.Provider(this, 'hosted-zone-dkim-propagation-provider', {

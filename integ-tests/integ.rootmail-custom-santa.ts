@@ -30,11 +30,6 @@ const customSesReceiveFunction = new NodejsFunction(stackUnderTest, 'custom-ses-
   runtime: lambda.Runtime.NODEJS_18_X,
   logRetention: 1,
   timeout: Duration.seconds(30),
-  bundling: {
-    esbuildArgs: {
-      "--packages": "bundle",
-    },
-  },
 });
 
 customSesReceiveFunction.addToRolePolicy(new iam.PolicyStatement({
@@ -92,11 +87,6 @@ const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler'
       resources: ['*'],
     }),
   ],
-  bundling: {
-    esbuildArgs: {
-      "--packages": "bundle",
-    },
-  },
 });
 
 /**
@@ -110,7 +100,7 @@ const sendTestEmailAssertion = integ.assertions
   .invokeFunction({
     functionName: sendEmailHandler.functionName,
     logType: LogType.TAIL,
-    invocationType: InvocationType.REQUEST_RESPONE, // to run it synchronously
+    invocationType: InvocationType.REQUEST_RESPONSE, // to run it synchronously
     payload: JSON.stringify({
       id: id,
       text: message,
