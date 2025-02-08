@@ -2,12 +2,12 @@
   "dependencies": [
     {
       "name": "@aws-cdk/integ-runner",
-      "version": "^2.90.0-alpha.0",
+      "version": "^2.177.0-alpha.0",
       "type": "build"
     },
     {
       "name": "@aws-cdk/integ-tests-alpha",
-      "version": "^2.90.0-alpha.0",
+      "version": "^2.177.0-alpha.0",
       "type": "build"
     },
     {
@@ -97,7 +97,7 @@
     },
     {
       "name": "jest-junit",
-      "version": "^15",
+      "version": "^16",
       "type": "build"
     },
     {
