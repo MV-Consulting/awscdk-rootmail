@@ -97,7 +97,7 @@ var handler = async (event) => {
       log({
         message: "opsItem undefined"
       });
-      return { closeStatusCode: 500 };
+      return "NOK";
     }
     log({
       message: "Got opsItem",
@@ -114,7 +114,7 @@ var handler = async (event) => {
         expected: `title: '${title}', source: '${source}', description: '${description}'`,
         got: `title: '${opsItemTitle}', source: '${opsItemSource}', description: '${opsItemDescription}'`
       });
-      return { closeStatusCode: 500 };
+      return "NOK";
     }
     const resUpdate = await ssm.updateOpsItem({
       OpsItemId: opsItemId,
@@ -126,7 +126,7 @@ var handler = async (event) => {
         title,
         err: `httpStatusCode: ${resUpdate.$metadata.httpStatusCode}`
       });
-      return { closeStatusCode: 500, err: resUpdate.$metadata.httpStatusCode };
+      return "NOK";
     }
     log({
       message: "Updated opsItem",
@@ -134,13 +134,13 @@ var handler = async (event) => {
       id: opsItemId,
       res: resUpdate
     });
-    return { closeStatusCode: 200 };
+    return "OK";
   } catch (err) {
     log({
       message: "Error (catch) getting and closing opsItem",
       err
     });
-    return { closeStatusCode: 500, err };
+    return "NOK";
   }
 };
 function log(msg) {
