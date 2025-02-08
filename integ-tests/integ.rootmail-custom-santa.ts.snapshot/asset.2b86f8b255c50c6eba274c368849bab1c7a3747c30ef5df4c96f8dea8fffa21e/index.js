@@ -60,20 +60,20 @@ var handler = async (event) => {
         messageId: res.MessageId,
         err: `httpStatusCode: ${res.$metadata.httpStatusCode}`
       });
-      return { sendStatusCode: 500, err: res.$metadata.httpStatusCode };
+      return "NOK";
     }
     log({
       message: "Email sent",
       params,
       res
     });
-    return { sendStatusCode: 200 };
+    return "OK";
   } catch (err) {
     log({
       message: "Error (catch) sending email",
       err
     });
-    return { sendStatusCode: 500, err };
+    return "NOK";
   }
 };
 function log(msg) {

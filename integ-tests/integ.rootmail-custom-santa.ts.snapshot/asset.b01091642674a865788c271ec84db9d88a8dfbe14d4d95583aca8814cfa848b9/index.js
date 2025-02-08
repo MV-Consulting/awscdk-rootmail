@@ -29370,20 +29370,22 @@ var require_stringify = __commonJS({
       return mod && mod.__esModule ? mod : { "default": mod };
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.innerText = exports2.textContent = exports2.getText = exports2.getInnerHTML = exports2.getOuterHTML = void 0;
+    exports2.getOuterHTML = getOuterHTML;
+    exports2.getInnerHTML = getInnerHTML;
+    exports2.getText = getText;
+    exports2.textContent = textContent;
+    exports2.innerText = innerText;
     var domhandler_1 = require_lib3();
     var dom_serializer_1 = __importDefault(require_lib5());
     var domelementtype_1 = require_lib2();
     function getOuterHTML(node, options) {
       return (0, dom_serializer_1.default)(node, options);
     }
-    exports2.getOuterHTML = getOuterHTML;
     function getInnerHTML(node, options) {
       return (0, domhandler_1.hasChildren)(node) ? node.children.map(function(node2) {
         return getOuterHTML(node2, options);
       }).join("") : "";
     }
-    exports2.getInnerHTML = getInnerHTML;
     function getText(node) {
       if (Array.isArray(node))
         return node.map(getText).join("");
@@ -29395,7 +29397,6 @@ var require_stringify = __commonJS({
         return node.data;
       return "";
     }
-    exports2.getText = getText;
     function textContent(node) {
       if (Array.isArray(node))
         return node.map(textContent).join("");
@@ -29406,7 +29407,6 @@ var require_stringify = __commonJS({
         return node.data;
       return "";
     }
-    exports2.textContent = textContent;
     function innerText(node) {
       if (Array.isArray(node))
         return node.map(innerText).join("");
@@ -29417,7 +29417,6 @@ var require_stringify = __commonJS({
         return node.data;
       return "";
     }
-    exports2.innerText = innerText;
   }
 });
 
@@ -29426,16 +29425,21 @@ var require_traversal = __commonJS({
   "node_modules/domutils/lib/traversal.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.prevElementSibling = exports2.nextElementSibling = exports2.getName = exports2.hasAttrib = exports2.getAttributeValue = exports2.getSiblings = exports2.getParent = exports2.getChildren = void 0;
+    exports2.getChildren = getChildren;
+    exports2.getParent = getParent;
+    exports2.getSiblings = getSiblings;
+    exports2.getAttributeValue = getAttributeValue;
+    exports2.hasAttrib = hasAttrib;
+    exports2.getName = getName;
+    exports2.nextElementSibling = nextElementSibling;
+    exports2.prevElementSibling = prevElementSibling;
     var domhandler_1 = require_lib3();
     function getChildren(elem) {
       return (0, domhandler_1.hasChildren)(elem) ? elem.children : [];
     }
-    exports2.getChildren = getChildren;
     function getParent(elem) {
       return elem.parent || null;
     }
-    exports2.getParent = getParent;
     function getSiblings(elem) {
       var _a, _b;
       var parent = getParent(elem);
@@ -29453,20 +29457,16 @@ var require_traversal = __commonJS({
       }
       return siblings;
     }
-    exports2.getSiblings = getSiblings;
     function getAttributeValue(elem, name) {
       var _a;
       return (_a = elem.attribs) === null || _a === void 0 ? void 0 : _a[name];
     }
-    exports2.getAttributeValue = getAttributeValue;
     function hasAttrib(elem, name) {
       return elem.attribs != null && Object.prototype.hasOwnProperty.call(elem.attribs, name) && elem.attribs[name] != null;
     }
-    exports2.hasAttrib = hasAttrib;
     function getName(elem) {
       return elem.name;
     }
-    exports2.getName = getName;
     function nextElementSibling(elem) {
       var _a;
       var next = elem.next;
@@ -29474,7 +29474,6 @@ var require_traversal = __commonJS({
         _a = next, next = _a.next;
       return next;
     }
-    exports2.nextElementSibling = nextElementSibling;
     function prevElementSibling(elem) {
       var _a;
       var prev = elem.prev;
@@ -29482,7 +29481,6 @@ var require_traversal = __commonJS({
         _a = prev, prev = _a.prev;
       return prev;
     }
-    exports2.prevElementSibling = prevElementSibling;
   }
 });
 
@@ -29491,7 +29489,12 @@ var require_manipulation = __commonJS({
   "node_modules/domutils/lib/manipulation.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.prepend = exports2.prependChild = exports2.append = exports2.appendChild = exports2.replaceElement = exports2.removeElement = void 0;
+    exports2.removeElement = removeElement;
+    exports2.replaceElement = replaceElement;
+    exports2.appendChild = appendChild;
+    exports2.append = append;
+    exports2.prependChild = prependChild;
+    exports2.prepend = prepend;
     function removeElement(elem) {
       if (elem.prev)
         elem.prev.next = elem.next;
@@ -29508,7 +29511,6 @@ var require_manipulation = __commonJS({
       elem.prev = null;
       elem.parent = null;
     }
-    exports2.removeElement = removeElement;
     function replaceElement(elem, replacement) {
       var prev = replacement.prev = elem.prev;
       if (prev) {
@@ -29525,7 +29527,6 @@ var require_manipulation = __commonJS({
         elem.parent = null;
       }
     }
-    exports2.replaceElement = replaceElement;
     function appendChild(parent, child) {
       removeElement(child);
       child.next = null;
@@ -29538,7 +29539,6 @@ var require_manipulation = __commonJS({
         child.prev = null;
       }
     }
-    exports2.appendChild = appendChild;
     function append(elem, next) {
       removeElement(next);
       var parent = elem.parent;
@@ -29557,7 +29557,6 @@ var require_manipulation = __commonJS({
         parent.children.push(next);
       }
     }
-    exports2.append = append;
     function prependChild(parent, child) {
       removeElement(child);
       child.parent = parent;
@@ -29570,7 +29569,6 @@ var require_manipulation = __commonJS({
         child.next = null;
       }
     }
-    exports2.prependChild = prependChild;
     function prepend(elem, prev) {
       removeElement(prev);
       var parent = elem.parent;
@@ -29586,7 +29584,6 @@ var require_manipulation = __commonJS({
       prev.next = elem;
       elem.prev = prev;
     }
-    exports2.prepend = prepend;
   }
 });
 
@@ -29595,7 +29592,12 @@ var require_querying = __commonJS({
   "node_modules/domutils/lib/querying.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.findAll = exports2.existsOne = exports2.findOne = exports2.findOneChild = exports2.find = exports2.filter = void 0;
+    exports2.filter = filter;
+    exports2.find = find;
+    exports2.findOneChild = findOneChild;
+    exports2.findOne = findOne;
+    exports2.existsOne = existsOne;
+    exports2.findAll = findAll;
     var domhandler_1 = require_lib3();
     function filter(test, node, recurse, limit) {
       if (recurse === void 0) {
@@ -29606,10 +29608,9 @@ var require_querying = __commonJS({
       }
       return find(test, Array.isArray(node) ? node : [node], recurse, limit);
     }
-    exports2.filter = filter;
     function find(test, nodes, recurse, limit) {
       var result = [];
-      var nodeStack = [nodes];
+      var nodeStack = [Array.isArray(nodes) ? nodes : [nodes]];
       var indexStack = [0];
       for (; ; ) {
         if (indexStack[0] >= nodeStack[0].length) {
@@ -29632,38 +29633,35 @@ var require_querying = __commonJS({
         }
       }
     }
-    exports2.find = find;
     function findOneChild(test, nodes) {
       return nodes.find(test);
     }
-    exports2.findOneChild = findOneChild;
     function findOne(test, nodes, recurse) {
       if (recurse === void 0) {
         recurse = true;
       }
-      var elem = null;
-      for (var i = 0; i < nodes.length && !elem; i++) {
-        var node = nodes[i];
-        if (!(0, domhandler_1.isTag)(node)) {
-          continue;
-        } else if (test(node)) {
-          elem = node;
-        } else if (recurse && node.children.length > 0) {
-          elem = findOne(test, node.children, true);
+      var searchedNodes = Array.isArray(nodes) ? nodes : [nodes];
+      for (var i = 0; i < searchedNodes.length; i++) {
+        var node = searchedNodes[i];
+        if ((0, domhandler_1.isTag)(node) && test(node)) {
+          return node;
+        }
+        if (recurse && (0, domhandler_1.hasChildren)(node) && node.children.length > 0) {
+          var found = findOne(test, node.children, true);
+          if (found)
+            return found;
         }
       }
-      return elem;
+      return null;
     }
-    exports2.findOne = findOne;
     function existsOne(test, nodes) {
-      return nodes.some(function(checked) {
-        return (0, domhandler_1.isTag)(checked) && (test(checked) || existsOne(test, checked.children));
+      return (Array.isArray(nodes) ? nodes : [nodes]).some(function(node) {
+        return (0, domhandler_1.isTag)(node) && test(node) || (0, domhandler_1.hasChildren)(node) && existsOne(test, node.children);
       });
     }
-    exports2.existsOne = existsOne;
     function findAll(test, nodes) {
       var result = [];
-      var nodeStack = [nodes];
+      var nodeStack = [Array.isArray(nodes) ? nodes : [nodes]];
       var indexStack = [0];
       for (; ; ) {
         if (indexStack[0] >= nodeStack[0].length) {
@@ -29675,17 +29673,14 @@ var require_querying = __commonJS({
           continue;
         }
         var elem = nodeStack[0][indexStack[0]++];
-        if (!(0, domhandler_1.isTag)(elem))
-          continue;
-        if (test(elem))
+        if ((0, domhandler_1.isTag)(elem) && test(elem))
           result.push(elem);
-        if (elem.children.length > 0) {
+        if ((0, domhandler_1.hasChildren)(elem) && elem.children.length > 0) {
           indexStack.unshift(0);
           nodeStack.unshift(elem.children);
         }
       }
     }
-    exports2.findAll = findAll;
   }
 });
 
@@ -29694,7 +29689,12 @@ var require_legacy = __commonJS({
   "node_modules/domutils/lib/legacy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.getElementsByTagType = exports2.getElementsByTagName = exports2.getElementById = exports2.getElements = exports2.testElement = void 0;
+    exports2.testElement = testElement;
+    exports2.getElements = getElements;
+    exports2.getElementById = getElementById;
+    exports2.getElementsByTagName = getElementsByTagName;
+    exports2.getElementsByClassName = getElementsByClassName;
+    exports2.getElementsByTagType = getElementsByTagType;
     var domhandler_1 = require_lib3();
     var querying_js_1 = require_querying();
     var Checks = {
@@ -29757,7 +29757,6 @@ var require_legacy = __commonJS({
       var test = compileTest(options);
       return test ? test(node) : true;
     }
-    exports2.testElement = testElement;
     function getElements(options, nodes, recurse, limit) {
       if (limit === void 0) {
         limit = Infinity;
@@ -29765,7 +29764,6 @@ var require_legacy = __commonJS({
       var test = compileTest(options);
       return test ? (0, querying_js_1.filter)(test, nodes, recurse, limit) : [];
     }
-    exports2.getElements = getElements;
     function getElementById(id, nodes, recurse) {
       if (recurse === void 0) {
         recurse = true;
@@ -29774,7 +29772,6 @@ var require_legacy = __commonJS({
         nodes = [nodes];
       return (0, querying_js_1.findOne)(getAttribCheck("id", id), nodes, recurse);
     }
-    exports2.getElementById = getElementById;
     function getElementsByTagName(tagName, nodes, recurse, limit) {
       if (recurse === void 0) {
         recurse = true;
@@ -29784,7 +29781,15 @@ var require_legacy = __commonJS({
       }
       return (0, querying_js_1.filter)(Checks["tag_name"](tagName), nodes, recurse, limit);
     }
-    exports2.getElementsByTagName = getElementsByTagName;
+    function getElementsByClassName(className, nodes, recurse, limit) {
+      if (recurse === void 0) {
+        recurse = true;
+      }
+      if (limit === void 0) {
+        limit = Infinity;
+      }
+      return (0, querying_js_1.filter)(getAttribCheck("class", className), nodes, recurse, limit);
+    }
     function getElementsByTagType(type, nodes, recurse, limit) {
       if (recurse === void 0) {
         recurse = true;
@@ -29794,7 +29799,6 @@ var require_legacy = __commonJS({
       }
       return (0, querying_js_1.filter)(Checks["tag_type"](type), nodes, recurse, limit);
     }
-    exports2.getElementsByTagType = getElementsByTagType;
   }
 });
 
@@ -29803,7 +29807,10 @@ var require_helpers = __commonJS({
   "node_modules/domutils/lib/helpers.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.uniqueSort = exports2.compareDocumentPosition = exports2.DocumentPosition = exports2.removeSubsets = void 0;
+    exports2.DocumentPosition = void 0;
+    exports2.removeSubsets = removeSubsets;
+    exports2.compareDocumentPosition = compareDocumentPosition;
+    exports2.uniqueSort = uniqueSort;
     var domhandler_1 = require_lib3();
     function removeSubsets(nodes) {
       var idx = nodes.length;
@@ -29822,7 +29829,6 @@ var require_helpers = __commonJS({
       }
       return nodes;
     }
-    exports2.removeSubsets = removeSubsets;
     var DocumentPosition;
     (function(DocumentPosition2) {
       DocumentPosition2[DocumentPosition2["DISCONNECTED"] = 1] = "DISCONNECTED";
@@ -29830,7 +29836,7 @@ var require_helpers = __commonJS({
       DocumentPosition2[DocumentPosition2["FOLLOWING"] = 4] = "FOLLOWING";
       DocumentPosition2[DocumentPosition2["CONTAINS"] = 8] = "CONTAINS";
       DocumentPosition2[DocumentPosition2["CONTAINED_BY"] = 16] = "CONTAINED_BY";
-    })(DocumentPosition = exports2.DocumentPosition || (exports2.DocumentPosition = {}));
+    })(DocumentPosition || (exports2.DocumentPosition = DocumentPosition = {}));
     function compareDocumentPosition(nodeA, nodeB) {
       var aParents = [];
       var bParents = [];
@@ -29870,7 +29876,6 @@ var require_helpers = __commonJS({
       }
       return DocumentPosition.PRECEDING;
     }
-    exports2.compareDocumentPosition = compareDocumentPosition;
     function uniqueSort(nodes) {
       nodes = nodes.filter(function(node, i, arr) {
         return !arr.includes(node, i + 1);
@@ -29886,7 +29891,6 @@ var require_helpers = __commonJS({
       });
       return nodes;
     }
-    exports2.uniqueSort = uniqueSort;
   }
 });
 
@@ -29895,14 +29899,13 @@ var require_feeds = __commonJS({
   "node_modules/domutils/lib/feeds.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.getFeed = void 0;
+    exports2.getFeed = getFeed;
     var stringify_js_1 = require_stringify();
     var legacy_js_1 = require_legacy();
     function getFeed(doc) {
       var feedRoot = getOneElement(isValidFeed, doc);
       return !feedRoot ? null : feedRoot.name === "feed" ? getAtomFeed(feedRoot) : getRssFeed(feedRoot);
     }
-    exports2.getFeed = getFeed;
     function getAtomFeed(feedRoot) {
       var _a;
       var childs = feedRoot.children;
