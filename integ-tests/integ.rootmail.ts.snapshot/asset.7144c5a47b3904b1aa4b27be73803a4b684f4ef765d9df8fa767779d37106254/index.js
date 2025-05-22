@@ -17,7 +17,7 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/ses-receipt-ruleset-activation.is-complete-handler.ts
+// asset-input/src/ses-receipt-ruleset-activation.is-complete-handler.ts
 var ses_receipt_ruleset_activation_is_complete_handler_exports = {};
 __export(ses_receipt_ruleset_activation_is_complete_handler_exports, {
   PROP_EMAILBUCKET_NAME: () => PROP_EMAILBUCKET_NAME,

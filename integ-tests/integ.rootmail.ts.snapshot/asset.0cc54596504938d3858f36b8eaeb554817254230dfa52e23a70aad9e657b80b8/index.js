@@ -17,7 +17,7 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// integ-tests/functions/send-email-handler.ts
+// asset-input/integ-tests/functions/send-email-handler.ts
 var send_email_handler_exports = {};
 __export(send_email_handler_exports, {
   handler: () => handler

@@ -17,7 +17,7 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/rootmail-autowire-dns.on-event-handler.ts
+// asset-input/src/rootmail-autowire-dns.on-event-handler.ts
 var rootmail_autowire_dns_on_event_handler_exports = {};
 __export(rootmail_autowire_dns_on_event_handler_exports, {
   PROP_DOMAIN: () => PROP_DOMAIN,

@@ -17,7 +17,7 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/hosted-zone-dkim-verification-records.on-event-handler.ts
+// asset-input/src/hosted-zone-dkim-verification-records.on-event-handler.ts
 var hosted_zone_dkim_verification_records_on_event_handler_exports = {};
 __export(hosted_zone_dkim_verification_records_on_event_handler_exports, {
   ATTR_DKIM_TOKENS: () => ATTR_DKIM_TOKENS,
@@ -54,8 +54,6 @@ async function handler(event) {
           [ATTR_DKIM_TOKENS]: dkimTokens
         }
       };
-    // TODO check if delete should do nothing: https://github.com/superwerker/superwerker/blob/main/templates/rootmail.yaml#L170
-    // we store in Parameter Store as well
     case "Delete":
       console.log(`Deleting Domain identity for domain '${domain}' with PhysicalResourceId '${event.PhysicalResourceId}'`);
       const deleteResponse = await ses.deleteIdentity({ Identity: domain });

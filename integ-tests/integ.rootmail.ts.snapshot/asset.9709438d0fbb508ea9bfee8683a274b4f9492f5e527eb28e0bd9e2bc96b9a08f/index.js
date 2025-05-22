@@ -17,7 +17,7 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/ses-receipt-ruleset-activation.on-event-handler.ts
+// asset-input/src/ses-receipt-ruleset-activation.on-event-handler.ts
 var ses_receipt_ruleset_activation_on_event_handler_exports = {};
 __export(ses_receipt_ruleset_activation_on_event_handler_exports, {
   FILTERED_EMAIL_SUBJECTS: () => FILTERED_EMAIL_SUBJECTS,

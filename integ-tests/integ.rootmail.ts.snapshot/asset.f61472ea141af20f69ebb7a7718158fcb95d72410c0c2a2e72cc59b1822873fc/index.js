@@ -17,7 +17,7 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/hosted-zone-dkim-propagation.is-complete-handler.ts
+// asset-input/src/hosted-zone-dkim-propagation.is-complete-handler.ts
 var hosted_zone_dkim_propagation_is_complete_handler_exports = {};
 __export(hosted_zone_dkim_propagation_is_complete_handler_exports, {
   PROP_DOMAIN: () => PROP_DOMAIN,
