@@ -158,6 +158,7 @@ export class SESReceive extends Construct {
           EMAIL_BUCKET: props.emailbucket.bucketName,
           EMAIL_BUCKET_ARN: props.emailbucket.bucketArn,
           ROOTMAIL_DEPLOY_REGION: Stack.of(this).region,
+          FILTERED_EMAIL_SUBJECTS: filteredEmailSubjects.join(','),
         },
       });
     }
