@@ -1468,6 +1468,7 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
                 "Arn",
               ],
             },
+            "FILTERED_EMAIL_SUBJECTS": "",
             "ROOTMAIL_DEPLOY_REGION": "eu-west-1",
           },
         },

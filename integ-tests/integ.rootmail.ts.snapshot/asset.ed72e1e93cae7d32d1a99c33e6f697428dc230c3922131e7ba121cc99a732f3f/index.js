@@ -17,7 +17,7 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// integ-tests/functions/close-opsitem-handler.ts
+// asset-input/integ-tests/functions/close-opsitem-handler.ts
 var close_opsitem_handler_exports = {};
 __export(close_opsitem_handler_exports, {
   handler: () => handler
