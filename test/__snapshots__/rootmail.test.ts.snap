@@ -654,16 +654,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailautowirednsprovideroneventhandler2ADE543F",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -688,16 +678,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -849,16 +829,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailautowirednsprovideroneventhandler2ADE543F",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -883,16 +853,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
-                  "Arn",
-                ],
-              },
             },
             {
               "Action": "states:StartExecution",
@@ -1138,16 +1098,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailautowirednsprovideroneventhandler2ADE543F",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -1172,16 +1122,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -1605,16 +1545,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimpropagationprovideroneventhandlerC59BDC16",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -1639,16 +1569,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimpropagationprovideriscompletehandlerB67C8E91",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -1845,16 +1765,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimpropagationprovideroneventhandlerC59BDC16",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -1879,16 +1789,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimpropagationprovideriscompletehandlerB67C8E91",
-                  "Arn",
-                ],
-              },
             },
             {
               "Action": "states:StartExecution",
@@ -2089,16 +1989,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimpropagationprovideroneventhandlerC59BDC16",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -2123,16 +2013,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimpropagationprovideriscompletehandlerB67C8E91",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -2824,16 +2704,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                 },
               ],
             },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimverificationrecordsprovideroneventhandlerADD3C0BE",
-                  "Arn",
-                ],
-              },
-            },
           ],
           "Version": "2012-10-17",
         },
@@ -3269,16 +3139,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -3303,16 +3163,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -3509,16 +3359,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -3543,16 +3383,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
-                  "Arn",
-                ],
-              },
             },
             {
               "Action": "states:StartExecution",
@@ -3753,16 +3583,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -3787,16 +3607,6 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -5521,16 +5331,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailautowirednsprovideroneventhandler2ADE543F",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -5555,16 +5355,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -5716,16 +5506,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailautowirednsprovideroneventhandler2ADE543F",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -5750,16 +5530,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
-                  "Arn",
-                ],
-              },
             },
             {
               "Action": "states:StartExecution",
@@ -6005,16 +5775,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailautowirednsprovideroneventhandler2ADE543F",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -6039,16 +5799,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailautowirednsprovideriscompletehandlerBFD3F7F5",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -6472,16 +6222,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimpropagationprovideroneventhandlerC59BDC16",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -6506,16 +6246,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimpropagationprovideriscompletehandlerB67C8E91",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -6712,16 +6442,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimpropagationprovideroneventhandlerC59BDC16",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -6746,16 +6466,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimpropagationprovideriscompletehandlerB67C8E91",
-                  "Arn",
-                ],
-              },
             },
             {
               "Action": "states:StartExecution",
@@ -6956,16 +6666,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimpropagationprovideroneventhandlerC59BDC16",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -6990,16 +6690,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimpropagationprovideriscompletehandlerB67C8E91",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -7691,16 +7381,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                 },
               ],
             },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailhostedzonedkimverificationrecordsprovideroneventhandlerADD3C0BE",
-                  "Arn",
-                ],
-              },
-            },
           ],
           "Version": "2012-10-17",
         },
@@ -8136,16 +7816,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -8170,16 +7840,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -8376,16 +8036,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -8410,16 +8060,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
-                  "Arn",
-                ],
-              },
             },
             {
               "Action": "states:StartExecution",
@@ -8620,16 +8260,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -8654,16 +8284,6 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",

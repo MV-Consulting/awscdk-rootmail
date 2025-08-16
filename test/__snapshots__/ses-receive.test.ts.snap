@@ -367,16 +367,6 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -401,16 +391,6 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -607,16 +587,6 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -641,16 +611,6 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
-                  "Arn",
-                ],
-              },
             },
             {
               "Action": "states:StartExecution",
@@ -851,16 +811,6 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -885,16 +835,6 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -2081,16 +2021,6 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -2115,16 +2045,6 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",
@@ -2321,16 +2241,6 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -2355,16 +2265,6 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
-                  "Arn",
-                ],
-              },
             },
             {
               "Action": "states:StartExecution",
@@ -2565,16 +2465,6 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
               ],
             },
             {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
-                  "Arn",
-                ],
-              },
-            },
-            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -2599,16 +2489,6 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
                   ],
                 },
               ],
-            },
-            {
-              "Action": "lambda:GetFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
-                  "Arn",
-                ],
-              },
             },
           ],
           "Version": "2012-10-17",

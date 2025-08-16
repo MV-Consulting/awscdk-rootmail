@@ -6,9 +6,9 @@ import { NpmAccess } from 'projen/lib/javascript';
 const project = new MvcCdkConstructLibrary({
   author: 'Manuel Vogel',
   authorAddress: '8409778+mavogel@users.noreply.github.com',
-  cdkVersion: '2.190.0',
+  cdkVersion: '2.177.0',
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.9.0',
+  jsiiVersion: '~5.7.0',
   name: '@mavogel/awscdk-rootmail',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/MV-Consulting/awscdk-rootmail',
