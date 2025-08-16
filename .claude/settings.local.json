@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude-context__index_codebase"
+    ],
+    "deny": []
+  }
+}
