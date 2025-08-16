@@ -22,9 +22,9 @@
     lru-cache "^10.4.3"
 
 "@aws-cdk/asset-awscli-v1@^2.2.208":
-  version "2.2.222"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-awscli-v1/-/asset-awscli-v1-2.2.222.tgz#a1f912b93a038b4779ed04d63afcf8df20cb50ed"
-  integrity sha512-9qjd91FwBYmxjfF3ckieTKrmmvIBZdSe1Daf/hRGxAPnhtH9Fm5Y3Oi0dJD2tRw0ufyM6AbvX9zgejcTqXc+LQ==
+  version "2.2.249"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-awscli-v1/-/asset-awscli-v1-2.2.249.tgz#75d67468bf3598470836a59453f13a785d7dc3fd"
+  integrity sha512-VtTIdYPJ8SPvafsuGRBloaMwiKRBd6rgS8QGyTmsOnKbK4dWL24MA9hVJx3f+MX7J51F9FukPmaFmP4iuMarkA==
 
 "@aws-cdk/asset-kubectl-v20@^2.1.3":
   version "2.1.4"
@@ -60,12 +60,12 @@
     semver "^7.6.3"
 
 "@aws-cdk/integ-runner@^2.177.0-alpha.0":
-  version "2.189.3"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/integ-runner/-/integ-runner-2.189.3.tgz#32de5247fd67d61f42ff10e9e3dd271597d143ee"
-  integrity sha512-s3mGPrOp8ZMeqAH82qi71nCUy+1tbdy0Zg1dTqZ7A8/cAV6EkENNAPYcwP7qvm1fHoBpIfcIMfAa/c4eli3FKw==
+  version "2.190.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/integ-runner/-/integ-runner-2.190.0.tgz#bbd8bb8bc4f5c0540ba479cf460f131afcd540c6"
+  integrity sha512-cP/1e9SfnFNJZoMQYDc4/xRueuNpOAT+iKTkjhxLzQ43RY3uruRnHPl4Chm5kSLZuLaERcYOTlXYZQYzR/fzxg==
   dependencies:
     "@aws-cdk/aws-service-spec" "0.1.90"
-    aws-cdk "2.1024.0"
+    aws-cdk "2.1025.0"
   optionalDependencies:
     fsevents "2.3.2"
 
@@ -3013,10 +3013,10 @@ aws-cdk-lib@2.177.0:
     table "^6.8.2"
     yaml "1.10.2"
 
-aws-cdk@2.1024.0:
-  version "2.1024.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1024.0.tgz#c4fac23fa577a1a6e2253e68fa7a8b07cb6816aa"
-  integrity sha512-hY0iVT2gPX/QOQXL7RSP2sqIRI/4BYU27vSmbhZxLEj//c3pkMkd9QpIHj7gOhyWC2gf6n5JuYPw27Dgw8FEdA==
+aws-cdk@2.1025.0:
+  version "2.1025.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1025.0.tgz#6887de917cc6ab3aaee121b919a68d40d31708e0"
+  integrity sha512-qKYM+RG5+U/UbGpjTt8ZaxBEfKJMPdOmtPtFNidsIGlrdIWSIFdNcFYi13zo33FkMk6ZFA6yBnjfDry3fNR+hQ==
   optionalDependencies:
     fsevents "2.3.2"
 
@@ -4563,9 +4563,9 @@ fs-extra@^10.1.0:
     universalify "^2.0.0"
 
 fs-extra@^11.2.0:
-  version "11.3.0"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-11.3.0.tgz#0daced136bbaf65a555a326719af931adc7a314d"
-  integrity sha512-Z4XaCL6dUDHfP/jT25jJKMmtxvuwbkrD1vNSMFlo9lNLY2c5FHYSQgHPRZUjAB26TpDEoW9HCOgplrdbaPV/ew==
+  version "11.3.1"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-11.3.1.tgz#ba7a1f97a85f94c6db2e52ff69570db3671d5a74"
+  integrity sha512-eXvGGwZ5CL17ZSwHWd3bbgk7UUpF6IFHtP57NYYakPvHOs8GDgDe5KJI36jIJzDkJ6eJjuzRA8eBQb6SkKue0g==
   dependencies:
     graceful-fs "^4.2.0"
     jsonfile "^6.0.1"
