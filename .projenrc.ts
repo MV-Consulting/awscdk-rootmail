@@ -57,7 +57,6 @@ const project = new MvcCdkConstructLibrary({
     'venv',
     'cdk.out',
     'tmp',
-    '.codegpt',
   ],
 });
 
