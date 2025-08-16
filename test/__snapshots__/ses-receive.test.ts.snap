@@ -367,6 +367,16 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
               ],
             },
             {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                  "Arn",
+                ],
+              },
+            },
+            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -391,6 +401,16 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
                   ],
                 },
               ],
+            },
+            {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                  "Arn",
+                ],
+              },
             },
           ],
           "Version": "2012-10-17",
@@ -587,6 +607,16 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
               ],
             },
             {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                  "Arn",
+                ],
+              },
+            },
+            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -611,6 +641,16 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
                   ],
                 },
               ],
+            },
+            {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                  "Arn",
+                ],
+              },
             },
             {
               "Action": "states:StartExecution",
@@ -811,6 +851,16 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
               ],
             },
             {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                  "Arn",
+                ],
+              },
+            },
+            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -835,6 +885,16 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
                   ],
                 },
               ],
+            },
+            {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                  "Arn",
+                ],
+              },
             },
           ],
           "Version": "2012-10-17",
@@ -870,7 +930,7 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
-          "S3Key": "7144c5a47b3904b1aa4b27be73803a4b684f4ef765d9df8fa767779d37106254.zip",
+          "S3Key": "78b64aaf9aebb4eacbdd42197be10e9d5894360a642f7dcf79aeb84bb3552377.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -1048,7 +1108,7 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
-          "S3Key": "9709438d0fbb508ea9bfee8683a274b4f9492f5e527eb28e0bd9e2bc96b9a08f.zip",
+          "S3Key": "be7d56b509650f7f97c406a745d8335992726086995e4cb4aaf50417ab40e803.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -1455,7 +1515,7 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
-          "S3Key": "2bbd4e1f4d70ce23b76880969041b64710a4cd536e0876d19c29227a13b694f6.zip",
+          "S3Key": "5eb70a2de190f4031cb420b6ac002e24623d99026350491c871f6ef829497f99.zip",
         },
         "Environment": {
           "Variables": {
@@ -1660,7 +1720,7 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
-          "S3Key": "5c9914db3c5f4b16c285e010c3bba316421b3c7e5b2bb7297f9e1adcf705add5.zip",
+          "S3Key": "581b070576cad6e48c533124eb441f87315391a3bbe0a82103f2772a1b501608.zip",
         },
         "Environment": {
           "Variables": {
@@ -2021,6 +2081,16 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
               ],
             },
             {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                  "Arn",
+                ],
+              },
+            },
+            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -2045,6 +2115,16 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
                   ],
                 },
               ],
+            },
+            {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                  "Arn",
+                ],
+              },
             },
           ],
           "Version": "2012-10-17",
@@ -2241,6 +2321,16 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
               ],
             },
             {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                  "Arn",
+                ],
+              },
+            },
+            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -2265,6 +2355,16 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
                   ],
                 },
               ],
+            },
+            {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                  "Arn",
+                ],
+              },
             },
             {
               "Action": "states:StartExecution",
@@ -2465,6 +2565,16 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
               ],
             },
             {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationprovideroneventhandler8E245877",
+                  "Arn",
+                ],
+              },
+            },
+            {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": [
@@ -2489,6 +2599,16 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
                   ],
                 },
               ],
+            },
+            {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "rootmailsesreceiptrulesetactivationprovideriscompletehandler676C1A14",
+                  "Arn",
+                ],
+              },
             },
           ],
           "Version": "2012-10-17",
@@ -2524,7 +2644,7 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
-          "S3Key": "7144c5a47b3904b1aa4b27be73803a4b684f4ef765d9df8fa767779d37106254.zip",
+          "S3Key": "78b64aaf9aebb4eacbdd42197be10e9d5894360a642f7dcf79aeb84bb3552377.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -2702,7 +2822,7 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
-          "S3Key": "9709438d0fbb508ea9bfee8683a274b4f9492f5e527eb28e0bd9e2bc96b9a08f.zip",
+          "S3Key": "be7d56b509650f7f97c406a745d8335992726086995e4cb4aaf50417ab40e803.zip",
         },
         "Handler": "index.handler",
         "Role": {
