@@ -45,6 +45,7 @@ new Rootmail(scope: Construct, id: string, props: RootmailProps)
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@mavogel/awscdk-rootmail.Rootmail.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@mavogel/awscdk-rootmail.Rootmail.with">with</a></code> | Applies one or more mixins to this construct. |
 
 ---
 
@@ -55,6 +56,27 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@mavogel/awscdk-rootmail.Rootmail.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@mavogel/awscdk-rootmail.Rootmail.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+The mixins to apply.
+
+---
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
@@ -186,6 +208,7 @@ new SESReceive(scope: Construct, id: string, props: SESReceiveProps)
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceive.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceive.with">with</a></code> | Applies one or more mixins to this construct. |
 
 ---
 
@@ -196,6 +219,27 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@mavogel/awscdk-rootmail.SESReceive.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@mavogel/awscdk-rootmail.SESReceive.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+The mixins to apply.
+
+---
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
