@@ -49,7 +49,7 @@ const project = new MvcCdkConstructLibrary({
     '@aws-cdk/integ-tests-alpha@^2.243.0-alpha.0',
     '@commitlint/cli',
     '@commitlint/config-conventional',
-    'cdk-assets',
+    'cdk-assets@^4.4.2',
     'husky',
     'jsonfile',
   ],
