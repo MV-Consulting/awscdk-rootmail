@@ -161,7 +161,7 @@ if (buildWorkflow) {
           name: 'Setup Node.js',
           uses: 'actions/setup-node@v4',
           with: {
-            'node-version': '20.x',
+            'node-version': '22.x',
           },
         },
         {
@@ -239,7 +239,7 @@ if (releaseWorkflow) {
           name: 'Setup Node.js',
           uses: 'actions/setup-node@v4',
           with: {
-            'node-version': '20.x',
+            'node-version': '22.x',
           },
         },
         // As in the other release jobs
