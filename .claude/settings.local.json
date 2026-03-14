@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "mcp__claude-context__index_codebase"
+      "mcp__claude-context__index_codebase",
+      "Bash(npm view:*)",
+      "Bash(yarn install:*)",
+      "Bash(npx projen:*)",
+      "Bash(npm run:*)"
     ],
     "deny": []
   }

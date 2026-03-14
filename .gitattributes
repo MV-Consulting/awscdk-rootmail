@@ -3,7 +3,7 @@
 * text=auto eol=lf
 *.snap linguist-generated
 /.commitlintrc.js linguist-generated
-/.eslintrc.json linguist-generated
+/.eslintrc.json linguist-generated linguist-language=JSON-with-Comments
 /.gitattributes linguist-generated
 /.github/dependabot.yml linguist-generated
 /.github/FUNDING.yaml linguist-generated
@@ -26,5 +26,5 @@
 /CONTRIBUTING.md linguist-generated
 /LICENSE linguist-generated
 /package.json linguist-generated
-/tsconfig.dev.json linguist-generated
+/tsconfig.dev.json linguist-generated linguist-language=JSON-with-Comments
 /yarn.lock linguist-generated

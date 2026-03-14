@@ -354,6 +354,8 @@ public readonly customSesReceiveFunction: Function;
 
 The custom SES receive function to use.
 
+[disable-awslint:ref-via-interface]
+
 ---
 
 ##### `emailBucketDeletePolicy`<sup>Optional</sup> <a name="emailBucketDeletePolicy" id="@mavogel/awscdk-rootmail.RootmailProps.property.emailBucketDeletePolicy"></a>
@@ -455,7 +457,7 @@ const sESReceiveProps: SESReceiveProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.domain">domain</a></code> | <code>string</code> | Domain used for root mail feature. |
-| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.emailbucket">emailbucket</a></code> | <code>aws-cdk-lib.aws_s3.Bucket</code> | S3 bucket to store received emails. |
+| <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.emailbucket">emailbucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | S3 bucket to store received emails. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.subdomain">subdomain</a></code> | <code>string</code> | Subdomain used for root mail feature. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.customSesReceiveFunction">customSesReceiveFunction</a></code> | <code>aws-cdk-lib.aws_lambda.Function</code> | The custom SES receive function to use. |
 | <code><a href="#@mavogel/awscdk-rootmail.SESReceiveProps.property.filteredEmailSubjects">filteredEmailSubjects</a></code> | <code>string[]</code> | Filtered email subjects. |
@@ -478,12 +480,14 @@ Domain used for root mail feature.
 ##### `emailbucket`<sup>Required</sup> <a name="emailbucket" id="@mavogel/awscdk-rootmail.SESReceiveProps.property.emailbucket"></a>
 
 ```typescript
-public readonly emailbucket: Bucket;
+public readonly emailbucket: IBucket;
 ```
 
-- *Type:* aws-cdk-lib.aws_s3.Bucket
+- *Type:* aws-cdk-lib.aws_s3.IBucket
 
 S3 bucket to store received emails.
+
+[disable-awslint:prefer-ref-interface]
 
 ---
 
@@ -509,6 +513,8 @@ public readonly customSesReceiveFunction: Function;
 - *Default:* the provided functions within the construct
 
 The custom SES receive function to use.
+
+[disable-awslint:ref-via-interface]
 
 ---
 

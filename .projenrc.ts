@@ -6,9 +6,9 @@ import { NpmAccess } from 'projen/lib/javascript';
 const project = new MvcCdkConstructLibrary({
   author: 'Manuel Vogel',
   authorAddress: '8409778+mavogel@users.noreply.github.com',
-  cdkVersion: '2.177.0',
+  cdkVersion: '2.243.0',
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.7.0',
+  jsiiVersion: '~5.9.0',
   name: '@mavogel/awscdk-rootmail',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/MV-Consulting/awscdk-rootmail',
@@ -45,11 +45,11 @@ const project = new MvcCdkConstructLibrary({
     '@types/jsonfile',
     '@types/mailparser',
     '@types/uuid',
-    '@aws-cdk/integ-runner@^2.177.0-alpha.0',
-    '@aws-cdk/integ-tests-alpha@^2.177.0-alpha.0',
+    '@aws-cdk/integ-runner@2.197.4',
+    '@aws-cdk/integ-tests-alpha@^2.243.0-alpha.0',
     '@commitlint/cli',
     '@commitlint/config-conventional',
-    'cdk-assets',
+    'cdk-assets@^4.4.2',
     'husky',
     'jsonfile',
   ],
@@ -161,7 +161,7 @@ if (buildWorkflow) {
           name: 'Setup Node.js',
           uses: 'actions/setup-node@v4',
           with: {
-            'node-version': '20.x',
+            'node-version': '22.x',
           },
         },
         {
@@ -239,7 +239,7 @@ if (releaseWorkflow) {
           name: 'Setup Node.js',
           uses: 'actions/setup-node@v4',
           with: {
-            'node-version': '20.x',
+            'node-version': '22.x',
           },
         },
         // As in the other release jobs
@@ -311,6 +311,7 @@ if (releaseWorkflow) {
   });
 }
 
+project.package.setScript('awslint', 'awslint -x prefer-ref-interface:aws-cdk-lib.*');
 project.package.setScript('synth', 'npx cdk synth -q');
 project.package.setScript('publish-assets', 'npx ts-node -P tsconfig.json --prefer-ts-exts src/scripts/publish-assets.ts');
 // END custom workflow

@@ -21,7 +21,7 @@ import {
 export interface SESReceiptRuleSetActivationProps {
   readonly domain: string;
   readonly subdomain: string;
-  readonly emailbucket: s3.Bucket;
+  readonly emailbucket: s3.IBucket;
   readonly opsSantaFunctionArn: string;
   readonly filteredEmailSubjects: string[];
 }
@@ -46,7 +46,7 @@ export class SESReceiptRuleSetActivation extends Construct {
 }
 
 interface SESReceiptRuleSetActivationProviderProps {
-  readonly emailbucket: s3.Bucket;
+  readonly emailbucket: s3.IBucket;
 }
 
 class SESReceiptRuleSetActivationProvider extends Construct {
