@@ -311,6 +311,7 @@ if (releaseWorkflow) {
   });
 }
 
+project.package.setScript('awslint', 'awslint -x prefer-ref-interface:aws-cdk-lib.*');
 project.package.setScript('synth', 'npx cdk synth -q');
 project.package.setScript('publish-assets', 'npx ts-node -P tsconfig.json --prefer-ts-exts src/scripts/publish-assets.ts');
 // END custom workflow

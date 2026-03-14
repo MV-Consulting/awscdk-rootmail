@@ -33,11 +33,15 @@ export interface SESReceiveProps {
 
   /**
    * S3 bucket to store received emails
+   *
+   * [disable-awslint:prefer-ref-interface]
    */
-  readonly emailbucket: s3.Bucket;
+  readonly emailbucket: s3.IBucket;
 
   /**
    * The custom SES receive function to use
+   *
+   * [disable-awslint:ref-via-interface]
    *
    * @default the provided functions within the construct
    */

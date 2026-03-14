@@ -51,6 +51,8 @@ export interface RootmailProps {
   /**
    * The custom SES receive function to use
    *
+   * [disable-awslint:ref-via-interface]
+   *
    * @default the provided functions within the construct
    */
   readonly customSesReceiveFunction?: lambda.Function;
