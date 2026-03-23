@@ -1461,7 +1461,7 @@ exports[`ses-receive-stack ses-receive-stack-create 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
-          "S3Key": "347089597c39aff3b6086997e36b49aaaf9be7d79cfd4e2a5965ee2683ff2019.zip",
+          "S3Key": "4671c1366d1c65d5f25c13f6706bac5d97f6b185ab9b0b577d49c097f62c5e41.zip",
         },
         "Environment": {
           "Variables": {
@@ -1666,7 +1666,7 @@ exports[`ses-receive-stack ses-receive-stack-custom-ses 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-eu-west-1",
-          "S3Key": "d8e1ef1992b47c4fde659758d248848cab7069f8dcc1e4901fcc0c8e45b5a941.zip",
+          "S3Key": "d86346e73e59ae8cd59cfb0b6ed39331884836a96b058b2f9d414552b7b40b11.zip",
         },
         "Environment": {
           "Variables": {
