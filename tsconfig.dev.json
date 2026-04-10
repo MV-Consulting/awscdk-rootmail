@@ -25,9 +25,7 @@
     "stripInternal": true,
     "target": "ES2020",
     "types": [
-      "async-retry",
       "aws-lambda",
-      "axios",
       "jest",
       "jsonfile",
       "mailparser",
