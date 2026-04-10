@@ -5,7 +5,8 @@
       "Bash(npm view:*)",
       "Bash(yarn install:*)",
       "Bash(npx projen:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(npm install:*)"
     ],
     "deny": []
   }

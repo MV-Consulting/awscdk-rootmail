@@ -13,7 +13,7 @@ const project = new MvcCdkConstructLibrary({
   projenrcTs: true,
   repositoryUrl: 'https://github.com/MV-Consulting/awscdk-rootmail',
   npmAccess: NpmAccess.PUBLIC, /* The npm access level to use when releasing this module. */
-  packageManager: javascript.NodePackageManager.YARN_CLASSIC,
+  packageManager: javascript.NodePackageManager.NPM,
   keywords: ['aws', 'cdk', 'ses', 'construct', 'rootmail'],
   tsconfig: {
     compilerOptions: {
@@ -90,13 +90,13 @@ const prodS3FileAssetsBucketPrefix = 'mvc-prod-assets'; // will get '${AWS::Regi
 
 const packageManager = project.package.packageManager;
 switch (packageManager) {
+  case 'npm':
+    // npm is the supported package manager
+    break;
   case 'yarn':
   case 'yarn2':
   case 'yarn_classic':
   case 'yarn_berry':
-    // only yarn is supported atm
-    break;
-  case 'npm':
   case 'pnpm':
   case 'bun':
   default:
@@ -107,8 +107,8 @@ switch (packageManager) {
 // see https://github.com/projen/projen/blob/main/src/github/workflow-steps.ts#L46
 const installToolDependenciesSteps = [
   'pip install cfn-flip && cfn-flip --version',
-  'yarn global add aws-cdk',
-  'yarn global add esbuild',
+  'npm install -g aws-cdk',
+  'npm install -g esbuild',
 ];
 
 const buildAndPublishAssetsSteps = [
@@ -123,10 +123,10 @@ const buildAndPublishAssetsSteps = [
   'export RELEASE_NAME=${CI_REPOSITORY_NAME}',
   'export RELEASE_VERSION=$(cat $GITHUB_WORKSPACE/$RELEASE_TAG_FILE)',
   'echo "Releasing ${CI_REPOSITORY_NAME} with prefix ${RELEASE_PREFIX} and version ${RELEASE_VERSION} to S3 bucket ${S3_PUBLISH_BUCKET} and file assets bucket prefix ${S3_FILE_ASSETS_BUCKET_PREFIX}"',
-  'yarn install',
-  'yarn compile', // needed to have tsconfig.json
-  'yarn synth',
-  'yarn publish-assets',
+  'npm install',
+  'npm run compile', // needed to have tsconfig.json
+  'npm run synth',
+  'npm run publish-assets',
   'aws s3 cp cdk.out/${RELEASE_NAME}.template.json s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/',
   'cfn-flip cdk.out/${RELEASE_NAME}.template.json cdk.out/${RELEASE_NAME}.template.yaml',
   'aws s3 cp cdk.out/${RELEASE_NAME}.template.yaml s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/',
@@ -170,7 +170,7 @@ if (buildWorkflow) {
         },
         {
           name: 'Additional install, build and synth',
-          run: 'yarn install && yarn build',
+          run: 'npm install && npm run build',
         },
         // NOTE: due to https://stackoverflow.com/questions/58033366/how-to-get-the-current-branch-within-github-actions
         // so we can use envs such as CI_HEAD_REF_SLUG
@@ -265,7 +265,7 @@ if (releaseWorkflow) {
         },
         {
           name: 'Install dependencies',
-          run: 'cd .repo && yarn install --check-files --frozen-lockfile',
+          run: 'cd .repo && npm ci',
         },
         {
           name: 'Extract build artifact',
