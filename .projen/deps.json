@@ -26,15 +26,7 @@
       "type": "build"
     },
     {
-      "name": "@types/async-retry",
-      "type": "build"
-    },
-    {
       "name": "@types/aws-lambda",
-      "type": "build"
-    },
-    {
-      "name": "@types/axios",
       "type": "build"
     },
     {
@@ -71,11 +63,6 @@
     {
       "name": "awslint",
       "version": "2.243.0-alpha.0",
-      "type": "build"
-    },
-    {
-      "name": "cdk-assets",
-      "version": "^4.4.2",
       "type": "build"
     },
     {
@@ -171,14 +158,6 @@
     },
     {
       "name": "@aws-sdk/client-ssm",
-      "type": "bundled"
-    },
-    {
-      "name": "async-retry",
-      "type": "bundled"
-    },
-    {
-      "name": "axios",
       "type": "bundled"
     },
     {
