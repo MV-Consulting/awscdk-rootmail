@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 22.x
       - name: Install dependencies
-        run: yarn install --check-files
+        run: npm install
       - name: build
         run: npx projen build
       - name: Run awslint
@@ -114,7 +114,7 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           path: .repo
       - name: Install Dependencies
-        run: cd .repo && yarn install --check-files --frozen-lockfile
+        run: cd .repo && npm ci
       - name: Extract build artifact
         run: tar --strip-components=1 -xzvf dist/js/*.tgz -C .repo
       - name: Move build artifact out of the way
@@ -146,10 +146,10 @@ jobs:
       - name: Install Build and publish assets dependencies
         run: |-
           pip install cfn-flip && cfn-flip --version
-          yarn global add aws-cdk
-          yarn global add esbuild
+          npm install -g aws-cdk
+          npm install -g esbuild
       - name: Additional install, build and synth
-        run: yarn install && yarn build
+        run: npm install && npm run build
       - name: Inject environment variables
         uses: FranzDiebold/github-env-vars-action@v2
       - name: Prepare version for branch
@@ -176,10 +176,10 @@ jobs:
           export RELEASE_NAME=${CI_REPOSITORY_NAME}
           export RELEASE_VERSION=$(cat $GITHUB_WORKSPACE/$RELEASE_TAG_FILE)
           echo "Releasing ${CI_REPOSITORY_NAME} with prefix ${RELEASE_PREFIX} and version ${RELEASE_VERSION} to S3 bucket ${S3_PUBLISH_BUCKET} and file assets bucket prefix ${S3_FILE_ASSETS_BUCKET_PREFIX}"
-          yarn install
-          yarn compile
-          yarn synth
-          yarn publish-assets
+          npm install
+          npm run compile
+          npm run synth
+          npm run publish-assets
           aws s3 cp cdk.out/${RELEASE_NAME}.template.json s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/
           cfn-flip cdk.out/${RELEASE_NAME}.template.json cdk.out/${RELEASE_NAME}.template.yaml
           aws s3 cp cdk.out/${RELEASE_NAME}.template.yaml s3://${S3_PUBLISH_BUCKET}/${RELEASE_PREFIX}/${RELEASE_VERSION}/
