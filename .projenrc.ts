@@ -101,6 +101,13 @@ const project = new MvcCdkConstructLibrary({
   ],
   description: 'An opinionated way to secure root email addresses for AWS accounts.',
   devDeps: [
+    // commit-and-tag-version 13 loads its changelog preset through the
+    // root-level conventional-changelog-preset-loader, which resolves the
+    // *hoisted* conventional-changelog-conventionalcommits. @commitlint pulls in
+    // a 9.x that shadows CATV's own 10.x, and 9.x's string templates make
+    // `projen release` fail with "headerPartial is not a function". A direct
+    // 10.x dependency takes the root slot (commitlint keeps its 9.x nested).
+    'conventional-changelog-conventionalcommits@^10.4.0',
     '@types/aws-lambda',
     '@types/jsonfile',
     '@types/mailparser',

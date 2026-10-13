@@ -71,6 +71,11 @@
       "type": "build"
     },
     {
+      "name": "conventional-changelog-conventionalcommits",
+      "version": "^10.4.0",
+      "type": "build"
+    },
+    {
       "name": "eslint-import-resolver-typescript",
       "type": "build"
     },

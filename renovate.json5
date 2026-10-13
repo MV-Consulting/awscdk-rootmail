@@ -36,6 +36,7 @@
     "@typescript-eslint/parser",
     "awslint",
     "commit-and-tag-version",
+    "conventional-changelog-conventionalcommits",
     "eslint",
     "husky",
     "jest-junit",
