@@ -91,10 +91,6 @@ describe('rootmail-cdk-nag-AwsSolutions-Pack', () => {
       if (/<[^>]+>/.test(violation.ruleName) || /:\d{4,}:/.test(violation.ruleName)) {
         return false;
       }
-      // The stack-level LogRetention singleton sits outside every construct this library owns.
-      if (violation.violatingResources.every((r) => r.constructPath?.startsWith('testStack/LogRetention'))) {
-        return false;
-      }
       return true;
     });
     if (relevant.length > 0) {

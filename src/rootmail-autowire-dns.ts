@@ -5,6 +5,7 @@ import {
   Duration,
   aws_iam as iam,
   aws_lambda as lambda,
+  aws_logs as logs,
   aws_ssm as ssm,
   Stack,
   Validations,
@@ -112,7 +113,7 @@ class RootmailAutowireDnsProvider extends Construct {
     const isCompleteHandlerFunc = new NodejsFunction(this, 'is-complete-handler', {
       runtime: lambda.Runtime.NODEJS_24_X,
       timeout: Duration.seconds(120),
-      logRetention: 1,
+      logGroup: new logs.LogGroup(this, 'is-complete-handler-log-group', { retention: logs.RetentionDays.ONE_DAY }),
     });
 
     isCompleteHandlerFunc.addToRolePolicy(
@@ -131,7 +132,7 @@ class RootmailAutowireDnsProvider extends Construct {
     const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
       runtime: lambda.Runtime.NODEJS_24_X,
       timeout: Duration.seconds(160), // 2m40s
-      logRetention: 1,
+      logGroup: new logs.LogGroup(this, 'on-event-handler-log-group', { retention: logs.RetentionDays.ONE_DAY }),
       environment: {},
     });
 
@@ -181,7 +182,7 @@ class RootmailAutowireDnsProvider extends Construct {
       queryInterval: Duration.seconds(5),
       totalTimeout: Duration.hours(2), // props.totalTimeToWireDNS, TODO does not work
       onEventHandler: onEventHandlerFunc,
-      logRetention: 1,
+      logGroup: new logs.LogGroup(this, 'rootmail-autowire-dns-provider-log-group', { retention: logs.RetentionDays.ONE_DAY }),
     });
     // Granular findings only. Portable IDs only: Resource::* is constant across any deployment,
     // Resource::<logical-id> findings are not. AwsSolutions-IAM4[Policy::...] cannot be

@@ -4,6 +4,7 @@ import {
   Duration,
   Stack,
   aws_lambda as lambda,
+  aws_logs as logs,
   aws_s3 as s3,
 } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
@@ -54,7 +55,7 @@ describe('ses-receive-stack', () => {
     const customSesReceiveFunction = new NodejsFunction(stack, 'custom-ses-receive-function', {
       entry: path.join(__dirname, 'functions/custom-ses-receive-function.ts'),
       runtime: lambda.Runtime.NODEJS_24_X,
-      logRetention: 1,
+      logGroup: new logs.LogGroup(stack, 'custom-ses-receive-function-log-group', { retention: logs.RetentionDays.ONE_DAY }),
       timeout: Duration.seconds(30),
     });
 

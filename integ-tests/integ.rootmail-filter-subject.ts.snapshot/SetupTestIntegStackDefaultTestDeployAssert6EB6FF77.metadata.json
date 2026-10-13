@@ -1,0 +1,84 @@
+{
+  "/SetupTestIntegStack/DefaultTest/DeployAssert/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/SetupTestIntegStack/DefaultTest/DeployAssert/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke296ed6b0265d9fa7a4fe7770b0ecbf65/Default": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": "*"
+    }
+  ],
+  "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke296ed6b0265d9fa7a4fe7770b0ecbf65/Invoke": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "LambdaInvoke296ed6b0265d9fa7a4fe7770b0ecbf65Invoke8896B263"
+    }
+  ],
+  "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke296ed6b0265d9fa7a4fe7770b0ecbf65/AssertionResults": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AssertionResultsLambdaInvoke296ed6b0265d9fa7a4fe7770b0ecbf65"
+    }
+  ],
+  "/SetupTestIntegStack/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73"
+    }
+  ],
+  "/SetupTestIntegStack/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Handler": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F"
+    }
+  ],
+  "/SetupTestIntegStack/DefaultTest/DeployAssert/AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b/Default": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": "*"
+    }
+  ],
+  "/SetupTestIntegStack/DefaultTest/DeployAssert/AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b/AssertionResults": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AssertionResultsAwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b"
+    }
+  ],
+  "/SetupTestIntegStack/DefaultTest/DeployAssert/LambdaInvoke296ed6b0265d9fa7a4fe7770b0ecbf65/Default/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "LambdaInvoke296ed6b0265d9fa7a4fe7770b0ecbf65"
+    }
+  ],
+  "/SetupTestIntegStack/DefaultTest/DeployAssert/AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b/Default/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AwsApiCallSSMgetParameterd4c847c906a9dd9484fbf0d62db16d9b"
+    }
+  ]
+}
