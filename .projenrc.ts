@@ -2,12 +2,6 @@ import { MvcCdkConstructLibrary } from '@mavogel/mvc-projen';
 import { javascript } from 'projen';
 import { NpmAccess } from 'projen/lib/javascript';
 
-// `@mavogel/mvc-projen` pins its own `projen` dependency. Inherit that range
-// for the top-level `projen` instead of mirroring it by hand, so an upgrade of
-// mvc-projen can never leave two diverging `projen` copies installed.
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const mvcProjenVersion: string = require('@mavogel/mvc-projen/package.json').dependencies.projen;
-
 // While the two copies still differ (during `upgrade-main`, before this very
 // synth has bumped the top-level one), classes from the top-level `projen`
 // don't type-check against mvc-projen's (TS2322, "separate declarations of a
@@ -44,14 +38,10 @@ const project = new MvcCdkConstructLibrary({
     '@mavogel/mvc-projen',
     'constructs@^10.5.1',
   ],
-  // Keep the top-level `projen` devDependency aligned with mvc-projen's - otherwise
-  // npm installs a second, nested `projen` for mvc-projen's synthesis, whose
-  // builtin task names the top-level `projen` CLI can't resolve at runtime,
-  // breaking `npx projen release` with "Cannot find module
-  // '.../bump-version.task.js'". See mavogel/cdk-vscode-server's .projenrc.ts
-  // for the same issue.
-  projenVersion: mvcProjenVersion,
-  // Exclude `projen` from auto-upgrade: it follows mvc-projen's pin (above).
+  // `projenVersion` is deliberately not set: mvc-projen defaults the top-level
+  // `projen` devDependency to its own `projen` range. Keep `projen` out of
+  // auto-upgrade so it only ever follows mvc-projen's pin - a second, nested
+  // `projen` breaks synthesis and `npx projen release`.
   depsUpgradeOptions: {
     exclude: ['projen'],
     // The upgrade-main PR is opened as 'mvc-bot' via PROJEN_GITHUB_TOKEN, so
@@ -101,13 +91,6 @@ const project = new MvcCdkConstructLibrary({
   ],
   description: 'An opinionated way to secure root email addresses for AWS accounts.',
   devDeps: [
-    // commit-and-tag-version 13 loads its changelog preset through the
-    // root-level conventional-changelog-preset-loader, which resolves the
-    // *hoisted* conventional-changelog-conventionalcommits. @commitlint pulls in
-    // a 9.x that shadows CATV's own 10.x, and 9.x's string templates make
-    // `projen release` fail with "headerPartial is not a function". A direct
-    // 10.x dependency takes the root slot (commitlint keeps its 9.x nested).
-    'conventional-changelog-conventionalcommits@^10.4.0',
     '@types/aws-lambda',
     '@types/jsonfile',
     '@types/mailparser',
