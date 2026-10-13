@@ -2,6 +2,19 @@ import { MvcCdkConstructLibrary } from '@mavogel/mvc-projen';
 import { javascript } from 'projen';
 import { NpmAccess } from 'projen/lib/javascript';
 
+// `@mavogel/mvc-projen` pins its own `projen` dependency. Inherit that range
+// for the top-level `projen` instead of mirroring it by hand, so an upgrade of
+// mvc-projen can never leave two diverging `projen` copies installed.
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const mvcProjenVersion: string = require('@mavogel/mvc-projen/package.json').dependencies.projen;
+
+// While the two copies still differ (during `upgrade-main`, before this very
+// synth has bumped the top-level one), classes from the top-level `projen`
+// don't type-check against mvc-projen's (TS2322, "separate declarations of a
+// private property"). Take `Transform` from the `projen` mvc-projen resolves.
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { javascript: mvcJavascript } = require(require.resolve('projen', { paths: [require.resolve('@mavogel/mvc-projen')] }));
+
 const project = new MvcCdkConstructLibrary({
   author: 'Manuel Vogel',
   authorAddress: '8409778+mavogel@users.noreply.github.com',
@@ -31,17 +44,14 @@ const project = new MvcCdkConstructLibrary({
     '@mavogel/mvc-projen',
     'constructs@^10.5.1',
   ],
-  // `@mavogel/mvc-projen` pins its own `projen` dependency (peer ^0.103.20).
-  // Keep the top-level `projen` devDependency aligned with it - otherwise
+  // Keep the top-level `projen` devDependency aligned with mvc-projen's - otherwise
   // npm installs a second, nested `projen` for mvc-projen's synthesis, whose
   // builtin task names the top-level `projen` CLI can't resolve at runtime,
   // breaking `npx projen release` with "Cannot find module
   // '.../bump-version.task.js'". See mavogel/cdk-vscode-server's .projenrc.ts
   // for the same issue.
-  projenVersion: '^0.103.20',
-  // Exclude `projen` from auto-upgrade so it stays aligned with mvc-projen's
-  // pin; if an automated mvc-projen bump raises that pin, bump `projen` in the
-  // same PR.
+  projenVersion: mvcProjenVersion,
+  // Exclude `projen` from auto-upgrade: it follows mvc-projen's pin (above).
   depsUpgradeOptions: {
     exclude: ['projen'],
     // The upgrade-main PR is opened as 'mvc-bot' via PROJEN_GITHUB_TOKEN, so
@@ -108,7 +118,7 @@ const project = new MvcCdkConstructLibrary({
     jestConfig: {
       transformIgnorePatterns: ['/node_modules/(?!he/)'],
       transform: {
-        '^.+\\.mjs$': new javascript.Transform('ts-jest', { tsconfig: { allowJs: true, module: 'commonjs', esModuleInterop: true } }),
+        '^.+\\.mjs$': new mvcJavascript.Transform('ts-jest', { tsconfig: { allowJs: true, module: 'commonjs', esModuleInterop: true } }),
       },
     },
   },

@@ -40,7 +40,7 @@
     "organization": true
   },
   "devDependencies": {
-    "@aws-cdk/integ-runner": "2.205.5",
+    "@aws-cdk/integ-runner": "2.205.6",
     "@aws-cdk/integ-tests-alpha": "2.263.0-alpha.0",
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
@@ -55,7 +55,7 @@
     "@typescript-eslint/parser": "^8",
     "aws-cdk-lib": "2.263.0",
     "awslint": "2.263.0-alpha.0",
-    "commit-and-tag-version": "^12",
+    "commit-and-tag-version": "^13",
     "eslint": "^9",
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-import": "^2.32.0",
@@ -68,7 +68,7 @@
     "jsii-pacmak": "^1.141.0",
     "jsii-rosetta": "~5.9.0",
     "jsonfile": "^6.2.1",
-    "projen": "^0.103.20",
+    "projen": "^0.104.5",
     "ts-jest": "^29.4.14",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.2"
@@ -83,7 +83,7 @@
     "@aws-sdk/client-s3": "^3.1149.0",
     "@aws-sdk/client-ses": "^3.1149.0",
     "@aws-sdk/client-ssm": "^3.1149.0",
-    "@mavogel/mvc-projen": "^0.0.54",
+    "@mavogel/mvc-projen": "^0.0.59",
     "cdk-nag": "^3.0.1",
     "constructs": "^10.5.1",
     "mailparser": "^3.9.38",
