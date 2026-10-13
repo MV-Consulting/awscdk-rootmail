@@ -4,6 +4,7 @@ import {
   Stack,
   aws_iam as iam,
   aws_lambda as lambda,
+  aws_logs as logs,
   aws_s3 as s3,
   Validations,
 } from 'aws-cdk-lib';
@@ -87,7 +88,7 @@ class SESReceiptRuleSetActivationProvider extends Construct {
 
     const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
       runtime: lambda.Runtime.NODEJS_24_X,
-      logRetention: 1,
+      logGroup: new logs.LogGroup(this, 'on-event-handler-log-group', { retention: logs.RetentionDays.ONE_DAY }),
       role: onEventHandlerFuncRole,
       timeout: Duration.seconds(30),
       //  Note: we use the resource properties from above as it is a CustomResource
@@ -96,7 +97,7 @@ class SESReceiptRuleSetActivationProvider extends Construct {
 
     const isCompleteHandlerFunc = new NodejsFunction(this, 'is-complete-handler', {
       runtime: lambda.Runtime.NODEJS_24_X,
-      logRetention: 1,
+      logGroup: new logs.LogGroup(this, 'is-complete-handler-log-group', { retention: logs.RetentionDays.ONE_DAY }),
       timeout: Duration.seconds(30),
       //  Note: we use the resource properties from above as it is a CustomResource
       environment: {},
@@ -108,7 +109,7 @@ class SESReceiptRuleSetActivationProvider extends Construct {
       isCompleteHandler: isCompleteHandlerFunc,
       queryInterval: Duration.seconds(10),
       totalTimeout: Duration.minutes(2), // TODO: make this configurable
-      logRetention: 1,
+      logGroup: new logs.LogGroup(this, 'ses-receipt-ruleset-activation-provider-log-group', { retention: logs.RetentionDays.ONE_DAY }),
     });
     // Granular findings only. Portable IDs only: Resource::* is constant across any deployment,
     // Resource::<logical-id> findings are not. AwsSolutions-IAM4[Policy::...] cannot be

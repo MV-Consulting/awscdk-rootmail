@@ -8,6 +8,7 @@ import {
   Stack,
   aws_iam as iam,
   aws_lambda as lambda,
+  aws_logs as logs,
 } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Rootmail } from '../src/rootmail';
@@ -28,7 +29,7 @@ const customSesReceiveFunction = new NodejsFunction(stackUnderTest, 'custom-ses-
   functionName: PhysicalName.GENERATE_IF_NEEDED,
   entry: path.join(__dirname, 'functions', 'custom-ses-receive-function.ts'),
   runtime: lambda.Runtime.NODEJS_24_X,
-  logRetention: 1,
+  logGroup: new logs.LogGroup(stackUnderTest, 'custom-ses-receive-function-log-group', { retention: logs.RetentionDays.ONE_DAY }),
   timeout: Duration.seconds(30),
 });
 
@@ -80,7 +81,7 @@ const sendEmailHandler = new NodejsFunction(stackUnderTest, 'send-email-handler'
   functionName: PhysicalName.GENERATE_IF_NEEDED,
   entry: path.join(__dirname, 'functions', 'send-email-handler.ts'),
   runtime: lambda.Runtime.NODEJS_24_X,
-  logRetention: 1,
+  logGroup: new logs.LogGroup(stackUnderTest, 'send-email-handler-log-group', { retention: logs.RetentionDays.ONE_DAY }),
   timeout: Duration.seconds(30),
   initialPolicy: [
     new iam.PolicyStatement({

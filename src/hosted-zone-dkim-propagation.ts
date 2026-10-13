@@ -4,6 +4,7 @@ import {
   Stack,
   aws_iam as iam,
   aws_lambda as lambda,
+  aws_logs as logs,
   Validations,
 } from 'aws-cdk-lib';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
@@ -54,7 +55,7 @@ class HostedZoneDKIMPropagationProvider extends Construct {
 
     const isCompleteHandlerFunc = new NodejsFunction(this, 'is-complete-handler', {
       runtime: lambda.Runtime.NODEJS_24_X,
-      logRetention: 1,
+      logGroup: new logs.LogGroup(this, 'is-complete-handler-log-group', { retention: logs.RetentionDays.ONE_DAY }),
       timeout: Duration.seconds(30),
     });
 
@@ -73,7 +74,7 @@ class HostedZoneDKIMPropagationProvider extends Construct {
 
     const onEventHandlerFunc = new NodejsFunction(this, 'on-event-handler', {
       runtime: lambda.Runtime.NODEJS_24_X,
-      logRetention: 1,
+      logGroup: new logs.LogGroup(this, 'on-event-handler-log-group', { retention: logs.RetentionDays.ONE_DAY }),
       timeout: Duration.seconds(10),
     });
 
@@ -82,7 +83,7 @@ class HostedZoneDKIMPropagationProvider extends Construct {
       queryInterval: Duration.seconds(10),
       totalTimeout: props.totalTimeToWireDNS,
       onEventHandler: onEventHandlerFunc,
-      logRetention: 1,
+      logGroup: new logs.LogGroup(this, 'hosted-zone-dkim-propagation-provider-log-group', { retention: logs.RetentionDays.ONE_DAY }),
     });
     // Granular findings only. Portable IDs only: Resource::* is constant across any deployment,
     // Resource::<logical-id> findings are not. AwsSolutions-IAM4[Policy::...] cannot be

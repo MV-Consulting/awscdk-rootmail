@@ -9,6 +9,7 @@ import {
   Stack,
   aws_iam as iam,
   aws_lambda as lambda,
+  aws_logs as logs,
   aws_s3 as s3,
   Validations,
 } from 'aws-cdk-lib';
@@ -158,7 +159,7 @@ export class SESReceive extends Construct {
         role: opsSantaFunctionRole,
         runtime: lambda.Runtime.NODEJS_24_X,
         timeout: Duration.seconds(60),
-        logRetention: 3,
+        logGroup: new logs.LogGroup(this, 'ops-santa-handler-log-group', { retention: logs.RetentionDays.THREE_DAYS }),
         environment: {
           EMAIL_BUCKET: props.emailbucket.bucketName,
           EMAIL_BUCKET_ARN: props.emailbucket.bucketArn,
