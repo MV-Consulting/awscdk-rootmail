@@ -70,7 +70,7 @@
     "jsii-rosetta": "~5.9.0",
     "jsonfile": "^6.2.1",
     "projen": "^0.104.5",
-    "ts-jest": "^29.4.14",
+    "ts-jest": "^29.4.15",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.2"
   },
