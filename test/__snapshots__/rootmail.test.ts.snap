@@ -3203,7 +3203,7 @@ exports[`rootmail-autoDns rootmail-create-with-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "3ac226feb6458cf00c7ab2391eb9cef15d9ea9c5194c42769569b8ab3c9e4aa4.zip",
+          "S3Key": "b96f0a82b6a14bb186a56e77fc7554770ed397b34a55cc9a34fcb6f8ac09e724.zip",
         },
         "Environment": {
           "Variables": {
@@ -6484,7 +6484,7 @@ exports[`rootmail-autoDns rootmail-no-autoDNSEnable 1`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-1234-us-east-1",
-          "S3Key": "3ac226feb6458cf00c7ab2391eb9cef15d9ea9c5194c42769569b8ab3c9e4aa4.zip",
+          "S3Key": "b96f0a82b6a14bb186a56e77fc7554770ed397b34a55cc9a34fcb6f8ac09e724.zip",
         },
         "Environment": {
           "Variables": {
