@@ -184,7 +184,7 @@ export const handler = async (event: SESEventRecordsToLambda) => {
     const source = record.ses.mail.destination[0];
 
     if (title === 'Amazon Web Services Password Assistance') {
-      if (msg.html === false) {
+      if (!msg.html) {
         log({
           id: id,
           key: key,
